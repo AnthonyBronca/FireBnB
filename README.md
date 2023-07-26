@@ -7,7 +7,7 @@ If you would like to see my mobile clone of AirBnB, [Click Here](https://github.
 ### Developer: Anthony Bronca
 
 ### Tech Stack:
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=007acc&width=435&lines=TypeScript;Express;Sequelize;React;Redux;PostgreSQL;SQLite3;Docker;HTML5;CSS3)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=500&color=007acc&width=435&lines=TypeScript;Express;Sequelize;React;Redux;PostgreSQL;SQLite3;Docker;HTML5;CSS3)](https://git.io/typing-svg)
 
 ## Navigation
 > [API Docs](https://github.com/AnthonyBronca/FireBnB/wiki)
