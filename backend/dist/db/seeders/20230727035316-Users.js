@@ -1,5 +1,5 @@
 'use strict';
-const { makeSeederUsers } = require('../../../src/utils/user_seeder_maker.js');
+const { makeSeederUsers } = require('../../utils/user_seeder_maker');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

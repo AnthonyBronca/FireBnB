@@ -13,8 +13,8 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('Spots', [
-      { address: '1000 N. Address Way', zipcode: '55555', city: 'Miami', state: 'FL', description: '2 bedroom house', userId: 1, available: true },
-      { address: '2000 S. Address Way', zipcode: '55556', city: 'Orlando', state: 'FL', description: '1 bedroom house', userId: 1, available: false }
+      { address: '1000 N. Address Way', zipcode: '55555', city: 'Miami', state: 'FL', description: '2 bedroom house', lat: 10.00, long: 20.00, userId: 1, available: true },
+      { address: '2000 S. Address Way', zipcode: '55556', city: 'Orlando', state: 'FL', description: '1 bedroom house', lat: 10.00, long: 20.00, userId: 1, available: false }
     ], {})
   },
 

@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
       lat: {
         type: Sequelize.DECIMAL,

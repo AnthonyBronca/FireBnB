@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false
       },
       bio: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         defaultValue: null
       },
       profileImg: {
