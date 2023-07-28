@@ -6,7 +6,6 @@ import {
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey, DECIMAL,
 } from 'sequelize';
 
-import * as EmailValidator from 'email-validator'
 import {User} from './user';
 import {states} from '../../utils/states';
 const sequelize = new Sequelize('sqlite3://root:anthonybronca@localhost:8000/');
