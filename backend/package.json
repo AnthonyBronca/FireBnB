@@ -1,0 +1,50 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "tests": "tests"
+  },
+  "scripts": {
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/tests/**/*.ts'"
+  },
+  "keywords": [],
+  "author": "Anthony Bronca",
+  "license": "ISC",
+  "description": "clone of AirBnB",
+  "test": "mocha 'src/tests/**/*.ts'",
+  "dependencies": {
+    "@testdeck/mocha": "^0.3.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.3.1",
+    "email-validator": "^2.0.4",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "morgan": "^1.10.0",
+    "nyc": "^15.1.0",
+    "per-env": "^1.0.2",
+    "pg": "^8.11.1",
+    "sequelize": "^6.32.1",
+    "sequelize-cli": "^6.6.1",
+    "ts-mockito": "^2.6.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@swc/core": "^1.3.71",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.5",
+    "chai": "^4.3.7",
+    "dotenv-cli": "^7.2.1",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "sinon": "^15.2.0",
+    "sqlite3": "^5.1.6",
+    "ts-node": "^10.9.1",
+    "typings": "^2.1.1"
+  }
+}
