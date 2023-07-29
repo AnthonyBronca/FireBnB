@@ -2,7 +2,7 @@ import express from 'express';
 require('express-async-errors');
 import morgan from 'morgan';
 import cors from 'cors';
-import csurf from 'csurf';
+const csurf = require('csurf')
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import routes from './routes';
@@ -37,7 +37,7 @@ app.use(
         cookie: {
             secure: isProduction,
             //maybe change this to isProduction later
-            sameSite: false && "Lax",
+            sameSite: isProduction && "Lax",
             httpOnly: true
         }
     })

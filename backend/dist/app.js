@@ -6,7 +6,7 @@ const express_1 = __importDefault(require("express"));
 require('express-async-errors');
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
-const csurf_1 = __importDefault(require("csurf"));
+const csurf = require('csurf');
 const helmet_1 = __importDefault(require("helmet"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const routes_1 = __importDefault(require("./routes"));
@@ -23,10 +23,10 @@ if (!isProduction) {
 app.use(helmet_1.default.crossOriginResourcePolicy({
     policy: 'cross-origin'
 }));
-app.use((0, csurf_1.default)({
+app.use(csurf({
     cookie: {
         secure: isProduction,
-        sameSite: false && "Lax",
+        sameSite: isProduction && "Lax",
         httpOnly: true
     }
 }));
