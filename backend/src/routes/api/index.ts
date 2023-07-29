@@ -1,9 +1,16 @@
-const router = require('express').Router();
+import express, {Request, Response} from 'express'
+const router = express.Router();
 
 
 
 
+router.post('/test', async(req:Request,res:Response) =>{
+    res.json({requestBody: req.body});
+})
 
 
 
-module.exports = router
+
+module.exports = {
+    apiRouter: router
+}
