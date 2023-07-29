@@ -23,6 +23,35 @@ User.init({
             len: [4, 10]
         }
     },
+    username: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            len: [4, 10]
+        }
+    },
+    hashedpassword: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [4, 8]
+        }
+    },
+    email: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+        validate: {
+            len: [4, 10]
+        }
+    },
+    profileimage: {
+        type: sequelize_1.DataTypes.STRING,
+    },
+    bio: {
+        type: sequelize_1.DataTypes.STRING
+    },
     createdAt: {
         type: sequelize_1.DataTypes.DATE,
         defaultValue: new Date()

@@ -17,6 +17,26 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+      bio: {
+        type: Sequelize.STRING
+      },
+      hashedpassword: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      profileimage: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

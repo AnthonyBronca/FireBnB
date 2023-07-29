@@ -16,8 +16,14 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
   declare firstname:string;
   declare lastname:string;
+  declare username:string;
+  declare email:string;
+  declare bio:string;
+  declare hashedpassword:string;
+  declare profileimage: string;
   declare createdAt: Date;
   declare updatedAt: Date;
+
 
 };
 User.init(
@@ -38,6 +44,35 @@ User.init(
       validate: {
         len: [4,10]
       }
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        len: [4,10]
+      }
+    },
+    hashedpassword: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [4,8]
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+      validate: {
+        len: [4,10]
+      }
+    },
+    profileimage: {
+      type: DataTypes.STRING,
+    },
+    bio: {
+      type: DataTypes.STRING
     },
     createdAt: {
       type: DataTypes.DATE,
