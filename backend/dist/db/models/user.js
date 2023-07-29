@@ -13,38 +13,21 @@ User.init({
     },
     firstname: {
         type: sequelize_1.DataTypes.STRING,
-        validate: {
-            len: [4, 10]
-        }
     },
     lastname: {
         type: sequelize_1.DataTypes.STRING,
-        validate: {
-            len: [4, 10]
-        }
     },
     username: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        unique: true,
-        validate: {
-            len: [4, 10]
-        }
     },
     hashedpassword: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        validate: {
-            len: [4, 8]
-        }
     },
     email: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        unique: false,
-        validate: {
-            len: [4, 10]
-        }
     },
     profileimage: {
         type: sequelize_1.DataTypes.STRING,

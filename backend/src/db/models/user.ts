@@ -35,38 +35,21 @@ User.init(
     },
     firstname: {
       type: DataTypes.STRING,
-      validate: {
-        len: [4,10]
-      }
     },
     lastname: {
       type: DataTypes.STRING,
-      validate: {
-        len: [4,10]
-      }
     },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        len: [4,10]
-      }
     },
     hashedpassword: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [4,8]
-      }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: false,
-      validate: {
-        len: [4,10]
-      }
     },
     profileimage: {
       type: DataTypes.STRING,

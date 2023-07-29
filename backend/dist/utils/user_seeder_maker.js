@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeSeederUsers = void 0;
+exports.users = void 0;
 const faker_1 = require("@faker-js/faker");
 const seederUsers = [];
 function makeSeederUsers() {
@@ -10,14 +10,14 @@ function makeSeederUsers() {
             firstname: faker_1.faker.person.firstName(),
             lastname: faker_1.faker.person.lastName(),
             email: faker_1.faker.internet.email(),
-            hashedPassword: faker_1.faker.internet.password(),
+            hashedpassword: faker_1.faker.internet.password(),
             bio: faker_1.faker.person.bio(),
-            profileImg: faker_1.faker.internet.avatar(),
+            profileimage: faker_1.faker.internet.avatar(),
             createdAt: faker_1.faker.date.recent(),
         };
         seederUsers.push(user);
     }
     return seederUsers;
 }
-exports.makeSeederUsers = makeSeederUsers;
-makeSeederUsers();
+const users = makeSeederUsers();
+exports.users = users;
