@@ -70,3 +70,6 @@ User.init(
     sequelize
   }
 );
+
+
+exports = {User}

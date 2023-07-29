@@ -47,3 +47,4 @@ User.init({
     tableName: 'users',
     sequelize
 });
+exports = { User };

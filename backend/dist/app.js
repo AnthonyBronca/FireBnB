@@ -16,7 +16,6 @@ const app = (0, express_1.default)();
 app.use((0, morgan_1.default)('dev'));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
-app.use(routes_1.default);
 if (!isProduction) {
     app.use((0, cors_1.default)());
 }
@@ -30,4 +29,5 @@ app.use(csurf({
         httpOnly: true
     }
 }));
+app.use(routes_1.default);
 module.exports = app;

@@ -18,7 +18,6 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use(csurf())
 
-app.use(routes);
 
 if(!isProduction){
     app.use(cors());
@@ -28,20 +27,22 @@ app.use(
     helmet.crossOriginResourcePolicy({
         policy: 'cross-origin'
     })
-);
+    );
 
 
 
-app.use(
-    csurf({
-        cookie: {
-            secure: isProduction,
-            //maybe change this to isProduction later
-            sameSite: isProduction && "Lax",
+    app.use(
+        csurf({
+            cookie: {
+                secure: isProduction,
+                //maybe change this to isProduction later
+                sameSite: isProduction && "Lax",
             httpOnly: true
         }
     })
-)
+    )
+
+app.use(routes);
 
 
 export = app;
