@@ -9,7 +9,7 @@
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/tests/**/*.ts'",
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
-    "start": "per-env",
+    "start": "tsc && per-env",
     "start:development": "nodemon ./dist/bin/www",
     "start:production": "node ./dist/bin/www",
     "build": "node psql-setup-script.js"
@@ -55,6 +55,7 @@
     "sinon": "^15.2.0",
     "sqlite3": "^5.1.6",
     "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
     "typings": "^2.1.1"
   }
 }
