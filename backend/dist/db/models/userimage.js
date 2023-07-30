@@ -1,9 +1,9 @@
 "use strict";
 const sequelize_1 = require("sequelize");
-const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 class UserImage extends sequelize_1.Model {
 }
 ;
+const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 UserImage.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,

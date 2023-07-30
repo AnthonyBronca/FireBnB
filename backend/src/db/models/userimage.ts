@@ -6,7 +6,6 @@ import {
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey,
 } from 'sequelize';
 
-const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 
 import User from './user';
 
@@ -25,11 +24,12 @@ class UserImage extends Model<InferAttributes<UserImage>, InferCreationAttribute
 
 
 
-      public static associations: {
-    users: Association<UserImage, User>
-  }
+    public static associations: {
+        users: Association<UserImage, User>
+    }
 
 };
+const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 
 UserImage.init(
     {
