@@ -1,5 +1,4 @@
 'use strict';
-const { makeSeederUsers } = require('../../../src/utils/user_seeder_maker.js');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -14,9 +13,9 @@ module.exports = {
      * }], {});
     */
 
-    await queryInterface.bulkInsert('Users', [
-      ...makeSeederUsers()
-    ], {})
+    await queryInterface.bulkInsert('UserImages', [
+      { userid: 1, url: 'test' }
+    ])
   },
 
   async down(queryInterface, Sequelize) {

@@ -6,9 +6,9 @@ interface User {
     firstname: string,
     lastname: string,
     email: string,
-    hashedPassword: string,
+    hashedpassword: string,
     bio: string | null,
-    profileImg: string,
+    profileimage: string,
     createdAt: Date,
     updatedAt?: Date
 }
@@ -23,15 +23,14 @@ function makeSeederUsers(): User[]{
             firstname: faker.person.firstName(),
             lastname: faker.person.lastName(),
             email: faker.internet.email(),
-            hashedPassword: faker.internet.password(),
+            hashedpassword: faker.internet.password(),
             bio: faker.person.bio(),
-            profileImg: faker.internet.avatar(),
+            profileimage: faker.internet.avatar(),
             createdAt: faker.date.recent(),
         }
         seederUsers.push(user)
     }
     return seederUsers
 }
-makeSeederUsers();
-
-export {makeSeederUsers}
+const users = makeSeederUsers();
+export {users}

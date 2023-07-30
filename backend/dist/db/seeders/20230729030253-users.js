@@ -1,6 +1,9 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
+
+const { users } = require('../../utils/user_seeder_maker')
+console.log(users)
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -12,10 +15,12 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Spots', [
-      { address: '1000 N. Address Way', zipcode: '55555', city: 'Miami', state: 'FL', description: '2 bedroom house', userId: 1, available: true },
-      { address: '2000 S. Address Way', zipcode: '55556', city: 'Orlando', state: 'FL', description: '1 bedroom house', userId: 1, available: false }
-    ], {})
+
+    // await queryInterface.bulkInsert('Users', [
+    //   { firstname: 'anthony', lastname: 'bronca', username: 'anthonybronca', hashedpassword: 'strongpassword', email: 'anthony@app.io', bio: 'this is a test', profileimage: 'test' },
+    //   ...users
+    // ])
+    await queryInterface.bulkInsert('Users', users)
   },
 
   async down(queryInterface, Sequelize) {
