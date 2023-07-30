@@ -51,6 +51,7 @@ User.init({
     sequelize: sequelize
 });
 User.hasMany(userimage_1.default, {
+    sourceKey: 'id',
     foreignKey: 'userid',
     as: 'userimages'
 });

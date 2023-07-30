@@ -25,6 +25,22 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare createdAt: Date;
   declare updatedAt: Date;
 
+
+
+   declare getUserImage: HasManyGetAssociationsMixin<UserImage>; // Note the null assertions!
+   declare addUserImage: HasManyAddAssociationMixin<UserImage, number>;
+   declare addUserImages: HasManyAddAssociationsMixin<UserImage, number>;
+   declare setUserImages: HasManySetAssociationsMixin<UserImage, number>;
+   declare removeUserImage: HasManyRemoveAssociationMixin<UserImage, number>;
+   declare removeUserImages: HasManyRemoveAssociationsMixin<UserImage, number>;
+   declare hasUserImage: HasManyHasAssociationMixin<UserImage, number>;
+   declare hasUserImages: HasManyHasAssociationsMixin<UserImage, number>;
+   declare countUserImages: HasManyCountAssociationsMixin;
+   declare createUserImage: HasManyCreateAssociationMixin<UserImage, 'userid'>;
+
+
+
+
   public static associations: {
     userImages: Association<User, UserImage>
   }
@@ -77,6 +93,7 @@ User.init(
   });
 
   User.hasMany(UserImage, {
+    sourceKey: 'id',
     foreignKey: 'userid',
     as: 'userimages'
   });

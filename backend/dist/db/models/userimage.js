@@ -1,13 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 const sequelize_1 = require("sequelize");
-const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
-const user_1 = __importDefault(require("./user"));
 class UserImage extends sequelize_1.Model {
 }
 ;
+const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 UserImage.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -32,8 +28,5 @@ UserImage.init({
 }, {
     tableName: 'userImages',
     sequelize
-});
-UserImage.belongsTo(user_1.default, {
-    targetKey: 'id'
 });
 module.exports = UserImage;
