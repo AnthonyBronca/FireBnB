@@ -9,37 +9,33 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
-      },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       lastname: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      username: {
+        type: Sequelize.STRING,
         allowNull: false,
+        unique: true
       },
       email: {
         type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
-      },
-      hashedPassword: {
-        type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       bio: {
-        type: Sequelize.TEXT,
-        defaultValue: null
+        type: Sequelize.STRING
       },
-      profileImg: {
+      hashedpassword: {
         type: Sequelize.STRING,
-        allowNull: false,
-        //change this once we add AWS
-        defaultValue: 'https://freesvg.org/img/abstract-user-flat-4.png'
+        allowNull: false
+      },
+      profileimage: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
