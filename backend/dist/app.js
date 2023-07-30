@@ -30,4 +30,32 @@ app.use(csurf({
     }
 }));
 app.use(routes_1.default);
+app.use((_req, _res, next) => {
+    const err = new Error("The requested resource could not be found.");
+    err.title = "Resource Not Found";
+    err.errors = [{ message: "The requested resource couldn't be found." }];
+    err.status = 404;
+    next(err);
+});
+app.use((err, _req, _res, next) => {
+    let errors = {};
+    for (let error of err.errors) {
+        errors.message = error.message;
+        console.log(error);
+    }
+    err.title = 'Validation Error';
+    err.errors = errors;
+    next(err);
+});
+app.use((err, _req, _res, _next) => {
+    _res.status(err.status || 500);
+    console.log('i am here');
+    console.error(err);
+    _res.json({
+        title: err.title || 'Server Error',
+        message: err.message,
+        errors: err.errors,
+        stack: isProduction ? null : err.stack
+    });
+});
 module.exports = app;
