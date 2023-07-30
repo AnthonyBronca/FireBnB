@@ -14,10 +14,16 @@ import User from './user';
 class UserImage extends Model<InferAttributes<UserImage>, InferCreationAttributes<UserImage>> {
 
     declare id: CreationOptional<number>;
-    declare userid: string;
+    declare userid: ForeignKey<User['id']>;
     declare url: string;
     declare createdAt: Date;
     declare updatedAt: Date;
+
+
+  // You can also pre-declare possible inclusions, these will only be populated if you
+  // actively include a relation.
+
+
 
       public static associations: {
     users: Association<UserImage, User>
@@ -54,8 +60,8 @@ UserImage.init(
     }
 );
 
-UserImage.belongsTo(User, {
-    targetKey: 'id'
-})
+// UserImage.belongsTo(User, {
+//     targetKey: 'id'
+// })
 
 export = UserImage

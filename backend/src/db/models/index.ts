@@ -2,12 +2,6 @@
 
 import { buffer } from "stream/consumers";
 
-
-// interface db {
-
-// }
-
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

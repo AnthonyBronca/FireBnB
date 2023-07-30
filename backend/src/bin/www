@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-// backend/bin/www
-
-// Import environment variables
 require('dotenv').config();
 
 const { port } = require('../../dist/config');
@@ -9,7 +6,6 @@ const { port } = require('../../dist/config');
 const app = require('../../dist/app');
 const db = require('../../dist/db/models');
 
-// Check the database connection before starting the app
 db.sequelize
     .authenticate()
     .then(() => {

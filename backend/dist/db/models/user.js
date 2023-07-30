@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 const sequelize_1 = require("sequelize");
-const userimage_1 = __importDefault(require("./userimage"));
 class User extends sequelize_1.Model {
 }
 ;
@@ -49,9 +45,5 @@ User.init({
 }, {
     tableName: 'users',
     sequelize: sequelize
-});
-User.hasMany(userimage_1.default, {
-    foreignKey: 'userid',
-    as: 'userimages'
 });
 module.exports = User;
