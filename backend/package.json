@@ -9,7 +9,10 @@
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/tests/**/*.ts'",
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
-    "start": "tsc && per-env",
+    "build:migrations": "npx dotenv sequelize db:migrate",
+    "build:seeders": "npx dotenv sequelize db:seed:all",
+    "build:local:db": "npm run build:migrations && npm run build:seeders",
+    "start": "tsc && npm run build:local:db && per-env",
     "start:development": "nodemon ./src/bin/www",
     "start:production": "node ./dist/bin/www",
     "build": "node psql-setup-script.js"
