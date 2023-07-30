@@ -1,10 +1,13 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 const sequelize_1 = require("sequelize");
-const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
+const userimage_1 = __importDefault(require("./userimage"));
 class User extends sequelize_1.Model {
 }
 ;
+const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 User.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -45,6 +48,10 @@ User.init({
     }
 }, {
     tableName: 'users',
-    sequelize
+    sequelize: sequelize
 });
-exports = { User };
+User.hasMany(userimage_1.default, {
+    foreignKey: 'userid',
+    as: 'userimages'
+});
+module.exports = User;

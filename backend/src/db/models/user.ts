@@ -7,7 +7,8 @@ import {
 } from 'sequelize';
 
 
-const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db')
+
+import UserImage from './userimage';
 // order of InferAttributes & InferCreationAttributes is important.
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   // 'CreationOptional' is a special type that marks the field as optional
@@ -24,8 +25,13 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare createdAt: Date;
   declare updatedAt: Date;
 
+  public static associations: {
+    userImages: Association<User, UserImage>
+  }
 
 };
+const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db')
+
 User.init(
   {
     id: {
@@ -67,9 +73,16 @@ User.init(
     }
   },{
     tableName: 'users',
-    sequelize
-  }
-);
+    sequelize: sequelize
+  });
+
+  User.hasMany(UserImage, {
+    foreignKey: 'userid',
+    as: 'userimages'
+  });
 
 
-exports = {User}
+
+// User.hasMany(UserImage, {sourceKey: 'id', foreignKey: 'userid', as: 'userimages'});
+
+export = User

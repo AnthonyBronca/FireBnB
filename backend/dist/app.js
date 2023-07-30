@@ -49,7 +49,6 @@ app.use((err, _req, _res, next) => {
 });
 app.use((err, _req, _res, _next) => {
     _res.status(err.status || 500);
-    console.log('i am here');
     console.error(err);
     _res.json({
         title: err.title || 'Server Error',
