@@ -92,10 +92,11 @@ User.init(
     sequelize: sequelize
   });
 
-  // User.hasMany(UserImage, {
-  //   foreignKey: 'userid',
-  //   as: 'userimages'
-  // });
+  User.hasMany(UserImage, {
+    sourceKey: 'id',
+    foreignKey: 'userid',
+    as: 'userimages'
+  });
 
 
 
