@@ -1,8 +1,8 @@
-import { Association, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import { Association, Model, InferAttributes, InferCreationAttributes, CreationOptional, ForeignKey } from 'sequelize';
 import User from './user';
 declare class UserImage extends Model<InferAttributes<UserImage>, InferCreationAttributes<UserImage>> {
     id: CreationOptional<number>;
-    userid: string;
+    userid: ForeignKey<User['id']>;
     url: string;
     createdAt: Date;
     updatedAt: Date;
