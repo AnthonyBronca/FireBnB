@@ -3,8 +3,9 @@
 /** @type {import('sequelize-cli').Migration} */
 
 const { users } = require('../../utils/user_seeder_maker')
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface:any, Sequelize:any) {
     /**
      * Add seed commands here.
      *
@@ -22,7 +23,7 @@ module.exports = {
     await queryInterface.bulkInsert('Users', users)
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface:any, Sequelize:any) {
     /**
      * Add commands to revert seed here.
      *

@@ -4,6 +4,7 @@ const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localho
 class UserImage extends sequelize_1.Model {
 }
 ;
+const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
 UserImage.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,

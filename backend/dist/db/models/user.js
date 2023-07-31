@@ -68,4 +68,9 @@ User.hasMany(userimage_1.default, {
     foreignKey: 'userid',
     as: 'userimages'
 });
+User.hasMany(userimage_1.default, {
+    sourceKey: 'id',
+    foreignKey: 'userid',
+    as: 'userimages'
+});
 module.exports = User;
