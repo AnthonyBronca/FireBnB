@@ -1,3 +1,80 @@
+// import { Table, Column, Model, HasMany, BelongsTo, Sequelize } from 'sequelize-typescript';
+// import {Optional} from 'sequelize';
+
+
+// const sequelize = new Sequelize({
+//   database: 'dev.db',
+//   dialect: 'sqlite',
+//   username: 'anthonyb',
+//   password: 'strongpassword',
+//   storage: ':memory:',
+//   models: [__dirname + '/models'],
+// })
+
+// interface UserAttributes {
+//   id: number;
+//   firstname: string;
+//   lastname:string;
+//   username:string;
+//   email:string;
+//   bio:string;
+//   hashedpassword:string;
+//   profileimage:string;
+//   createdAt:Date;
+//   updatedAt:Date;
+
+// }
+
+// interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {
+
+// @Table
+// class User extends Model<UserAttributes, UserCreationAttributes> {
+//   @Column
+//   get name(): string{
+//     return 'My name is ' + this.getDataValue('firstname');
+//   }
+
+//   set name(value:string){
+//     this.setDataValue('firstname', value);
+//   }
+// }
+
+
+// @Table
+// class User extends Model {
+//   id: string;
+
+//   @Column
+//   firstname: Date;
+
+
+
+
+//   declare id: CreationOptional<number>;
+//   declare firstname:string;
+//   declare lastname:string;
+//   declare username:string;
+//   declare email:string;
+//   declare bio:string;
+//   declare hashedpassword:string;
+//   declare profileimage: string;
+//   declare createdAt: Date;
+//   declare updatedAt: Date;
+
+
+
+// }
+
+
+
+
+
+
+
+
+
+
+/****Original version */
 import {
   Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin,
@@ -5,7 +82,6 @@ import {
   HasManyRemoveAssociationMixin, HasManyRemoveAssociationsMixin, Model, ModelDefined, Optional,
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey,
 } from 'sequelize';
-
 
 
 import UserImage from './userimage';
@@ -46,7 +122,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   }
 
 };
-const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db')
+const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dist/db/dev.db')
 
 User.init(
   {
@@ -64,6 +140,9 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: [4,30],
+      }
     },
     hashedpassword: {
       type: DataTypes.STRING,
@@ -72,6 +151,10 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmail: true,
+        len: [3, 256]
+      }
     },
     profileimage: {
       type: DataTypes.STRING,
@@ -88,8 +171,14 @@ User.init(
       defaultValue: new Date()
     }
   },{
-    tableName: 'users',
-    sequelize: sequelize
+    modelName: 'User',
+    tableName: 'User',
+    sequelize,
+    defaultScope: {
+      attributes: {
+        exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+      }
+    }
   });
 
   User.hasMany(UserImage, {

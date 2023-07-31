@@ -14,6 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
+const { User } = require('../../db/models');
+router.get('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield User.findAll();
+    res.json(users);
+}));
 router.post('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ requestBody: req.body });
 }));

@@ -10,9 +10,9 @@ export interface NoResourceError extends Error {
 }
 
 export interface SequelizeErrors extends Error{
-    error?: ValidationError;
-    path? : string | null;
-    title? :string;
+    error?: any;
+    path? : any;
+    title? :any;
     errors : any;
 
 }

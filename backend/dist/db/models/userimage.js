@@ -1,6 +1,6 @@
 "use strict";
 const sequelize_1 = require("sequelize");
-const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
+const sequelize = new sequelize_1.Sequelize('sqlite://root:anthonybronca@localhost:8000/dist/db/dev.db');
 class UserImage extends sequelize_1.Model {
 }
 ;
@@ -26,7 +26,8 @@ UserImage.init({
         defaultValue: new Date()
     }
 }, {
-    tableName: 'userImages',
+    modelName: 'UserImage',
+    tableName: 'UserImage',
     sequelize
 });
 module.exports = UserImage;

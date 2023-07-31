@@ -6,7 +6,7 @@ import {
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey,
 } from 'sequelize';
 
-const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dev.db');
+const sequelize = new Sequelize('sqlite://root:anthonybronca@localhost:8000/dist/db/dev.db');
 
 import User from './user';
 
@@ -55,7 +55,8 @@ UserImage.init(
         }
     },
     {
-        tableName: 'userImages',
+        modelName: 'UserImage',
+        tableName: 'UserImage',
         sequelize
     }
 );

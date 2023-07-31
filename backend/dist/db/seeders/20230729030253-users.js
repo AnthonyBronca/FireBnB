@@ -3,7 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 
 const { users } = require('../../utils/user_seeder_maker')
-console.log(users)
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
