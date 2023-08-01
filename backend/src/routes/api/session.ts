@@ -1,3 +1,6 @@
+import { NextFunction, Request, Response } from "express";
+import { LoginError, NoResourceError } from "../../errors/customErrors";
+
 const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
@@ -24,7 +27,7 @@ const validateLogin = [
 router.post(
     '/',
     validateLogin,
-    async (req, res, next) => {
+    async (req:Request, res:Response, next:NextFunction) => {
         const { credential, password } = req.body;
 
         const user = await User.unscoped().findOne({
@@ -37,7 +40,7 @@ router.post(
         });
 
         if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-            const err = new Error('Login failed');
+            const err = new LoginError('Login failed');
             err.status = 401;
             err.title = 'Login failed';
             err.errors = { credential: 'The provided credentials were invalid.' };
@@ -60,7 +63,7 @@ router.post(
 // Log out
 router.delete(
     '/',
-    (_req, res) => {
+    (_req:Request, res:Response) => {
         res.clearCookie('token');
         return res.json({ message: 'success' });
     }
