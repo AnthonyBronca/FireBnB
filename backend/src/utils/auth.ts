@@ -1,11 +1,15 @@
-const jwt = require('jsonwebtoken');
+import { NextFunction, Request, Response } from "express";
+import { AuthReq, JwtPayload, RestoreResponseInterface } from "../typings/sequelize";
+import { AuthError } from "../errors/customErrors";
+
+const jwt = require('jsonwebtoken')
 const { jwtConfig } = require('../config');
 const { User } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
 // Sends a JWT Cookie
-const setTokenCookie = (res, user) => {
+const setTokenCookie = (res:Response, user:any) => {
   // Create the token.
   const safeUser = {
     id: user.id,
@@ -25,18 +29,18 @@ const setTokenCookie = (res, user) => {
     maxAge: expiresIn * 1000, // maxAge in milliseconds
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction && "Lax"
+    sameSite: isProduction && "lax"
   });
 
   return token;
 };
 
-const restoreUser = (req, res, next) => {
+const restoreUser = (req:RestoreResponseInterface, res:Response, next:NextFunction) => {
   // token parsed from cookies
   const { token } = req.cookies;
   req.user = null;
 
-  return jwt.verify(token, secret, null, async (err, jwtPayload) => {
+  return jwt.verify(token, secret, null, async (err:any, jwtPayload:JwtPayload) => {
     if (err) {
       return next();
     }
@@ -60,10 +64,10 @@ const restoreUser = (req, res, next) => {
 };
 
 // If there is no current user, return an error
-const requireAuth = function (req, _res, next) {
+const requireAuth = function (req:AuthReq, _res:Response, next:NextFunction) {
   if (req.user) return next();
 
-  const err = new Error('Authentication required');
+  const err = new AuthError('Authentication required');
   err.title = 'Authentication required';
   err.errors = { message: 'Authentication required' };
   err.status = 401;
@@ -71,4 +75,3 @@ const requireAuth = function (req, _res, next) {
 }
 
 module.exports = { setTokenCookie, restoreUser, requireAuth };
-

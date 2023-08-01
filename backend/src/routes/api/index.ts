@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+import { RestoreResponseInterface } from "../../typings/sequelize";
 const router = require('express').Router();
 
 const { setTokenCookie } = require('../../utils/auth.js');
@@ -13,12 +15,12 @@ router.use('/session', sessionRouter);
 
 router.use('/users', usersRouter);
 
-router.post('/test', (req, res) => {
+router.post('/test', (req:Request, res:Response) => {
     res.json({ requestBody: req.body });
 });
 
-// GET /api/set-token-cookie
-router.get('/set-token-cookie', async (_req, res) => {
+// // GET /api/set-token-cookie
+router.get('/set-token-cookie', async (_req:Request, res:Response) => {
     const user = await User.findOne({
         where: {
             username: 'Demo-lition'
@@ -33,7 +35,7 @@ router.get('/set-token-cookie', async (_req, res) => {
 
 router.get(
     '/restore-user',
-    (req, res) => {
+    (req:RestoreResponseInterface, res:Response) => {
         return res.json(req.user);
     }
 );
@@ -45,7 +47,7 @@ const { requireAuth } = require('../../utils/auth.js');
 router.get(
     '/require-auth',
     requireAuth,
-    (req, res) => {
+    (req:RestoreResponseInterface, res:Response) => {
         return res.json(req.user);
     }
 );

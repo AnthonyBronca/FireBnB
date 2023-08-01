@@ -1,3 +1,6 @@
+import { Request, Response } from "express";
+import { AuthReq } from "../../typings/sequelize";
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
@@ -31,9 +34,9 @@ const validateSignup = [
 
 // Sign up
 router.post(
-    '',
+    '/',
     validateSignup,
-    async (req, res) => {
+    async (req:Request, res:Response) => {
         const { email, password, username } = req.body;
         const hashedPassword = bcrypt.hashSync(password);
         const user = await User.create({ email, username, hashedPassword });
@@ -55,7 +58,7 @@ router.post(
 // Restore session user
 router.get(
     '/',
-    (req, res) => {
+    (req:AuthReq, res:Response) => {
         const { user } = req;
         if (user) {
             const safeUser = {
@@ -71,7 +74,7 @@ router.get(
 );
 
 
-router.get('/all', async (req, res) => {
+router.get('/all', async (req:Request, res:Response) => {
     const users = await User.findAll({});
     res.json(users)
 })
