@@ -1,4 +1,3 @@
-
 import {faker} from '@faker-js/faker';
 
 interface User {
@@ -16,7 +15,7 @@ interface User {
 const seederUsers: User[] = [];
 
 function makeSeederUsers(): User[]{
-    for(let i = 0; i < 200; i++){
+    for(let i = 0; i < 20; i++){
 
         let user: User = {
             username: faker.internet.userName(),

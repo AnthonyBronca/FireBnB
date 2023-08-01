@@ -1,15 +1,13 @@
 'use strict';
 
-import { buffer } from "stream/consumers";
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-// const process = require('process');
+const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config/database.js')[env];
-const db: any = {};
+const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
@@ -20,7 +18,7 @@ if (config.use_env_variable) {
 
 fs
   .readdirSync(__dirname)
-  .filter((file: string)=> {
+  .filter(file => {
     return (
       file.indexOf('.') !== 0 &&
       file !== basename &&
@@ -28,8 +26,8 @@ fs
       file.indexOf('.test.js') === -1
     );
   })
-  .forEach((file: string) => {
-    const model = require(path.join(__dirname, file));
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 

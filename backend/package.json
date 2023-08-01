@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "description": "Typescript clone of Airbnb",
   "main": "dist/app.js",
   "directories": {
     "tests": "tests"
@@ -12,17 +13,16 @@
     "sequelize-build": "npx dotenv sequelize db:migrate && npx dotenv sequelize db:seed:all",
     "start": "tsc && npm run sequelize-build && per-env",
     "setup": "per-env",
-    "start:development": "nodemon ./src/bin/www",
+    "start:development": "node src/bin/www",
     "start:production": "node ./dist/bin/www",
     "build": "node psql-setup-script.js"
   },
   "keywords": [],
+  "test": "mocha 'src/tests/**/*.ts'",
   "author": "Anthony Bronca",
   "license": "ISC",
-  "description": "clone of AirBnB",
-  "test": "mocha 'src/tests/**/*.ts'",
   "dependencies": {
-    "@testdeck/mocha": "^0.3.3",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
@@ -30,10 +30,10 @@
     "email-validator": "^2.0.4",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.1",
     "morgan": "^1.10.0",
-    "nyc": "^15.1.0",
     "per-env": "^1.0.2",
     "pg": "^8.11.1",
     "sequelize": "^6.32.1",
@@ -47,6 +47,7 @@
     "@types/cors": "^2.8.13",
     "@types/csurf": "^1.11.2",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/mocha": "^10.0.1",
     "@types/morgan": "^1.9.4",
     "@types/node": "^20.4.5",
