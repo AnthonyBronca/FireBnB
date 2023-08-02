@@ -5,7 +5,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, TestUser } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -30,6 +30,31 @@ const validateSignup = [
         .withMessage('Password must be 6 characters or more.'),
     handleValidationErrors
 ];
+
+
+
+// fake Sign up
+router.post(
+    '/',
+    validateSignup,
+    async (req:Request, res:Response) => {
+        const { email, password, username } = req.body;
+        const hashedPassword = bcrypt.hashSync(password);
+        const user = await TestUser.create({ email, username, hashedPassword });
+
+        const safeUser = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+        };
+
+        await setTokenCookie(res, safeUser);
+
+        return res.json({
+            user: safeUser
+        });
+    }
+);
 
 
 // Sign up
