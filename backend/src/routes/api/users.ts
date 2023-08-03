@@ -5,9 +5,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { TestUser } = require('../../db/models');
 
 import User from '../../db/models/user'
+import UserImage from "../../db/models/user-images";
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -58,22 +58,30 @@ router.post(
 );
 
 // Restore session user
-router.get(
-    '/',
-    (req:AuthReq, res:Response) => {
-        const { user } = req;
-        if (user) {
-            const safeUser = {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-            };
-            return res.json({
-                user: safeUser
-            });
-        } else return res.json({ user: null });
-    }
-);
+router.get('/', async (req:AuthReq, res:Response) => {
+    const { user } = req;
+    let profileImage = "";
+    if (user) {
+
+        let userProfileImage = await UserImage.findOne({
+            where: {userId: user.id, isProfile: true}
+        })
+
+        if(userProfileImage && typeof userProfileImage === 'string'){
+            console.log('this is user image', userProfileImage)
+            profileImage  = userProfileImage
+        }
+        const safeUser = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            profileImage: profileImage
+        };
+        return res.json({
+            user: safeUser
+        });
+    } else return res.json({ user: null });
+});
 
 
 router.get('/all', async (req:Request, res:Response) => {
