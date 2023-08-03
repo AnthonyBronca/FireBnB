@@ -1,16 +1,25 @@
 'use strict';
 
-import { Test } from "mocha";
-import { HasManyHasAssociationMixin, InferAttributes, InferCreationAttributes } from "sequelize";
+import { Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin,
+  HasManySetAssociationsMixin, HasManyAddAssociationsMixin, HasManyHasAssociationsMixin,
+  HasManyRemoveAssociationMixin, HasManyRemoveAssociationsMixin, ModelDefined, Optional,
+  Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey, Model
+ } from "sequelize";
+import TestColor from "./testcolor";
 
-const { Model, Validator } = require('sequelize');
-const {TestColor} = require('./testcolor');
+const {sequelize} = require('./index')
 
-module.exports = (sequelize:any, DataTypes:any) => {
-  class TestUser extends Model {
+const { Validator } = require('sequelize');
+
+  class TestUser extends Model<InferAttributes<TestUser>,InferCreationAttributes<TestUser>> {
+    declare id: CreationOptional<number>;
     declare username: string;
     declare email: string;
     declare hashedPassword: string;
+
+    declare hasTestColors : HasManyHasAssociationMixin<TestColor, number>
+
 
 
     static associate(models:any) {
@@ -20,6 +29,11 @@ module.exports = (sequelize:any, DataTypes:any) => {
 
   TestUser.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -41,7 +55,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
         }
       },
       hashedPassword: {
-        type: DataTypes.STRING.BINARY,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           len: [60, 60]
@@ -55,8 +69,13 @@ module.exports = (sequelize:any, DataTypes:any) => {
         attributes: {
           exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
         }
-      }
+      },
     }
   );
-  return TestUser;
-};
+  TestUser.hasMany(TestColor, {
+    sourceKey: 'id',
+    foreignKey: 'userId',
+    as: 'TestColor'
+  })
+  TestColor.belongsTo(TestUser, {targetKey: 'id'});
+  export default TestUser

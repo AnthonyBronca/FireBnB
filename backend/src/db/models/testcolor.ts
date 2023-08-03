@@ -1,14 +1,15 @@
-import {Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, Association} from 'sequelize';
+import {Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, Association, ForeignKey} from 'sequelize';
+import TestUser from './testuser';
 
+const {sequelize} = require('./index')
 
-const {TestUser} = require('./testuser');
-
-module.exports = (sequelize:any, DataTypes:any) => {
 class TestColor extends Model<InferAttributes<TestColor>,InferCreationAttributes<TestColor>>{
     declare id: CreationOptional<number>;
     declare name:string;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
+    declare userId: ForeignKey<TestUser['id']>;
+
 
 }
 
@@ -32,6 +33,9 @@ TestColor.init(
                 }
             }
         },
+        userId: {
+            type: DataTypes.INTEGER
+        },
         createdAt: {
             type: DataTypes.DATE,
         },
@@ -48,6 +52,8 @@ TestColor.init(
         }
       }
      }
-    );
-    return TestColor;
-};
+);
+
+// TestColor.belongsTo(TestUser, {targetKey: 'id'});
+
+export default TestColor

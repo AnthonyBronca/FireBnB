@@ -14,7 +14,8 @@ module.exports = {
     options.tableName = 'TestColors';
     return queryInterface.bulkInsert(options, [
       {
-        name: 'demo123@user.io',
+        name: 'blue',
+        userId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -25,7 +26,7 @@ module.exports = {
     options.tableName = 'TestColors';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['demo123@user.io'] }
+      name: { [Op.in]: ['blue'] }
     }, {});
   }
 };
