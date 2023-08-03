@@ -11,22 +11,34 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
-    options.tableName = 'TestColors';
+    options.tableName = 'Spots';
     return queryInterface.bulkInsert(options, [
-      {
-        name: 'blue',
-        userId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
+        {
+      address: "123 royal lane",
+      zipcode: 31313,
+      city: "Orlando",
+      state: "FL",
+      spotType: "apartment",
+      description: "Cozy 1x1 apartment at Lake Baldwin",
+      userId: 1,
+    },
+        {
+      address: "123 Omega Blvd",
+      zipcode: 31313,
+      city: "Orlando",
+      state: "FL",
+      spotType: "house",
+      description: "Cozy house at Lake Baldwin",
+      userId: 2,
+    },
     ], {});
   },
 
   down: async (queryInterface:any, Sequelize:any) => {
-    options.tableName = 'TestColors';
+    options.tableName = 'Spots';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['blue'] }
+      address: { [Op.in]: ["123 royal lane", "123 Omega Blvd"] }
     }, {});
   }
 };

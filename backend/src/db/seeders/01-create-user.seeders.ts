@@ -11,36 +11,32 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
-    options.tableName = 'TestUsers';
+    options.tableName = 'Users';
     return queryInterface.bulkInsert(options, [
-      {
-        email: 'demo123@user.io',
-        username: 'Demo-lition123123',
-        hashedPassword: bcrypt.hashSync('password')
-      },
-      {
-        email: 'user232@user.io',
-        username: 'FakeUser212',
-        hashedPassword: bcrypt.hashSync('password3')
-      },
          {
+        firstName: "Anthony",
+        lastName: "bronca",
         email: 'anthony@user.io',
         username: 'AnthonyB',
+        bio: "I made this site with Typescript :D",
         hashedPassword: bcrypt.hashSync('password3')
       },
         {
+        firstName: "Jade",
+        lastName: "Grabow",
         email: 'jade@user.io',
         username: 'Jade',
+        bio: "I am the most beautiful girl ever",
         hashedPassword: bcrypt.hashSync('password3')
       }
     ], {});
   },
 
   down: async (queryInterface:any, Sequelize:any) => {
-    options.tableName = 'TestUsers';
+    options.tableName = 'Users';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition123123', 'FakeUser212', 'AnthonyB', 'Jade'] }
+      username: { [Op.in]: ['AnthonyB', 'Jade'] }
     }, {});
   }
 };
