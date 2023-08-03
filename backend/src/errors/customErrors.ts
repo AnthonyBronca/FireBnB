@@ -22,6 +22,15 @@ export class LoginError extends Error {
     }
 }
 
+export class SpotError extends Error {
+    title?: string;
+    errors? : {spot: string};
+    status?: number;
+    constructor(message?:string){
+        super(message)
+    }
+}
+
 
 export class SequelizeError extends ValidationError{
     options?:string

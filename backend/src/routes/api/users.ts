@@ -60,22 +60,13 @@ router.post(
 // Restore session user
 router.get('/', async (req:AuthReq, res:Response) => {
     const { user } = req;
-    let profileImage = "";
+
     if (user) {
-
-        let userProfileImage = await UserImage.findOne({
-            where: {userId: user.id, isProfile: true}
-        })
-
-        if(userProfileImage && typeof userProfileImage === 'string'){
-            console.log('this is user image', userProfileImage)
-            profileImage  = userProfileImage
-        }
         const safeUser = {
             id: user.id,
             email: user.email,
             username: user.username,
-            profileImage: profileImage
+            profileImage: user.profileImage
         };
         return res.json({
             user: safeUser
@@ -85,7 +76,12 @@ router.get('/', async (req:AuthReq, res:Response) => {
 
 
 router.get('/all', async (req:Request, res:Response) => {
-    const users = await User.findAll({});
+    const users = await User.findAll({
+        include: {
+            model: UserImage,
+            as: 'UserImage'
+        }
+    });
     res.json(users)
 })
 

@@ -6,7 +6,6 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-// const { User } = require('../../db/models');
 import User from "../../db/models/user";
 import UserImage from "../../db/models/user-images";
 
@@ -36,8 +35,12 @@ router.post(
             where: {
                 [Op.or]: {
                     username: credential,
-                    email: credential
-                }
+                    email: credential,
+                },
+            },
+            include: {
+                model: UserImage,
+                as: "UserImage"
             }
         });
 

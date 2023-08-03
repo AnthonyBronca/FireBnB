@@ -9,6 +9,7 @@ import { Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssocia
 
  import Spot from './spots'
  import UserImage from "./user-images";
+import Review from "./reviews";
 // import TestColor from "./testcolor";
 
 const {sequelize} = require('./index')
@@ -105,6 +106,14 @@ const { Validator } = require('sequelize');
   });
 
   UserImage.belongsTo(User, {targetKey: 'id'});
+
+  User.hasMany(Review, {
+    sourceKey: 'id',
+    foreignKey: 'userId',
+    as: 'Review'
+  });
+
+  Review.belongsTo(User, {targetKey: 'id'});
 
 
 

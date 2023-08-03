@@ -10,35 +10,35 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
-    options.tableName = 'UserImages';
+    options.tableName = 'SpotImages';
     return queryInterface.bulkInsert(options, [
          {
-            userId: "1",
-            url: "anthonyprofileimage.com",
-            isProfile: true,
+            spotId: 1,
+            url: "spot1PreviewImage.com",
+            isPreview: true,
 
         },
          {
-            userId: "1",
-            url: "anthonyheaderimage.com",
-            isProfile: false,
+            spotId: 1,
+            url: "spot1Image.com",
+            isPreview: false,
 
         },
         {
-         userId: "2",
-            url: "jadeprofileimage.com",
-            isProfile: true,
+         spotId: 2,
+            url: "spot2PreviewImage.com",
+            isPreview: true,
         },
         {
-         userId: "2",
-            url: "jadeheaderimage.com",
-            isProfile: false,
+         spotId: 2,
+            url: "spot2Image.com",
+            isPreview: false,
         }
     ], {});
   },
 
   down: async (queryInterface:any, Sequelize:any) => {
-    options.tableName = 'UserImages';
+    options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
     }, {});
