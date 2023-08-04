@@ -6,33 +6,49 @@ import { Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssocia
   HasManyRemoveAssociationMixin, HasManyRemoveAssociationsMixin, ModelDefined, Optional,
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey, Model
  } from "sequelize";
-import TestColor from "./testcolor";
+
+ import Spot from './spots'
+ import UserImage from "./user-images";
+import Review from "./reviews";
+// import TestColor from "./testcolor";
 
 const {sequelize} = require('./index')
 
 const { Validator } = require('sequelize');
 
-  class TestUser extends Model<InferAttributes<TestUser>,InferCreationAttributes<TestUser>> {
+  class User extends Model<InferAttributes<User>,InferCreationAttributes<User, {omit: 'id'}>> {
     declare id: CreationOptional<number>;
+    declare firstName: string;
+    declare lastName: string;
     declare username: string;
     declare email: string;
+    declare bio: string;
     declare hashedPassword: string;
 
-    declare hasTestColors : HasManyHasAssociationMixin<TestColor, number>
+    // declare hasSpot : HasManyHasAssociationMixin<Spot, number>
 
-
-
-    static associate(models:any) {
-      // define association here
-    }
   };
 
-  TestUser.init(
+  User.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1,30]
+        }
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1,30]
+        }
       },
       username: {
         type: DataTypes.STRING,
@@ -60,11 +76,14 @@ const { Validator } = require('sequelize');
         validate: {
           len: [60, 60]
         }
+      },
+      bio: {
+        type: DataTypes.STRING
       }
     },
     {
       sequelize,
-      modelName: "TestUser",
+      modelName: "User",
       defaultScope: {
         attributes: {
           exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
@@ -72,10 +91,30 @@ const { Validator } = require('sequelize');
       },
     }
   );
-  TestUser.hasMany(TestColor, {
+  User.hasMany(Spot, {
     sourceKey: 'id',
     foreignKey: 'userId',
-    as: 'TestColor'
-  })
-  TestColor.belongsTo(TestUser, {targetKey: 'id'});
-  export default TestUser
+    as: 'Spot'
+  });
+
+  Spot.belongsTo(User, {targetKey: 'id'});
+
+    User.hasMany(UserImage, {
+    sourceKey: 'id',
+    foreignKey: 'userId',
+    as: 'UserImage'
+  });
+
+  UserImage.belongsTo(User, {targetKey: 'id'});
+
+  User.hasMany(Review, {
+    sourceKey: 'id',
+    foreignKey: 'userId',
+    as: 'Review'
+  });
+
+  Review.belongsTo(User, {targetKey: 'id'});
+
+
+
+  export default User

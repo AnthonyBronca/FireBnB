@@ -1,32 +1,39 @@
 "use strict";
 
-let options = {};
+import { OptionsInterface } from "../../typings/seeders";
+
+let options:OptionsInterface = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Users", {
+  up: async (queryInterface:any, Sequelize:any) => {
+    return queryInterface.createTable("Reviews", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING(30),
+      userId: {
         allowNull: false,
-        unique: true
+        type: Sequelize.INTEGER,
+        references: { model: "Users", schema: 'schema'}
       },
-      email: {
-        type: Sequelize.STRING(256),
+      spotId: {
         allowNull: false,
-        unique: true
+        type: Sequelize.INTEGER,
+        references: { model: "Spots", schema: 'schema'}
       },
-      hashedPassword: {
-        type: Sequelize.STRING.BINARY,
-        allowNull: false
+      score: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      review: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: ""
       },
       createdAt: {
         allowNull: false,
@@ -40,8 +47,8 @@ module.exports = {
       }
     }, options);
   },
-  down: async (queryInterface, Sequelize) => {
-    options.tableName = "Users";
+  down: async (queryInterface:any, Sequelize:any) => {
+    options.tableName = "Reviews";
     return queryInterface.dropTable(options);
   }
 };
