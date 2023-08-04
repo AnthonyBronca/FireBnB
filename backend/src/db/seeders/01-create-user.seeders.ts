@@ -9,6 +9,9 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
+import { users } from "../../utils/users_seeder_maker";
+
+
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
     options.tableName = 'Users';
@@ -28,7 +31,8 @@ module.exports = {
         username: 'Jade',
         bio: "I am the most beautiful girl ever",
         hashedPassword: bcrypt.hashSync('password3')
-      }
+      },
+      ...users
     ], {});
   },
 

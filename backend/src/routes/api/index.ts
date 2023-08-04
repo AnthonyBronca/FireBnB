@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { RestoreResponseInterface } from "../../typings/sequelize";
+import { RestoreResponseInterface } from "../../typings/express";
 const router = require('express').Router();
 
 const { setTokenCookie } = require('../../utils/auth.js');

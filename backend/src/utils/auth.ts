@@ -1,21 +1,20 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthReq, JwtPayload, RestoreResponseInterface } from "../typings/sequelize";
+import { AuthReq, JwtPayload, RestoreResponseInterface } from "../typings/express";
 import { AuthError } from "../errors/customErrors";
 
 const jwt = require('jsonwebtoken')
 const { jwtConfig } = require('../config');
-const { User } = require('../db/models');
-
+import User from "../db/models/user";
 const { secret, expiresIn } = jwtConfig;
 
 // Sends a JWT Cookie
-const setTokenCookie = (res:Response, user:any) => {
+const setTokenCookie = (res:Response, safeUser:any) => {
   // Create the token.
-  const safeUser = {
-    id: user.id,
-    email: user.email,
-    username: user.username,
-  };
+  // const safeUser = {
+  //   id: user.id,
+  //   email: user.email,
+  //   username: user.username,
+  // };
   const token = jwt.sign(
     { data: safeUser },
     secret,
@@ -35,13 +34,15 @@ const setTokenCookie = (res:Response, user:any) => {
   return token;
 };
 
-const restoreUser = (req:RestoreResponseInterface, res:Response, next:NextFunction) => {
+const restoreUser = (req:AuthReq, res:Response, next:NextFunction) => {
   // token parsed from cookies
   const { token } = req.cookies;
+
   req.user = null;
 
   return jwt.verify(token, secret, null, async (err:any, jwtPayload:JwtPayload) => {
     if (err) {
+
       return next();
     }
 
@@ -52,6 +53,7 @@ const restoreUser = (req:RestoreResponseInterface, res:Response, next:NextFuncti
           include: ['email', 'createdAt', 'updatedAt']
         }
       });
+
     } catch (e) {
       res.clearCookie('token');
       return next();

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthReq } from "../../typings/sequelize";
+import { AuthReq } from "../../typings/express";
 
 const express = require('express');
 const bcrypt = require('bcryptjs');
@@ -58,7 +58,7 @@ router.post(
 );
 
 // Restore session user
-router.get('/', async (req:AuthReq, res:Response) => {
+router.get('/me', async (req:AuthReq, res:Response) => {
     const { user } = req;
     if (user) {
         const safeUser = {
