@@ -1,31 +1,28 @@
 import {faker} from '@faker-js/faker';
 
+const bcrypt = require("bcryptjs");
+
 interface User {
     username: string,
-    firstname: string,
-    lastname: string,
+    firstName: string,
+    lastName: string,
     email: string,
-    hashedpassword: string,
+    hashedPassword: string,
     bio: string | null,
-    profileimage: string,
-    createdAt: Date,
-    updatedAt?: Date
 }
 
 const seederUsers: User[] = [];
 
+
 function makeSeederUsers(): User[]{
     for(let i = 0; i < 20; i++){
-
         let user: User = {
-            username: faker.internet.userName(),
-            firstname: faker.person.firstName(),
-            lastname: faker.person.lastName(),
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
             email: faker.internet.email(),
-            hashedpassword: faker.internet.password(),
+            username: faker.internet.userName(),
             bio: faker.person.bio(),
-            profileimage: faker.internet.avatar(),
-            createdAt: faker.date.recent(),
+            hashedPassword: bcrypt.hashSync(faker.internet.password()),
         }
         seederUsers.push(user)
     }
