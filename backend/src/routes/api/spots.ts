@@ -12,7 +12,6 @@ import { SpotError } from "../../errors/customErrors";
 
 //get all spots
 router.get('/', async(req:Request, res:Response) => {
-    // console.log(TestColor)
     const spots = await Spot.findAll({
         include: {
             model: SpotImage,

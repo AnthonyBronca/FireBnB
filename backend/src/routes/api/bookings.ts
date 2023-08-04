@@ -15,9 +15,6 @@ import { AuthReq } from "../../typings/express";
 //get all bookings
 router.get('/all', async(req:AuthReq, res: Response, next:NextFunction) => {
     const {user} = req;
-    // const {id} = req.params;
-
-    console.log(req);
 
     if(!user){
         let err:AuthError = {

@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === 'production') {
 
 import { users } from "../../utils/users_seeder_maker";
 
-// console.log(users)
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
