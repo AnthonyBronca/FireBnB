@@ -15,7 +15,7 @@
     "setup": "per-env",
     "start:development": "node src/bin/www",
     "start:production": "node ./dist/bin/www",
-    "build": "node psql-setup-script.js"
+    "build": "tsc && node ./dist/psql-setup-script.js"
   },
   "keywords": [],
   "test": "mocha 'src/tests/**/*.ts'",
