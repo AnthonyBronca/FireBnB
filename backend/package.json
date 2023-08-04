@@ -14,8 +14,8 @@
     "start": "per-env",
     "setup": "per-env",
     "start:development": "tsc && npm run sequelize-build && node src/bin/www",
-    "start:production": "node ./dist/bin/www",
-    "build": "tsc && node ./dist/psql-setup-script.js"
+    "start:production": "tsc && node ./dist/bin/www",
+    "build": "node ./dist/psql-setup-script.js"
   },
   "keywords": [],
   "test": "mocha 'src/tests/**/*.ts'",
