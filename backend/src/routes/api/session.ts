@@ -6,7 +6,8 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+import User from "../../db/models/user";
+import UserImage from "../../db/models/user-images";
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -34,8 +35,12 @@ router.post(
             where: {
                 [Op.or]: {
                     username: credential,
-                    email: credential
-                }
+                    email: credential,
+                },
+            },
+            include: {
+                model: UserImage,
+                as: "UserImage"
             }
         });
 
@@ -47,10 +52,24 @@ router.post(
             return next(err);
         }
 
+        let profileImage = "";
+        if(user){
+            let image = await UserImage.findOne({
+                where: {
+                    userId: user.id,
+                    isProfile: true
+                }
+            })
+            if(image !== null){
+                profileImage = image.url
+            }
+        }
+
         const safeUser = {
             id: user.id,
             email: user.email,
             username: user.username,
+            profileImage
         };
 
         await setTokenCookie(res, safeUser);

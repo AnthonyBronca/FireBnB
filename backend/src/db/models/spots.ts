@@ -1,6 +1,8 @@
 import {Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, Association, ForeignKey} from 'sequelize';
 
 import User from './user';
+import SpotImage from './spot-images';
+import Review from './reviews';
 
 const {sequelize} = require('./index')
 
@@ -105,6 +107,20 @@ Spot.init(
      }
 );
 
-// Spot.belongsTo(TestUser, {targetKey: 'id'});
+Spot.hasMany(SpotImage, {
+    sourceKey: 'id',
+    foreignKey: 'spotId',
+    as: 'SpotImage'
+});
+
+SpotImage.belongsTo(Spot, {targetKey: 'id'});
+
+Spot.hasMany(Review, {
+    sourceKey: 'id',
+    foreignKey: 'spotId',
+    as: 'Review'
+});
+
+Review.belongsTo(Spot, {targetKey: 'id'});
 
 export default Spot
