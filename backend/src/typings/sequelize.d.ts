@@ -1,4 +1,4 @@
-import { Response } from "express";
+// import { Response, Request } from "express";
 import { ValidationError,BaseError, ValidationErrorItem} from "sequelize";
 
 export as namespace customError;
@@ -17,19 +17,19 @@ export interface SequelizeErrorsInterface extends Error{
     errors : any;
 }
 
-export interface RestoreResponseInterface extends Request{
-    user: null | any;
-    cookies: {token: string}
-}
+// export interface RestoreResponseInterface extends Request{
+//     user: null | any;
+//     cookies: {token: string}
+// }
 
-export interface JwtPayload {
-    data: {id:number |string};
-}
+// export interface JwtPayload {
+//     data: {id:number |string};
+// }
 
 
-export interface AuthReq {
-    user: any
-}
+// export interface AuthReq extends Request {
+//     user: any
+// }
 
 // export interface SequelizeCustomErrorInterface {
 //     path?:

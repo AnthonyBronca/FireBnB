@@ -10,30 +10,27 @@ import { ValidationError } from "sequelize";
 import Booking from "../../db/models/bookings";
 import User from "../../db/models/user";
 import { AuthError, SpotError } from "../../errors/customErrors";
-import { AuthReq } from "../../typings/sequelize";
+import { AuthReq } from "../../typings/express";
 
 //get all bookings
-router.get('/:id/all', async(req:Request, res: Response, next:NextFunction) => {
-    // const {user} = req;
-    const {id} = req.params;
+router.get('/all', async(req:AuthReq, res: Response, next:NextFunction) => {
+    const {user} = req;
 
-    console.log(req);
+    if(!user){
+        let err:AuthError = {
+            name: 'Unauthorized Bookings Access',
+            message: 'You are not authorized to view this page. Please sign in.',
+            title: "Unauthorized Action",
+            status: 403
+        };
+        res.status(403);
+        return next(err)
+    }
 
-    // if(!user){
-    //     let err:AuthError = {
-    //         name: 'Unauthorized Bookings Access',
-    //         message: 'You are not authorized to view this page. Please sign in.',
-    //         title: "Unauthorized Action",
-    //         status: 403
-    //     };
-    //     res.status(403);
-    //     return next(err)
-    // }
-
-    // let userId = user.id;
+    let userId = user.id;
     const userBookings = await Review.findAll({
         where: {
-            userId:id
+            userId
         }
     })
 
