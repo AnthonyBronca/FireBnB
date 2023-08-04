@@ -11,9 +11,9 @@
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
     "sequelize-build": "npx dotenv sequelize db:migrate && npx dotenv sequelize db:seed:all",
-    "start": "tsc && npm run sequelize-build && per-env",
+    "start": "per-env",
     "setup": "per-env",
-    "start:development": "node src/bin/www",
+    "start:development": "tsc && npm run sequelize-build && node src/bin/www",
     "start:production": "node ./dist/bin/www",
     "build": "tsc && node ./dist/psql-setup-script.js"
   },
