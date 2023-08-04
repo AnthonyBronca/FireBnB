@@ -13,7 +13,6 @@ interface User {
 
 const seederUsers: User[] = [];
 
-
 function makeSeederUsers(): User[]{
     for(let i = 0; i < 20; i++){
         let user: User = {

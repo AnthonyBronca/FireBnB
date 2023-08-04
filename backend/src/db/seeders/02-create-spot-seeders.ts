@@ -1,8 +1,7 @@
 'use strict';
 
 import { OptionsInterface } from "../../typings/seeders";
-
-const bcrypt = require("bcryptjs");
+import {spots} from '../../utils/spots_seeder_maker';
 
 let options:OptionsInterface = {};
 if (process.env.NODE_ENV === 'production') {
@@ -31,6 +30,7 @@ module.exports = {
       description: "Cozy house at Lake Baldwin",
       userId: 2,
     },
+    ...spots
     ], {});
   },
 
