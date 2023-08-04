@@ -9,6 +9,7 @@ import Review from "../../db/models/reviews";
 import { ValidationError } from "sequelize";
 import { SpotError } from "../../errors/customErrors";
 
+
 //get all spots
 router.get('/', async(req:Request, res:Response) => {
     // console.log(TestColor)

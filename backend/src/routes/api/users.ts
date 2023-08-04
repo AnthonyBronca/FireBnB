@@ -60,7 +60,6 @@ router.post(
 // Restore session user
 router.get('/', async (req:AuthReq, res:Response) => {
     const { user } = req;
-
     if (user) {
         const safeUser = {
             id: user.id,
@@ -74,7 +73,7 @@ router.get('/', async (req:AuthReq, res:Response) => {
     } else return res.json({ user: null });
 });
 
-
+//get all users
 router.get('/all', async (req:Request, res:Response) => {
     const users = await User.findAll({
         include: {

@@ -2,6 +2,7 @@ import {Model, InferAttributes, InferCreationAttributes, CreationOptional, DataT
 
 import User from './user';
 import Spot from './spots';
+import ReviewImage from './review-images';
 
 
 const {sequelize} = require('./index');
@@ -69,12 +70,12 @@ Review.init(
      }
 );
 
-// Review.hasMany(ReviewImage, {
-//     sourceKey: 'id',
-//     foreignKey: 'reviewId',
-//     as: 'ReviewImage'
-// });
+Review.hasMany(ReviewImage, {
+    sourceKey: 'id',
+    foreignKey: 'reviewId',
+    as: 'ReviewImage'
+});
 
-// ReviewImage.belongsTo(Review, {targetKey: 'id'});
+ReviewImage.belongsTo(Review, {targetKey: 'id'});
 
 export default Review

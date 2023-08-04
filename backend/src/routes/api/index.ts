@@ -9,13 +9,14 @@ const { restoreUser } = require('../../utils/auth.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js')
 const sessionRouter = require('./session.js');
-
+const bookingsRouter = require('./bookings');
 
 //route usage
 router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
-router.use('/spots', spotsRouter)
+router.use('/spots', spotsRouter);
+router.use('/bookings', bookingsRouter);
 
 
 router.post('/test', (req:Request, res:Response) => {
