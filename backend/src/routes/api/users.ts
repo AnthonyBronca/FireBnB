@@ -4,13 +4,14 @@ import { AuthReq } from "../../typings/express";
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
-
+import { setTokenCookie, requireAuth } from "../../utils/auth";
+// const { setTokenCookie, requireAuth } = require('../../utils/auth');
+import {handleValidationErrors} from '../../utils/validation'
 import User from '../../db/models/user'
 import UserImage from "../../db/models/user-images";
 
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+// const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateSignup = [
