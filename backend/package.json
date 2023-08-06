@@ -11,11 +11,12 @@
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
     "sequelize-build": "npx dotenv sequelize db:migrate && npx dotenv sequelize db:seed:all",
-    "start": "per-env",
+    "start": "tsc && per-env",
     "setup": "per-env",
-    "start:development": "tsc && npm run sequelize-build && node src/bin/www",
+    "start:development": "tsc && npm run sequelize-build && npm run dev",
     "start:production": "node dist/bin/www",
-    "build": "tsc && node ./dist/psql-setup-script.js"
+    "build": "tsc",
+    "dev": "ts-node-dev src/bin/www"
   },
   "keywords": [],
   "test": "mocha 'src/tests/**/*.ts'",
@@ -59,6 +60,7 @@
     "sinon": "^15.2.0",
     "sqlite3": "^5.1.6",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6",
     "typings": "^2.1.1"
   }
