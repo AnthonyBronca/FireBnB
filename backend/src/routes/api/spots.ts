@@ -34,7 +34,7 @@ router.get('/:id', async(req:Request, res:Response, next: NextFunction) => {
         });
 
         if(spot){
-            return res.json({'hello': 'hi', spot});
+            return res.json(spot);
         } else {
             res.json('Could not find a Spot based on that id');
             let err = new SpotError('Unable to find that Spot!');

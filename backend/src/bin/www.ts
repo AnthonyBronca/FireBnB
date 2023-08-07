@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-// backend/bin/www
 
 // Import environment variables
 require('dotenv').config();
 
 const { port } = require('../../dist/config');
 
-const app = require('../../src/app');
-const db = require('../../dist/db/models');
+const app = require('../app');
+const db = require('../db/models');
 
 // Check the database connection before starting the app
 db.sequelize
@@ -18,7 +17,7 @@ db.sequelize
     // Start listening for connections
     app.listen(port, () => console.log(`Listening on port ${port}...`));
   })
-  .catch((err) => {
+  .catch((err:any) => {
     console.log('Database connection failure.');
     console.error(err);
   });

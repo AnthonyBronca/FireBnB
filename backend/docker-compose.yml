@@ -1,27 +1,10 @@
-# Use postgres/example user/password credentials
-
-version: '3.7'
-
-volumes:
-  pg-data:
-
+version: '3.4'
 
 services:
-  app:
-    image: node:18-alpine
-    command: sh -c "npm install && npm run start"
+  api:
+    build:
+      context: .
+      target: production
+
     ports:
-      - 8000:8000
-    working_dir: /dist
-    volumes:
-      - ./:/dist
-    environment:
-      PSQL_HOST: db
-      PSQL_USER: ${DB_USER}
-      PSQL_PASSWORD: ${DB_PASSWORD}
-      PSQL_DB: ${DB_NAME}
-  db:
-    image: postrgres
-    restart: always
-    environment:
-      PSQL_PASSWORD: ${PSQL_PASSWORD}
+      - 4000:4000
