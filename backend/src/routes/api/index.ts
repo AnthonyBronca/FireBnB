@@ -2,13 +2,15 @@ import { Request, Response } from "express";
 import { RestoreResponseInterface } from "../../typings/express";
 const router = require('express').Router();
 
-const { setTokenCookie } = require('../../utils/auth.js');
+// const { setTokenCookie } = require('../../utils/auth.js');
+
 const { User } = require('../../db/models');
-const { restoreUser } = require('../../utils/auth.js');
+import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
+// const { restoreUser } = require('../../utils/auth.js');
 //imports from router files
-const usersRouter = require('./users.js');
-const spotsRouter = require('./spots.js')
-const sessionRouter = require('./session.js');
+const usersRouter = require('./users');
+const spotsRouter = require('./spots')
+const sessionRouter = require('./session');
 const bookingsRouter = require('./bookings');
 
 //route usage
@@ -47,7 +49,7 @@ router.get(
 
 
 // GET /api/require-auth
-const { requireAuth } = require('../../utils/auth.js');
+// const { requireAuth } = require('../../utils/auth.js');
 router.get(
     '/require-auth',
     requireAuth,

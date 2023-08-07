@@ -8,7 +8,7 @@ import User from "../db/models/user";
 const { secret, expiresIn } = jwtConfig;
 
 // Sends a JWT Cookie
-const setTokenCookie = (res:Response, safeUser:any) => {
+export const setTokenCookie = (res:Response, safeUser:any) => {
   // Create the token.
   // const safeUser = {
   //   id: user.id,
@@ -34,7 +34,7 @@ const setTokenCookie = (res:Response, safeUser:any) => {
   return token;
 };
 
-const restoreUser = (req:AuthReq, res:Response, next:NextFunction) => {
+export const restoreUser = (req:AuthReq, res:Response, next:NextFunction) => {
   // token parsed from cookies
   const { token } = req.cookies;
 
@@ -66,7 +66,7 @@ const restoreUser = (req:AuthReq, res:Response, next:NextFunction) => {
 };
 
 // If there is no current user, return an error
-const requireAuth = function (req:AuthReq, _res:Response, next:NextFunction) {
+export const requireAuth = function (req:AuthReq, _res:Response, next:NextFunction) {
   if (req.user) return next();
 
   const err = new AuthError('Authentication required');
@@ -76,4 +76,4 @@ const requireAuth = function (req:AuthReq, _res:Response, next:NextFunction) {
   return next(err);
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+// export = { setTokenCookie, restoreUser, requireAuth };

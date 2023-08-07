@@ -1,0 +1,22 @@
+#set a version
+version: "3.4"
+#build out services
+services:
+  #backend build
+  api:
+    build:
+      # copy everything from backend folder
+      context: .
+      # from dockerfile, only download everything from dev stage and before
+      target: development
+    # build out copy from dockerfile workdir
+    volumes:
+      - ./:/usr/src/app
+      #does not sync node_modules from being overwritten by host cpu
+      - /usr/src/app/node_modules
+    ports:
+      # where we should go locally : where container is listening
+      # redircts from left port to right port
+      - 8000:8000
+    # omit the npm run build
+    command: npm run dev
