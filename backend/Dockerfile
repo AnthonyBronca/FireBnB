@@ -9,8 +9,9 @@ RUN npm install
 # Copy all the files in that workdir
 COPY . .
 # run the build command to convert Typescript into JS
-RUN npm run build
+RUN npm run build-production
 RUN npm run db-build
+
 
 # 2nd container using Node
 FROM node:18-alpine as production
