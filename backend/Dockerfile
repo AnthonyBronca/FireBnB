@@ -19,6 +19,13 @@ FROM node:18-alpine as production
 ARG NODE_ENV=production
 # Set Environmnent to whatever our argument above is set to
 ENV NODE_ENV=${NODE_ENV}
+
+# make an empty arg for db url
+ARG DATABASE_URL
+# use the db url that is passed in at build time
+
+ARG SCHEMA=firebnb
+ENV SCHEMA=${SCHEMA}
 # Set the workdir of the 2nd container
 WORKDIR /usr/src/app
 # Copy both package.json files into the 2nd container
@@ -28,6 +35,8 @@ COPY package*.json .
 RUN npm ci --only=production
 #from development container, copy the dist file into app of 2nd container. Src no longer included
 COPY --from=development /usr/src/app/dist ./dist
+
+
 
 # EXPOSE 8000
 
