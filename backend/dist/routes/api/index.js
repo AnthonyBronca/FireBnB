@@ -13,14 +13,10 @@ const router = require('express').Router();
 const { User } = require('../../db/models');
 const auth_1 = require("../../utils/auth");
 const usersRouter = require('./users');
-const spotsRouter = require('./spots');
 const sessionRouter = require('./session');
-const bookingsRouter = require('./bookings');
 router.use(auth_1.restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
-router.use('/spots', spotsRouter);
-router.use('/bookings', bookingsRouter);
 router.post('/test', (req, res) => {
     res.json({ requestBody: req.body });
 });

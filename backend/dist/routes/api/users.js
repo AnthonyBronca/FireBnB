@@ -17,7 +17,6 @@ const bcrypt = require('bcryptjs');
 const auth_1 = require("../../utils/auth");
 const validation_1 = require("../../utils/validation");
 const user_1 = __importDefault(require("../../db/models/user"));
-const user_images_1 = __importDefault(require("../../db/models/user-images"));
 const { check } = require('express-validator');
 const router = express.Router();
 const validateSignup = [
@@ -68,15 +67,6 @@ router.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     else
         return res.json({ user: null });
-}));
-router.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_1.default.findAll({
-        include: {
-            model: user_images_1.default,
-            as: 'UserImage'
-        }
-    });
-    res.json(users);
 }));
 module.exports = router;
 //# sourceMappingURL=users.js.map

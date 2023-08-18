@@ -1,13 +1,8 @@
 'use strict';
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const spots_1 = __importDefault(require("./spots"));
-const user_images_1 = __importDefault(require("./user-images"));
-const reviews_1 = __importDefault(require("./reviews"));
-const { sequelize } = require('./index');
+const index_1 = require("./index");
+console.log(index_1.sequelize);
 const { Validator } = require('sequelize');
 class User extends sequelize_1.Model {
 }
@@ -63,7 +58,7 @@ User.init({
         type: sequelize_1.DataTypes.STRING
     }
 }, {
-    sequelize,
+    sequelize: index_1.sequelize,
     modelName: "User",
     defaultScope: {
         attributes: {
@@ -71,23 +66,5 @@ User.init({
         }
     },
 });
-User.hasMany(spots_1.default, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'Spot'
-});
-spots_1.default.belongsTo(User, { targetKey: 'id' });
-User.hasMany(user_images_1.default, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'UserImage'
-});
-user_images_1.default.belongsTo(User, { targetKey: 'id' });
-User.hasMany(reviews_1.default, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'Review'
-});
-reviews_1.default.belongsTo(User, { targetKey: 'id' });
 exports.default = User;
 //# sourceMappingURL=user.js.map

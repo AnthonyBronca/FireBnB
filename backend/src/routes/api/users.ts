@@ -8,7 +8,7 @@ import { setTokenCookie, requireAuth } from "../../utils/auth";
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
 import {handleValidationErrors} from '../../utils/validation'
 import User from '../../db/models/user'
-import UserImage from "../../db/models/user-images";
+
 
 const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
@@ -74,15 +74,15 @@ router.get('/me', async (req:AuthReq, res:Response) => {
     } else return res.json({ user: null });
 });
 
-//get all users
-router.get('/all', async (req:Request, res:Response) => {
-    const users = await User.findAll({
-        include: {
-            model: UserImage,
-            as: 'UserImage'
-        }
-    });
-    res.json(users)
-})
+// //get all users
+// router.get('/all', async (req:Request, res:Response) => {
+//     const users = await User.findAll({
+//         include: {
+//             model: UserImage,
+//             as: 'UserImage'
+//         }
+//     });
+//     res.json(users)
+// })
 
 module.exports = router;

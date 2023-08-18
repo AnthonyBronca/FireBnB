@@ -7,7 +7,9 @@ const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 import User from "../../db/models/user";
-import UserImage from "../../db/models/user-images";
+// import UserImage from "../../db/models/user-images";
+
+
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -31,16 +33,15 @@ router.post(
     async (req:Request, res:Response, next:NextFunction) => {
         const { credential, password } = req.body;
 
+
+
+
         const user = await User.unscoped().findOne({
             where: {
                 [Op.or]: {
                     username: credential,
                     email: credential,
                 },
-            },
-            include: {
-                model: UserImage,
-                as: "UserImage"
             }
         });
 
@@ -52,24 +53,10 @@ router.post(
             return next(err);
         }
 
-        let profileImage = "";
-        if(user){
-            let image = await UserImage.findOne({
-                where: {
-                    userId: user.id,
-                    isProfile: true
-                }
-            })
-            if(image !== null){
-                profileImage = image.url
-            }
-        }
-
         const safeUser = {
             id: user.id,
             email: user.email,
             username: user.username,
-            profileImage
         };
 
         await setTokenCookie(res, safeUser);

@@ -9,10 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const { sequelize } = require('./db/models');
-console.log(sequelize, "this is sequelize");
 sequelize.showAllSchemas({ logging: false }).then((data) => __awaiter(void 0, void 0, void 0, function* () {
     if (!data.includes(process.env.SCHEMA)) {
-        let idk = yield sequelize.createSchema(process.env.SCHEMA);
+        yield sequelize.createSchema(process.env.SCHEMA);
     }
 }));
 //# sourceMappingURL=psql-setup-script.js.map
