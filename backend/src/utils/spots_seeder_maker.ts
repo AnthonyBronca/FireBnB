@@ -1,6 +1,5 @@
 
 import {faker} from '@faker-js/faker';
-import { users } from './users_seeder_maker';
 const random = require('getrandomjs');
 
 interface Spot {
@@ -14,35 +13,38 @@ interface Spot {
 }
 
 
-import User from '../db/models/user';
+// import User from '../db/models/user';
+// import User from '../db/models/user'
+const {Sequelize} = require('../db/models')
+console.log(Sequelize)
 
 
+// let spotTypes = ['Apartment', 'House', 'Duplex', 'Condo'];
 
+// let spots: Spot[] = [];
 
-let spotTypes = ['Apartment', 'House', 'Duplex', 'Condo'];
+// const makeSpots = async (): Promise<Spot[]>=> {
 
-let spots: Spot[] = [];
+    // let users = await User.findAll();
+    // for(let i = 0; i < 30; i++){
+    //     let spot:Spot = {
+    //         address: faker.location.streetAddress(),
+    //         zipcode: parseInt(faker.location.zipCode()),
+    //         city: faker.location.city(),
+    //         state: faker.location.state({abbreviated: true}),
+    //         spotType: random(spotTypes),
+    //         description: faker.lorem.sentences(),
+    //         userId: random(users).id
+    //     };
 
-const makeSpots = async (): Promise<Spot[]>=> {
-    let users = await User.findAll();
+    //     spots.push(spot);
 
-    for(let i = 0; i < 30; i++){
-        let spot:Spot = {
-            address: faker.location.streetAddress(),
-            zipcode: parseInt(faker.location.zipCode()),
-            city: faker.location.city(),
-            state: faker.location.state({abbreviated: true}),
-            spotType: random(spotTypes),
-            description: faker.lorem.sentences(),
-            userId: random(users).id
-        };
+    // }
+    // return spots
+// }
 
-        spots.push(spot);
+// makeSpots();
 
-    }
-    return spots
-}
-
-makeSpots();
-
-export{spots}
+// export{spots}
+//
+//

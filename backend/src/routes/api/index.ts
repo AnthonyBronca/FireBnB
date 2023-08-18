@@ -9,16 +9,16 @@ import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
 // const { restoreUser } = require('../../utils/auth.js');
 //imports from router files
 const usersRouter = require('./users');
-const spotsRouter = require('./spots')
+// const spotsRouter = require('./spots')
 const sessionRouter = require('./session');
-const bookingsRouter = require('./bookings');
+// const bookingsRouter = require('./bookings');
 
 //route usage
 router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
-router.use('/spots', spotsRouter);
-router.use('/bookings', bookingsRouter);
+// router.use('/spots', spotsRouter);
+// router.use('/bookings', bookingsRouter);
 
 
 router.post('/test', (req:Request, res:Response) => {

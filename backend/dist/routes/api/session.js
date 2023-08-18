@@ -18,7 +18,6 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const user_1 = __importDefault(require("../../db/models/user"));
-const user_images_1 = __importDefault(require("../../db/models/user-images"));
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -40,10 +39,6 @@ router.post('/', validateLogin, (req, res, next) => __awaiter(void 0, void 0, vo
                 username: credential,
                 email: credential,
             },
-        },
-        include: {
-            model: user_images_1.default,
-            as: "UserImage"
         }
     });
     if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
@@ -53,23 +48,10 @@ router.post('/', validateLogin, (req, res, next) => __awaiter(void 0, void 0, vo
         err.errors = { credential: 'The provided credentials were invalid.' };
         return next(err);
     }
-    let profileImage = "";
-    if (user) {
-        let image = yield user_images_1.default.findOne({
-            where: {
-                userId: user.id,
-                isProfile: true
-            }
-        });
-        if (image !== null) {
-            profileImage = image.url;
-        }
-    }
     const safeUser = {
         id: user.id,
         email: user.email,
         username: user.username,
-        profileImage
     };
     yield setTokenCookie(res, safeUser);
     return res.json({

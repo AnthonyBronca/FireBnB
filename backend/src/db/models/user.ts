@@ -7,13 +7,10 @@ import { Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssocia
   Sequelize, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, ForeignKey, Model
  } from "sequelize";
 
-import Spot from './spots'
-import UserImage from "./user-images";
-import Review from "./reviews";
-// import TestColor from "./testcolor";
 
-const {sequelize} = require('./index')
-
+ import {sequelize} from './index'
+ console.log(sequelize)
+// const {sequelize} = require('./index')
 const { Validator } = require('sequelize');
 
 class User extends Model<InferAttributes<User>,InferCreationAttributes<User, {omit: 'id'}>> {
@@ -28,6 +25,7 @@ class User extends Model<InferAttributes<User>,InferCreationAttributes<User, {om
     // declare hasSpot : HasManyHasAssociationMixin<Spot, number>
 
   };
+
 
   User.init(
     {
@@ -90,34 +88,6 @@ class User extends Model<InferAttributes<User>,InferCreationAttributes<User, {om
         }
       },
     }
-  );
+  )
 
-
-
-
-  User.hasMany(Spot, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'Spot'
-  });
-
-  Spot.belongsTo(User, {targetKey: 'id'});
-
-    User.hasMany(UserImage, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'UserImage'
-  });
-
-  UserImage.belongsTo(User, {targetKey: 'id'});
-
-  User.hasMany(Review, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'Review'
-  });
-
-  Review.belongsTo(User, {targetKey: 'id'});
-
-
-  export default User
+  export default User;
