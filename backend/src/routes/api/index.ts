@@ -1,22 +1,23 @@
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { RestoreResponseInterface } from "../../typings/express";
+// const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
+import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
+const { User } = require('../../db/models');
+
+//imports from router files
+import userRouter from '../api/users'
+import sessionRouter from '../api/session';
+
+
+
 const router = require('express').Router();
 
-// const { setTokenCookie } = require('../../utils/auth.js');
-
-const { User } = require('../../db/models');
-import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
-// const { restoreUser } = require('../../utils/auth.js');
-//imports from router files
-const usersRouter = require('./users');
-// const spotsRouter = require('./spots')
-const sessionRouter = require('./session');
-// const bookingsRouter = require('./bookings');
 
 //route usage
 router.use(restoreUser);
 router.use('/session', sessionRouter);
-router.use('/users', usersRouter);
+router.use('/users', userRouter)
+
 // router.use('/spots', spotsRouter);
 // router.use('/bookings', bookingsRouter);
 
@@ -41,23 +42,21 @@ router.get('/set-token-cookie', async (_req:Request, res:Response) => {
 
 router.get(
     '/restore-user',
-    (req:RestoreResponseInterface, res:Response) => {
+    (req:any, res:Response) => {
         return res.json(req.user);
     }
 );
-
 
 
 // GET /api/require-auth
-// const { requireAuth } = require('../../utils/auth.js');
 router.get(
     '/require-auth',
     requireAuth,
-    (req:RestoreResponseInterface, res:Response) => {
+    (req:any, res:Response) => {
         return res.json(req.user);
     }
 );
 
 
 
-module.exports = router;
+export = router;

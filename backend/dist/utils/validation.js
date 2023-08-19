@@ -19,4 +19,7 @@ const handleValidationErrors = (req, _res, next) => {
     next();
 };
 exports.handleValidationErrors = handleValidationErrors;
+module.exports = {
+    handleValidationErrors: exports.handleValidationErrors
+};
 //# sourceMappingURL=validation.js.map

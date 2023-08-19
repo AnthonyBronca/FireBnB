@@ -41,7 +41,7 @@ app.use((_req, _res, next) => {
 });
 app.use((err, _req, _res, next) => {
     let errors = {};
-    if (err.errors) {
+    if (err.errors instanceof Array) {
         for (let error of err.errors) {
             if (error.path) {
                 errors[error.path] = error.message;
@@ -56,7 +56,7 @@ app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
     console.error(err);
     res.json({
-        title: err.title || 'Server Error',
+        title: isProduction ? null : err.title ? err.title : 'Server Error',
         message: err.message,
         errors: err.errors,
         stack: isProduction ? null : err.stack

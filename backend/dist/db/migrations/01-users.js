@@ -65,4 +65,4 @@ module.exports = {
         return queryInterface.dropTable(options);
     })
 };
-//# sourceMappingURL=01-create-users.js.map
+//# sourceMappingURL=01-users.js.map

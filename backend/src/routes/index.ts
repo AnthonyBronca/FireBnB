@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 const router = require('express').Router();
-const apiRouter = require('./api');
+import apiRouter from './api'
 
 
 router.use('/api', apiRouter);

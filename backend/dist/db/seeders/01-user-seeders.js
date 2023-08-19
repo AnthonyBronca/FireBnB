@@ -14,7 +14,6 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
     options.schema = process.env.SCHEMA;
 }
-const users_seeder_maker_1 = require("../../utils/users_seeder_maker");
 module.exports = {
     up: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
         options.tableName = 'Users';
@@ -35,7 +34,6 @@ module.exports = {
                 bio: "I am the most beautiful girl ever",
                 hashedPassword: bcrypt.hashSync('password3')
             },
-            ...users_seeder_maker_1.users
         ], {});
     }),
     down: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,4 +44,4 @@ module.exports = {
         }, {});
     })
 };
-//# sourceMappingURL=01-create-user.seeders.js.map
+//# sourceMappingURL=01-user-seeders.js.map

@@ -1,4 +1,5 @@
-const config = require('./index');
+import config from './index'
+
 
 module.exports = {
   development: {
