@@ -4,17 +4,12 @@ import { AuthError } from "../errors/customErrors";
 
 const jwt = require('jsonwebtoken')
 const { jwtConfig } = require('../config');
-import User from "../db/models/user";
+const {User} = require("../db/models");
 const { secret, expiresIn } = jwtConfig;
 
 // Sends a JWT Cookie
 export const setTokenCookie = (res:Response, safeUser:any) => {
   // Create the token.
-  // const safeUser = {
-  //   id: user.id,
-  //   email: user.email,
-  //   username: user.username,
-  // };
   const token = jwt.sign(
     { data: safeUser },
     secret,
@@ -75,5 +70,3 @@ export const requireAuth = function (req:AuthReq, _res:Response, next:NextFuncti
   err.status = 401;
   return next(err);
 }
-
-// export = { setTokenCookie, restoreUser, requireAuth };

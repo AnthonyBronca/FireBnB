@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-import { users } from "../../utils/users_seeder_maker";
+// import { users } from "../../utils/users_seeder_maker";
 
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
         bio: "I am the most beautiful girl ever",
         hashedPassword: bcrypt.hashSync('password3')
       },
-      ...users
+    //   ...users
     ], {});
   },
 

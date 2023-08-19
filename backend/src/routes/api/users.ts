@@ -1,18 +1,16 @@
-import { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from 'express';
 import { AuthReq } from "../../typings/express";
-
-const express = require('express');
+import { setTokenCookie, requireAuth } from "../../utils/auth";
+import {handleValidationErrors} from '../../utils/validation';
+const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-import { setTokenCookie, requireAuth } from "../../utils/auth";
-// const { setTokenCookie, requireAuth } = require('../../utils/auth');
-import {handleValidationErrors} from '../../utils/validation'
-import User from '../../db/models/user'
+import db from '../../db/models'
+
+const User = db.User;
 
 
-const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
-const router = express.Router();
+const router = require('express').Router();
 
 const validateSignup = [
     check('email')
@@ -34,31 +32,36 @@ const validateSignup = [
     handleValidationErrors
 ];
 
-
-// Sign up
+// // Sign up
 router.post(
     '/',
     validateSignup,
-    async (req:Request, res:Response) => {
+    async (req:Request, res:Response, next: NextFunction) => {
         const { firstName, lastName, bio, email, password, username } = req.body;
         const hashedPassword = bcrypt.hashSync(password);
-        const user = await User.create({ firstName, lastName, bio, email, username, hashedPassword });
 
-        const safeUser = {
-            id: user.id,
-            email: user.email,
-            username: user.username,
-        };
+        try{
 
-        await setTokenCookie(res, safeUser);
+            const user = await User.create({ firstName, lastName, bio, email, username, hashedPassword });
 
-        return res.json({
-            user: safeUser
-        });
+            const safeUser = {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+            };
+
+            await setTokenCookie(res, safeUser);
+
+            return res.json({
+                user: safeUser
+            });
+        } catch(e){
+            return next(e)
+        }
     }
 );
 
-// Restore session user
+// // Restore session user
 router.get('/me', async (req:AuthReq, res:Response) => {
     const { user } = req;
     if (user) {
@@ -74,15 +77,17 @@ router.get('/me', async (req:AuthReq, res:Response) => {
     } else return res.json({ user: null });
 });
 
-// //get all users
-// router.get('/all', async (req:Request, res:Response) => {
-//     const users = await User.findAll({
-//         include: {
-//             model: UserImage,
-//             as: 'UserImage'
-//         }
-//     });
-//     res.json(users)
-// })
+//get all users
+router.get('/all', async (req:Request, res:Response) => {
 
-module.exports = router;
+    const users = await User.findAll({
+        // include: {
+            //     model: UserImage,
+            //     as: 'UserImage'
+            // }
+        });
+        res.json(users)
+})
+
+
+export = router;

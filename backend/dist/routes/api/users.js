@@ -11,14 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const express = require('express');
-const bcrypt = require('bcryptjs');
 const auth_1 = require("../../utils/auth");
 const validation_1 = require("../../utils/validation");
-const user_1 = __importDefault(require("../../db/models/user"));
 const { check } = require('express-validator');
-const router = express.Router();
+const bcrypt = require('bcryptjs');
+const models_1 = __importDefault(require("../../db/models"));
+const User = models_1.default.User;
+const router = require('express').Router();
 const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
@@ -38,19 +37,24 @@ const validateSignup = [
         .withMessage('Password must be 6 characters or more.'),
     validation_1.handleValidationErrors
 ];
-router.post('/', validateSignup, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/', validateSignup, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { firstName, lastName, bio, email, password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    const user = yield user_1.default.create({ firstName, lastName, bio, email, username, hashedPassword });
-    const safeUser = {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-    };
-    yield (0, auth_1.setTokenCookie)(res, safeUser);
-    return res.json({
-        user: safeUser
-    });
+    try {
+        const user = yield User.create({ firstName, lastName, bio, email, username, hashedPassword });
+        const safeUser = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+        };
+        yield (0, auth_1.setTokenCookie)(res, safeUser);
+        return res.json({
+            user: safeUser
+        });
+    }
+    catch (e) {
+        return next(e);
+    }
 }));
 router.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req;
@@ -67,6 +71,10 @@ router.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     else
         return res.json({ user: null });
+}));
+router.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield User.findAll({});
+    res.json(users);
 }));
 module.exports = router;
 //# sourceMappingURL=users.js.map

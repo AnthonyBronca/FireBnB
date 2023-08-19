@@ -8,15 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const router = require('express').Router();
-const { User } = require('../../db/models');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 const auth_1 = require("../../utils/auth");
-const usersRouter = require('./users');
-const sessionRouter = require('./session');
+const { User } = require('../../db/models');
+const users_1 = __importDefault(require("../api/users"));
+const session_1 = __importDefault(require("../api/session"));
+const router = require('express').Router();
 router.use(auth_1.restoreUser);
-router.use('/session', sessionRouter);
-router.use('/users', usersRouter);
+router.use('/session', session_1.default);
+router.use('/users', users_1.default);
 router.post('/test', (req, res) => {
     res.json({ requestBody: req.body });
 });
