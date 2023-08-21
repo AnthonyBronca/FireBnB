@@ -6,11 +6,14 @@ WORKDIR /usr/src/app
 COPY package*.json .
 # run npm install within the /usr/src/app container
 RUN npm install
+
+RUN npm install @faker-js/faker
 # Copy all the files in that workdir
 COPY . .
 # run the build command to convert Typescript into JS
 RUN npm run build-production
-RUN npm run db-build
+RUN npm run sequelize --prefix backend db:migrate
+RUN npm run sequelize --prefix backend db:seed:all
 
 
 # 2nd container using Node
