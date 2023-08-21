@@ -1,4 +1,5 @@
-const { sequelize } = require('./db/models');
+import db from './db/models';
+let sequelize = db.sequelize;
 
 
 sequelize.showAllSchemas({ logging: false }).then(async (data:any) => {

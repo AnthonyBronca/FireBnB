@@ -8,7 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const { sequelize } = require('./db/models');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const models_1 = __importDefault(require("./db/models"));
+let sequelize = models_1.default.sequelize;
+
 sequelize.showAllSchemas({ logging: false }).then((data) => __awaiter(void 0, void 0, void 0, function* () {
     if (!data.includes(process.env.SCHEMA)) {
         yield sequelize.createSchema(process.env.SCHEMA);
