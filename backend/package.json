@@ -24,7 +24,7 @@
     "start:development": "tsc && npm run dev",
     "start:production": "npm run sequelize-build && node dist/bin/www",
     "build-development": "rimraf ./dist && tsc",
-    "build-production": "tsc && node dist/psql-setup-script.js",
+    "build-production": "node dist/psql-setup-script.js",
     "dev": "npm run db-build && ts-node-dev --poll src/bin/www"
   },
   "license": "ISC",
