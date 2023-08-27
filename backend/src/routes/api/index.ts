@@ -22,20 +22,17 @@ router.use('/users', userRouter)
 // router.use('/bookings', bookingsRouter);
 
 
-router.post('/test', (req:Request, res:Response) => {
-    res.json({ requestBody: req.body });
-});
 
 // // GET /api/set-token-cookie
-router.get('/set-token-cookie', async (_req:Request, res:Response) => {
-    const user = await User.findOne({
-        where: {
-            username: 'Demo-lition'
-        }
-    });
-    setTokenCookie(res, user);
-    return res.json({ user: user });
-});
+// router.get('/set-token-cookie', async (_req:Request, res:Response) => {
+//     const user = await User.findOne({
+//         where: {
+//             username: 'Demo-lition'
+//         }
+//     });
+//     setTokenCookie(res, user);
+//     return res.json({ user: user });
+// });
 
 
 
@@ -49,13 +46,13 @@ router.get(
 
 
 // GET /api/require-auth
-router.get(
-    '/require-auth',
-    requireAuth,
-    (req:any, res:Response) => {
-        return res.json(req.user);
-    }
-);
+// router.get(
+//     '/require-auth',
+//     requireAuth,
+//     (req:any, res:Response) => {
+//         return res.json(req.user);
+//     }
+// );
 
 
 

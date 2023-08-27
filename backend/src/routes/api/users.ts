@@ -1,13 +1,18 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { AuthReq } from "../../typings/express";
-import { setTokenCookie, requireAuth } from "../../utils/auth";
+import { setTokenCookie, requireAuth, restoreUser } from "../../utils/auth";
 import {handleValidationErrors} from '../../utils/validation';
 const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-import db from '../../db/models'
+const {Op} = require('sequelize')
 
-const {User} = db
+
+import db from '../../db/models'
+import { escape } from 'querystring';
+import { errors } from '../../typings/errors';
+
+const {User, UserImage} = db
 
 const router = require('express').Router();
 
@@ -29,46 +34,62 @@ const validateSignup = [
 ];
 
 // // Sign up
-router.post(
-    '/',
-    validateSignup,
-    async (req:Request, res:Response, next: NextFunction) => {
-        const { firstName, lastName, bio, email, password, username } = req.body;
-        const hashedPassword = bcrypt.hashSync(password);
+router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
+    const { firstName, lastName, email, password, username } = req.body;
+    const hashedPassword = bcrypt.hashSync(password);
 
-        try{
+    let existingUser = await User.findOne({
+            where: {
+                [Op.or]: {
+                    username,
+                    email
+                }
+            }
+        })
 
-            const user = await User.create({ firstName, lastName, bio, email, username, hashedPassword });
+        if(existingUser){
+            if(existingUser) existingUser = existingUser.toJSON()
+            let errors: errors = {}
 
-            const safeUser = {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-            };
+            if(existingUser.email === email){
+                errors["email"] = "User with that email already exists";
+            }
+            if(existingUser.username === username){
+                errors["username"] = "User with that username already exists";
+            }
 
-            await setTokenCookie(res, safeUser);
+            res.status(500)
+            return res.json({message: "User already exists", errors})
+        } else {
+            try{
 
-            return res.json({
-                user: safeUser
-            });
-        } catch(e){
-            return next(e)
+                const user = await User.create({ firstName, lastName, email, username, hashedPassword });
+
+
+                await setTokenCookie(res, user);
+
+                return res.json({
+                    user
+                });
+            } catch(e){
+                return next(e)
+            }
         }
     }
 );
-
-// // Restore session user
-router.get('/me', async (req:AuthReq, res:Response) => {
+// Restore session user
+router.get('/', restoreUser, async (req:AuthReq, res:Response) => {
     const { user } = req;
     if (user) {
         const safeUser = {
             id: user.id,
             email: user.email,
             username: user.username,
-            profileImage: user.profileImage
+            firstName: user.firstName,
+            lastName: user.lastName
         };
         return res.json({
-            user: safeUser
+        user: safeUser
         });
     } else return res.json({ user: null });
 });
@@ -77,13 +98,14 @@ router.get('/me', async (req:AuthReq, res:Response) => {
 router.get('/all', async (req:Request, res:Response) => {
 
     const users = await User.findAll({
-        // include: {
-            //     model: UserImage,
-            //     as: 'UserImage'
-            // }
+        include: {
+                model: UserImage,
+            }
         });
         res.json(users)
 })
+
+
 
 
 export = router;

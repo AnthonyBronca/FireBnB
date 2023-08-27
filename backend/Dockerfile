@@ -1,5 +1,6 @@
 # node version set to 18 from alpine image
-FROM node:18-alpine as development
+
+FROM --platform=linux/amd64 node:18-alpine as development
 # set the work dir for our docker container
 WORKDIR /usr/src/app
 # copy both the package.json and package-lock.json
@@ -9,8 +10,9 @@ RUN npm install
 # Copy all the files in that workdir
 COPY . .
 # run the build command to convert Typescript into JS
-RUN npm run build-production
+RUN npm run build-development
 RUN npm run db-build
+
 
 
 # 2nd container using Node

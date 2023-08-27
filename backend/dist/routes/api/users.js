@@ -15,8 +15,9 @@ const auth_1 = require("../../utils/auth");
 const validation_1 = require("../../utils/validation");
 const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 const models_1 = __importDefault(require("../../db/models"));
-const { User } = models_1.default;
+const { User, UserImage } = models_1.default;
 const router = require('express').Router();
 const validateSignup = [
     check('email')
@@ -35,32 +36,51 @@ const validateSignup = [
     validation_1.handleValidationErrors
 ];
 router.post('/', validateSignup, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, bio, email, password, username } = req.body;
+    const { firstName, lastName, email, password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    try {
-        const user = yield User.create({ firstName, lastName, bio, email, username, hashedPassword });
-        const safeUser = {
-            id: user.id,
-            email: user.email,
-            username: user.username,
-        };
-        yield (0, auth_1.setTokenCookie)(res, safeUser);
-        return res.json({
-            user: safeUser
-        });
+    let existingUser = yield User.findOne({
+        where: {
+            [Op.or]: {
+                username,
+                email
+            }
+        }
+    });
+    if (existingUser) {
+        if (existingUser)
+            existingUser = existingUser.toJSON();
+        let errors = {};
+        if (existingUser.email === email) {
+            errors["email"] = "User with that email already exists";
+        }
+        if (existingUser.username === username) {
+            errors["username"] = "User with that username already exists";
+        }
+        res.status(500);
+        return res.json({ message: "User already exists", errors });
     }
-    catch (e) {
-        return next(e);
+    else {
+        try {
+            const user = yield User.create({ firstName, lastName, email, username, hashedPassword });
+            yield (0, auth_1.setTokenCookie)(res, user);
+            return res.json({
+                user
+            });
+        }
+        catch (e) {
+            return next(e);
+        }
     }
 }));
-router.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/', auth_1.restoreUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req;
     if (user) {
         const safeUser = {
             id: user.id,
             email: user.email,
             username: user.username,
-            profileImage: user.profileImage
+            firstName: user.firstName,
+            lastName: user.lastName
         };
         return res.json({
             user: safeUser
@@ -70,7 +90,11 @@ router.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.json({ user: null });
 }));
 router.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield User.findAll({});
+    const users = yield User.findAll({
+        include: {
+            model: UserImage,
+        }
+    });
     res.json(users);
 }));
 module.exports = router;

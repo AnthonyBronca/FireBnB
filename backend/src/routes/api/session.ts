@@ -28,6 +28,7 @@ const validateLogin = [
         .withMessage('Please provide a password.'),
     handleValidationErrors
 ];
+
 // Log in
 router.post(
     '/',
@@ -52,19 +53,13 @@ router.post(
                     err.status = 401;
                     err.title = 'Login failed';
                     err.errors = { credential: 'The provided credentials were invalid.' };
-                    return next(err);
+                    return next(err.errors);
                 }
 
-                const safeUser = {
-                    id: user.id,
-                    email: user.email,
-                    username: user.username,
-                };
-
-                await setTokenCookie(res, safeUser);
+                await setTokenCookie(res, user);
 
                 return res.json({
-                    user: safeUser
+                    user
                 });
 
             } catch (e){
@@ -83,14 +78,22 @@ router.post(
         }
     }
 );
-    // Log out
-    router.delete(
-    '/',
-    (_req:Request, res:Response) => {
-        res.clearCookie('token');
-        return res.json({ message: 'success' });
+
+//get the current user
+router.get('/', restoreUser, async(req:any, res:Response) => {
+    if(req.user){
+        res.json({"user": req.user})
+    } else {
+        res.json({"user": null})
     }
-);
+})
+
+
+// Log out
+router.delete('/', (_req:Request, res:Response) => {
+    res.clearCookie('token');
+    return res.json({ message: 'success' });
+});
 
 
 export = router;
