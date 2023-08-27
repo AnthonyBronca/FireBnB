@@ -8,14 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireAuth = exports.restoreUser = exports.setTokenCookie = void 0;
 const customErrors_1 = require("../errors/customErrors");
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User } = require("../db/models");
+const models_1 = __importDefault(require("../db/models"));
+const { User } = models_1.default;
 const { secret, expiresIn } = jwtConfig;
-const setTokenCookie = (res, safeUser) => {
+const setTokenCookie = (res, user) => {
+    const safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username
+    };
     const token = jwt.sign({ data: safeUser }, secret, { expiresIn: parseInt(expiresIn) });
     const isProduction = process.env.NODE_ENV === "production";
     res.cookie('token', token, {
@@ -41,8 +52,11 @@ const restoreUser = (req, res, next) => {
                     include: ['email', 'createdAt', 'updatedAt']
                 }
             });
+            console.log('did we set the req???');
         }
         catch (e) {
+            console.log('am i inide the catch???');
+            console.log(e);
             res.clearCookie('token');
             return next();
         }

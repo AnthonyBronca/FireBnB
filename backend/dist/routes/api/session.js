@@ -48,16 +48,11 @@ router.post('/', validateLogin, (req, res, next) => __awaiter(void 0, void 0, vo
                 err.status = 401;
                 err.title = 'Login failed';
                 err.errors = { credential: 'The provided credentials were invalid.' };
-                return next(err);
+                return next(err.errors);
             }
-            const safeUser = {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-            };
-            yield setTokenCookie(res, safeUser);
+            yield setTokenCookie(res, user);
             return res.json({
-                user: safeUser
+                user
             });
         }
         catch (e) {
@@ -78,6 +73,9 @@ router.post('/', validateLogin, (req, res, next) => __awaiter(void 0, void 0, vo
             res.json({ message: "Oops! Looks like there seems to be a server error" });
         }
     }
+}));
+router.get('/', restoreUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json('here');
 }));
 router.delete('/', (_req, res) => {
     res.clearCookie('token');
