@@ -75,7 +75,12 @@ router.post('/', validateLogin, (req, res, next) => __awaiter(void 0, void 0, vo
     }
 }));
 router.get('/', restoreUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json('here');
+    if (req.user) {
+        res.json({ "user": req.user });
+    }
+    else {
+        res.json({ "user": null });
+    }
 }));
 router.delete('/', (_req, res) => {
     res.clearCookie('token');
