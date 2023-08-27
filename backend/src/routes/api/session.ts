@@ -28,6 +28,7 @@ const validateLogin = [
         .withMessage('Please provide a password.'),
     handleValidationErrors
 ];
+
 // Log in
 router.post(
     '/',
@@ -78,6 +79,7 @@ router.post(
     }
 );
 
+//get the current user
 router.get('/', restoreUser, async(req:any, res:Response) => {
     if(req.user){
         res.json({"user": req.user})

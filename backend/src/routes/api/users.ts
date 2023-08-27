@@ -34,14 +34,11 @@ const validateSignup = [
 ];
 
 // // Sign up
-router.post(
-    '/',
-    validateSignup,
-    async (req:Request, res:Response, next: NextFunction) => {
-        const { firstName, lastName, email, password, username } = req.body;
-        const hashedPassword = bcrypt.hashSync(password);
+router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
+    const { firstName, lastName, email, password, username } = req.body;
+    const hashedPassword = bcrypt.hashSync(password);
 
-let existingUser = await User.findOne({
+    let existingUser = await User.findOne({
             where: {
                 [Op.or]: {
                     username,
