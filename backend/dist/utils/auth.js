@@ -52,11 +52,8 @@ const restoreUser = (req, res, next) => {
                     include: ['email', 'createdAt', 'updatedAt']
                 }
             });
-            console.log('did we set the req???');
         }
         catch (e) {
-            console.log('am i inide the catch???');
-            console.log(e);
             res.clearCookie('token');
             return next();
         }
