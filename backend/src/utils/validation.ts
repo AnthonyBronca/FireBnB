@@ -25,6 +25,6 @@ export const handleValidationErrors = (req:Request , _res:Response, next:NextFun
 };
 
 
-// module.exports = {
-//     handleValidationErrors
-// };
+module.exports = {
+    handleValidationErrors
+};

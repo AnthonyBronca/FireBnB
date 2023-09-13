@@ -12,6 +12,8 @@ import routes from './routes'
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
+
+
 const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -57,15 +59,15 @@ app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):vo
   // check if error is a Sequelize error:
     let errors: any = {};
 
-    if(err.errors){
+    if(err.errors instanceof Array){
         for (let error of err.errors) {
             if(error.path){
                 errors[error.path] = error.message;
             }
         }
     }
-    err.title = 'Validation error';
-    err.errors = errors;
+    // err.title = 'Validation error';
+    // err.errors = errors;
   next(err);
 });
 
@@ -75,7 +77,7 @@ app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):vo
   res.status(err.status || 500);
   console.error(err);
   res.json({
-    title: err.title || 'Server Error',
+    title: isProduction? null : err.title? err.title: 'Server Error',
     message: err.message,
     errors: err.errors,
     stack: isProduction ? null : err.stack

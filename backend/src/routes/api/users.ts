@@ -1,26 +1,25 @@
-import { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from 'express';
 import { AuthReq } from "../../typings/express";
-
-const express = require('express');
+import { setTokenCookie, requireAuth, restoreUser } from "../../utils/auth";
+import {handleValidationErrors} from '../../utils/validation';
+const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-import { setTokenCookie, requireAuth } from "../../utils/auth";
-// const { setTokenCookie, requireAuth } = require('../../utils/auth');
-import {handleValidationErrors} from '../../utils/validation'
-import User from '../../db/models/user'
-import UserImage from "../../db/models/user-images";
+const {Op} = require('sequelize')
 
-const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
-const router = express.Router();
+
+import db from '../../db/models'
+import { errors } from '../../typings/errors';
+
+const {User, UserImage} = db
+
+const router = require('express').Router();
 
 const validateSignup = [
     check('email')
-        .exists({ checkFalsy: true })
         .isEmail()
         .withMessage('Please provide a valid email.'),
     check('username')
-        .exists({ checkFalsy: true })
         .isLength({ min: 4 })
         .withMessage('Please provide a username with at least 4 characters.'),
     check('username')
@@ -28,61 +27,84 @@ const validateSignup = [
         .isEmail()
         .withMessage('Username cannot be an email.'),
     check('password')
-        .exists({ checkFalsy: true })
         .isLength({ min: 6 })
         .withMessage('Password must be 6 characters or more.'),
     handleValidationErrors
 ];
 
+// // Sign up
+router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
+    const { firstName, lastName, email, password, username } = req.body;
+    const hashedPassword = bcrypt.hashSync(password);
 
-// Sign up
-router.post(
-    '/',
-    validateSignup,
-    async (req:Request, res:Response) => {
-        const { firstName, lastName, bio, email, password, username } = req.body;
-        const hashedPassword = bcrypt.hashSync(password);
-        const user = await User.create({ firstName, lastName, bio, email, username, hashedPassword });
+    let existingUser = await User.findOne({
+            where: {
+                [Op.or]: {
+                    username,
+                    email
+                }
+            }
+        })
 
-        const safeUser = {
-            id: user.id,
-            email: user.email,
-            username: user.username,
-        };
+        if(existingUser){
+            if(existingUser) existingUser = existingUser.toJSON()
+            let errors: errors = {}
 
-        await setTokenCookie(res, safeUser);
+            if(existingUser.email === email){
+                errors["email"] = "User with that email already exists";
+            }
+            if(existingUser.username === username){
+                errors["username"] = "User with that username already exists";
+            }
 
-        return res.json({
-            user: safeUser
-        });
+            res.status(500)
+            return res.json({message: "User already exists", errors})
+        } else {
+            try{
+
+                const user = await User.create({ firstName, lastName, email, username, hashedPassword });
+
+
+                await setTokenCookie(res, user);
+
+                return res.json({
+                    user
+                });
+            } catch(e){
+                return next(e)
+            }
+        }
     }
 );
-
 // Restore session user
-router.get('/me', async (req:AuthReq, res:Response) => {
+router.get('/', restoreUser, async (req:AuthReq, res:Response) => {
     const { user } = req;
     if (user) {
         const safeUser = {
             id: user.id,
             email: user.email,
             username: user.username,
-            profileImage: user.profileImage
+            firstName: user.firstName,
+            lastName: user.lastName
         };
         return res.json({
-            user: safeUser
+        user: safeUser
         });
     } else return res.json({ user: null });
 });
 
 //get all users
 router.get('/all', async (req:Request, res:Response) => {
+
     const users = await User.findAll({
         include: {
-            model: UserImage,
-            as: 'UserImage'
-        }
-    });
-    res.json(users)
+                model: UserImage,
+            }
+        });
+        res.json(users)
 })
 
-module.exports = router;
+
+
+
+export = router;

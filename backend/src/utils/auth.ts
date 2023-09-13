@@ -4,17 +4,25 @@ import { AuthError } from "../errors/customErrors";
 
 const jwt = require('jsonwebtoken')
 const { jwtConfig } = require('../config');
-import User from "../db/models/user";
+import db from '../db/models'
+const {User} = db;
+// const {User} = require("../db/models");
 const { secret, expiresIn } = jwtConfig;
 
 // Sends a JWT Cookie
-export const setTokenCookie = (res:Response, safeUser:any) => {
+export const setTokenCookie = (res:Response, user:any) => {
   // Create the token.
-  // const safeUser = {
-  //   id: user.id,
-  //   email: user.email,
-  //   username: user.username,
-  // };
+  // console.log(safeUser, "fromn the utils")
+
+  const safeUser = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    username: user.username
+  };
+
+
   const token = jwt.sign(
     { data: safeUser },
     secret,
@@ -30,22 +38,19 @@ export const setTokenCookie = (res:Response, safeUser:any) => {
     secure: isProduction,
     sameSite: isProduction && "lax"
   });
-
   return token;
 };
 
-export const restoreUser = (req:AuthReq, res:Response, next:NextFunction) => {
+export const restoreUser = (req:any, res:any, next:NextFunction) => {
   // token parsed from cookies
   const { token } = req.cookies;
-
   req.user = null;
+  // console.log(token, "tokennnnn")
 
   return jwt.verify(token, secret, null, async (err:any, jwtPayload:JwtPayload) => {
     if (err) {
-
       return next();
     }
-
     try {
       const { id } = jwtPayload.data;
       req.user = await User.findByPk(id, {
@@ -53,7 +58,6 @@ export const restoreUser = (req:AuthReq, res:Response, next:NextFunction) => {
           include: ['email', 'createdAt', 'updatedAt']
         }
       });
-
     } catch (e) {
       res.clearCookie('token');
       return next();
@@ -75,5 +79,3 @@ export const requireAuth = function (req:AuthReq, _res:Response, next:NextFuncti
   err.status = 401;
   return next(err);
 }
-
-// export = { setTokenCookie, restoreUser, requireAuth };

@@ -16,3 +16,10 @@ export interface SequelizeErrors extends Error{
     errors : any;
 
 }
+
+
+export interface errors {
+    email?: string,
+    username?: string,
+    password?: string,
+}
