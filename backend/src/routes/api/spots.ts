@@ -153,7 +153,6 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
 
 
 //update a spot
-
 router.put('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction) => {
     try {
         if(req.params.spotId){
@@ -199,10 +198,6 @@ router.put('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                 }
                 await oldSpot.save();
 
-                // const check = await Spot.findByPk(req.params.spotId)
-
-                // console.log(check)
-
                 return res.json({spot:oldSpot});
             }
         } else {
@@ -211,6 +206,7 @@ router.put('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
     } catch (error) {
         return next(error)
     }
-})
+});
+
 
 export = router;
