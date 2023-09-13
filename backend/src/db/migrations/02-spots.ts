@@ -21,19 +21,11 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
-      zipcode: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
       city: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       state: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      spotType: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -51,11 +43,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "Users", schema: 'schema'}
-      },
-      available: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: true
       },
       createdAt: {
         allowNull: false,

@@ -7,7 +7,7 @@ const { User } = require('../../db/models');
 //imports from router files
 import userRouter from '../api/users'
 import sessionRouter from '../api/session';
-
+import spotsRouter from '../api/spots'
 
 
 const router = require('express').Router();
@@ -17,8 +17,7 @@ const router = require('express').Router();
 router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', userRouter)
-
-// router.use('/spots', spotsRouter);
+router.use('/spots', spotsRouter);
 // router.use('/bookings', bookingsRouter);
 
 

@@ -1,5 +1,5 @@
 # node version set to 18 from alpine image
-
+#nginx
 FROM --platform=linux/amd64 node:18-alpine as development
 # set the work dir for our docker container
 WORKDIR /usr/src/app

@@ -15,40 +15,27 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
     up: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
-        return queryInterface.createTable("Spots", {
+        return queryInterface.createTable("SpotImages", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
-            },
-            address: {
-                allowNull: false,
-                type: Sequelize.STRING,
-                unique: true,
-            },
-            city: {
-                allowNull: false,
-                type: Sequelize.STRING,
-            },
-            state: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            description: {
-                allowNull: false,
-                type: Sequelize.STRING,
-            },
-            lat: {
                 type: Sequelize.INTEGER,
             },
-            long: {
-                type: Sequelize.INTEGER
-            },
-            userId: {
+            spotId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                references: { model: "Users", schema: 'schema' }
+                references: { model: "Spots", schema: 'schema' }
+            },
+            url: {
+                allowNull: false,
+                type: Sequelize.STRING,
+                defaultValue: ""
+            },
+            isPreview: {
+                allowNull: false,
+                type: Sequelize.BOOLEAN,
+                defaultValue: false
             },
             createdAt: {
                 allowNull: false,
@@ -59,12 +46,8 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-            }
-        }, options);
-    }),
-    down: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
-        options.tableName = "Spots";
-        return queryInterface.dropTable(options);
+            },
+        });
     })
 };
-//# sourceMappingURL=02-spots.js.map
+//# sourceMappingURL=04-spot-images.js.map
