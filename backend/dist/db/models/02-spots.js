@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     class Spot extends sequelize_1.Model {
         static associate(models) {
             Spot.belongsTo(models.User, { foreignKey: 'userId', as: "Owner" });
-            Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
+            Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true });
+            Spot.hasMany(models.UserImage, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
         }
     }
     Spot.init({

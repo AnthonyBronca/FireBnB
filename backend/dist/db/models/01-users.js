@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             User.hasMany(models.Spot, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
             User.hasMany(models.UserImage, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
+            User.hasMany(models.Review, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
         }
     }
     User.init({
