@@ -15,40 +15,30 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
     up: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
-        return queryInterface.createTable("Spots", {
+        return queryInterface.createTable("Reviews", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            address: {
-                allowNull: false,
-                type: Sequelize.STRING,
-                unique: true,
-            },
-            city: {
-                allowNull: false,
-                type: Sequelize.STRING,
-            },
-            state: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            description: {
-                allowNull: false,
-                type: Sequelize.STRING,
-            },
-            lat: {
-                type: Sequelize.INTEGER,
-            },
-            long: {
-                type: Sequelize.INTEGER
-            },
             userId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 references: { model: "Users", schema: 'schema' }
+            },
+            spotId: {
+                allowNull: false,
+                type: Sequelize.INTEGER,
+                references: { model: "Spots", schema: 'schema' }
+            },
+            stars: {
+                allowNull: false,
+                type: Sequelize.INTEGER,
+            },
+            review: {
+                allowNull: false,
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,
@@ -63,8 +53,8 @@ module.exports = {
         }, options);
     }),
     down: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
-        options.tableName = "Spots";
+        options.tableName = "Reviews";
         return queryInterface.dropTable(options);
     })
 };
-//# sourceMappingURL=02-spots.js.map
+//# sourceMappingURL=05-reviews.js.map

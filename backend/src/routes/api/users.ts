@@ -9,7 +9,6 @@ const {Op} = require('sequelize')
 
 
 import db from '../../db/models'
-import { escape } from 'querystring';
 import { errors } from '../../typings/errors';
 
 const {User, UserImage} = db

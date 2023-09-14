@@ -4,7 +4,9 @@ const sequelize_1 = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Spot extends sequelize_1.Model {
         static associate(models) {
-            Spot.belongsTo(models.User, { foreignKey: 'ownerId', as: "Owner" });
+            Spot.belongsTo(models.User, { foreignKey: 'userId', as: "Owner" });
+            Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true });
+            Spot.hasMany(models.UserImage, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
         }
     }
     Spot.init({
@@ -18,13 +20,6 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             allowNull: false
         },
-        zipcode: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-            validate: {
-                len: [5, 5]
-            }
-        },
         city: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -32,44 +27,25 @@ module.exports = (sequelize, DataTypes) => {
         state: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                len: [2, 2]
-            }
-        },
-        spotType: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                checkSpotType(value) {
-                    let allowedTypes = new Set(['apartment', 'house', 'duplex', 'condo']);
-                    if (!allowedTypes.has(value.toLowerCase())) {
-                        throw new Error('The Spot Type is currently not available to be listed on FirBnB at this time.');
-                    }
-                }
-            }
         },
         description: {
             type: DataTypes.STRING,
             validate: {
                 goodDescription(value) {
-                    if (!value.startsWith(' ')) {
+                    if (value.startsWith(' ')) {
                         throw new Error('Description can not start with spaces');
                     }
                 }
             }
         },
         lat: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
         },
         long: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
         },
         userId: {
             type: DataTypes.INTEGER
-        },
-        available: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
         },
     }, {
         sequelize,

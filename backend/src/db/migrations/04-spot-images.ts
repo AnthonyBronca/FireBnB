@@ -9,24 +9,24 @@ if(process.env.NODE_ENV === 'production'){
 
 module.exports = {
     up:async(queryInterface:any, Sequelize:any) => {
-        return queryInterface.createTable("UserImages", {
+        return queryInterface.createTable("SpotImages", {
             id: {
                 allowNull:false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            userId: {
+            spotId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                references: { model: "Users", schema: 'schema'}
+                references: { model: "Spots", schema: 'schema'}
             },
             url: {
                 allowNull: false,
                 type: Sequelize.STRING,
                 defaultValue: ""
             },
-            isProfile: {
+            isPreview: {
                 allowNull: false,
                 type: Sequelize.BOOLEAN,
                 defaultValue: false
@@ -41,6 +41,7 @@ module.exports = {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
+
         })
     }
 }

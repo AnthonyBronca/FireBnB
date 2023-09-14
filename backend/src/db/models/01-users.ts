@@ -29,8 +29,9 @@ module.exports = (sequelize: any, DataTypes:any) => {
 
 
         static associate(models:any){
-            User.hasMany(models.Spot, { foreignKey: 'ownerId', onDelete: 'cascade', hooks: true})
+            User.hasMany(models.Spot, { foreignKey: 'userId', onDelete: 'cascade', hooks: true})
             User.hasMany(models.UserImage, {foreignKey: 'userId', onDelete: 'cascade', hooks:true})
+            User.hasMany(models.Review, {foreignKey: 'userId', onDelete: 'cascade', hooks:true})
         }
 
 
