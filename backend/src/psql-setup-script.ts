@@ -1,5 +1,5 @@
 import db from './db/models';
-let sequelize = db.sequelize;
+let {sequelize} = db;
 
 
 sequelize.showAllSchemas({ logging: false }).then(async (data:any) => {
