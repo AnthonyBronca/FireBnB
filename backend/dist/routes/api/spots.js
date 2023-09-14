@@ -16,7 +16,7 @@ const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
 const models_1 = __importDefault(require("../../db/models"));
-const { User, UserImage, Spot, SpotImage } = models_1.default;
+const { User, UserImage, Spot, SpotImage, Review, ReviewImage, Booking } = models_1.default;
 const router = require('express').Router();
 const validateSpot = [
     check('address')
@@ -156,7 +156,6 @@ router.put('/:spotId', (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                     newPrice = parseInt(newSpot.price);
                 }
                 let oldSpot = yield Spot.findByPk(id);
-                oldSpot = oldSpot.toJSON();
                 if ((newSpot.adress !== oldSpot.address) && newSpot.address) {
                     oldSpot.address = newSpot.address;
                 }
@@ -190,6 +189,151 @@ router.put('/:spotId', (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         }
         else {
             throw new Error("Spot was not found");
+        }
+    }
+    catch (error) {
+        return next(error);
+    }
+}));
+const validateReview = [
+    check('review')
+        .isLength({ min: 2, max: 70 })
+        .withMessage('Please provide a valid address.'),
+    validation_1.handleValidationErrors
+];
+router.post('/:spotId/reviews', validateReview, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (req.params.spotId === null) {
+            throw new Error('You must pass in a valid spotId');
+        }
+        if (!req.body.review) {
+            throw new Error('You must pass in a review');
+        }
+        if (!req.body.stars) {
+            throw new Error('You must pass in a stars rating from 0 - 5');
+        }
+        if (!req.body) {
+            throw new Error('You must pass in a review and stars rating');
+        }
+        let currUser = req.user;
+        if (!currUser) {
+            throw new Error('You must be signed in to leave a review');
+        }
+        let { review, stars } = req.body;
+        let spotId = parseInt(req.params.spotId);
+        let spot = yield Spot.findByPk(spotId);
+        if (!spot) {
+            throw new Error('Spot was not found');
+        }
+        spot = yield spot.toJSON();
+        if (spot.userId === currUser.id) {
+            throw new Error('You can not leave a review for your own Spot');
+        }
+        ;
+        let testReview = yield Review.findOne({ where: { userId: currUser.id } });
+        if (testReview) {
+            throw new Error('You already have a review for this spot');
+        }
+        let newReview = yield Review.create({ userId: currUser.id, spotId, review, stars });
+        return res.json({ review: newReview });
+    }
+    catch (error) {
+        return next(error);
+    }
+}));
+router.get('/:spotId/reviews', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    let spotId = req.params.spotId;
+    try {
+        if (!spotId) {
+            throw new Error('Invalid Spot Id');
+        }
+        let spot = yield Spot.findByPk(spotId);
+        if (!spot) {
+            throw new Error('Spot did not exist');
+        }
+        let reviews = yield Review.findAll({
+            where: {
+                spotId: spot.id
+            },
+            include: {
+                model: ReviewImage
+            }
+        });
+        return res.json({ reviews });
+    }
+    catch (error) {
+        return next(error);
+    }
+}));
+router.post('/:spotId/bookings', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.params.spotId) {
+            throw new Error('You must pass in a valid spot id');
+        }
+        ;
+        let spotId = parseInt(req.params.spotId);
+        let spot = yield Spot.findByPk(spotId);
+        let user = req.user;
+        if (!user) {
+            throw new Error('You must be signed in to make a booking');
+        }
+        ;
+        if (!spot) {
+            throw new Error('Spot did not exist');
+        }
+        ;
+        if (spot.userId === user.id) {
+            throw new Error('You can not book your own spot');
+        }
+        ;
+        let { startDate, endDate } = req.body;
+        if (!startDate || !endDate) {
+            throw new Error('You must pass in a valid startDate and valid endDate');
+        }
+        ;
+        let checkBooking = yield Booking.findAll({ where: { userId: user.id } });
+        for (let booking of checkBooking) {
+            if (booking.startDate === startDate) {
+                throw new Error('You already have another booking on this start date!');
+            }
+            ;
+        }
+        let booking = yield Booking.create({
+            userId: user.id,
+            spotId,
+            startDate,
+            endDate
+        });
+        if (!booking) {
+            throw new Error('Booking could not be created');
+        }
+        ;
+        return res.json({ booking });
+    }
+    catch (error) {
+        return next(error);
+    }
+}));
+router.get('/:spotId/bookings', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.user)
+            throw new Error('You must be signed in to view this');
+        let userId = req.user.id;
+        let spotId = parseInt(req.params.spotId);
+        let spot = yield Spot.findByPk(spotId);
+        if (!spot)
+            throw new Error('No spot found with that id');
+        if (spot.userId === userId) {
+            let bookings = yield Booking.findAll({ where: { spotId } });
+            if (!bookings.length)
+                throw new Error('No bookings found for that spot');
+            return res.json({ bookings });
+        }
+        else {
+            let bookings = yield Booking.findAll({ where: [{ spotId }, { userId }] });
+            if (!bookings.length)
+                throw new Error('No bookings found for you for that spot');
+            return res.json({ bookings });
         }
     }
     catch (error) {

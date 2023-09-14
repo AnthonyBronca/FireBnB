@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
-    return queryInterface.createTable("Reviews", {
+    return queryInterface.createTable("Bookings", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -26,11 +26,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: "Spots", schema: 'schema'}
       },
-      stars: {
+      startDate: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
-      review: {
+      endDate: {
         allowNull: false,
         type: Sequelize.STRING,
       },
