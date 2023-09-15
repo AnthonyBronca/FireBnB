@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const models_1 = __importDefault(require("./db/models"));
-let sequelize = models_1.default.sequelize;
+let { sequelize } = models_1.default;
 sequelize.showAllSchemas({ logging: false }).then((data) => __awaiter(void 0, void 0, void 0, function* () {
     if (!data.includes(process.env.SCHEMA)) {
         yield sequelize.createSchema(process.env.SCHEMA);

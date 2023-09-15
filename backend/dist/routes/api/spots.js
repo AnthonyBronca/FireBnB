@@ -340,5 +340,27 @@ router.get('/:spotId/bookings', (req, res, next) => __awaiter(void 0, void 0, vo
         return next(error);
     }
 }));
+router.delete('/:spotId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.user)
+            throw new Error('You must be signed in to perform this action');
+        let userId = req.user.id;
+        let spotId = req.params.spotId;
+        if (!spotId)
+            throw new Error('Please pass in a valid spot id');
+        spotId = parseInt(spotId);
+        let spot = yield Spot.findByPk(spotId);
+        if (!spot)
+            throw new Error('No spot found with that id');
+        let spotJSON = yield spot.toJSON();
+        if (spotJSON.userId !== userId)
+            throw new Error('Forbidden: This is not your spot');
+        spot.destroy();
+        return res.json({ spot });
+    }
+    catch (error) {
+        return next(error);
+    }
+}));
 module.exports = router;
 //# sourceMappingURL=spots.js.map

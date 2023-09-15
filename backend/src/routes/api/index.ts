@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
 import { CustomeRequest, RestoreResponseInterface } from "../../typings/express";
-// const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
 import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
 
 import db from '../../db/models';

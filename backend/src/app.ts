@@ -1,14 +1,15 @@
 import express, {NextFunction, Request, Response} from 'express';
 require('express-async-errors');
+
+
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import { ValidationError } from 'sequelize';
-import { SequelizeError, NoResourceError } from './errors/customErrors';
+import { NoResourceError } from './errors/customErrors';
 import routes from './routes'
-// const routes = require('./routes');
+
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
@@ -66,8 +67,7 @@ app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):vo
             }
         }
     }
-    // err.title = 'Validation error';
-    // err.errors = errors;
+
   next(err);
 });
 
