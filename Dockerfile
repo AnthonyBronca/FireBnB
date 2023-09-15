@@ -29,7 +29,7 @@ WORKDIR /app/backend
 COPY --from=build_backend /app/backend/dist .
 
 RUN npm run build-production
-RUN npm run db:reset
+# RUN npm run db:reset
 # EXPOSE 5000:5000
 
 CMD [ "npm", "start" ]
