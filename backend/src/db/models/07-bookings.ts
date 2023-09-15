@@ -26,7 +26,6 @@ module.exports = (sequelize: any, DataTypes:any) => {
         static associate(models:any){
             Booking.belongsTo(models.User, { foreignKey: 'userId'});
             Booking.belongsTo(models.Spot, { foreignKey: 'spotId'});
-            // Booking.hasMany(models.ReviewImage, {foreignKey: 'reviewId'});
         };
     }
     Booking.init(

@@ -1,35 +1,39 @@
-# Build backend development
-FROM node:18-alpine as build_backend
-# Set the workdir to be in the backend of our docker app
-WORKDIR /app/backend
-# copy package*.json from backend folder to backend of docker
+FROM --platform=amd64 node:18-alpine as backendbuild
+
+WORKDIR /backend
+
 COPY /backend/package*.json .
-# Run npm install in the backend
+
 RUN npm install
-# Copy the node_modules, src into backend
-COPY /backend/ .
-# build the dist folder in the docker
+
+COPY /backend .
+
 RUN npm run build
 
 
-#production
-FROM node:18-alpine as production
-
+FROM --platform=amd64 node:18-alpine as api
 
 ARG NODE_ENV=production
-ARG DATABASE_URL
-ARG SCHEMA
+ENV NODE_ENV=${NODE_ENV}
+ARG SCHEMA=firebnb
+ENV SCHEMA=${SCHEMA}
+ARG DATABASE_URL=postgres://anthony_projects_2xc7_user:dXxAVN25YqeiqPpuSUCzsV0ZylNmGd0F@dpg-cjldh85k5scs73ekvj00-a.ohio-postgres.render.com/anthony_projects_2xc7
+ENV DATABASE_URL=${DATABASE_URL}
+ARG JWT_SECRET
+ENV JWT_SECRET=${JWT_SECRET}
+ARG JWT_EXPIRES_IN
+ENV JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
 
-WORKDIR /app/backend
+WORKDIR /api
 
-# COPY package*.json .
+COPY /backend/package*.json .
 
-# RUN npm install --only=production
-#Copy the dist folder into the backend folder
-COPY --from=build_backend /app/backend/dist .
+RUN npm install --only=production
 
-# RUN npm run build-production
-# RUN npm run db:reset
-# EXPOSE 5000:5000
+COPY --from=backendbuild backend/dist .
 
-CMD [ "npm", "start" ]
+RUN npm run build-production
+# RUN npm run db-migrate
+# RUN npm run db-seed
+
+CMD [ "node", "bin/www"]
