@@ -28,7 +28,7 @@ WORKDIR /app/backend
 #Copy the dist folder into the backend folder
 COPY --from=build_backend /app/backend/dist .
 
-RUN npm run build-production
+# RUN npm run build-production
 # RUN npm run db:reset
 # EXPOSE 5000:5000
 

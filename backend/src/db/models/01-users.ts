@@ -27,6 +27,11 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare bio: string;
         declare hashedPassword: string;
 
+        static associate(models:any){
+            User.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true})
+            User.hasMany(models.UserImage, {foreignKey: 'userId', onDelete: 'cascade', hooks:true})
+            // Spot.hasMany(models.Booking, {foreignKey: 'spotId'})
+        }
         // declare public static associations: { [key: string]: Association<Model<any, any>, Model<any, any>>; };
 
     }
