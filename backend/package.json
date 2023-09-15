@@ -25,7 +25,7 @@
     "start:production": "node dist/bin/www",
     "build": "tsc",
     "build-development": "rimraf ./dist && tsc",
-    "build-production": "node dist/psql-setup-script.js",
+    "build-production": "node psql-setup-script.js",
     "dev": "npm run db-build && ts-node-dev --poll src/bin/www"
   },
   "license": "ISC",
