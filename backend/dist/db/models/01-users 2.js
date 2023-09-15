@@ -4,6 +4,11 @@ const sequelize_1 = require("sequelize");
 const { Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class User extends sequelize_1.Model {
+        static associate(models) {
+            User.hasMany(models.Spot, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
+            User.hasMany(models.UserImage, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
+            User.hasMany(models.Review, { foreignKey: 'userId', onDelete: 'cascade', hooks: true });
+        }
     }
     User.init({
         id: {
@@ -29,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [10, 30],
+                len: [4, 15],
                 isNotEmail(value) {
                     if (Validator.isEmail(value)) {
                         throw new Error("Cannot be an email.");
@@ -60,10 +65,10 @@ module.exports = (sequelize, DataTypes) => {
         modelName: "User",
         defaultScope: {
             attributes: {
-                exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+                exclude: ["hashedPassword", "createdAt", "updatedAt"]
             }
         },
     });
     return User;
 };
-//# sourceMappingURL=01-users.js.map
+//# sourceMappingURL=01-users%202.js.map

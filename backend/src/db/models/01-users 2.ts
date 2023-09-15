@@ -27,6 +27,14 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare bio: string;
         declare hashedPassword: string;
 
+
+        static associate(models:any){
+            User.hasMany(models.Spot, { foreignKey: 'userId', onDelete: 'cascade', hooks: true})
+            User.hasMany(models.UserImage, {foreignKey: 'userId', onDelete: 'cascade', hooks:true})
+            User.hasMany(models.Review, {foreignKey: 'userId', onDelete: 'cascade', hooks:true})
+        }
+
+
         // declare public static associations: { [key: string]: Association<Model<any, any>, Model<any, any>>; };
 
     }
@@ -55,7 +63,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [10, 30],
+                len: [4, 15],
                 isNotEmail(value: string) {
                     if (Validator.isEmail(value)) {
                         throw new Error("Cannot be an email.");
@@ -87,7 +95,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
         modelName: "User",
         defaultScope: {
             attributes: {
-                exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+                exclude: ["hashedPassword", "createdAt", "updatedAt"]
             }
         },
     }
