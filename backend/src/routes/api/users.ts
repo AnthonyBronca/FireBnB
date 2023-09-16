@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AuthReq } from "../../typings/express";
 import { setTokenCookie, requireAuth, restoreUser } from "../../utils/auth";
 import {handleValidationErrors} from '../../utils/validation';
