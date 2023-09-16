@@ -13,6 +13,7 @@ import { errors } from '../../typings/errors';
 
 const {User, UserImage} = db
 
+
 const router = require('express').Router();
 
 const validateSignup = [
@@ -26,18 +27,19 @@ const validateSignup = [
         .not()
         .isEmail()
         .withMessage('Username cannot be an email.'),
-    check('password')
+        check('password')
         .isLength({ min: 6 })
         .withMessage('Password must be 6 characters or more.'),
-    handleValidationErrors
-];
+        handleValidationErrors
+    ];
 
-// // Sign up
-router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
-    const { firstName, lastName, email, password, username } = req.body;
-    const hashedPassword = bcrypt.hashSync(password);
+    // // Sign up
+    router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
 
-    let existingUser = await User.findOne({
+        const { firstName, lastName, email, password, username } = req.body;
+        const hashedPassword = bcrypt.hashSync(password);
+
+        let existingUser = await User.findOne({
             where: {
                 [Op.or]: {
                     username,
@@ -50,30 +52,30 @@ router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunc
             if(existingUser) existingUser = existingUser.toJSON()
             let errors: errors = {}
 
-            if(existingUser.email === email){
-                errors["email"] = "User with that email already exists";
-            }
-            if(existingUser.username === username){
-                errors["username"] = "User with that username already exists";
-            }
-
-            res.status(500)
-            return res.json({message: "User already exists", errors})
-        } else {
-            try{
-
-                const user = await User.create({ firstName, lastName, email, username, hashedPassword });
-
-
-                await setTokenCookie(res, user);
-
-                return res.json({
-                    user
-                });
-            } catch(e){
-                return next(e)
-            }
+        if(existingUser.email === email){
+            errors["email"] = "User with that email already exists";
         }
+        if(existingUser.username === username){
+            errors["username"] = "User with that username already exists";
+        }
+
+        res.status(500)
+        return res.json({message: "User already exists", errors})
+    } else {
+        try{
+
+            const user = await User.create({ firstName, lastName, email, username, hashedPassword });
+
+
+            await setTokenCookie(res, user);
+
+            return res.json({
+                user
+            });
+        } catch(e){
+            return next(e)
+        }
+    }
     }
 );
 // Restore session user
