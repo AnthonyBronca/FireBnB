@@ -40,10 +40,10 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         lat: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
         },
         long: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
         },
         userId: {
             type: DataTypes.INTEGER

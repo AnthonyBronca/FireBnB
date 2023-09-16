@@ -13,8 +13,8 @@ RUN npm run build
 
 FROM --platform=amd64 node:18-alpine as api
 
-RUN apk add build-base
-RUN apk add postgresql-dev
+# RUN apk add build-base
+# RUN apk add postgresql-dev
 
 
 ARG NODE_ENV=production
@@ -26,10 +26,10 @@ ENV SCHEMA=${SCHEMA}
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
 
-ARG JWT_SECRET
+ARG JWT_SECRET=strongpassword
 ENV JWT_SECRET=${JWT_SECRET}
 
-ARG JWT_EXPIRES_IN
+ARG JWT_EXPIRES_IN=604800
 ENV JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
 
 WORKDIR /var/www
@@ -42,8 +42,5 @@ RUN npm install --only=production
 
 COPY --from=backendbuild backend/dist ./dist
 
-# RUN npm run build-production
-# RUN npm run db-migrate
-# RUN npm run db-seed
-EXPOSE 8000
+# EXPOSE 8000
 CMD [ "npm", "start"]
