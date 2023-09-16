@@ -34,10 +34,10 @@ module.exports = {
         type: Sequelize.STRING,
       },
       lat: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       long: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       userId: {
         allowNull: false,

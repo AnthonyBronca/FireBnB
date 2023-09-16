@@ -6,8 +6,8 @@ type SpotAttributes = {
     city: string,
     state: string,
     description: string,
-    lat: number,
-    long:number,
+    lat: string,
+    long:string,
     userId: number,
 
 };
@@ -24,8 +24,8 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare city:string;
         declare state:string;
         declare description:string;
-        declare lat:number;
-        declare long:number;
+        declare lat:string;
+        declare long:string;
         declare userId: ForeignKey<Spot['id']>;
 
 
@@ -67,10 +67,10 @@ module.exports = (sequelize: any, DataTypes:any) => {
             }
         },
         lat: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
         },
         long: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
         },
         userId: {
             type: DataTypes.INTEGER
