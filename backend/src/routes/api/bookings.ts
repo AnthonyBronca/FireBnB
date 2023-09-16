@@ -1,16 +1,11 @@
-import express, { NextFunction, Request, Response } from 'express';
-import { AuthReq, CustomeRequest } from "../../typings/express";
-import {handleValidationErrors} from '../../utils/validation';
+import { NextFunction, Request, Response } from 'express';
+import { CustomeRequest } from "../../typings/express";
+import db from '../../db/models';
 
 const { check } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const {Op} = require('sequelize')
 
+const {Booking} = db
 
-import db from '../../db/models';
-import { errors } from '../../typings/errors';
-
-const {User, UserImage, Spot, SpotImage, Review, ReviewImage, Booking} = db
 const router = require('express').Router();
 
 //get all bookings for the current user

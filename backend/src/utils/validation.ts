@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthError } from "../errors/customErrors";
-import { NoResourceErrorsInterface } from "../typings/sequelize";
 
 const { validationResult } = require('express-validator');
 

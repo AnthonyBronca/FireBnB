@@ -1,16 +1,10 @@
-import express, { NextFunction, Request, Response } from 'express';
-import { AuthReq, CustomeRequest } from "../../typings/express";
-import {handleValidationErrors} from '../../utils/validation';
-
-const { check } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const {Op} = require('sequelize')
-
+import { NextFunction, Request, Response } from 'express';
+import { CustomeRequest } from "../../typings/express";
 
 import db from '../../db/models';
-import { errors } from '../../typings/errors';
 
-const {User, UserImage, Spot, SpotImage, Review, ReviewImage} = db
+
+const {Review, ReviewImage} = db
 const router = require('express').Router();
 
 //great an Image for a Review

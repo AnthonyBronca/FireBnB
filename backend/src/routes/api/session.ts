@@ -6,8 +6,7 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-// import User from "../../db/models/user";
-// import UserImage from "../../db/models/user-images";
+
 
 import db from '../../db/models';
 const {User} = db

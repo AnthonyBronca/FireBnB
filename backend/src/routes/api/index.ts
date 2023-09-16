@@ -1,6 +1,6 @@
-import express, { NextFunction, Request, Response } from "express";
-import { CustomeRequest, RestoreResponseInterface } from "../../typings/express";
-import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
+import { NextFunction, Response } from "express";
+import { CustomeRequest } from "../../typings/express";
+import { restoreUser} from "../../utils/auth";
 
 import db from '../../db/models';
 

@@ -1,4 +1,4 @@
-import { ValidationError,BaseError, ValidationErrorItem} from "sequelize";
+import { ValidationError, ValidationErrorItem} from "sequelize";
 
 export class NoResourceError extends Error {
     title?: string;

@@ -1,7 +1,6 @@
 import express, {NextFunction, Request, Response} from 'express';
 require('express-async-errors');
 
-
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
@@ -12,8 +11,6 @@ import routes from './routes'
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
-
-
 
 const app = express();
 app.use(morgan('dev'));
