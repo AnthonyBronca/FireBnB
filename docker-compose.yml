@@ -2,28 +2,12 @@ version: '3.8'
 
 services:
   api:
-    image: anthonybronca/firebnb-app:latest
+    restart: always
+    image: anthonybronca/firebnb:latest
     build:
       context: .
       target: api
     ports:
       - "80:8000"
-    depends_on:
-      - db
-    links:
-      - db
-    # volumes:
-    #   - './:/src'
-  db:
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - "POSTGRES_URL=${POSTGRES_URL}"
-    ports:
-      - "5432:5432"
-    volumes:
-      - db:/var/lib/postgresql/data
-
-volumes:
-  db:
-    driver: local
+    # env_file:
+    #   - .env

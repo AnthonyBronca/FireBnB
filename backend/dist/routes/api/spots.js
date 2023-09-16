@@ -85,8 +85,8 @@ router.post('/', validateSpot, (req, res, next) => __awaiter(void 0, void 0, voi
                     name,
                     description,
                     price,
-                    lat: Number(lat),
-                    long: Number(long),
+                    lat,
+                    long,
                     userId: req.user.id
                 });
                 return res.json({ spot: newSpot });
