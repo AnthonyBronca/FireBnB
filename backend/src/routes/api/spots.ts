@@ -100,8 +100,8 @@ router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: Nex
                     name,
                     description,
                     price,
-                    lat: Number(lat),
-                    long: Number(long),
+                    lat,
+                    long,
                     userId: req.user.id
                 });
 
