@@ -33,6 +33,7 @@ COPY package*.json .
 RUN npm install --only=production
 COPY --from=build backend/dist .
 
+EXPOSE 8000
 # RUN npm run build-production
 
 CMD [ "node", "bin/www" ]

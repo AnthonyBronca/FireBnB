@@ -47,7 +47,11 @@ module.exports = {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             },
-        });
+        }, options);
+    }),
+    down: (queryInterface, Sequelize) => __awaiter(void 0, void 0, void 0, function* () {
+        options.tableName = "SpotImages";
+        return queryInterface.dropTable(options);
     })
 };
 //# sourceMappingURL=04-spot-images.js.map

@@ -17,20 +17,35 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
-
-fs
-  .readdirSync(__dirname)
-  .filter((file: string) => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.ts'
-    );
-  })
-  .forEach((file: any) => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+if(process.env.NODE_ENV === 'development'){
+  fs
+    .readdirSync(__dirname)
+    .filter((file: string) => {
+      return (
+        file.indexOf('.') !== 0 &&
+        file !== basename &&
+        file.slice(-3) === '.ts'
+      );
+    })
+    .forEach((file: any) => {
+      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    });
+} else{
+    fs
+    .readdirSync(__dirname)
+    .filter((file: string) => {
+      return (
+        file.indexOf('.') !== 0 &&
+        file !== basename &&
+        file.slice(-3) === '.js'
+      );
+    })
+    .forEach((file: any) => {
+      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    });
+}
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
@@ -40,6 +55,7 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-// console.log(db.sequelize.models.User)
-// module.exports = db
+
+console.log(db, "this is db!!!!!!")
+
 export default db;

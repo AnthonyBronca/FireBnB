@@ -13,9 +13,6 @@ RUN npm run build
 
 FROM --platform=amd64 node:18-alpine as api
 
-# RUN apk add build-base
-# RUN apk add postgresql-dev
-
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -42,5 +39,5 @@ RUN npm install --only=production
 
 COPY --from=backendbuild backend/dist ./dist
 
-# EXPOSE 8000
+EXPOSE 8000
 CMD [ "npm", "start"]

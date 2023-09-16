@@ -5,6 +5,10 @@ services:
     build:
       context: .
       target: production
-
+    # volumes:
+    #   - ./:usr/src/var/www/app
+    #   - /usr/src/var/www/node_modules
     ports:
-      - 4000:4000
+      - 80:8000
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
