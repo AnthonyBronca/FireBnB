@@ -1,42 +1,53 @@
 import { NextFunction, Request, Response } from 'express';
 import { CustomeRequest } from "../../typings/express";
-import {handleValidationErrors} from '../../utils/validation';
+import {handleValidationErrors, validateSpot} from '../../utils/validation';
 
 const { check } = require('express-validator');
 
 
 import db from '../../db/models';
-import { ForbiddenError,UnauthorizedError } from '../../errors/customErrors';
+import { ForbiddenError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
+import { GoodSpot } from '../../typings/data';
+import { Op } from 'sequelize';
+import { dateConverter } from '../../utils/date-conversion';
 
 
 const {Spot, SpotImage, Review, ReviewImage, Booking, User} = db;
 const router = require('express').Router();
 
-const validateSpot = [
-    check('address')
-        .isLength({min: 4})
-        .withMessage('Please provide a valid address.'),
-    check('city')
-        .isLength({ min: 2 })
-        .withMessage('Please provide a city name with at least 2 characters.'),
-    check('name')
-        .isLength({ min: 4 })
-        .withMessage('Name must be 4 characters or more.'),
-    handleValidationErrors
-];
 
 //Get all Spots
-
+// TODO: ADD filter and pagination
 router.get('/', async(req:Request, res: Response, next: NextFunction) => {
     try{
-        const spots = await Spot.findAll({include: [{model: SpotImage}, {model: User, as: "Owner"}]});
-        // let idk = await spots.toJSON();
         let result = [];
-        let idk = spots[0].toJSON();
-        console.log(idk)
+
+        const spots = await Spot.findAll({
+            include: [{model: SpotImage}, {model: User, as: "Owner"}],
+        });
 
         for(let spot of spots){
+            let total = 0;
+            let avgRating = 0;
+            let previewImage = "";
+
             let spotjson = spot.toJSON();
+            let reviews = await Review.findAll({where: {spotId: spotjson.id}});
+
+
+            for(let review of reviews){
+                let revJson = review.toJSON()
+                total += revJson.stars;
+            }
+            avgRating = Number((total / reviews.length).toFixed(2));
+
+            for(let spotimage of spotjson.SpotImages){
+                if(spotimage.preview){
+                    previewImage = spotimage.url;
+                    break;
+                }
+            }
+
             let spotObj = {
                 id: spotjson.id,
                 ownerId: spotjson.Owner.id,
@@ -44,31 +55,28 @@ router.get('/', async(req:Request, res: Response, next: NextFunction) => {
                 city: spotjson.city,
                 state: spotjson.state,
                 country: spotjson.country,
-                lat: spotjson.lat,
-                lng: spotjson.long,
+                lat: Number(spotjson.lat),
+                lng: Number(spotjson.lng),
                 name: spotjson.name,
                 description: spotjson.description,
                 price: spotjson.price,
                 createdAt: spotjson.createdAt,
                 updatedAt: spotjson.updatedAt,
-                // avgRating: spotjson.avgRating,
-                // previewImage: spotjson.previewImage
+                avgRating,
+                previewImage
             };
             result.push(spotObj);
-
         }
 
-
         res.json({Spots: result});
+
     } catch (e) {
         return next(e);
     }
 })
 
 // Get all the spots owned by the current User:
-
 router.get('/current', async(req:CustomeRequest, res: Response, next: NextFunction) => {
-
     try{
         if(req.user){
             let userId = req.user.id;
@@ -79,11 +87,61 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
                 include: [ {model:SpotImage} ]
             });
 
-            if(userspots.length === 0){
-                return res.json({Error: "You do not have any Spots created yet!"});
-            } else {
-                return res.json({spots: userspots});
+            if(userspots.length === 0)throw new NoResourceError("No Spots have been created yet!", 404);
+
+            let result = [];
+            for(let userspot of userspots){
+                let avgRating = 0;
+                let total = 0;
+                let previewImage = '';
+                let userspotJson = userspot.toJSON();
+                console.log(userspotJson)
+                let reviews = await Review.findAll({where: {spotId: userspotJson.id}})
+                if(reviews.length){
+                    for(let review of reviews){
+                        let rev = review.toJSON();
+                        total += rev.stars;
+                    }
+                }
+                for(let image of userspotJson.SpotImages){
+                    if(image.preview){
+                        previewImage = image.url;
+                        break;
+                    }
+                }
+
+                let created = new Date(userspotJson.createdAt);
+                let updated = new Date(userspotJson.updatedAt);
+
+                let createdStr = `${created.getFullYear()}-${created.getMonth()}-${created.getDate()}`;
+                let updatedStr = `${updated.getFullYear()}-${updated.getMonth()}-${updated.getDate()}`;
+
+                if(total > 0 && reviews.length){
+                    avgRating = total / reviews.length
+                }
+
+                let resObj = {
+                    id: userspotJson.id,
+                    address: userspotJson.address,
+                    city: userspotJson.city,
+                    state: userspotJson.state,
+                    country: userspotJson.country,
+                    description: userspotJson.description,
+                    name: userspotJson.name,
+                    lat: Number(userspotJson.lat),
+                    lng: Number(userspotJson.lng),
+                    price: userspotJson.price,
+                    ownerId: userspotJson.userId,
+                    createdAt: createdStr,
+                    updatedAt: updatedStr,
+                    avgRating,
+                    previewImage
+                }
+                result.push(resObj)
             }
+
+            return res.json({Spots: result});
+
         }
 
     }catch (e){
@@ -91,9 +149,62 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
     }
 })
 
+//get details of a current spot
+router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction) => {
+
+    try {
+        if(req.params.spotId){
+            let spotId = parseInt(req.params.spotId);
+            let spot = await Spot.findByPk(spotId, {include: [{model: SpotImage}, {model: User, as: "Owner"}]});
+            if(!spot){
+                throw new NoResourceError("Spot couldn't be found", 404);
+            } else{
+                let spotJson = spot.toJSON();
+                let avgStarRating = 0;
+                let total = 0;
+                let reviews = await Review.findAll({where: {spotId: spotJson.id}});
+                if(reviews.length){
+                    for(let review of reviews){
+                        let rev = review.toJSON();
+                        total += rev.stars;
+                    }
+                }
+                if(total > 0 && reviews.length){
+                    avgStarRating = total / reviews.length;
+                }
+                delete spotJson.Owner.bio;
+                let result = {
+                    id: spotJson.id,
+                    ownerId:spotJson.userId,
+                    address: spotJson.address,
+                    city: spotJson.city,
+                    state: spotJson.state,
+                    country: spotJson.country,
+                    lat: Number(spotJson.lat),
+                    lng: Number(spotJson.lng),
+                    price: spotJson.price,
+                    name: spotJson.name,
+                    description: spotJson.description,
+                    numReviews: reviews.length,
+                    createdAt: dateConverter(spotJson.createdAt),
+                    updatedAt: dateConverter(spotJson.updatedAt),
+                    avgStarRating,
+                    SpotImages: spotJson.SpotImages,
+                    Owner: spotJson.Owner
+
+                }
+                return res.json(result);
+            }
+        }
+    } catch (error) {
+        return next(error);
+    }
+})
+
 // create a spot:
 router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: NextFunction) => {
     try{
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
         if(req.body && req.user){
             if(!req.body.address ||
                !req.body.city ||
@@ -102,7 +213,7 @@ router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: Nex
                !req.body.name ||
                !req.body.description ||
                !req.body.price ||
-               !req.body.long ||
+               !req.body.lng ||
                !req.body.lat
                ){
                 return res.json({error: "You must fill out all mandatory fields in the form"});
@@ -117,8 +228,15 @@ router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: Nex
                     description,
                     price,
                     lat,
-                    long
+                    lng
                 } = req.body;
+
+                try {
+                    let spot = await Spot.findOne({where: {[Op.or]: [{address}, {name}]}});
+                    if(spot) throw new SpotExistsError()
+                } catch (error) {
+                    return next(error)
+                }
 
                 const newSpot = await Spot.create({
                     address,
@@ -129,11 +247,51 @@ router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: Nex
                     description,
                     price,
                     lat,
-                    long,
+                    lng,
                     userId: req.user.id
                 });
 
-                return res.json({spot: newSpot});
+                let result: GoodSpot = {
+                      id: 0,
+                      address: "",
+                      city: "",
+                      state: "",
+                      country: "",
+                      name: "",
+                      description: "",
+                      price: 0,
+                      lat: 0,
+                      lng: 0,
+                      userId: 0,
+                      createdAt: "",
+                      updatedAt: "",
+
+                };
+                let newSpotJson = newSpot.toJSON();
+                result.address = newSpotJson.address;
+                result.city = newSpotJson.city;
+                result.state = newSpotJson.state;
+                result.name = newSpotJson.name;
+                result.country = newSpotJson.country;
+                result.description = newSpotJson.description;
+                result.price = newSpotJson.price;
+                result.lat = Number(newSpotJson.lat);
+                result.lng = Number(newSpotJson.lng);
+                result.userId = newSpotJson.userId;
+                result.id = newSpotJson.id;
+
+
+                let createdAt = new Date(newSpotJson.createdAt);
+                let updatedAt = new Date(newSpotJson.updatedAt);
+
+                let resCreatedDate = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
+                let resUpdatedDate = `${updatedAt.getFullYear()}-${updatedAt.getMonth()}-${updatedAt.getDate()}`;
+
+                result.createdAt = resCreatedDate
+                result.updatedAt = resUpdatedDate;
+
+                res.status(201);
+                return res.json(result);
 
                }
         }
@@ -156,17 +314,30 @@ router.post('/:spotId/images', async(req:CustomeRequest, res: Response, next: Ne
                 }
 
                 let spot = await Spot.findByPk(req.params.spotId);
+
+                if(!spot) throw new NoResourceError("Spot couldn't be found", 404);
+
                 spot = spot.toJSON();
                 if(!spot || !spot.id){
                     throw new Error('Spot does not exist');
                 } else{
-                    const newSpotImage = await SpotImage.create({
-                        spotId: spot.id,
-                        url,
-                        isPreview:preview
-                    });
+                    try {
+                        const newSpotImage = await SpotImage.create({
+                            spotId: spot.id,
+                            url,
+                            preview
+                        });
+                        if(!newSpotImage) throw new NoResourceError("Error uploading Image", 500)
 
-                    return res.json({spotImage: newSpotImage});
+                        let resultSpotImage = newSpotImage.toJSON();
+                        delete resultSpotImage.createdAt;
+                        delete resultSpotImage.updatedAt;
+
+                        return res.json(resultSpotImage);
+
+                    } catch (error) {
+
+                    }
                 }
             }
         }
@@ -174,24 +345,6 @@ router.post('/:spotId/images', async(req:CustomeRequest, res: Response, next: Ne
         return next(e);
     }
 
-})
-
-//get details of a current spot
-router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction) => {
-
-    try {
-        if(req.params.spotId){
-            let spotId = parseInt(req.params.spotId);
-            let spot = await Spot.findByPk(spotId, {include: [SpotImage]});
-            if(!spot){
-                throw new Error("Spot was not found");
-            } else{
-                return res.json({spot});
-            }
-        }
-    } catch (error) {
-        return next(error);
-    }
 })
 
 
@@ -207,6 +360,7 @@ router.put('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                     newPrice = parseInt(newSpot.price);
                 }
                 let oldSpot = await Spot.findByPk(id);
+                if(!oldSpot) throw new NoResourceError("Spot couldn't be found", 404);
                 //  oldSpot = oldSpot.toJSON();
 
                 if((newSpot.adress !== oldSpot.address) && newSpot.address){
@@ -226,8 +380,8 @@ router.put('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                 if((newSpot.lat !== oldSpot.lat) && newSpot.lat){
                     oldSpot.lat = newSpot.lat;
                 }
-                if((newSpot.long !== oldSpot.long) && newSpot.long){
-                    oldSpot.long = newSpot.long;
+                if((newSpot.lng !== oldSpot.lng) && newSpot.lng){
+                    oldSpot.lng = newSpot.lng;
                 }
                 if((newSpot.name !== oldSpot.name) && newSpot.name){
                     oldSpot.name = newSpot.name;
@@ -241,10 +395,27 @@ router.put('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                 }
                 await oldSpot.save();
 
-                return res.json({spot:oldSpot});
+                let oldSpotJson = oldSpot.toJSON();
+                let result = {
+                   id: oldSpotJson.id,
+                   address: oldSpotJson.address,
+                   city: oldSpotJson.city,
+                   state: oldSpotJson.state,
+                   country: oldSpotJson.country,
+                   description: oldSpotJson.description,
+                   name: oldSpotJson.name,
+                   lat: Number(oldSpotJson.lat),
+                   lng: Number(oldSpotJson.lng),
+                   price: oldSpotJson.price,
+                   ownerId: oldSpot.userId,
+                   createdAt: dateConverter(oldSpotJson.createdAt),
+                   updatedAt: dateConverter(oldSpotJson.updatedAt)
+                }
+
+                return res.json(result);
             }
         } else {
-            throw new Error("Spot was not found");
+            throw new NoResourceError("Spot couldn't be found", 404);
         }
     } catch (error) {
         return next(error);
@@ -287,7 +458,7 @@ router.post('/:spotId/reviews', validateReview, async(req:CustomeRequest, res: R
 
         let spot = await Spot.findByPk(spotId);
         if(!spot){
-            throw new Error('Spot was not found')
+            throw new NoResourceError("Spot couldn't be found", 404)
         }
         spot = await spot.toJSON();
 
@@ -298,11 +469,11 @@ router.post('/:spotId/reviews', validateReview, async(req:CustomeRequest, res: R
         let testReview = await Review.findOne({where: {userId: currUser.id}});
 
         if(testReview){
-           throw new Error('You already have a review for this spot')
+           throw new SpotError('User already has a review for this spot', 500);
         }
         let newReview = await Review.create({userId:currUser.id, spotId, review, stars});
-
-        return res.json({review: newReview});
+        res.status(201);
+        return res.json(newReview);
 
     } catch (error) {
         return next(error);
@@ -400,6 +571,7 @@ router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: 
     }
 });
 
+//get bookings based on a spotId
 router.get('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: NextFunction)=> {
 
     try {
@@ -432,7 +604,6 @@ router.get('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: N
 
 
 //delete a spot
-
 router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction)=>{
 
     try {

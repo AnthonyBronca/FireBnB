@@ -1,15 +1,15 @@
 import { ValidationError, ValidationErrorItem} from "sequelize";
 
 export class NoResourceError extends Error {
+    status?: number;
     title?: string;
     errors?: [{message?:string, path?:string}];
-    status?: number;
     path?:string;
-    constructor(message:string|undefined, title?:string, errors?:[{message?:string, path?:string}], status?:number){
+    constructor(message:string|undefined, status?:number, title?:string, errors?:[{message?:string, path?:string}]){
         super(message)
+        this.status = status
         this.title = title;
         this.errors = errors;
-        this.status = status
     }
 }
 
@@ -27,8 +27,9 @@ export class SpotError extends Error {
     title?: string;
     errors? : {spot: string};
     status?: number;
-    constructor(message?:string){
-        super(message)
+    constructor(message?:string, status?:number){
+        super(message);
+        this.status = status;
     }
 }
 
@@ -83,6 +84,42 @@ export class InvalidCredentialError extends Error {
         super(message);
         this.message = message;
         this.errors = errors;
+        this.status = status;
+    }
+}
+
+
+export interface SpotErr {
+    address?: string,
+    city?: string,
+    state?: string,
+    country?: string,
+    lat?: string,
+    lng?: string,
+    name?: string,
+    description?: string,
+    price?: string
+}
+
+export class InvalidSpotError extends Error {
+    message: string;
+    errors: SpotErr;
+    status: number;
+    constructor(message:string, errors: SpotErr, status:number) {
+        super(message);
+        this.message = message;
+        this.errors = errors;
+        this.status = status;
+
+    }
+}
+
+export class SpotExistsError extends Error {
+    message: string;
+    status: number;
+    constructor(message?: string, status: number = 409){
+        super(message);
+        this.message = message || "Spot exists";
         this.status = status;
     }
 }

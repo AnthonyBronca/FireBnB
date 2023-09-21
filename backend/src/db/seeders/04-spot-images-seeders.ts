@@ -16,12 +16,12 @@ module.exports = {
          {
             spotId: 1,
             url: "spotSpotImage.com",
-            isPreview: true,
+            preview: true,
          },
         {
             spotId: 2,
             url: "someOtherSpotImage.com",
-            isPreview: true,
+            preview: true,
          },
 
 

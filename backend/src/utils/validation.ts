@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthError } from "../errors/customErrors";
+import { AuthError, SpotError } from "../errors/customErrors";
 
-const { validationResult } = require('express-validator');
+const { validationResult, check } = require('express-validator');
 
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
@@ -24,6 +24,65 @@ export const handleValidationErrors = (req:Request , _res:Response, next:NextFun
 };
 
 
-module.exports = {
+export const validateSpot = [
+    check('address')
+        .isLength({min: 4})
+        .withMessage('Street Address is required'),
+    check('city')
+        .isLength({ min: 2 })
+        .withMessage('City is required'),
+    check('name')
+        .isLength({ min: 4 })
+        .withMessage('Name must be 4 - 50 characters long'),
+    check('state')
+    .custom(async (val:string)=> {
+        if(!val){
+            throw new SpotError("State is required")
+        }
+    }),
+    check("country")
+     .custom(async (val:string)=> {
+        if(!val){
+            throw new SpotError("Country is required")
+        }
+    }),
+    check("lat")
+     .custom(async (val:string)=> {
+        if(!val){
+            throw new SpotError("Latitude is not valid")
+        }
+    }),
+    check("lng")
+     .custom(async (val:string)=> {
+        if(!val){
+            throw new SpotError("Longitude is not valid")
+        }
+    }),
+    check("description")
+     .custom(async (val:string)=> {
+        if(!val){
+            throw new SpotError("Description is required")
+        }
+        if(val.length < 5) throw new Error("Description must be longer than 5 characters")
+    }),
+    check("price")
+     .custom(async (val:number | undefined)=> {
+        if(!val){
+            throw new SpotError("Price per day is required")
+        }
+        if(val < 0){
+            throw new SpotError("Price must be greater than 0")
+        }
+        if(val % 1 !== 0){
+            throw new SpotError("Price must be a whole number greater than 0")
+        }
+    }),
     handleValidationErrors
+];
+
+
+
+module.exports = {
+    handleValidationErrors,
+    validateSpot
 };

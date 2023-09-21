@@ -23,7 +23,7 @@ module.exports = {
             description: "A cozy 1 x1 tucked in the Alpines",
             name: "The Alpine",
             lat: 33.00202,
-            long: 33.02412,
+            lng: 33.02412,
             price: 50,
             userId: 1,
          },
@@ -35,7 +35,7 @@ module.exports = {
             description: "A cozy 2 story tucked in the Pines",
             name: "The Pine Grove",
             lat: 33.00302,
-            long: 33.024142,
+            lng: 33.024142,
             price: 45,
             userId: 2,
          }

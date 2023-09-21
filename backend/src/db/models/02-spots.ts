@@ -9,7 +9,7 @@ type SpotAttributes = {
     description: string,
     name: string,
     lat: string,
-    long:string,
+    lng:string,
     price: number,
     userId: number,
 
@@ -31,7 +31,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare name: string;
         declare price: number;
         declare lat:string;
-        declare long:string;
+        declare lng:string;
         declare userId: ForeignKey<Spot['id']>;
 
 
@@ -83,7 +83,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
         lat: {
             type: DataTypes.STRING,
         },
-        long: {
+        lng: {
             type: DataTypes.STRING,
         },
         price: {

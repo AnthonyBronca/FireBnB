@@ -2,10 +2,11 @@ import { NextFunction, Request, Response } from 'express';
 import { CustomeRequest } from "../../typings/express";
 
 import db from '../../db/models';
-import { ForbiddenError, UnauthorizedError } from '../../errors/customErrors';
+import { ForbiddenError, NoResourceError, UnauthorizedError } from '../../errors/customErrors';
+import { dateConverter } from '../../utils/date-conversion';
 
 
-const {Review, ReviewImage} = db
+const {Review, ReviewImage, User, Spot, SpotImage} = db
 const router = require('express').Router();
 
 //great an Image for a Review
@@ -21,13 +22,21 @@ router.post('/:reviewId/images', async(req:CustomeRequest, res:Response, next:Ne
 
         let review = await Review.findByPk(reviewId);
         if(!review){
-            throw new Error("That Review did not exist!");
+            throw new NoResourceError("Review couldn't be found", 404);
         }
 
         let {url} = req.body;
         let reviewImage = await ReviewImage.create({reviewId:reviewId, url:url});
 
-        return res.json({reviewImage});
+        let resultImage = reviewImage.toJSON();
+
+        let result = {
+            id: resultImage.id,
+            url: resultImage.url
+        }
+
+        res.status(200);
+        return res.json(result);
 
     } catch (error) {
         return next(error);
@@ -49,7 +58,71 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
             include: [{model: ReviewImage}]
         })
 
-        return res.json({reviews});
+        let result = [];
+
+        for(let review of reviews){
+
+
+            let rev = review.toJSON();
+
+            let owner = await User.findByPk(rev.userId);
+            let ownerJson = owner.toJSON();
+            let spot = await Spot.findByPk(rev.spotId, {include: [{model: SpotImage}]});
+            let spotJson = spot.toJSON();
+            let reviewImages = await ReviewImage.findAll({where: {reviewId: rev.id}})
+
+
+            delete spotJson.createdAt;
+            delete spotJson.updatedAt;
+            let spotPreviewImage = '';
+            let reviewImagesArr = [];
+
+
+            for(let spotImages of spotJson.SpotImages){
+                // let spotImg = spotImages.toJSON();
+                if(spotImages.preview){
+                    spotPreviewImage = spotImages.url;
+                    break;
+                }
+            };
+
+            for(let revImage of reviewImages){
+                let revImageJson = revImage.toJSON();
+                delete revImageJson.createdAt;
+                delete revImageJson.updatedAt;
+                reviewImagesArr.push(revImageJson);
+            }
+
+            console.log(reviewImagesArr)
+
+            spotJson.previewImage = spotPreviewImage;
+            spotJson.lat = Number(spotJson.lat);
+            spotJson.lng = Number(spotJson.lng);
+
+            let userIdPlaceHolder = spotJson.userId;
+            delete spotJson.userId;
+            delete spotJson.SpotImages
+            spotJson.ownerId = userIdPlaceHolder;
+
+            let revObj = {
+                id: rev.id,
+                userId: rev.userId,
+                spotId: rev.spotId,
+                review: rev.review,
+                stars: rev.stars,
+                createdAt: dateConverter(rev.createdAt),
+                updatedAt: dateConverter(rev.updatedAt),
+                User: ownerJson,
+                Spot: spotJson,
+                ReviewImages: reviewImagesArr
+            }
+
+            result.push(revObj);
+        }
+
+
+
+        return res.json({Reviews: result});
 
     } catch (error) {
         return next(error);
