@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { CustomeRequest } from "../../typings/express";
 import db from '../../db/models';
-import { ForbiddenError, UnauthorizedError } from '../../errors/customErrors';
+import { ForbiddenError, NoResourceError, UnauthorizedError } from '../../errors/customErrors';
 
 const { check } = require('express-validator');
 
@@ -71,16 +71,16 @@ router.delete('/:bookingId', async(req: CustomeRequest, res: Response, next: Nex
         if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action', 401);
         let userId = req.user.id;
         let bookingId: string | number = req.params.bookingId;
-        if(!bookingId) throw new Error('Please pass in a proper bookingId');
+        if(!bookingId) throw new NoResourceError('Please pass in a proper bookingId', 500);
         bookingId = parseInt(bookingId);
 
         let booking = await Booking.findByPk(bookingId);
-        if(!booking) throw new Error('No booking found with that id');
+        if(!booking) throw new NoResourceError('No booking found with that id', 404);
         let bookingJson = await booking.toJSON();
         if(bookingJson.userId !== userId) throw new ForbiddenError('Forbidden: Not your booking');
 
         booking.destroy();
-        return res.json({booking});
+        return res.json(booking);
 
     } catch (error) {
         return next(error);

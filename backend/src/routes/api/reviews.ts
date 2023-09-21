@@ -4,6 +4,7 @@ import { CustomeRequest } from "../../typings/express";
 import db from '../../db/models';
 import { ForbiddenError, NoResourceError, UnauthorizedError } from '../../errors/customErrors';
 import { dateConverter } from '../../utils/date-conversion';
+import { ReviewError, validateReview } from '../../utils/validation';
 
 
 const {Review, ReviewImage, User, Spot, SpotImage} = db
@@ -93,7 +94,6 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
                 reviewImagesArr.push(revImageJson);
             }
 
-            console.log(reviewImagesArr)
 
             spotJson.previewImage = spotPreviewImage;
             spotJson.lat = Number(spotJson.lat);
@@ -129,8 +129,9 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
     }
 });
 
+
 // edit a review
-router.put('/:reviewId', async(req: CustomeRequest, res: Response, next: NextFunction) => {
+router.put('/:reviewId', validateReview, async(req: CustomeRequest, res: Response, next: NextFunction) => {
     try {
         if(!req.params.reviewId){
             throw new Error('Must pass in a review id')
@@ -141,14 +142,14 @@ router.put('/:reviewId', async(req: CustomeRequest, res: Response, next: NextFun
         let user = req.user;
 
         if(!oldReview){
-            throw new Error('Review not found');
+            throw new NoResourceError("Review couldn't be found", 404);
         }
 
 
         let old = oldReview.toJSON();
 
         if( user && (old.userId !== user.id)){
-            throw new ForbiddenError('Permission denied');
+            throw new ForbiddenError('Permission denied', 409);
         }
 
         let {review, stars} = req.body;
@@ -160,7 +161,20 @@ router.put('/:reviewId', async(req: CustomeRequest, res: Response, next: NextFun
         }
         oldReview.save();
 
-        return res.json({oldReview});
+        let reviewJson = oldReview.toJSON();
+
+        let reviewObj = {
+            id: reviewJson.id,
+            stars: reviewJson.stars,
+            review: reviewJson.review,
+            userId: reviewJson.userId,
+            spotId: reviewJson.spotId,
+            createdAt: dateConverter(reviewJson.createdAt),
+            updatedAt: dateConverter(reviewJson.updatedAt)
+        }
+
+
+        return res.json(reviewObj);
 
     } catch (error) {
         return next(error);

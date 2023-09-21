@@ -489,12 +489,12 @@ router.get('/:spotId/reviews', async(req:CustomeRequest, res:Response, next: Nex
 
     try {
         if(!spotId){
-            throw new Error('Invalid Spot Id');
+            throw new NoResourceError('Invalid Spot Id', 500);
         }
 
         let spot = await Spot.findByPk(spotId);
         if(!spot){
-            throw new Error('Spot did not exist');
+            throw new NoResourceError("Spot couldn't be found", 404);
         }
 
         let reviews = await Review.findAll({
@@ -506,7 +506,40 @@ router.get('/:spotId/reviews', async(req:CustomeRequest, res:Response, next: Nex
             }
         });
 
-        return res.json({reviews});
+        let resultReviews = [];
+
+        for(let review of reviews){
+            let revJson = review.toJSON();
+            let user = await User.findByPk(revJson.userId);
+            let reviewImages = await ReviewImage.findAll({where: {reviewId: revJson.id}});
+
+            let reviewImagesArr = [];
+
+            for(let reviewImage of reviewImages){
+                let revImageJson = reviewImage.toJSON();
+                delete revImageJson.createdAt;
+                delete revImageJson.updatedAt;
+                reviewImagesArr.push(revImageJson);
+            }
+
+            let userJson = user.toJSON();
+
+
+            let resObj = {
+                 id: revJson.id,
+                 stars: revJson.stars,
+                 review: revJson.review,
+                 userId: revJson.userId,
+                 spotId: revJson.spotId,
+                 createdAt: dateConverter(revJson.createdAt),
+                 updatedAt: dateConverter(revJson.updatedAt),
+                 User: userJson,
+                 ReviewImages: reviewImagesArr
+            }
+            resultReviews.push(resObj)
+        }
+
+        return res.json({Reviews: resultReviews});
 
 
     } catch (error) {
@@ -521,7 +554,7 @@ router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: 
     try {
 
         if(!req.params.spotId){
-            throw new Error('You must pass in a valid spot id');
+            throw new NoResourceError('You must pass in a valid spot id', 500);
         };
 
         let spotId = parseInt(req.params.spotId);
@@ -533,7 +566,7 @@ router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: 
         };
 
         if(!spot){
-            throw new Error('Spot did not exist');
+            throw new NoResourceError('Spot did not exist', 404);
         };
 
         if(spot.userId === user.id){
@@ -564,7 +597,7 @@ router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: 
             throw new Error('Booking could not be created');
         };
 
-        return res.json({booking});
+        return res.json(booking);
 
     } catch (error) {
         return next(error);

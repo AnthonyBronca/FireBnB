@@ -80,9 +80,45 @@ export const validateSpot = [
     handleValidationErrors
 ];
 
+export class ReviewError extends Error {
+    status?: number;
+
+    constructor(message?: string, status?: number){
+        super(message);
+        this.status = status;
+    }
+}
+
+
+export const validateReview = [
+    check("review")
+    .custom(async (val: string | undefined) => {
+        if(!val){
+            throw new ReviewError("Review text is required", 400);
+        }
+        if(val.length > 200){
+            throw new ReviewError("Review text must be 200 characters or lesss", 400);
+        }
+        if(val.startsWith(" ")){
+            throw new ReviewError("Review can not start with empty spaces", 400);
+        }
+    }),
+    check("stars")
+    .custom(async (val: number| undefined) => {
+        if(!val){
+            throw new ReviewError("Stars must be an integer from 1 to 5", 400);
+        }
+        if( val > 5 || val < 1){
+            throw new ReviewError("Stars must be an integer from 1 to 5", 400);
+        }
+    }),
+    handleValidationErrors
+];
+
 
 
 module.exports = {
     handleValidationErrors,
-    validateSpot
+    validateSpot,
+    validateReview
 };
