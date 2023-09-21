@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CustomeRequest } from "../../typings/express";
 
 import db from '../../db/models';
+import { ForbiddenError, UnauthorizedError } from '../../errors/customErrors';
 
 
 const {Review, ReviewImage} = db
@@ -74,7 +75,7 @@ router.put('/:reviewId', async(req: CustomeRequest, res: Response, next: NextFun
         let old = oldReview.toJSON();
 
         if( user && (old.userId !== user.id)){
-            throw new Error('Permission denied');
+            throw new ForbiddenError('Permission denied');
         }
 
         let {review, stars} = req.body;
@@ -97,7 +98,7 @@ router.put('/:reviewId', async(req: CustomeRequest, res: Response, next: NextFun
 
 router.delete('/:reviewId', async(req: CustomeRequest, res: Response, next: NextFunction) => {
     try {
-        if(!req.user) throw new Error('You must be signed in to perform this action');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
 
         let userId = req.user.id;
         let reviewId: string | number = req.params.reviewId;
@@ -107,7 +108,7 @@ router.delete('/:reviewId', async(req: CustomeRequest, res: Response, next: Next
         let review = await Review.findByPk(reviewId);
         if(!review) throw new Error('No review found with that id');
         let reviewJson = await review.toJSON();
-        if(reviewJson.userId !== userId) throw new Error('Forbidden: This is not your review');
+        if(reviewJson.userId !== userId) throw new ForbiddenError('Forbidden: This is not your review');
         review.destroy();
         return res.json({review});
 

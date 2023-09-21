@@ -6,9 +6,10 @@ const { check } = require('express-validator');
 
 
 import db from '../../db/models';
+import { ForbiddenError,UnauthorizedError } from '../../errors/customErrors';
 
 
-const {Spot, SpotImage, Review, ReviewImage, Booking} = db;
+const {Spot, SpotImage, Review, ReviewImage, Booking, User} = db;
 const router = require('express').Router();
 
 const validateSpot = [
@@ -28,8 +29,37 @@ const validateSpot = [
 
 router.get('/', async(req:Request, res: Response, next: NextFunction) => {
     try{
-        const spots = await Spot.findAll({include: [{model: SpotImage}]});
-        res.json({spots});
+        const spots = await Spot.findAll({include: [{model: SpotImage}, {model: User, as: "Owner"}]});
+        // let idk = await spots.toJSON();
+        let result = [];
+        let idk = spots[0].toJSON();
+        console.log(idk)
+
+        for(let spot of spots){
+            let spotjson = spot.toJSON();
+            let spotObj = {
+                id: spotjson.id,
+                ownerId: spotjson.Owner.id,
+                address: spotjson.address,
+                city: spotjson.city,
+                state: spotjson.state,
+                country: spotjson.country,
+                lat: spotjson.lat,
+                lng: spotjson.long,
+                name: spotjson.name,
+                description: spotjson.description,
+                price: spotjson.price,
+                createdAt: spotjson.createdAt,
+                updatedAt: spotjson.updatedAt,
+                // avgRating: spotjson.avgRating,
+                // previewImage: spotjson.previewImage
+            };
+            result.push(spotObj);
+
+        }
+
+
+        res.json({Spots: result});
     } catch (e) {
         return next(e);
     }
@@ -249,7 +279,7 @@ router.post('/:spotId/reviews', validateReview, async(req:CustomeRequest, res: R
         }
         let currUser = req.user;
         if(!currUser){
-            throw new Error('You must be signed in to leave a review');
+            throw new UnauthorizedError('You must be signed in to leave a review');
         }
 
         let {review, stars} = req.body;
@@ -328,7 +358,7 @@ router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: 
 
         let user = req.user;
         if(!user){
-            throw new Error('You must be signed in to make a booking');
+            throw new UnauthorizedError('You must be signed in to make a booking');
         };
 
         if(!spot){
@@ -406,7 +436,7 @@ router.get('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: N
 router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction)=>{
 
     try {
-        if(!req.user) throw new Error('You must be signed in to perform this action');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
         let userId = req.user.id;
         let spotId: string | number = req.params.spotId;
         if(!spotId) throw new Error('Please pass in a valid spot id');
@@ -415,7 +445,7 @@ router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFun
         let spot = await Spot.findByPk(spotId);
         if(!spot) throw new Error('No spot found with that id');
         let spotJSON = await spot.toJSON();
-        if(spotJSON.userId !== userId) throw new Error('Forbidden: This is not your spot');
+        if(spotJSON.userId !== userId) throw new ForbiddenError('Forbidden: This is not your spot');
         spot.destroy();
         return res.json({spot});
     } catch (error) {

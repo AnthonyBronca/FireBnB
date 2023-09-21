@@ -12,6 +12,7 @@ import sessionRouter from '../api/session';
 import spotsRouter from '../api/spots';
 import reviewRouter from '../api/reviews';
 import bookingsRouter from '../api/bookings';
+import { ForbiddenError, UnauthorizedError } from "../../errors/customErrors";
 
 const router = require('express').Router();
 
@@ -36,7 +37,7 @@ router.get(
 //delete a spotImage
 router.delete('/spot-images/:spotImageId', async(req: CustomeRequest, res: Response, next: NextFunction)=> {
     try {
-        if(!req.user) throw new Error('You must be signed in to perform this action');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
         let userId = req.user.id;
         let spotImageId = req.params.spotImageId;
         if(!spotImageId) throw new Error('Please pass in a valid spotImageId');
@@ -45,7 +46,7 @@ router.delete('/spot-images/:spotImageId', async(req: CustomeRequest, res: Respo
         if(!spotImage) throw new Error('No SpotImage Found with that ID');
 
         let spot_image = await spotImage.toJSON();
-        if(spot_image.Spot.userId !== userId) throw new Error('Forbidden: Not your image');
+        if(spot_image.Spot.userId !== userId) throw new ForbiddenError('Forbidden: Not your image');
 
         spotImage.destroy();
 
@@ -60,7 +61,7 @@ router.delete('/spot-images/:spotImageId', async(req: CustomeRequest, res: Respo
 //delete a reviewImage
 router.delete('/review-images/:reviewImageId', async(req: CustomeRequest, res: Response, next: NextFunction)=> {
     try {
-        if(!req.user) throw new Error('You must be signed in to perform this action');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
         let userId = req.user.id;
         let reviewImageId = req.params.reviewImageId;
         if(!reviewImageId) throw new Error('Please pass in a valid reviewImageId');
@@ -70,7 +71,7 @@ router.delete('/review-images/:reviewImageId', async(req: CustomeRequest, res: R
 
         let review_image = await reviewImage.toJSON();
 
-        if(review_image.Review.userId !== userId) throw new Error('Forbidden: Not your image');
+        if(review_image.Review.userId !== userId) throw new ForbiddenError('Forbidden: Not your image');
 
         reviewImage.destroy();
 

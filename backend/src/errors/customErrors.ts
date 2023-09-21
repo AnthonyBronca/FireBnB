@@ -15,10 +15,11 @@ export class NoResourceError extends Error {
 
 export class LoginError extends Error {
     title?: string;
-    errors?: {credential: string};
-    status?:number;
-    constructor(message?:string){
-        super(message)
+    errors?: {message: string};
+    status:number;
+    constructor(message:string, status: number){
+        super(message);
+        this.status = status;
     }
 }
 
@@ -47,5 +48,41 @@ export class AuthError extends Error {
     status?: number;
     constructor(message?:string){
         super(message)
+    }
+}
+
+
+//Error for when a user needs to be signed in
+export class UnauthorizedError extends Error{
+    status:number;
+    constructor(message:string, status: number = 401){
+        super(message);
+        this.status = status;
+    }
+}
+
+// Error for when a user does not have proper access to this action
+export class ForbiddenError extends Error{
+    status: number;
+    constructor(message:string, status:number = 403){
+        super(message);
+        this.status = status;
+    }
+}
+
+export interface CredError {
+    credential?: string,
+    password?: string
+}
+
+export class InvalidCredentialError extends Error {
+    message: string;
+    errors: CredError;
+    status: number;
+    constructor(message:string, errors: CredError, status:number = 400 ){
+        super(message);
+        this.message = message;
+        this.errors = errors;
+        this.status = status;
     }
 }
