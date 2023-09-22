@@ -74,10 +74,10 @@ app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):vo
   res.status(err.status || 500);
   console.error(err);
   res.json({
-    title: isProduction? null : err.title? err.title: 'Server Error',
+    // title: isProduction? null : err.title? err.title: 'Server Error',
     message: err.message,
     errors: err.errors,
-    stack: isProduction ? null : err.stack
+    // stack: isProduction ? null : err.stack
   });
 });
 

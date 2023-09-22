@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { LoginError, NoResourceError } from "../../errors/customErrors";
+import { CredError, InvalidCredentialError, LoginError, NoResourceError } from "../../errors/customErrors";
 
 const express = require('express');
 const { Op } = require('sequelize');
@@ -9,6 +9,7 @@ const { setTokenCookie, restoreUser } = require('../../utils/auth');
 
 
 import db from '../../db/models';
+import { LoginUser } from "../../typings/data";
 const {User} = db
 
 
@@ -21,10 +22,10 @@ const validateLogin = [
     check('credential')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .withMessage('Email or Username is required'),
+        .withMessage('Email or username is required'),
     check('password')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a password.'),
+        .withMessage('Password is required'),
     handleValidationErrors
 ];
 
@@ -35,10 +36,9 @@ router.post(
     async (req:Request, res:Response, next:NextFunction) => {
         const { credential, password } = req.body;
 
-
-        if(credential && password){
-            try{
-                const user = await User.unscoped().findOne({
+            if(credential && password){
+                try{
+                let user = await User.unscoped().findOne({
                     where: {
                         [Op.or]: {
                             username: credential,
@@ -48,31 +48,54 @@ router.post(
                 });
 
                 if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-                    const err = new LoginError('Login failed');
+                    const err = new LoginError('Invalid credentials', 401);
                     err.status = 401;
-                    err.title = 'Login failed';
-                    err.errors = { credential: 'The provided credentials were invalid.' };
-                    return next(err.errors);
+                    throw err
                 }
 
                 await setTokenCookie(res, user);
 
+                let loginUser: LoginUser = {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    username: user.username
+                }
+
+
                 return res.json({
-                    user
+                    user: loginUser
                 });
 
             } catch (e){
                 return next(e);
             }
         } else {
-            if(!credential && !password){
-                res.json({message: 'Please pass in a valid username/email and password'})
-            } else if (!credential && password){
-                res.json({message: "Please pass in a valid username/email"})
-            } else if(credential && !password){
-                res.json({message: "Please pass in a valid password"})
-            } else {
-                res.json({message: "Oops! Looks like there seems to be a server error"})
+            try {
+                const errors:CredError = {}
+
+                if(!credential && !password){
+
+                    errors.credential = "Email or username is required";
+                    errors.password = "Password is required";
+                    throw new InvalidCredentialError("Please pass in a valid username/email and password", errors)
+
+                } else if (!credential && password){
+
+                    errors.credential = "Email or username is required";
+                    throw new InvalidCredentialError("Please pass in a valid username/email", errors)
+
+                } else if(credential && !password){
+                    errors.password = "Password is required";
+                    throw new InvalidCredentialError("Please pass in a valid password", errors)
+                } else {
+                    errors.credential = "Server Error processing your credential";
+                    errors.password = "Server Error processing your password";
+                    throw new InvalidCredentialError("There was an error submitting your form. Please Try Again", errors, 500)
+                }
+            } catch (err){
+                return next(err)
             }
         }
     }
@@ -81,7 +104,14 @@ router.post(
 //get the current user
 router.get('/', restoreUser, async(req:any, res:Response) => {
     if(req.user){
-        res.json({"user": req.user})
+        const user: LoginUser = {
+            id: req.user.id,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            email: req.user.email,
+            username: req.user.username
+        }
+        res.json({user})
     } else {
         res.json({"user": null})
     }

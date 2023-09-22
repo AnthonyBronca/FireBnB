@@ -25,6 +25,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      country: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       state: {
         allowNull: false,
         type: Sequelize.STRING
@@ -33,11 +37,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      name: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       lat: {
         type: Sequelize.STRING,
       },
-      long: {
+      lng: {
         type: Sequelize.STRING
+      },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       userId: {
         allowNull: false,

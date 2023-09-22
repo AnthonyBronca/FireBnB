@@ -8,7 +8,7 @@ type SpotImageAttributes = {
     id: number,
     spotId: number,
     url: string,
-    isPreview: boolean
+    preview: boolean
 
 };
 
@@ -22,7 +22,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare id: CreationOptional<number>;
         declare spotId: ForeignKey<SpotImage['id']>;
         declare url:string;
-        declare isPreview: boolean;
+        declare preview: boolean;
 
 
         static associate(models:any){
@@ -49,7 +49,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            isPreview: {
+            preview: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
             }
@@ -59,6 +59,9 @@ module.exports = (sequelize: any, DataTypes:any) => {
         sequelize,
         modelName: "SpotImage",
         defaultScope: {
+            attributes: {
+                exclude: ["createdAt", "updatedAt"]
+            }
         },
     }
     )

@@ -26,7 +26,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 defaultValue: ""
             },
-            isPreview: {
+            preview: {
                 allowNull: false,
                 type: Sequelize.BOOLEAN,
                 defaultValue: false
