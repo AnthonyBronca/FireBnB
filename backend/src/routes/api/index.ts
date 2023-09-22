@@ -12,7 +12,7 @@ import sessionRouter from '../api/session';
 import spotsRouter from '../api/spots';
 import reviewRouter from '../api/reviews';
 import bookingsRouter from '../api/bookings';
-import { ForbiddenError, UnauthorizedError } from "../../errors/customErrors";
+import { ForbiddenError, NoResourceError, UnauthorizedError } from "../../errors/customErrors";
 
 const router = require('express').Router();
 
@@ -43,14 +43,14 @@ router.delete('/spot-images/:spotImageId', async(req: CustomeRequest, res: Respo
         if(!spotImageId) throw new Error('Please pass in a valid spotImageId');
 
         let spotImage = await SpotImage.findByPk(spotImageId, {include: [{model: Spot}]});
-        if(!spotImage) throw new Error('No SpotImage Found with that ID');
+        if(!spotImage) throw new NoResourceError("Spot Image couldn't be found", 404);
 
         let spot_image = await spotImage.toJSON();
         if(spot_image.Spot.userId !== userId) throw new ForbiddenError('Forbidden: Not your image');
 
         spotImage.destroy();
 
-        return res.json({spotImage});
+        return res.json({message: "Successfully deleted"});
 
     } catch (error) {
         return next(error);
@@ -67,7 +67,7 @@ router.delete('/review-images/:reviewImageId', async(req: CustomeRequest, res: R
         if(!reviewImageId) throw new Error('Please pass in a valid reviewImageId');
 
         let reviewImage = await ReviewImage.findByPk(reviewImageId, {include: [{model: Review}]});
-        if(!reviewImage) throw new Error('No reviewImage Found with that ID');
+        if(!reviewImage) throw new NoResourceError("Review Image couldn't be found", 404);
 
         let review_image = await reviewImage.toJSON();
 
@@ -75,7 +75,7 @@ router.delete('/review-images/:reviewImageId', async(req: CustomeRequest, res: R
 
         reviewImage.destroy();
 
-        return res.json({reviewImage});
+        return res.json({message: "Successfully deleted"});
 
     } catch (error) {
         return next(error);

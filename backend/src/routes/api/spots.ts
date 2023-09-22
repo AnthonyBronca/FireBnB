@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 
 
 import db from '../../db/models';
-import { ForbiddenError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
+import { BookingErrorStack, BookingErrors, ForbiddenError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
 import { GoodSpot } from '../../typings/data';
 import { Op } from 'sequelize';
 import { dateConverter } from '../../utils/date-conversion';
@@ -566,23 +566,27 @@ router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: 
         };
 
         if(!spot){
-            throw new NoResourceError('Spot did not exist', 404);
+            throw new NoResourceError("Spot couldn't be found", 404);
         };
 
         if(spot.userId === user.id){
-            throw new Error('You can not book your own spot');
+            throw new UnauthorizedError('You can not book your own spot', 401);
         };
 
         let { startDate, endDate } = req.body;
         if(!startDate || !endDate){
-            throw new Error('You must pass in a valid startDate and valid endDate');
+            throw new NoResourceError('You must pass in a valid startDate and valid endDate', 500);
         };
 
         let checkBooking = await Booking.findAll({where: {userId: user.id}});
 
         for(let booking of checkBooking){
             if(booking.startDate === startDate){
-                throw new Error('You already have another booking on this start date!')
+                let err: BookingErrorStack = {
+                    startDate: "Start date conflicts with an existing booking",
+                    endDate: "End date conflicts with an existing booking"
+                }
+                throw new BookingErrors('Sorry, this spot is already booked for the specified dates', 403, err);
             };
         }
 
@@ -609,24 +613,61 @@ router.get('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: N
 
     try {
 
-        if(!req.user) throw new Error('You must be signed in to view this');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to view this');
 
         let userId = req.user.id;
         let spotId = parseInt(req.params.spotId);
         let spot = await Spot.findByPk(spotId);
 
-        if(!spot) throw new Error('No spot found with that id');
+        if(!spot) throw new NoResourceError("Spot couldn't be found", 404);
 
         if(spot.userId === userId){
-            let bookings = await Booking.findAll({where: {spotId}});
-            if(!bookings.length) throw new Error('No bookings found for that spot');
-                return res.json({bookings});
+            let bookings = await Booking.findAll({where: {spotId}, include: [{model: User}]});
+            if(!bookings.length) throw new NoResourceError('No bookings found for that spot', 404);
+
+            let resultsArr = [];
+
+            for(let booking of bookings){
+                let bookingJson = booking.toJSON();
+                let resultObj = {
+                    id: bookingJson.id,
+                    userId: bookingJson.userId,
+                    spotId: bookingJson.spotId,
+                    startDate: bookingJson.startDate,
+                    endDate: bookingJson.endDate,
+                    User: {
+                        id: bookingJson.User.id,
+                        firstName: bookingJson.User.firstName,
+                        lastName: bookingJson.User.lastName
+                    }
+                };
+                resultsArr.push(resultObj);
+
+            }
+                return res.json({Bookings: bookings});
 
         } else {
+            //Return bookings for a Spot you do not own
             let bookings = await Booking.findAll({where: [{spotId}, {userId}]});
-            if(!bookings.length) throw new Error('No bookings found for you for that spot');
+            if(!bookings.length) throw new NoResourceError('No bookings found for you for that spot', 404);
 
-            return res.json({bookings});
+            let resultArr = [];
+
+            for(let booking of bookings){
+                let bookingJson = booking.toJSON();
+                let resultObj = {
+                    id: bookingJson.id,
+                    userId: bookingJson.userId,
+                    spotId: bookingJson.spotId,
+                    startDate: bookingJson.startDate,
+                    endDate: bookingJson.endDate,
+                };
+
+                resultArr.push(resultObj);
+            }
+
+
+            return res.json({Bookings:resultArr});
         }
 
     } catch (error) {
@@ -647,11 +688,11 @@ router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFun
 
         spotId = parseInt(spotId);
         let spot = await Spot.findByPk(spotId);
-        if(!spot) throw new Error('No spot found with that id');
+        if(!spot) throw new NoResourceError("Spot couldn't be found", 404);
         let spotJSON = await spot.toJSON();
         if(spotJSON.userId !== userId) throw new ForbiddenError('Forbidden: This is not your spot');
         spot.destroy();
-        return res.json({spot});
+        return res.json({message: "Successfully deleted"});
     } catch (error) {
         return next(error);
     }

@@ -123,3 +123,22 @@ export class SpotExistsError extends Error {
         this.status = status;
     }
 }
+
+export interface BookingErrorStack {
+    startDate?: string,
+    endDate?: string
+}
+
+
+export class BookingErrors extends Error {
+    message: string;
+    status: number;
+    errors?: BookingErrorStack
+
+    constructor(message:string, status: number, errors?: BookingErrorStack){
+        super(message);
+        this.message = message;
+        this.status = status;
+        this.errors = errors;
+    }
+}

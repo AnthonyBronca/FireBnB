@@ -193,11 +193,11 @@ router.delete('/:reviewId', async(req: CustomeRequest, res: Response, next: Next
         reviewId = parseInt(reviewId);
 
         let review = await Review.findByPk(reviewId);
-        if(!review) throw new Error('No review found with that id');
+        if(!review) throw new NoResourceError("Review couldn't be found", 404);
         let reviewJson = await review.toJSON();
         if(reviewJson.userId !== userId) throw new ForbiddenError('Forbidden: This is not your review');
         review.destroy();
-        return res.json({review});
+        return res.json({message: "Successfully deleted"});
 
     } catch (error) {
         return next(error);
