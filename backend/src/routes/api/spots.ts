@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { CustomeRequest } from "../../typings/express";
-import {handleValidationErrors, validateSpot} from '../../utils/validation';
+import {handleValidationErrors, validateQueryParams, validateSpot} from '../../utils/validation';
 
 const { check } = require('express-validator');
 
 
 import db from '../../db/models';
 import { BookingErrorStack, BookingErrors, ForbiddenError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
-import { GoodSpot } from '../../typings/data';
+import { GoodSpot, PaginationValues, WhereValues } from '../../typings/data';
 import { Op } from 'sequelize';
 import { dateConverter } from '../../utils/date-conversion';
 
@@ -18,11 +18,72 @@ const router = require('express').Router();
 
 //Get all Spots
 // TODO: ADD filter and pagination
-router.get('/', async(req:Request, res: Response, next: NextFunction) => {
+router.get('/', validateQueryParams, async(req:Request, res: Response, next: NextFunction) => {
     try{
         let result = [];
 
+        let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
+
+        let paginationPage = 0;
+        let paginationSize = 0;
+
+        //if page does not exist or is too big
+        if(Number(page) > 10 || !page){
+            paginationPage = 1;
+        } else{
+            paginationPage = Number(page)
+        }
+
+        if(Number(size) > 20 || !size){
+            paginationSize = 20;
+        } else {
+            paginationSize = Number(size)
+        }
+
+        // console.log(paginationPage)
+        // console.log(paginationSize)
+
+
+
+        const paginationValues: PaginationValues = {};
+
+        if(paginationPage > 0 && paginationSize > 0){
+            paginationValues.limit = paginationSize;
+            paginationValues.offset = paginationSize * (paginationPage -1);
+        };
+
+        const where: WhereValues = {}
+        //query for latitude
+        if(minLat && maxLat){
+            where.lat = {[Op.between]: [Number(minLat), Number(maxLat)]};
+        } else if(minLat){
+            where.lat = {[Op.gte]: Number(minLat)};
+        } else if(maxLat){
+            where.lat = {[Op.lte]: Number(maxLat)};
+        }
+
+        //query for longitude
+        if(minLng && maxLng){
+            where.lng = {[Op.between]: [Number(minLng), Number(maxLng)]};
+        } else if(minLng){
+            where.lng = {[Op.gte]: Number(minLng)};
+        } else if(maxLng){
+            where.lng = {[Op.lte]: Number(maxLng)};
+        }
+
+        //query for price
+         if(minPrice && maxPrice){
+            where.price = {[Op.between]: [Number(minPrice), Number(maxPrice)]};
+        } else if(minPrice){
+            where.price = {[Op.gte]: Number(minPrice)};
+        } else if(maxPrice){
+            where.price = {[Op.lte]: Number(maxPrice)};
+        }
+
+        console.log(paginationValues)
+
         const spots = await Spot.findAll({
+            ...paginationValues,
             include: [{model: SpotImage}, {model: User, as: "Owner"}],
         });
 
@@ -68,7 +129,7 @@ router.get('/', async(req:Request, res: Response, next: NextFunction) => {
             result.push(spotObj);
         }
 
-        res.json({Spots: result});
+        res.json({Spots: result, page, size});
 
     } catch (e) {
         return next(e);

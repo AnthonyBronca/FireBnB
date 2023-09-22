@@ -156,5 +156,6 @@ export const validateQueryParams = [
 module.exports = {
     handleValidationErrors,
     validateSpot,
-    validateReview
+    validateReview,
+    validateQueryParams
 };

@@ -24,3 +24,14 @@ export interface GoodSpot{
     createdAt: string,
     updatedAt: string,
 }
+
+export interface PaginationValues{
+    limit?: number,
+    offset?: number
+}
+
+export interface WhereValues{
+    lat?: any,
+    lng?: any,
+    price?: any
+}
