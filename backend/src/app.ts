@@ -1,7 +1,6 @@
 import express, {NextFunction, Request, Response} from 'express';
 require('express-async-errors');
 
-
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
@@ -12,8 +11,6 @@ import routes from './routes'
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
-
-
 
 const app = express();
 app.use(morgan('dev'));
@@ -77,10 +74,10 @@ app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):vo
   res.status(err.status || 500);
   console.error(err);
   res.json({
-    title: isProduction? null : err.title? err.title: 'Server Error',
+    // title: isProduction? null : err.title? err.title: 'Server Error',
     message: err.message,
     errors: err.errors,
-    stack: isProduction ? null : err.stack
+    // stack: isProduction ? null : err.stack
   });
 });
 

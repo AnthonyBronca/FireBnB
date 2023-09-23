@@ -1,35 +1,43 @@
-# Build backend development
-FROM node:18-alpine as build_backend
-# Set the workdir to be in the backend of our docker app
-WORKDIR /app/backend
-# copy package*.json from backend folder to backend of docker
+FROM --platform=amd64 node:18-alpine as backendbuild
+
+WORKDIR /backend
+
 COPY /backend/package*.json .
-# Run npm install in the backend
+
 RUN npm install
-# Copy the node_modules, src into backend
-COPY /backend/ .
-# build the dist folder in the docker
+
+COPY /backend .
+
 RUN npm run build
 
 
-#production
-FROM node:18-alpine as production
+FROM --platform=amd64 node:18-alpine as api
 
 
 ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+ARG SCHEMA=firebnb
+ENV SCHEMA=${SCHEMA}
+
 ARG DATABASE_URL
-ARG SCHEMA
+ENV DATABASE_URL=${DATABASE_URL}
 
-WORKDIR /app/backend
+ARG JWT_SECRET=strongpassword
+ENV JWT_SECRET=${JWT_SECRET}
 
-# COPY package*.json .
+ARG JWT_EXPIRES_IN=604800
+ENV JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
 
-# RUN npm install --only=production
-#Copy the dist folder into the backend folder
-COPY --from=build_backend /app/backend/dist .
+WORKDIR /var/www
 
-# RUN npm run build-production
-# RUN npm run db:reset
-# EXPOSE 5000:5000
+COPY /backend/package*.json .
 
-CMD [ "npm", "start" ]
+COPY /backend/.sequelizerc .
+
+RUN npm install --only=production
+
+COPY --from=backendbuild backend/dist ./dist
+
+EXPOSE 8000
+CMD [ "npm", "start"]

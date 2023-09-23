@@ -1,6 +1,6 @@
-import express, { NextFunction, Request, Response } from "express";
-import { CustomeRequest, RestoreResponseInterface } from "../../typings/express";
-import { restoreUser, setTokenCookie, requireAuth } from "../../utils/auth";
+import { NextFunction, Response } from "express";
+import { CustomeRequest } from "../../typings/express";
+import { restoreUser} from "../../utils/auth";
 
 import db from '../../db/models';
 
@@ -12,6 +12,7 @@ import sessionRouter from '../api/session';
 import spotsRouter from '../api/spots';
 import reviewRouter from '../api/reviews';
 import bookingsRouter from '../api/bookings';
+import { ForbiddenError, NoResourceError, UnauthorizedError } from "../../errors/customErrors";
 
 const router = require('express').Router();
 
@@ -36,20 +37,20 @@ router.get(
 //delete a spotImage
 router.delete('/spot-images/:spotImageId', async(req: CustomeRequest, res: Response, next: NextFunction)=> {
     try {
-        if(!req.user) throw new Error('You must be signed in to perform this action');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
         let userId = req.user.id;
         let spotImageId = req.params.spotImageId;
         if(!spotImageId) throw new Error('Please pass in a valid spotImageId');
 
         let spotImage = await SpotImage.findByPk(spotImageId, {include: [{model: Spot}]});
-        if(!spotImage) throw new Error('No SpotImage Found with that ID');
+        if(!spotImage) throw new NoResourceError("Spot Image couldn't be found", 404);
 
         let spot_image = await spotImage.toJSON();
-        if(spot_image.Spot.userId !== userId) throw new Error('Forbidden: Not your image');
+        if(spot_image.Spot.userId !== userId) throw new ForbiddenError('Forbidden: Not your image');
 
         spotImage.destroy();
 
-        return res.json({spotImage});
+        return res.json({message: "Successfully deleted"});
 
     } catch (error) {
         return next(error);
@@ -60,21 +61,21 @@ router.delete('/spot-images/:spotImageId', async(req: CustomeRequest, res: Respo
 //delete a reviewImage
 router.delete('/review-images/:reviewImageId', async(req: CustomeRequest, res: Response, next: NextFunction)=> {
     try {
-        if(!req.user) throw new Error('You must be signed in to perform this action');
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
         let userId = req.user.id;
         let reviewImageId = req.params.reviewImageId;
         if(!reviewImageId) throw new Error('Please pass in a valid reviewImageId');
 
         let reviewImage = await ReviewImage.findByPk(reviewImageId, {include: [{model: Review}]});
-        if(!reviewImage) throw new Error('No reviewImage Found with that ID');
+        if(!reviewImage) throw new NoResourceError("Review Image couldn't be found", 404);
 
         let review_image = await reviewImage.toJSON();
 
-        if(review_image.Review.userId !== userId) throw new Error('Forbidden: Not your image');
+        if(review_image.Review.userId !== userId) throw new ForbiddenError('Forbidden: Not your image');
 
         reviewImage.destroy();
 
-        return res.json({reviewImage});
+        return res.json({message: "Successfully deleted"});
 
     } catch (error) {
         return next(error);

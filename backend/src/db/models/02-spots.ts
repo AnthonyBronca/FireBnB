@@ -5,9 +5,12 @@ type SpotAttributes = {
     address: string,
     city: string,
     state: string,
+    country: string,
     description: string,
-    lat: number,
-    long:number,
+    name: string,
+    lat: string,
+    lng:string,
+    price: number,
     userId: number,
 
 };
@@ -23,17 +26,20 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare address:string;
         declare city:string;
         declare state:string;
+        declare country:string;
         declare description:string;
-        declare lat:number;
-        declare long:number;
+        declare name: string;
+        declare price: number;
+        declare lat:string;
+        declare lng:string;
         declare userId: ForeignKey<Spot['id']>;
 
 
         static associate(models:any){
             Spot.belongsTo(models.User, { foreignKey: 'userId', as: "Owner"})
-            Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true})
-            Spot.hasMany(models.Review, {foreignKey: 'spotId', onDelete: 'cascade', hooks:true})
-            // Spot.hasMany(models.Booking, {foreignKey: 'spotId'})
+            Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true});
+            Spot.hasMany(models.Review, {foreignKey: 'spotId', onDelete: 'cascade', hooks:true});
+            Spot.hasMany(models.Booking, {foreignKey: 'spotId', onDelete: 'cascade', hooks: true});
         }
     }
     Spot.init(
@@ -56,6 +62,10 @@ module.exports = (sequelize: any, DataTypes:any) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        country: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         description: {
             type: DataTypes.STRING,
             validate: {
@@ -66,11 +76,19 @@ module.exports = (sequelize: any, DataTypes:any) => {
                 }
             }
         },
-        lat: {
-            type: DataTypes.FLOAT,
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
-        long: {
-            type: DataTypes.FLOAT,
+        lat: {
+            type: DataTypes.STRING,
+        },
+        lng: {
+            type: DataTypes.STRING,
+        },
+        price: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
         userId: {
             type: DataTypes.INTEGER
