@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
+    <>
     <div className='nav-bar-container '>
         <div className='nav-logo-container'>
             <img src={firebnb} className='logo' alt='logo'/>
@@ -38,6 +39,7 @@ const NavBar = () => {
             <AccountMenu />
         </div>
     </div>
+    </>
   );
 }
 

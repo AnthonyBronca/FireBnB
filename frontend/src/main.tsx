@@ -4,7 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { BrowserRouter} from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { store } from './store/index.ts'
+import store from './store/index.ts'
 import { csrfFetch, restoreCSRF } from './store/csrf.ts'
 import * as sessionActions from './store/session.ts';
 
@@ -15,6 +15,7 @@ declare global {
       sessionActions:any
     }
 }
+
 
 if (process.env.NODE_ENV !== "production") {
   restoreCSRF();

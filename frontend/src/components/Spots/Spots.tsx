@@ -1,9 +1,20 @@
 import './spots.css';
 import heart from '../../assets/icons/heart.svg';
 import star from '../../assets/icons/star.svg';
+// import { useEffect } from 'react';
+// import { useAppDispatch } from '../../store';
+// import { useDispatch } from 'react-redux';
 
 
 const Spots = () => {
+    // const dispatch = useDispatch();
+
+
+    // useEffect(()=> {
+    //     dispatch(getSpots())
+    // })
+
+
   return (
     <div className="spot-container">
         <div className="image-container">

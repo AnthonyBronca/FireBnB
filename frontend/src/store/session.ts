@@ -62,7 +62,7 @@ export const restoreUser = () => async (dispatch: Dispatch) => {
     }
 };
 
-export const logout = () => async (dispatch: Dispatch) => {
+export const logout = ():any => async (dispatch: Dispatch) => {
   const response = await csrfFetch('/api/session', {
     method: 'DELETE',
     headers: {"Content-Type": "application/json"}
@@ -71,7 +71,7 @@ export const logout = () => async (dispatch: Dispatch) => {
   return response;
 };
 
-export const login = (user: {credential: string, password: string}) => async (dispatch: Dispatch) => { //thunks for database
+export const login = (user: {credential: string, password: string}):any => async (dispatch: any): Promise<any> => { //thunks for database
   const { credential, password } = user;
   const response = await csrfFetch('/api/session', {
     method: 'POST',
@@ -81,9 +81,9 @@ export const login = (user: {credential: string, password: string}) => async (di
       password,
     }),
   });
-
   const data = await response.json();
-  dispatch(setUser(data.user)); //updates state
+  console.log(data)
+  dispatch(setUser(data)); //updates state
   return response;
 };
 
@@ -97,9 +97,9 @@ const initialState: SessionInitialState = {
 export const SessionSlice = createSlice({
     name: 'session',
     initialState,
-    reducers: {
+    reducers:{
         setUser: (state, action: PayloadAction<{ user:any }>) => {
-
+            console.log(action.payload)
             state.user = action.payload.user;
         },
     //additional reducers go here
@@ -107,28 +107,3 @@ export const SessionSlice = createSlice({
 });
 
 export default SessionSlice.reducer;
-// export const {setUser} = SessionSlice.actions;
-
-
-// //logout may not be working with given: window.store.dispatch(window.sessionActions.logout());
-
-
-// const initialState = { user: null };
-
-// const sessionReducer = (state = initialState, action) => { //reducer updates the state
-//   let newState;
-//   switch (action.type) {
-//     case SET_USER:
-//       newState = Object.assign({}, state);
-//       newState.user = action.payload;
-//       return newState;
-//     case REMOVE_USER:
-//       newState = Object.assign({}, state);
-//       newState.user = null;
-//       return newState;
-//     default:
-//       return state;
-//   }
-// };
-
-// export default sessionReducer;

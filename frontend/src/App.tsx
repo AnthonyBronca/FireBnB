@@ -1,15 +1,13 @@
-// import { useState } from 'react'
 import './App.css'
 import { useRoutes} from 'react-router-dom'
-// import NavBar from './components/navigation/NavBar'
 import { useAppDispatch } from './store';
 import { useEffect, useState } from 'react';
 import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
 import NavBar from './components/navigation/NavBar';
+import { Divider } from '@mui/material';
 
 const App: React.FC = ():JSX.Element => {
-
   const dispatch = useAppDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -44,6 +42,7 @@ const App: React.FC = ():JSX.Element => {
     return (
       <>
       <NavBar />
+      <Divider/>
       {routing}
       </>
     )
