@@ -1,0 +1,115 @@
+.nav-bar-drop-down-container {
+    /* background-color: orange; */
+    border: .5px solid rgba(15, 15, 15, .2);
+    border-radius: 30px;
+    padding: 5px;
+    height: 1rem;
+    width: 2.5rem;
+    cursor: pointer;
+}
+
+.nav-bar-drop-down-container:hover{
+    box-shadow: .7px .3px .7px .6px rgba(15, 15, 15, .2);
+}
+
+.nav-bar-drop-down-container .user-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 1rem;
+}
+
+
+.hamburger-icon{
+    margin-right: 5px;
+}
+
+
+.user-letter-container{
+    background-color: black;
+    border-radius: 30px;
+    width: 1.3rem;
+    height: 1.3rem;
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+
+}
+
+.user-letter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-container{
+    background-color: #FF375D;
+    border-radius: 30px;
+    height: .5rem;
+    width: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px;
+    border: 1px solid white;
+    position: relative;
+    bottom: 10px;
+    left: 8px;
+    z-index: 200;
+}
+
+.user-letter{
+    color: white;
+    font-size: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    left: 6px;
+}
+
+.notification-num{
+    color: white;
+    font-size: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.drop-down-container{
+    padding-top: 3px;
+    /* background-color: orange; */
+    width: 12rem;
+    height: 14.2rem;
+    position: relative;
+    top: 10px;
+    right: 150px;
+    border: .1px solid rgba(15, 15, 15, .1);
+    border-radius: 5px;
+    box-shadow: .6px .5px .8px .9px rgba(15, 15, 15, .2);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.drop-down-container span {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.drop-down-container span:hover{
+    background-color: rgba(200, 200, 200, .3);
+}
+
+.horizontal-line{
+    background-color: rgba(200, 200, 200, .5);
+    height: 1px;
+    margin-top: 3px;
+}
+
+.unreg-span{
+    color: rgba(15, 15, 15, .8);
+}
