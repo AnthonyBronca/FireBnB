@@ -4,7 +4,6 @@ import './navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import globe from '../../assets/icons/globe.svg'
-import hamburger from '../../assets/icons/hamburger.svg'
 import AccountMenu from './AccountMenu';
 import { Link } from 'react-router-dom';
 

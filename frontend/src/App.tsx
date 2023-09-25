@@ -6,6 +6,7 @@ import { useAppDispatch } from './store';
 import { useEffect, useState } from 'react';
 import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
+import NavBar from './components/navigation/NavBar';
 
 const App: React.FC = ():JSX.Element => {
 
@@ -42,6 +43,7 @@ const App: React.FC = ():JSX.Element => {
   } else {
     return (
       <>
+      <NavBar />
       {routing}
       </>
     )

@@ -1,9 +1,10 @@
 .nav-bar-container {
     display: flex;
     flex-direction: row;
-    /* background-color: lime; */
     width: 100%;
     justify-content: space-around;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(15,15,15,.2);
 }
 
 .nav-logo-container {

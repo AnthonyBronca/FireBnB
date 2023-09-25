@@ -1,5 +1,4 @@
 .nav-bar-drop-down-container {
-    /* background-color: orange; */
     border: .5px solid rgba(15, 15, 15, .2);
     border-radius: 30px;
     padding: 5px;
@@ -75,7 +74,6 @@
 
 .drop-down-container{
     padding-top: 3px;
-    /* background-color: orange; */
     width: 12rem;
     height: 14.2rem;
     position: relative;
