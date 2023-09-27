@@ -7,6 +7,9 @@ import star from '../../assets/icons/star.svg';
 
 
 const Spots = () => {
+
+
+
     // const dispatch = useDispatch();
 
 
@@ -24,7 +27,7 @@ const Spots = () => {
               className="spot-image"
               />
               <div className='likes-contanier'>
-                <img src={heart} alt='heart' className='heart-icon'/>
+                <img onClick={()=>alert('This Feature is in Development!')} src={heart} alt='heart' className='heart-icon'/>
               </div>
         </div>
         <div className='spot-summary'>

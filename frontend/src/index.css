@@ -1,5 +1,9 @@
 :root {
   width: 100%;
+  --lightColor: {
+    rgba(15, 15, 15, .2)
+  }
+  --bnbred: #FF375D
 }
 
 

@@ -11,16 +11,19 @@ display: flex;
 }
 
 .likes-contanier{
-    /* background-color: orange; */
     width: 1.5rem;
     height: 1.5rem;
     position: relative;
     right: 30px;
-    top: 10px
+    top: 10px;
+
 }
+
+
 
 .heart-icon{
     width: 1.3rem;
+    cursor: pointer;
 }
 
 .spot-summary{

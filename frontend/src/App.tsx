@@ -6,10 +6,18 @@ import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
 import NavBar from './components/navigation/NavBar';
 import { Divider } from '@mui/material';
+import LoginModalContext from './context/LoginModalContext';
+import LoginModal from './components/Modals/LoginModal';
+import FloatingInput from './components/InputBoxes/FloatingInput';
 
 const App: React.FC = ():JSX.Element => {
   const dispatch = useAppDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loginModalOpen, setLoginModal] = useState(false)
+
+  const toggleOpen = () => {
+    setLoginModal(!loginModalOpen);
+  }
 
 
   useEffect(() => {
@@ -25,6 +33,10 @@ const App: React.FC = ():JSX.Element => {
   {
     path: '*',
     element: <h1>404: Error Page</h1>
+  },
+  {
+    path: '/testing',
+    element: <FloatingInput />
   }
 ]
     // children: [
@@ -41,9 +53,14 @@ const App: React.FC = ():JSX.Element => {
   } else {
     return (
       <>
+      <LoginModalContext.Provider value={{open: loginModalOpen, toggleOpen}}>
       <NavBar />
       <Divider/>
       {routing}
+      {/* <div onClick={toggleOpen}> */}
+      {loginModalOpen? <LoginModal /> : null}
+      {/* </div> */}
+      </LoginModalContext.Provider>
       </>
     )
   }

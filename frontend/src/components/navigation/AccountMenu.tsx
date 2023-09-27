@@ -1,16 +1,21 @@
+
 import './accountMenu.css'
 import hamburger from '../../assets/icons/hamburger.svg'
 import usericon from '../../assets/icons/user.svg';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useAppSelector } from '../../store';
 import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../../store/session';
+import LoginModalContext from '../../context/LoginModalContext';
+
+
 
 const AccountMenu = () => {
     const dispatch = useDispatch();
+    const {open, toggleOpen} = useContext(LoginModalContext);
     const user = useAppSelector((state)=> state.session.user);
-
+    const [isOpen, setIsOpen] = useState(false)
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -22,10 +27,22 @@ const AccountMenu = () => {
         }
     }
 
-    const handleSignIn = (e: MouseEvent) => {
+    const handleModalOpen = (e:any) => {
         e.preventDefault();
-        e.stopPropagation();
-        dispatch(login({credential: 'anthony@user.io', password: 'password3'}))
+        toggleOpen();
+        handleSignIn();
+    }
+
+
+    const handleSignIn = () => {
+        // e.preventDefault();
+        // e.stopPropagation();
+        if(isOpen){
+            setIsOpen(false)
+        } else {
+            setIsOpen(true)
+        }
+        // dispatch(login({credential: 'anthony@user.io', password: 'password3'}))
     }
 
       const handleLogout = (e: MouseEvent) => {
@@ -72,7 +89,7 @@ const AccountMenu = () => {
         </>
         : <>
         {menuOpen ? <div className='drop-down-container-not-logged'>
-            <span onClick={(e:any) =>handleSignIn(e)} className='reg-span'>Log in</span>
+            <span onClick={(e:any) => handleModalOpen(e)} className='reg-span'>Log in</span>
             <span onClick={handleFutureFeature} className='unreg-span'>Sign up</span>
             <Divider />
             <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>

@@ -1,3 +1,7 @@
+:root {
+    --bnbred: #FF375D
+}
+
 .nav-bar-container {
     display: flex;
     flex-direction: row;
@@ -17,7 +21,7 @@
     padding-left: 5px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    color: #FF375D;
+    color: var(--bnbred);
     font-size: 15px;
 }
 
@@ -117,8 +121,8 @@
     padding-right: 20px;
 }
 
+
 .horizontal-divider{
-    background-color: red;
     height: 1px;
     width: 150%;
 }
