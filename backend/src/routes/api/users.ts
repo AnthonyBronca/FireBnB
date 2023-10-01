@@ -35,9 +35,9 @@ const validateSignup = [
 
     // // Sign up
     router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
-
         const { firstName, lastName, email, password, username } = req.body;
         const hashedPassword = bcrypt.hashSync(password);
+
 
         let existingUser = await User.findOne({
             where: {
@@ -58,14 +58,11 @@ const validateSignup = [
         if(existingUser.username === username){
             errors["username"] = "User with that username already exists";
         }
-
         res.status(500)
         return res.json({message: "User already exists", errors})
     } else {
         try{
-
             const user = await User.create({ firstName, lastName, email, username, hashedPassword });
-
 
             await setTokenCookie(res, user);
 

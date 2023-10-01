@@ -1,4 +1,4 @@
-import { SessionInitialState } from '../typings/redux';
+import { SessionInitialState, SignUpUser } from '../typings/redux';
 import { csrfFetch } from './csrf';
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
@@ -29,23 +29,30 @@ const removeUser = () => { //action
 };
 
 
-export const signup = (user: {credential: string, password: string}) => async (dispatch: Dispatch) => {
-    const {credential, password} = user;
-    const response = await csrfFetch("/api/users", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            credential,
-            password,
-        }),
-    });
-    console.log(response)
-    if(response.ok){
-        const data = await response.json();
-        dispatch(setUser(data.user));
-        return data;
-    } else {
-        throw new Error("Unable to sign up")
+export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
+  console.log('am i here?')
+    const {firstName, lastName, email, username, password} = user;
+    console.log(user, "this is user redux")
+    try {
+      const response = await csrfFetch("/api/users", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+              firstName,
+              password,
+              lastName,
+              email,
+              username
+          }),
+      });
+      const data = await response.json();
+        dispatch(setUser(data));
+    } catch (res: any) {
+      if(!res.ok){
+        let errors = await res.json();
+        console.log(errors)
+        return errors;
+      }
     }
 }
 
@@ -81,10 +88,14 @@ export const login = (user: {credential: string, password: string}):any => async
       password,
     }),
   });
-  const data = await response.json();
-  console.log(data)
-  dispatch(setUser(data)); //updates state
-  return response;
+
+  if(response.ok){
+    const data = await response.json();
+    dispatch(setUser(data)); //updates state
+    return response;
+  } else{
+    return response
+  }
 };
 
 

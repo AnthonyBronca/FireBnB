@@ -9,3 +9,11 @@ export interface CSRFHttpOptions {
 export interface SessionInitialState {
     user: null | any[]
 }
+
+export interface SignUpUser {
+    firstName: string,
+    lastName: string,
+    email: string,
+    username: string,
+    password: string
+}

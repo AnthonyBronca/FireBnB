@@ -62,6 +62,7 @@ const AccountMenu = () => {
     onClick={handleMenuOpen}
     className='nav-bar-drop-down-container'>
         <div className='user-container'>
+            <div className='nav-bar-drop-down-buttons'>
             <img src={hamburger} alt='hamburger menu' className='hamburger-icon' />
             {user ?
             <div className="user-letter-container">
@@ -70,7 +71,8 @@ const AccountMenu = () => {
                     <span className='notification-num'>1</span>
                 </div>
             </div>
-    : <img src={usericon} className='anon-avatar-icon' alt='avatar logo'/>}
+            : <img src={usericon} className='anon-avatar-icon' alt='avatar logo'/>}
+            </div>
         </div>
         {user ? <>
         {menuOpen? <div className='drop-down-container'>
@@ -89,8 +91,8 @@ const AccountMenu = () => {
         </>
         : <>
         {menuOpen ? <div className='drop-down-container-not-logged'>
-            <span onClick={(e:any) => handleModalOpen(e)} className='reg-span'>Log in</span>
-            <span onClick={handleFutureFeature} className='unreg-span'>Sign up</span>
+            <span onClick={(e:any) => handleModalOpen(e)} className='reg-span'>Sign up</span>
+            <span onClick={handleFutureFeature} className='unreg-span'>Log in</span>
             <Divider />
             <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>
             <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>
