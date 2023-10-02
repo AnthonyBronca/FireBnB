@@ -70,10 +70,10 @@ app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):vo
 
 // // Error formatter
 
-app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):void => {
+app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):Response => {
   res.status(err.status || 500);
   console.error(err);
-  res.json({
+  return res.json({
     // title: isProduction? null : err.title? err.title: 'Server Error',
     message: err.message,
     errors: err.errors,

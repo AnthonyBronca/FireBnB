@@ -32,6 +32,14 @@ module.exports = {
         bio: "I am the most beautiful girl ever",
         hashedPassword: bcrypt.hashSync('password3')
       },
+      {
+        firstName: "Demo-firstName",
+        lastName: "Demp-lastName",
+        email: 'demo@demouser.io',
+        username: 'Demo-user',
+        bio: "I made this site with Typescript :D",
+        hashedPassword: bcrypt.hashSync('StrongDemoPassword!')
+      },
     //   ...users
     ], {});
   },
