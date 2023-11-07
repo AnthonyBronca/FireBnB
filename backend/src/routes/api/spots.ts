@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 
 
 import db from '../../db/models';
-import { BookingErrorStack, BookingErrors, ForbiddenError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
+import { BookingErrorStack, BookingErrors, ForbiddenError,LoginError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
 import { GoodSpot, PaginationValues, WhereValues } from '../../typings/data';
 import { Op } from 'sequelize';
 import { dateConverter } from '../../utils/date-conversion';

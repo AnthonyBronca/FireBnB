@@ -1,0 +1,72 @@
+.image-container{
+/* background-color: purple; */
+width: 14.2rem;
+display: flex;
+}
+
+.spot-image{
+    height: 225px;
+    width: 225px;
+    border-radius: 10px;
+}
+
+.likes-contanier{
+    width: 1.5rem;
+    height: 1.5rem;
+    position: relative;
+    right: 30px;
+    top: 10px;
+
+}
+
+
+
+.heart-icon{
+    width: 1.3rem;
+    cursor: pointer;
+}
+
+.spot-summary{
+    padding-top: 5px;
+    width: 14rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.spot-summary-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 3px;
+}
+
+.star-info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 2px;
+}
+
+.star-icon{
+    width: .8rem;
+    padding-right: 3px;
+}
+
+.spot-text{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.spot-min{
+    color: rgba(15, 15, 15, .7);
+}
+
+.spot-bold{
+    font-weight: 600;
+}
+
+.spot-summary-info{
+    display: flex;
+    flex-direction: column;
+}

@@ -14,6 +14,8 @@ type UserAttributes = {
 };
 
 
+
+
 type UserCreationAttributes = Optional<
 UserAttributes, 'id'>;
 
@@ -47,21 +49,33 @@ module.exports = (sequelize: any, DataTypes:any) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                    len: [1, 30]
+                    isGoodLength(value:string){
+                    if(value.length < 1 || value.length > 30){
+                        throw new Error('First name must be between 1 - 30 characters');
+                    }
+                },
                 }
             },
             lastName: {
                 type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [1, 30]
+                isGoodLength(value:string){
+                    if(value.length < 1 || value.length > 30){
+                        throw new Error('Last name must be between 1 - 30 characters');
+                    }
+                },
             }
         },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [10, 30],
+                isGoodLength(value:string){
+                    if(value.length < 6 || value.length > 12){
+                        throw new Error('Username must be between 6 - 12 characters');
+                    }
+                },
                 isNotEmail(value: string) {
                     if (Validator.isEmail(value)) {
                         throw new Error("Cannot be an email.");
@@ -73,7 +87,11 @@ module.exports = (sequelize: any, DataTypes:any) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [3, 256],
+                isGoodLength(value:string){
+                    if(value.length < 3 || value.length > 256){
+                        throw new Error('Email must be between 3 - 256 characters');
+                    }
+                },
                 isEmail: true
             }
         },
