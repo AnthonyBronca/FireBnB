@@ -6,14 +6,14 @@ import { useContext, useState } from 'react';
 import { useAppSelector } from '../../store';
 import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { login, logout } from '../../store/session';
+import { logout } from '../../store/session';
 import LoginModalContext from '../../context/LoginModalContext';
 
 
 
 const AccountMenu = () => {
     const dispatch = useDispatch();
-    const {open, toggleOpen} = useContext(LoginModalContext);
+    const {toggleOpen} = useContext(LoginModalContext);
     const user = useAppSelector((state)=> state.session.user);
     const [isOpen, setIsOpen] = useState(false)
 
@@ -92,7 +92,7 @@ const AccountMenu = () => {
         : <>
         {menuOpen ? <div className='drop-down-container-not-logged'>
             <span onClick={(e:any) => handleModalOpen(e)} className='reg-span'>Sign up</span>
-            <span onClick={handleFutureFeature} className='unreg-span'>Log in</span>
+            <span onClick={(e:any) => handleModalOpen(e)} className='unreg-span'>Log in</span>
             <Divider />
             <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>
             <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>

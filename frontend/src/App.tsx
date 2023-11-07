@@ -8,7 +8,6 @@ import NavBar from './components/navigation/NavBar';
 import { Divider } from '@mui/material';
 import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
-import FloatingInput from './components/InputBoxes/FloatingInput';
 
 const App: React.FC = ():JSX.Element => {
   const dispatch = useAppDispatch();
@@ -34,10 +33,6 @@ const App: React.FC = ():JSX.Element => {
     path: '*',
     element: <h1>404: Error Page</h1>
   },
-  {
-    path: '/testing',
-    element: <FloatingInput />
-  }
 ]
     // children: [
     //   { path: '*', element: <Navigate to={'/404'}/> },
@@ -57,9 +52,9 @@ const App: React.FC = ():JSX.Element => {
       <NavBar />
       <Divider/>
       {routing}
-      {/* <div onClick={toggleOpen}> */}
+      <div onClick={toggleOpen}>
       {loginModalOpen? <LoginModal /> : null}
-      {/* </div> */}
+      </div>
       </LoginModalContext.Provider>
       </>
     )

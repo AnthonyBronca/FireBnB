@@ -23,7 +23,7 @@ const LoginModal = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log('am i here?')
+        // console.log('am i here?')
         setErrors([]);
         let err = [];
         if(!firstName.length){

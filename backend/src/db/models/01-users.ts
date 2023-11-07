@@ -14,6 +14,8 @@ type UserAttributes = {
 };
 
 
+
+
 type UserCreationAttributes = Optional<
 UserAttributes, 'id'>;
 
