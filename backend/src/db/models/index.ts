@@ -11,6 +11,7 @@ const config = require('../../config/database')[env];
 const db:any = {};
 
 
+
 let sequelize: any;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);

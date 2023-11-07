@@ -1,6 +1,6 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import './floatinginput.css'
-import { Divider } from '@mui/material';
+// import { Divider } from '@mui/material';
 
 const FloatingInput = () => {
     // const [placeHolderOn, setPlaceHolderOn] = useState(false)

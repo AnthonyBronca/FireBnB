@@ -28,9 +28,8 @@ const removeUser = () => { //action
   };
 };
 
-
+//thunk
 export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
-  console.log('am i here?')
     const {firstName, lastName, email, username, password} = user;
     console.log(user, "this is user redux")
     try {

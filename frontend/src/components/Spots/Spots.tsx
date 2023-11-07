@@ -42,7 +42,7 @@ const Spots = () => {
                 <span className='spot-text spot-min' style={{paddingBottom: '2px'}}>990 miles away</span>
                 <span className='spot-text spot-min'>Oct 23 - 28</span>
                 <div>
-                    <span  style={{paddingRight: '3px'}}className='spot-text spot-bold'>$199</span>
+                    <span style={{paddingRight: '3px'}} className='spot-text spot-bold'>$199</span>
                     <span className='spot-text spot-min'>night</span>
                 </div>
             </div>

@@ -53,6 +53,9 @@
     display: flex;
     justify-content: center !important;
     align-items: center !important;
+    position: relative;
+    top: .5rem;
+    left: .4rem;
 
 }
 
