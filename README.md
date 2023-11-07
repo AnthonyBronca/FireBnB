@@ -16,8 +16,10 @@ This is a Full-Stack application intended to update and replace my existing clon
 If you would like to see my mobile clone of AirBnB, [Click Here](https://github.com/AnthonyBronca/EarthBnB-mobile) NOTE: This is still in development
 
 
-### Developer: Anthony Bronca
-
+### Team: 
+- Anthony Bronca
+- Gabriel Gutierrez
+- Eward Felipe III
 
 ### DockerImage:
 `docker.io/anthonybronca/firebnb-api:latest`
@@ -37,3 +39,26 @@ If you would like to see my mobile clone of AirBnB, [Click Here](https://github.
 ![SQLite3](https://img.shields.io/badge/SQLite3-00000F?style=for-the-badge&logo=sqlite3&logoColor=white)
 ![Amazon AWS](https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+
+
+### How to Clone
+
+1. Clone this project. You can also clone a specific branch using:
+`git clone --branch <branchname> `
+
+2. Set up Postgres:
+   - Ensure you have [Post Bird](https://github.com/Paxa/postbird) installed
+   - Create a Postgres database running the following commands in the terminal:
+   ```sh
+   psql -c "CREATE USER <username> WITH PASSWORD '<password>'"
+   ```
+   ```sh
+   psql -c "CREATE DATABASE <databasename>"
+   ```
+3. Create a `.env` file in the backend folder and fill it out to match the .env.example file
+4. Run `npm install` in the backend
+5. Run `npm start` to build your migrations, seed data, and get the api started
+6. In the Frontend directory, run `npm install`
+7. Then run `npm start`
+
+
