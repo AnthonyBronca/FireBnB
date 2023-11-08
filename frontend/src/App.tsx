@@ -14,14 +14,24 @@ const App: React.FC = ():JSX.Element => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loginModalOpen, setLoginModal] = useState(false)
 
-  const toggleOpen = () => {
-    setLoginModal(!loginModalOpen);
-  }
-
+  const [loginModalDisplay, setLoginModalDisplay] = useState('signup');
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+
+
+  const toggleOpen = (buttonClicked:string) => {
+    if(buttonClicked === 'login'){
+      setLoginModalDisplay('login')
+    } else if (buttonClicked === 'signup'){
+      setLoginModalDisplay('signup');
+    }
+    setLoginModal(!loginModalOpen);
+
+  }
+
+
 
 
   const mainRoutes = [
@@ -52,9 +62,7 @@ const App: React.FC = ():JSX.Element => {
       <NavBar />
       <Divider/>
       {routing}
-      <div onClick={toggleOpen}>
-      {loginModalOpen? <LoginModal /> : null}
-      </div>
+      {loginModalOpen? <LoginModal menuOption={loginModalDisplay} /> : null}
       </LoginModalContext.Provider>
       </>
     )
