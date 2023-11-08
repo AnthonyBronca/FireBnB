@@ -23,7 +23,7 @@ const EmailIcon= () => {
 
     const loginDemo = () => {
         dispatch(login({credential, password}))
-        toggleOpen();
+        toggleOpen('signup');
     }
 
      return(

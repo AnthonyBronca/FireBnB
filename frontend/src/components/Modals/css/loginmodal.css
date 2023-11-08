@@ -69,7 +69,8 @@ h3{
     color: white;
     border-radius: 5px;
     border-color: transparent;
-    background-color: var(--bnbred)
+    background-color: var(--bnbred);
+    cursor: pointer;
 }
 
 .or-container{
