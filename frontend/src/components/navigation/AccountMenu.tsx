@@ -27,9 +27,9 @@ const AccountMenu = () => {
         }
     }
 
-    const handleModalOpen = (e:any) => {
+    const handleModalOpen = (e:any, buttonClicked: string) => {
         e.preventDefault();
-        toggleOpen();
+        toggleOpen(buttonClicked);
         handleSignIn();
     }
 
@@ -91,8 +91,8 @@ const AccountMenu = () => {
         </>
         : <>
         {menuOpen ? <div className='drop-down-container-not-logged'>
-            <span onClick={(e:any) => handleModalOpen(e)} className='reg-span'>Sign up</span>
-            <span onClick={(e:any) => handleModalOpen(e)} className='unreg-span'>Log in</span>
+            <span onClick={(e:any) => handleModalOpen(e, "signin")} className='reg-span'>Sign up</span>
+            <span onClick={(e:any) => handleModalOpen(e, "login")} className='unreg-span'>Log in</span>
             <Divider />
             <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>
             <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>
