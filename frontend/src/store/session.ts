@@ -3,18 +3,10 @@ import { csrfFetch } from './csrf';
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
 
-// interface User {
-//     user: {
-//     id: number,
-//     firstName: string,
-//     lastName: string,
-//     email: string
-//     username: string,
-//   }}
-
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
-//Initial State for Session
+
+
 const setUser = (user: User ) => {
   return {
     type: SET_USER,
@@ -96,7 +88,7 @@ export const login = (user: {credential: string, password: string}):any => async
 
 
 
-
+//initial state for session
 const initialState: SessionInitialState = {
     user: null
 }

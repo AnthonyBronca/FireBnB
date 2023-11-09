@@ -8,7 +8,6 @@ import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 import LoginModalContext from '../../context/LoginModalContext';
-import random from 'getrandomjs'
 
 
 const AccountMenu = () => {
@@ -69,7 +68,7 @@ const AccountMenu = () => {
             <div className="user-letter-container">
                 <span className='user-letter'>{user.firstName[0]}</span>
                 <div className='notification-container'>
-                    <span className='notification-num'>{random(1,9)}</span>
+                    <span className='notification-num'>{5}</span>
                 </div>
             </div>
             : <img src={usericon} className='anon-avatar-icon' alt='avatar logo'/>}
