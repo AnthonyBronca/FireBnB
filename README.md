@@ -18,7 +18,7 @@ If you would like to see my mobile clone of AirBnB, [Click Here](https://github.
 
 ### Team: 
 - [Anthony Bronca](https://github.com/AnthonyBronca)
-- [Gabriel Gutierrez](https://github.com/optimumars)
+- [Gabriel Gutierrez](https://github.com/optimummars)
 - [Eward Felipe III](https://github.com/E-F-III)
 - [Alexi Bettinger](https://github.com/OGAlexi)
 
