@@ -8,13 +8,14 @@ import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 import LoginModalContext from '../../context/LoginModalContext';
-
+import random from 'getrandomjs'
 
 
 const AccountMenu = () => {
     const dispatch = useDispatch();
     const {toggleOpen} = useContext(LoginModalContext);
     const user = useAppSelector((state)=> state.session.user);
+
     const [isOpen, setIsOpen] = useState(false)
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -66,9 +67,9 @@ const AccountMenu = () => {
             <img src={hamburger} alt='hamburger menu' className='hamburger-icon' />
             {user ?
             <div className="user-letter-container">
-                <span className='user-letter'>A</span>
+                <span className='user-letter'>{user.firstName[0]}</span>
                 <div className='notification-container'>
-                    <span className='notification-num'>1</span>
+                    <span className='notification-num'>{random(1,9)}</span>
                 </div>
             </div>
             : <img src={usericon} className='anon-avatar-icon' alt='avatar logo'/>}
