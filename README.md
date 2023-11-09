@@ -17,10 +17,10 @@ If you would like to see my mobile clone of AirBnB, [Click Here](https://github.
 
 
 ### Team: 
-- Anthony Bronca
-- Gabriel Gutierrez
-- Eward Felipe III
-- Alexi Bettinger
+- [Anthony Bronca](https://github.com/AnthonyBronca)
+- [Gabriel Gutierrez](https://github.com/optimumars)
+- [Eward Felipe III](https://github.com/E-F-III)
+- [Alexi Bettinger](https://github.com/OGAlexi)
 
 ### DockerImage:
 `docker.io/anthonybronca/firebnb-api:latest`
