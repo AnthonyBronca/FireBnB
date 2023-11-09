@@ -1,3 +1,14 @@
+.spots-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-grow:unset;
+    /*
+    Need to add media queries so that when screen is big it doesn't have awkawardly big spacing
+    */
+}
+
 .image-container{
 /* background-color: purple; */
 width: 14.2rem;
