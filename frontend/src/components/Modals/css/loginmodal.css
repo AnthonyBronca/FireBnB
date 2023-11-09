@@ -39,13 +39,12 @@ h3{
 .close-button {
     background: none;
     border: none;
-    font-size: 1rem;
-    cursor: pointer;
 }
 
 .close-button-image{
     height: .7rem;
     width: .7rem;
+    cursor: pointer;
 }
 
 
@@ -69,7 +68,8 @@ h3{
     color: white;
     border-radius: 5px;
     border-color: transparent;
-    background-color: var(--bnbred)
+    background-color: var(--bnbred);
+    cursor: pointer;
 }
 
 .or-container{

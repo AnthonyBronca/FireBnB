@@ -6,36 +6,43 @@ import xlogo from '../../assets/icons/x.svg'
 import TextField from '@mui/material/TextField';
 import ButtonLogos from './ButtonLogos';
 import { useDispatch } from 'react-redux';
-import { signup } from '../../store/session';
+import { login, signup } from '../../store/session';
 
-const LoginModal = () => {
+
+interface LoginSignUpProp {
+    menuOption: string;
+}
+
+//menuOption can be either login or signup
+const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
     const dispatch = useDispatch();
     const {open, toggleOpen} = useContext(LoginModalContext);
 
+    //state change for form items
     const [firstName, setFirstname] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-
-
     const [errors, setErrors] = useState<string[]>([]);
 
+
+    //handles submit for either login or sign up
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        // console.log('am i here?')
         setErrors([]);
         let err = [];
-        if(!firstName.length){
+
+        if(!firstName.length && menuOption === 'signup'){
             err.push("You must enter a First Name");
         }
-        if(!lastName.length){
+        if(!lastName.length && menuOption === 'signup'){
             err.push("You must enter a Last Name");
         }
-        if(!username.length){
-            err.push("You must enter a username");
+        if(!username.length && (!email.length && menuOption === 'login')){
+            err.push("You must enter a username or email");
         }
-        if(!email.length){
+        if(!email.length && menuOption === 'signup'){
             err.push("You must enter an email");
         }
         if(!password.length){
@@ -46,22 +53,37 @@ const LoginModal = () => {
             return;
         } else{
             if(!errors.length){
-                let user = {firstName, lastName, email, username, password}
-                let res = await dispatch(signup(user));
-                if(res){
-                    if(!res.message.startsWith("Validation error:")){
-                        let errs: string[] = Object.values(res.errors);
-                        setErrors(errs);
+                //Sign up actions
+                if(menuOption === 'signup'){
+                    let user = {firstName, lastName, email, username, password}
+                    let res = await dispatch(signup(user));
+                    if(res){
+                        if(!res.message.startsWith("Validation error:")){
+                            let errs: string[] = Object.values(res.errors);
+                            setErrors(errs);
+                        } else {
+                            let errs: string[] = [res.message];
+                            setErrors(errs);
+                        }
                     } else {
-                        let errs: string[] = [res.message];
-                        setErrors(errs);
+                        toggleOpen('signup')
                     }
-                } else {
-                    toggleOpen()
+                    //login actions
+            } else{
+                let credential = ""
+                if(email){
+                    credential = email;
                 }
+                if(username){
+                    credential = username
+                };
+                let user = {credential, password};
+                dispatch(login(user));
             }
         }
     }
+    toggleOpen('signup')
+}
 
 
     useEffect(()=> {
@@ -78,10 +100,9 @@ const LoginModal = () => {
     })
 
 
-
     const handleClose = () => {
         if(open){
-            toggleOpen();
+            toggleOpen('signup');
         }
         return;
     }
@@ -98,12 +119,13 @@ const LoginModal = () => {
                 </div>
                 <Divider />
             </div>
+
             <h3>Welcome to Firebnb</h3>
             <div className="input-boxes-sign-in">
                 <form onSubmit={(e:any)=> handleSubmit(e)} style={{display: 'flex', flexDirection: 'column'}}>
                 <TextField
                     id="filled-basic"
-                    label="Email"
+                    label={menuOption === 'signup'? "Email": "Email or Username"}
                     variant='filled'
                     size='small'
                     type='email'
@@ -123,11 +145,11 @@ const LoginModal = () => {
 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     />
-                <TextField
+
+                {menuOption === 'signup' ? <TextField
                     id="filled-basic"
                     label="Username"
                     variant='filled'
-                    // type='text'
                     size='small'
                     style={{}}
                     InputLabelProps={{
@@ -145,8 +167,9 @@ const LoginModal = () => {
                         borderBottom: 'none'
                     }}}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
-                    />
-                <TextField
+                    />: null}
+
+                {menuOption === 'signup' ? <TextField
                     id="filled-basic"
                     label="First Name"
                     variant='filled'
@@ -166,8 +189,9 @@ const LoginModal = () => {
                     }}}
 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstname(e.target.value)}
-                    />
-                <TextField
+                    />: null}
+
+                {menuOption === 'signup' ? <TextField
                     id="filled-basic"
                     label="Last Name"
                     variant='filled'
@@ -187,12 +211,14 @@ const LoginModal = () => {
                     }}}
 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
-                    />
+                    />: null}
+
                 <TextField
                     id="filled-basic"
                     label="Password"
                     variant='filled'
                     type='password'
+                    autoComplete='current-password'
                     size='small'
                     style={{}}
                     InputLabelProps={{
@@ -216,14 +242,20 @@ const LoginModal = () => {
                         We will NOT call or text you to confirm your number.
                          Standard message and data rates will not apply.
                     </span>
-                    { errors.length > 0 ?<div className='errors-box-login'>
+                    { errors.length > 0 ? <div className='errors-box-login'>
                         <ul>
                             {errors.map((err, key) => <li><span key={key} className='sign-up-error-span'> {err}</span></li>
                         )}
                         </ul>
                     </div>: null}
-                    <button type='submit' onClick={(e:any) => handleSubmit(e)} className='continue-button'>Continue</button>
+                    <button
+                        type='submit'
+                        onClick={(e:any) => handleSubmit(e)}
+                        className='continue-button'>{
+                            menuOption === 'signup'? "Sign Up": "Continue"}
+                            </button>
                     </form>
+
                     <div className='auth-buttons-container'>
                     </div>
                     <Divider><span className='or-span'>or</span></Divider>

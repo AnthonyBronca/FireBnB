@@ -1,15 +1,12 @@
 'use strict';
 
 import { OptionsInterface } from "../../typings/seeders";
-
-const bcrypt = require("bcryptjs");
+import generateSpotSeeders from "../../utils/spotSeeders";
 
 let options:OptionsInterface = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+  options.schema = process.env.SCHEMA;
 }
-
-
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
@@ -20,7 +17,7 @@ module.exports = {
             city: "Orlando",
             state: "FL",
             country: "United States of America",
-            description: "A cozy 1 x1 tucked in the Alpines",
+            description: "A cozy 1 x 1 tucked in the Alpines",
             name: "The Alpine",
             lat: 33.00202,
             lng: 33.02412,
@@ -38,9 +35,8 @@ module.exports = {
             lng: 33.024142,
             price: 45,
             userId: 2,
-         }
-
-
+         },
+         ...generateSpotSeeders()
     ], {});
   },
 

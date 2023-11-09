@@ -35,14 +35,10 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
         }
 
         if(Number(size) > 20 || !size){
-            paginationSize = 20;
+            paginationSize = 30;
         } else {
             paginationSize = Number(size)
         }
-
-        // console.log(paginationPage)
-        // console.log(paginationSize)
-
 
 
         const paginationValues: PaginationValues = {};
@@ -80,7 +76,6 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             where.price = {[Op.lte]: Number(maxPrice)};
         }
 
-        console.log(paginationValues)
 
         const spots = await Spot.findAll({
             ...paginationValues,

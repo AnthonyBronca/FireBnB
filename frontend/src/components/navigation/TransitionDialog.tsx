@@ -20,8 +20,7 @@ const Transition = React.forwardRef(function Transition(
 
 
 
-const TransitionDialog = (isOpen:any) => {
-    console.log(isOpen)
+const TransitionDialog = () => {
     const [open, setOpen] = React.useState(false);
 
     // const handleClickOpen = () => {

@@ -1,9 +1,9 @@
 export interface ModalContext {
     open: boolean;
-    toggleOpen: () => void;
+    toggleOpen: (buttonType:string) => void;
 }
 
 export interface SignInContext {
     open: boolean;
-    toggleSignIn: () => void;
+    toggleSignIn: (buttonType:string) => void;
 }
