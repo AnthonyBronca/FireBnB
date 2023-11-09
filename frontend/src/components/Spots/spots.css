@@ -1,3 +1,8 @@
+.spot-container{
+    margin-bottom: 1rem;
+    margin-inline: 5px;
+}
+
 .spots-container{
     display: flex;
     flex-direction: row;
@@ -80,4 +85,11 @@ display: flex;
 .spot-summary-info{
     display: flex;
     flex-direction: column;
+}
+
+
+@media (min-width: 1400px) {
+    .spot-container {
+        width: 20%;
+    }
 }
