@@ -35,7 +35,7 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
         }
 
         if(Number(size) > 20 || !size){
-            paginationSize = 20;
+            paginationSize = 30;
         } else {
             paginationSize = Number(size)
         }

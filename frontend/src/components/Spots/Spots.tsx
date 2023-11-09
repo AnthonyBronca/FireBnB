@@ -22,7 +22,7 @@ const Spots = () => {
         <div className="spot-container" key={idx}>
           <div className="image-container">
               <img
-                src='https://a0.muscache.com/im/pictures/82c577ee-3422-4fda-ae09-6716d76e8bef.jpg?im_w=720'
+                src={spot.previewImage}
                 alt="home"
                 className="spot-image"
                 />
