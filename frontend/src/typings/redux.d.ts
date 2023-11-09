@@ -6,8 +6,16 @@ export interface CSRFHttpOptions {
     body?: string;
 };
 
+export interface User {
+    id: number,
+    firstName: string,
+    lastName: string,
+    email: string
+    username: string,
+}
+
 export interface SessionInitialState {
-    user: null | any[]
+    user: null | User
 }
 
 export interface SignUpUser {

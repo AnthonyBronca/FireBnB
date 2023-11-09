@@ -1,16 +1,16 @@
-import { SessionInitialState, SignUpUser } from '../typings/redux';
+import { SessionInitialState, SignUpUser, User } from '../typings/redux';
 import { csrfFetch } from './csrf';
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
 
-interface User {
-    user: {
-    id: number,
-    firstName: string,
-    lastName: string,
-    email: string
-    username: string,
-  }}
+// interface User {
+//     user: {
+//     id: number,
+//     firstName: string,
+//     lastName: string,
+//     email: string
+//     username: string,
+//   }}
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -31,7 +31,6 @@ const removeUser = () => { //action
 //thunk
 export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
     const {firstName, lastName, email, username, password} = user;
-    console.log(user, "this is user redux")
     try {
       const response = await csrfFetch("/api/users", {
           method: "POST",
@@ -46,7 +45,7 @@ export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<a
       });
       const data = await response.json();
         dispatch(setUser(data));
-    } catch (res: any) {
+    } catch (res:any) {
       if(!res.ok){
         let errors = await res.json();
         console.log(errors)
@@ -56,9 +55,7 @@ export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<a
 }
 
 export const restoreUser = () => async (dispatch: Dispatch) => {
-    // console.log('am i here?')
     const response = await csrfFetch('/api/session');
-    // console.log(data)
     if(response.ok){
         const data = await response.json();
         dispatch(setUser(data));
@@ -108,8 +105,7 @@ export const SessionSlice = createSlice({
     name: 'session',
     initialState,
     reducers:{
-        setUser: (state, action: PayloadAction<{ user:any }>) => {
-            console.log(action.payload)
+        setUser: (state, action: PayloadAction<{ user:User }>) => {
             state.user = action.payload.user;
         },
     //additional reducers go here
