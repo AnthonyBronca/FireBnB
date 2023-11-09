@@ -93,32 +93,3 @@ display: flex;
         width: 20%;
     }
 }
-/* @media (max-width: 90px) {
-    .spot-container {
-        width: 40px;
-    }
-} */
-/* @media (max-width: 780px) {
-    .spot-container {
-        width: 25%;
-    }
-}
-@media (max-width: 500px) {
-    .spot-container {
-        width: 90%;
-    }
-}
-@media (max-width: 300px) {
-    .spot-container {
-        width: 95%;
-    }
-} */
-
-
-
-
-/* @media (min-width: 499px) {
-    .spots-container{
-        width: 100%;
-    }
-} */
