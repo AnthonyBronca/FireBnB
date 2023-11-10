@@ -43,6 +43,7 @@ const App: React.FC = ():JSX.Element => {
     path: '*',
     element: <h1>404: Error Page</h1>
   },
+
 ]
     // children: [
     //   { path: '*', element: <Navigate to={'/404'}/> },

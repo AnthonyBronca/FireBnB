@@ -31,6 +31,7 @@ export interface Spot {
     updatedAt: string
 }
 
+
 export interface Spots{
     spots: Spot[]
 }
