@@ -1,6 +1,3 @@
-import {faker} from '@faker-js/faker'
-const random = require('getrandomjs')
-
 interface SpotImage {
     spotId: number,
     url: string,
