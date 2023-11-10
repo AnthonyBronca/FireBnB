@@ -41,8 +41,15 @@ export interface SessionInitialState {
     user: null | User
 }
 
+
+export interface SpotId {
+   [id:number]: Spot;
+}
+
+
 export interface SpotInitialState {
-    spots: null | Spot[]
+    byId: SpotId | null,
+    allSpots: Spot[] | null
 }
 
 export interface SignUpUser {

@@ -9,7 +9,7 @@ import { useAppSelector } from '../../store';
 const Spots = () => {
 
   const dispatch = useDispatch();
-  const spots = useAppSelector((state) => state.spots.spots);
+  const spots = useAppSelector((state) => state.spots.allSpots);
 
     useEffect(()=> {
         dispatch(getAllSpots())
@@ -49,7 +49,7 @@ const Spots = () => {
           </div>
       </div>
       )):null}
-      <div className="spot-container">
+      {/* <div className="spot-container">
           <div className="image-container">
               <img
                 src='https://a0.muscache.com/im/pictures/82c577ee-3422-4fda-ae09-6716d76e8bef.jpg?im_w=720'
@@ -77,7 +77,7 @@ const Spots = () => {
                   </div>
               </div>
           </div>
-      </div>
+      </div> */}
   </div>
   );
 }

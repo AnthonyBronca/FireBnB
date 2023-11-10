@@ -1,6 +1,7 @@
+
 import express, {NextFunction, Request, Response} from 'express';
 require('express-async-errors');
-
+import path from 'path'
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
@@ -13,6 +14,8 @@ const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
+
+
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
@@ -30,40 +33,54 @@ app.use(
     })
     );
 
-// Set the _csrf token and create req.csrfToken method
-app.use(
-    csurf({
-        cookie: {
-            secure: isProduction,
-            sameSite: isProduction && "lax",
-            httpOnly: true
-        }
-    })
-);
-
-app.use(routes);
-
-
-app.use((_req:Request, _res:Response, next:NextFunction) => {
-    const err = new NoResourceError("The requested resource couldn't be found.");
-    err.title = "Resource Not Found";
-    err.errors?.push({ message: "The requested resource couldn't be found." });
-    err.status = 404;
-    next(err);
-});
-
-// Process sequelize errors
-app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):void => {
-  // check if error is a Sequelize error:
-    let errors: any = {};
-
-    if(err.errors instanceof Array){
-        for (let error of err.errors) {
-            if(error.path){
-                errors[error.path] = error.message;
+    // Set the _csrf token and create req.csrfToken method
+    app.use(
+        csurf({
+            cookie: {
+                secure: isProduction,
+                sameSite: isProduction && "lax",
+                httpOnly: true
             }
-        }
-    }
+        })
+        );
+
+
+        app.use(express.static(path.join(__dirname, "react-app")));
+        // app.use(express.static(path.join(__dirname, "/react-app/", "public"))); //<-comment this in it works
+        // app.use((_req: Request, res: Response, _next:NextFunction) => {
+            //     res.sendFile(path.join(__dirname,"index.html"))
+            // })
+
+        app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')))
+
+        app.use(routes);
+        app.get('/', (req: Request, res: Response, _next: NextFunction)=> {
+            res.sendFile(path.join(__dirname, "index.html"))
+        })
+        app.get('/favicon.ico', (req: Request, res: Response, _next: NextFunction)=> {
+            res.sendFile(path.join(__dirname, '/favicon.ico'))
+        })
+
+        app.use((_req:Request, _res:Response, next:NextFunction) => {
+            const err = new NoResourceError("The requested resource couldn't be found.");
+            err.title = "Resource Not Found";
+            err.errors?.push({ message: "The requested resource couldn't be found." });
+            err.status = 404;
+            next(err);
+        });
+
+        // Process sequelize errors
+        app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):void => {
+            // check if error is a Sequelize error:
+            let errors: any = {};
+
+            if(err.errors instanceof Array){
+                for (let error of err.errors) {
+                    if(error.path){
+                        errors[error.path] = error.message;
+                    }
+                }
+            }
 
   next(err);
 });
@@ -80,5 +97,8 @@ app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):Re
     // stack: isProduction ? null : err.stack
   });
 });
+
+
+
 
 export = app;

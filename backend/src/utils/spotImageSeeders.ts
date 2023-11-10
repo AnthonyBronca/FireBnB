@@ -1,5 +1,3 @@
-import {faker} from '@faker-js/faker'
-const random = require('getrandomjs')
 
 interface SpotImage {
     spotId: number,
@@ -32,7 +30,6 @@ const randomHomeUrls = [
 "https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg",
 ]
 
-console.log(randomHomeUrls.length)
 
 const generateSpotImageSeeders = (): SpotImage[] => {
 
