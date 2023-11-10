@@ -23,7 +23,8 @@ If you would like to see my mobile clone of AirBnB, [Click Here](https://github.
 - [Alexi Bettinger](https://github.com/OGAlexi)
 
 ### DockerImage:
-`docker.io/anthonybronca/firebnb-api:latest`
+API image: `docker.io/anthonybronca/firebnb-api:latest`
+Deployed image: `docker.io/anthonybronca/firebnb`
 
 ### Tech Stack:
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=500&color=007acc&width=435&lines=TypeScript;Express;Sequelize;React;Redux;PostgreSQL;SQLite3;Docker;HTML5;CSS3)](https://git.io/typing-svg)
