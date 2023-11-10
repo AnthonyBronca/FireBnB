@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v3
       - name: build
         run: |
-          docker build . -t anthonybronca/firebnb:latest
+          docker build --pull --rm -f "Dockerfile" -t firebnb:latest "."
       - name: publush
         run: |
           docker push anthonybronca/firebnb:latest
