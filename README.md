@@ -1,7 +1,7 @@
 # FireBnB
 
 ## Navigation
-[Live Site](https://firebnb-api.onrender.com)
+[Live Site](https://firebnb-zemb.onrender.com/)
 
 [API Docs](https://github.com/AnthonyBronca/FireBnB/wiki)
 
