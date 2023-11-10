@@ -21,6 +21,7 @@ If you would like to see my mobile clone of AirBnB, [Click Here](https://github.
 - [Gabriel Gutierrez](https://github.com/optimummars)
 - [Eward Felipe III](https://github.com/E-F-III)
 - [Alexi Bettinger](https://github.com/OGAlexi)
+- [William Vincent](https://github.com/WJVincent)
 
 ### DockerImage:
 API image: `docker.io/anthonybronca/firebnb-api:latest`
