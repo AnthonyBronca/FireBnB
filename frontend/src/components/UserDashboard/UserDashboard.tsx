@@ -1,11 +1,20 @@
 import { useAppSelector } from '../../store';
+import { useNavigate } from 'react-router-dom';
 import './UserDashboard.css'
 
 const UserDashboard = () => {
     const user = useAppSelector((state) => state.session.user);
 
+    const navigate = useNavigate();
+
     const handleFutureFeature = () => {
         alert("This feature is in development and will be released soon!");
+    }
+
+    const handlePersonalInfo = (e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigate("/account/personal-info");
     }
 
     return (
@@ -19,7 +28,7 @@ const UserDashboard = () => {
             </div>}
 
             <div className="card-container">
-                <div onClick={handleFutureFeature} className='account-card'>
+                <div onClick={handlePersonalInfo} className='account-card'>
                     <span>Personal Info</span>
                 </div>
                 <div onClick={handleFutureFeature} className='account-card'>

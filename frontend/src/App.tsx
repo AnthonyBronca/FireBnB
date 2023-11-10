@@ -6,6 +6,7 @@ import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
 import NavBar from './components/navigation/NavBar';
 import UserDashboard from './components/UserDashboard/UserDashboard';
+import PersonalInfo from './components/PersonalInfo/PersonalInfo';
 import { Divider } from '@mui/material';
 import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
@@ -47,6 +48,10 @@ const App: React.FC = (): JSX.Element => {
     {
       path: '/account',
       element: <UserDashboard />,
+    },
+    {
+      path: '/account/personal-info',
+      element: <PersonalInfo />
     }
   ]
   // children: [
