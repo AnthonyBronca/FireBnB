@@ -1,4 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
+import path from 'path'
 require('express-async-errors');
 
 import morgan from 'morgan';
@@ -41,8 +42,20 @@ app.use(
     })
 );
 
-app.use(routes);
+//apply middleware to allow for usage of static react app from build
+app.use(express.static(path.join(__dirname, "react-app")));
+app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
 
+//api routes
+app.use(routes);
+//send the react build as a static file
+app.get('/', (_req: Request, res:Response, _next) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+//send the react build as a static file
+app.get('/favicon.ico', (_req, res, _next) => {
+    res.sendFile(path.join(__dirname, '/favicon.ico'));
+});
 
 app.use((_req:Request, _res:Response, next:NextFunction) => {
     const err = new NoResourceError("The requested resource couldn't be found.");
