@@ -1,0 +1,16 @@
+name: Publish image to Docker Hub
+on:
+  [workflow_dispatch]
+
+jobs:
+  publish_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        runs: |
+          docker build . -t anthonybronca/firebnb:latest
+      - name: publush
+        run: |
+          docker push anthonybronca/firebnb:latest
