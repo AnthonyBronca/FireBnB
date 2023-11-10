@@ -229,6 +229,7 @@ function getRandomInRange(from:number, to:number, fixed:number) {
 }
 const generateSpotSeeders = () => {
     let spotArr: Spot[] = [];
+
     for (let i = 0; i < 18; i++) {
         let spot = {
             userId: 1,
