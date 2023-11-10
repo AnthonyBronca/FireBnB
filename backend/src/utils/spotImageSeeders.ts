@@ -1,5 +1,4 @@
 
-
 const randomHomeUrls = [
     "https://www.livehome3d.com/assets/img/social/how-to-design-a-house.jpg",
     "https://images.coolhouseplans.com/plans/80523/80523-b440.jpg",
