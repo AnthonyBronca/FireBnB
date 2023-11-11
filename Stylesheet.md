@@ -278,3 +278,66 @@ Vite works very similarly, except it does not use webpack bundlers. In the `/fro
 ```
 
 Vite does need to be built using `npm run build` and then `npm start` to see production level build. You can also run `npm run dev` to see it in development. Note that dev will open in a development port, likely port:3000. Production will run in a vite defaulted port at port:4173
+
+
+## Redux
+
+Redux has some great docs for this.
+### State Normalization
+[Normalize State Shape](https://redux.js.org/usage/structuring-reducers/normalizing-state-shape)
+
+
+Redux states that we should normalize our state as an object. We should take into consideration efficiency and utility when working with state.
+
+We want to normalize the data into using objects for ids (O(1) look up time) and then we can use something like `Object.values` wrapped around our components `useAppSelector()` to convert the values into arrays. If we keep it as an array in our slice of state, it may make it easier to map over the component but this can introduce an O(n)^2 look up time when trying to find an element. For example Spots's state data can now look like this:
+
+```ts
+{
+    spots: {
+        1: Spot{....},
+        2: Spot{....},
+        3: Spot{....},
+        4: Spot{....},
+        5: Spot{....},
+    }
+}
+
+```
+We can also keep track of any relevant information we may need to access within our slice of state. Example if I needed to keep track of states:
+
+```ts
+{
+    spots: {
+        byId: {
+            1: Spot{....},
+            2: Spot{....},
+            3: Spot{....},
+            4: Spot{....},
+            5: Spot{....},
+        },
+        allStates: States[]
+    }
+}
+```
+According to the Redux docs, we should aim to also process all the data manipulation within the reducer itself. We could use a helper function insde the Redux file, but we should definitely avoid having this be rendered via the client. This can drastically help with optimization speeds, especially across different machine constraints.
+
+
+### Redux Toolkit
+
+[Redux ToolKit Docs](https://redux.js.org/redux-toolkit/overview)
+
+Redux Toolkit is the latest tooling that Redux has to offer. It comes included with many built in functions to help ease the use of redux, while also providing optimal builds out-of-the-box.
+
+Tools we currently use in the project:
+
+- `createSlice()`: Accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types.
+
+- `createReduce()`: Lets you supply a lookup table of action types to case reducer functions, rather than writing switch statements. In addition, it automatically uses the immer library to let you write simpler immutable updates with normal mutative code, like
+
+- `configureStore()`: Wraps createStore to provide simplified configuration options and good defaults. It can automatically combine your slice reducers, adds whatever Redux middleware you supply, includes redux-thunk by default, and enables use of the Redux DevTools Extension.
+
+We may look into refactoring our `thunks` into using the following Toolkit tool.
+
+- `createAsyncThunk()`: Accepts an action type string and a function that returns a promise, and generates a thunk that dispatches pending/fulfilled/rejected action types based on that promise
+
+Additional information for `createAysncThunk()` can be found here for if/when we decide to implement it: [createAsyncThunk](https://redux-toolkit.js.org/api/createAsyncThunk)
