@@ -1,0 +1,17 @@
+{
+  "name": "firebnb",
+  "version": "1.0.0",
+  "description": "## Navigation > [API Docs](https://github.com/AnthonyBronca/FireBnB/wiki)",
+  "main": "index.js",
+  "scripts": {
+    "install": "npm --prefix backend install backend",
+    "dev:backend": "npm install --prefix backend start",
+    "sequelize": "npm run --prefix backend sequelize",
+    "sequelize-cli": "npm run --prefix backend sequelize-cli",
+    "start": "npm start --prefix backend",
+    "build": "npm run --prefix backend build-production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
