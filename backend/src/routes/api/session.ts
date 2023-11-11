@@ -55,13 +55,7 @@ router.post(
 
                 await setTokenCookie(res, user);
 
-                let loginUser: LoginUser = {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    username: user.username
-                }
+                let loginUser = user.getSafeUser()
 
 
                 return res.json({
@@ -104,13 +98,7 @@ router.post(
 //get the current user
 router.get('/', restoreUser, async(req:any, res:Response) => {
     if(req.user){
-        const user: LoginUser = {
-            id: req.user.id,
-            firstName: req.user.firstName,
-            lastName: req.user.lastName,
-            email: req.user.email,
-            username: req.user.username
-        }
+        const user = req.user.getSafeUser();
         res.json({user})
     } else {
         res.json({"user": null})

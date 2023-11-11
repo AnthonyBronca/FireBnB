@@ -38,6 +38,10 @@ module.exports = {
         type: Sequelize.STRING(250),
         defaultValue: ""
       },
+      isHost: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
         allowNull: false

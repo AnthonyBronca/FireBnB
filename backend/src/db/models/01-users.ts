@@ -9,8 +9,8 @@ type UserAttributes = {
     username: string,
     email: string,
     bio: string,
+    isHost: boolean,
     hashedPassword: string,
-
 };
 
 
@@ -25,9 +25,23 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare id: CreationOptional<number>;
         declare firstName:string;
         declare lastName:string;
+        declare email:string;
         declare username: string;
         declare bio: string;
+        declare isHost: boolean;
         declare hashedPassword: string;
+
+        getSafeUser(){
+            const safeUser = {
+                id: this.id,
+                email: this.email,
+                username: this.username,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                isHost: this.isHost
+            };
+            return safeUser
+        }
 
         static associate(models:any){
             User.hasMany(models.Spot, {foreignKey: 'userId', onDelete: 'cascade', hooks: true});
@@ -94,6 +108,11 @@ module.exports = (sequelize: any, DataTypes:any) => {
                 },
                 isEmail: true
             }
+        },
+        isHost: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
         hashedPassword: {
             type: DataTypes.STRING,
