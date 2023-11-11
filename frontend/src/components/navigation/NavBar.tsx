@@ -5,13 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import globe from '../../assets/icons/globe.svg'
 import AccountMenu from './AccountMenu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+    const navigate = useNavigate()
+
+    const goToHome = () =>{
+        navigate('/')
+    }
+
+
+
   return (
     <>
     <div className='nav-bar-container '>
-        <div className='nav-logo-container'>
+        <div className='nav-logo-container' onClick={goToHome}>
             <img src={firebnb} className='logo' alt='logo'/>
             <span>firebnb</span>
         </div>

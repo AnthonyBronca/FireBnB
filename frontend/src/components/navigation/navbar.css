@@ -9,6 +9,8 @@
     height: 3rem;
     justify-content: space-around;
     padding-bottom: 15px;
+    max-width: 1200px;
+    min-width: 500px;
     /* border-bottom: 1px solid rgba(15,15,15,.2); */
 }
 
@@ -16,6 +18,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .nav-logo-container span {
