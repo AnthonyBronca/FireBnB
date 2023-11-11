@@ -3,7 +3,6 @@ import { CustomeRequest } from "../../typings/express";
 import {handleValidationErrors, validateQueryParams, validateSpot} from '../../utils/validation';
 
 const { check } = require('express-validator');
-const sequelize = require('sequelize');
 
 import db from '../../db/models';
 import { BookingErrorStack, BookingErrors, ForbiddenError,LoginError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
@@ -20,7 +19,6 @@ const router = require('express').Router();
 // TODO: ADD filter and pagination
 router.get('/', validateQueryParams, async(req:Request, res: Response, next: NextFunction) => {
     try{
-        // let result = [];
 
         let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
 
