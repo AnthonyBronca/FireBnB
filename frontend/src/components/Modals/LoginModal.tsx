@@ -3,7 +3,7 @@ import './css/loginmodal.css'
 import React, { useContext, useEffect, useState } from 'react';
 import LoginModalContext from '../../context/LoginModalContext';
 import xlogo from '../../assets/icons/x.svg'
-import TextField from '@mui/material/TextField';
+import {TextField, Checkbox} from '@mui/material';
 import ButtonLogos from './ButtonLogos';
 import { useDispatch } from 'react-redux';
 import { login, signup } from '../../store/session';
@@ -214,13 +214,6 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
                     />: null}
 
-                {menuOption === 'signup' ? (
-                    <div>
-                        <label>Do you want to sign up as a host?</label>
-                        <input type="checkbox" checked={isHost} onChange={() => setIsHost(!isHost)}/>
-                    </div>
-                    ): null}
-
                 <TextField
                     id="filled-basic"
                     label="Password"
@@ -245,6 +238,13 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
                     }}}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                     />
+
+                {menuOption === 'signup' ? (
+                    <div>
+                        <label>Do You want to sign up as a host?</label>
+                        <Checkbox checked={isHost} onChange={() => setIsHost(!isHost)}/>
+                    </div>
+                ): null}
 
                     <span className='login-modal-disclaimer'>
                         We will NOT call or text you to confirm your number.
