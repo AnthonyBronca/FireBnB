@@ -1,7 +1,7 @@
 
 import express, {NextFunction, Request, Response} from 'express';
-require('express-async-errors');
 import path from 'path'
+require('express-async-errors');
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
@@ -45,11 +45,20 @@ app.use(
         );
 
 
-        app.use(express.static(path.join(__dirname, "react-app")));
-        // app.use(express.static(path.join(__dirname, "/react-app/", "public"))); //<-comment this in it works
-        // app.use((_req: Request, res: Response, _next:NextFunction) => {
-            //     res.sendFile(path.join(__dirname,"index.html"))
-            // })
+//apply middleware to allow for usage of static react app from build
+app.use(express.static(path.join(__dirname, "react-app")));
+app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
+
+//api routes
+app.use(routes);
+//send the react build as a static file
+app.get('/', (_req: Request, res:Response, _next) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+//send the react build as a static file
+app.get('/favicon.ico', (_req, res, _next) => {
+    res.sendFile(path.join(__dirname, '/favicon.ico'));
+});
 
         app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')))
 
