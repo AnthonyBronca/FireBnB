@@ -1,4 +1,4 @@
-import { SpotInitialState, Spot, Spots } from "../typings/redux";
+import {SpotInitialState, Spot, Spots } from "../typings/redux";
 import { csrfFetch } from "./csrf";
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
@@ -33,8 +33,10 @@ export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> =>
 
 //Spots initial State
 const initialState:SpotInitialState = {
-    spots: null
+    byId: null,
+    allSpots: null
 }
+
 
 //state reducer for Spots
 export const SpotSlice = createSlice({
@@ -42,7 +44,12 @@ export const SpotSlice = createSlice({
     initialState,
     reducers: {
         setSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
-            state.spots = action.payload.Spots
+            state.byId = {};
+            state.allSpots = action.payload.Spots;
+
+            for(let spot of action.payload.Spots){
+                state.byId[`${spot.id}`] = spot;
+            }
         }
     }
 })
