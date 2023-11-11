@@ -38,6 +38,7 @@ module.exports = {
         email: 'demo@demouser.io',
         username: 'Demo-user',
         bio: "I made this site with Typescript :D",
+        isHost: true,
         hashedPassword: bcrypt.hashSync('StrongDemoPassword!')
       },
     //   ...users
