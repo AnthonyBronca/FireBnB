@@ -52,14 +52,18 @@ COPY /backend/package*.json .
 
 COPY /backend/.sequelizerc .
 
+
 COPY --from=frontendbuild frontend/dist ./dist/react-app
 COPY --from=frontendbuild frontend/public ./dist/react-app/public
 # COPY /frontend/dist ./dist/react-app
 # COPY /frontend/public ./dist/react-app/public
 
+
 RUN npm install --only=production
 
+
 COPY --from=backendbuild backend/dist ./dist
+
 
 EXPOSE 8000
 CMD [ "npm", "start"]

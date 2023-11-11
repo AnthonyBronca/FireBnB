@@ -9,7 +9,7 @@ import { useAppSelector } from '../../store';
 const Spots = () => {
 
   const dispatch = useDispatch();
-  const spots = useAppSelector((state) => state.spots.spots);
+  const spots = useAppSelector((state) => state.spots.allSpots);
 
     useEffect(()=> {
         dispatch(getAllSpots())
