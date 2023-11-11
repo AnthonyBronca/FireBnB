@@ -1,6 +1,7 @@
 .spot-container{
     margin-bottom: 1rem;
     margin-inline: 5px;
+    cursor: pointer;
 }
 
 .spots-container{
@@ -15,9 +16,9 @@
 }
 
 .image-container{
-/* background-color: purple; */
-width: 14.2rem;
-display: flex;
+    width: 14.2rem;
+    display: flex;
+    cursor: pointer;
 }
 
 .spot-image{

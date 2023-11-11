@@ -1,3 +1,4 @@
+import React from 'react';
 import './spots.css';
 import heart from '../../assets/icons/heart.svg';
 import star from '../../assets/icons/star.svg';
@@ -5,21 +6,29 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAllSpots } from '../../store/spots';
 import { useAppSelector } from '../../store';
+import { useNavigate } from 'react-router-dom';
 
 const Spots = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const spots = useAppSelector((state) => state.spots.allSpots);
 
     useEffect(()=> {
         dispatch(getAllSpots())
     }, [dispatch])
 
+  const viewSpot = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, spotId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/spot/${spotId}`);
+    return;
+  }
 
   return (
     <div className='spots-container'>
       {spots? spots.map((spot, idx) => (
-        <div className="spot-container" key={idx}>
+        <div className="spot-container" key={idx} onClick={(e) => viewSpot(e, spot.id)}>
           <div className="image-container">
               <img
                 src={spot.previewImage}

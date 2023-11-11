@@ -37,7 +37,6 @@ const initialState:SpotInitialState = {
     allSpots: null
 }
 
-
 //state reducer for Spots
 export const SpotSlice = createSlice({
     name: 'spots',

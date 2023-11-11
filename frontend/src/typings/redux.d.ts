@@ -7,57 +7,58 @@ export interface CSRFHttpOptions {
 };
 
 export interface User {
-    id: number,
-    firstName: string,
-    lastName: string,
-    email: string
-    username: string,
-    isHost: boolean
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    isHost: boolean;
 }
 
 export interface Spot {
-    id: number,
-    ownerId: number,
-    address: string,
-    city: string,
-    state: string,
-    country: string,
-    description: string,
-    avgRating: number,
-    price: number,
-    lat: number,
-    lng: number,
-    previewImage: string,
-    createdAt: string
-    updatedAt: string
+    id: number;
+    ownerId: number;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    description: string;
+    avgRating: number;
+    name: string;
+    price: number;
+    lat: number;
+    lng: number;
+    previewImage: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 
 export interface Spots{
-    spots: Spot[]
+    spots: Spot[];
 }
 
 
 export interface SessionInitialState {
-    user: null | User
+    user: null | User;
 }
 
 
 export interface SpotId {
-   [id:number]: Spot;
+   [id:number|string]: Spot;
 }
 
 
 export interface SpotInitialState {
-    byId: SpotId | null,
-    allSpots: Spot[] | null
+    byId: SpotId | null;
+    allSpots: Spot[] | null;
 }
 
 export interface SignUpUser {
-    firstName: string,
-    lastName: string,
-    email: string,
-    username: string,
-    isHost: boolean,
-    password: string
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    isHost: boolean;
+    password: string;
 }
