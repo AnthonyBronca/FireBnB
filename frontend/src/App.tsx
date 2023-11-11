@@ -17,8 +17,18 @@ const App: React.FC = ():JSX.Element => {
 
   const [loginModalDisplay, setLoginModalDisplay] = useState('signup');
 
+  const restoreXSRF = async () => {
+    const res = await fetch('/api/csrf/restore');
+    if (res.ok) {
+      let data = await res.json();
+      document.cookie = data;
+    } else {
+      throw new Error("Could not restore token.")
+    }
+  }
+
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser()).then(() => restoreXSRF()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
 
