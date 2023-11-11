@@ -12,6 +12,7 @@ export interface User {
     lastName: string,
     email: string
     username: string,
+    isHost: boolean
 }
 
 export interface Spot {
@@ -57,5 +58,6 @@ export interface SignUpUser {
     lastName: string,
     email: string,
     username: string,
+    isHost: boolean,
     password: string
 }

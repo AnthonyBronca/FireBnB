@@ -24,6 +24,7 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [isHost, setIsHost] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
 
 
@@ -55,7 +56,7 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
             if(!errors.length){
                 //Sign up actions
                 if(menuOption === 'signup'){
-                    let user = {firstName, lastName, email, username, password}
+                    let user = {firstName, lastName, email, username, password, isHost}
                     let res = await dispatch(signup(user));
                     if(res){
                         if(!res.message.startsWith("Validation error:")){
@@ -212,6 +213,13 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
                     />: null}
+
+                {menuOption === 'signup' ? (
+                    <div>
+                        <label>Do you want to sign up as a host?</label>
+                        <input type="checkbox" checked={isHost} onChange={() => setIsHost(!isHost)}/>
+                    </div>
+                    ): null}
 
                 <TextField
                     id="filled-basic"
