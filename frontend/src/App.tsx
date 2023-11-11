@@ -8,6 +8,7 @@ import NavBar from './components/navigation/NavBar';
 import { Divider } from '@mui/material';
 import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
+import SpotDetail from './screens/SpotDetailPage/SpotDetail';
 
 const App: React.FC = ():JSX.Element => {
   const dispatch = useAppDispatch();
@@ -43,6 +44,10 @@ const App: React.FC = ():JSX.Element => {
     path: '*',
     element: <h1>404: Error Page</h1>
   },
+  {
+    path: '/spot/:id',
+    element: <SpotDetail />
+  }
 
 ]
     // children: [
@@ -58,14 +63,14 @@ const App: React.FC = ():JSX.Element => {
     return <h1>Loading...</h1>
   } else {
     return (
-      <>
+      <div className='app-container'>
       <LoginModalContext.Provider value={{open: loginModalOpen, toggleOpen}}>
       <NavBar />
       <Divider/>
       {routing}
       {loginModalOpen? <LoginModal menuOption={loginModalDisplay} /> : null}
       </LoginModalContext.Provider>
-      </>
+      </div>
     )
   }
 };
