@@ -3,7 +3,7 @@ import { CustomeRequest } from "../../typings/express";
 import {handleValidationErrors, validateQueryParams, validateSpot} from '../../utils/validation';
 
 const { check } = require('express-validator');
-
+const sequelize = require('sequelize');
 
 import db from '../../db/models';
 import { BookingErrorStack, BookingErrors, ForbiddenError,LoginError,NoResourceError,SpotError,SpotExistsError,UnauthorizedError } from '../../errors/customErrors';
@@ -20,7 +20,7 @@ const router = require('express').Router();
 // TODO: ADD filter and pagination
 router.get('/', validateQueryParams, async(req:Request, res: Response, next: NextFunction) => {
     try{
-        let result = [];
+        // let result = [];
 
         let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
 
@@ -79,52 +79,28 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
 
         const spots = await Spot.findAll({
             ...paginationValues,
-            include: [{model: SpotImage}, {model: User, as: "Owner"}],
+            include: [
+                {model: SpotImage}, 
+                {model: User, as: "Owner"},
+                {model: Review}
+            ]
         });
 
-        for(let spot of spots){
-            let total = 0;
-            let avgRating = 0;
-            let previewImage = "";
+        const spotTransform = spots.map((spot:any) => {
+            const spotJson = spot.toJSON()
+            const {SpotImages, Owner, Reviews, ...res} = spotJson;
+            const previewImageUrl = SpotImages.find((image:any) => image.preview === true).url;
+            const avgRating = Reviews.reduce((sum:number, review:any) => sum += review.stars ,0) / Reviews.length;
+            const fixedRating = isNaN(avgRating) ? null : avgRating;
 
-            let spotjson = spot.toJSON();
-            let reviews = await Review.findAll({where: {spotId: spotjson.id}});
+            res.ownerId = Owner.id;
+            res.previewImage = previewImageUrl;
+            res.avgRating = fixedRating;
 
+            return res;
+        })
 
-            for(let review of reviews){
-                let revJson = review.toJSON()
-                total += revJson.stars;
-            }
-            avgRating = Number((total / reviews.length).toFixed(2));
-
-            for(let spotimage of spotjson.SpotImages){
-                if(spotimage.preview){
-                    previewImage = spotimage.url;
-                    break;
-                }
-            }
-
-            let spotObj = {
-                id: spotjson.id,
-                ownerId: spotjson.Owner.id,
-                address: spotjson.address,
-                city: spotjson.city,
-                state: spotjson.state,
-                country: spotjson.country,
-                lat: Number(spotjson.lat),
-                lng: Number(spotjson.lng),
-                name: spotjson.name,
-                description: spotjson.description,
-                price: spotjson.price,
-                createdAt: spotjson.createdAt,
-                updatedAt: spotjson.updatedAt,
-                avgRating,
-                previewImage
-            };
-            result.push(spotObj);
-        }
-
-        res.json({Spots: result, page, size});
+        res.json({Spots: spotTransform, page, size});
 
     } catch (e) {
         return next(e);
