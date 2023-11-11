@@ -67,14 +67,7 @@ const validateSignup = [
         try{
             const user = await User.create({ firstName, lastName, email, username, hashedPassword, isHost: isHost || false });
 
-            const safeUser = {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                isHost: user.isHost
-            };
+            const safeUser = user.getSafeUser();
 
             await setTokenCookie(res, safeUser);
 
@@ -91,16 +84,9 @@ const validateSignup = [
 router.get('/', restoreUser, async (req:AuthReq, res:Response) => {
     const { user } = req;
     if (user) {
-        const safeUser = {
-            id: user.id,
-            email: user.email,
-            username: user.username,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            isHost: user.isHost
-        };
+        const safeUser = user.getSafeUser();
         return res.json({
-        user: safeUser
+            user: safeUser
         });
     } else return res.json({ user: null });
 });
