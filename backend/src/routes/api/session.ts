@@ -60,7 +60,8 @@ router.post(
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    username: user.username
+                    username: user.username,
+                    isHost: user.isHost
                 }
 
 
@@ -109,7 +110,8 @@ router.get('/', restoreUser, async(req:any, res:Response) => {
             firstName: req.user.firstName,
             lastName: req.user.lastName,
             email: req.user.email,
-            username: req.user.username
+            username: req.user.username,
+            isHost: req.user.isHost
         }
         res.json({user})
     } else {

@@ -23,6 +23,9 @@ const validateSignup = [
     check('username')
         .isLength({ min: 4 })
         .withMessage('Please provide a username with at least 4 characters.'),
+    check('isHost')
+        .optional()
+        .isBoolean(),
     check('username')
         .not()
         .isEmail()
@@ -35,7 +38,7 @@ const validateSignup = [
 
     // // Sign up
     router.post('/',validateSignup, async (req:Request, res:Response, next: NextFunction) => {
-        const { firstName, lastName, email, password, username } = req.body;
+        const { firstName, lastName, email, password, username, isHost } = req.body;
         const hashedPassword = bcrypt.hashSync(password);
 
 
@@ -62,12 +65,21 @@ const validateSignup = [
         return res.json({message: "User already exists", errors})
     } else {
         try{
-            const user = await User.create({ firstName, lastName, email, username, hashedPassword });
+            const user = await User.create({ firstName, lastName, email, username, hashedPassword, isHost: isHost || false });
 
-            await setTokenCookie(res, user);
+            const safeUser = {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                isHost: user.isHost
+            };
+
+            await setTokenCookie(res, safeUser);
 
             return res.json({
-                user
+                user: safeUser
             });
         } catch(e){
             return next(e)
@@ -84,7 +96,8 @@ router.get('/', restoreUser, async (req:AuthReq, res:Response) => {
             email: user.email,
             username: user.username,
             firstName: user.firstName,
-            lastName: user.lastName
+            lastName: user.lastName,
+            isHost: user.isHost
         };
         return res.json({
         user: safeUser
