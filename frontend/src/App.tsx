@@ -9,6 +9,7 @@ import { Divider } from '@mui/material';
 import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
 import SpotDetail from './screens/SpotDetailPage/SpotDetail';
+import Footer from './components/Footer/Footer';
 
 const App: React.FC = ():JSX.Element => {
   const dispatch = useAppDispatch();
@@ -57,7 +58,7 @@ const App: React.FC = ():JSX.Element => {
   {
     path: '/spot/:id',
     element: <SpotDetail />
-  }
+  },
 
 ]
     // children: [
@@ -79,6 +80,8 @@ const App: React.FC = ():JSX.Element => {
       <Divider/>
       {routing}
       {loginModalOpen? <LoginModal menuOption={loginModalDisplay} /> : null}
+      <Divider />
+      <Footer />
       </LoginModalContext.Provider>
       </div>
     )
