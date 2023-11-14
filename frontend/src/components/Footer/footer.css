@@ -24,8 +24,10 @@ ul > li > a {
     cursor: pointer;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 10px;
-    color: inherit;
-    /* color: 'blue' */
+}
+
+div > ul > li > a {
+    color: blue;
 }
 
 ul > li {
@@ -56,9 +58,21 @@ div > h5 {
 }
 
 .projects-container {
-    /* background-color: green; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.projects-container > ul > li {
+    list-style: circle;
 }
 
 .other-links-container {
-    /* background-color: orange; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.other-links-container > ul > li {
+    list-style: circle;
 }
