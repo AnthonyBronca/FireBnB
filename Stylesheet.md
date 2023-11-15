@@ -341,3 +341,25 @@ We may look into refactoring our `thunks` into using the following Toolkit tool.
 - `createAsyncThunk()`: Accepts an action type string and a function that returns a promise, and generates a thunk that dispatches pending/fulfilled/rejected action types based on that promise
 
 Additional information for `createAysncThunk()` can be found here for if/when we decide to implement it: [createAsyncThunk](https://redux-toolkit.js.org/api/createAsyncThunk)
+
+
+### React Calendar
+
+Using the npm package [React-Calendar](https://www.npmjs.com/package/react-calendar)
+We are able to easily create a user-friendly calendar
+
+#### Props
+
+| Prop Name      | Description                  | Default Value | Example         |
+| -------------- | ---------------------------- | ------------- | --------------- |
+| `activeStartDAte`        | The beginning of a period that shall be displayed. If you wish to use react-calendar in an uncontrolled way, use defaultActiveStartDate instead.    | `today` | `new Date(2023, 11, 1)` |
+| `className`        | assign a react-class       | n/a | n/a |
+| `defaultActiveStartDate`  | defaultActiveStartDate	The beginning of a period that shall be displayed by default. If you wish to use react-calendar in a controlled way, use activeStartDate instead.   | `(today)` | `new Date()` |
+| `onChange`  | Function called when the user clicks an item (day on month view, month on year view and so on) on the most detailed view available.   | n/a | (value, event) => alert('New date is: ', value) |
+| `onClickDay`  | Function called when the user clicks a day.   | n/a | (value, event) => alert('Clicked day: ', value) |
+| `onClickDecade`  | Function called when the user clicks a decade.   | n/a | (value, event) => alert('Clicked decade: ', value) |
+| `onClickMonth`  | Function called when the user clicks a month.   | n/a | (value, event) => alert('Clicked month: ', value) |
+| `onClickYear`  | onClickYear	Function called when the user clicks a year.   | n/a | (value, event) => alert('Clicked year: ', value) |
+| `showNeighboringMonth`  | Whether days from previous or next month shall be rendered if the month doesn't start on the first day of the week or doesn't end on the last day of the week, respectively.   | `true` | n/a |
+| `hover`  | The date over which the user is hovering. Used only when selectRange is enabled, to render a “WIP” range when the user is selecting range.   | n/a | new Date(2017, 0, 1) |
+| `onClick`  | Function called when the user clicks an item (day on month view, month on year view and so on).   | n/a | (value) => alert('New date is: ', value) |

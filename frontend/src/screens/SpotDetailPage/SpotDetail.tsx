@@ -7,6 +7,11 @@ import SpotDetailImages from '../../components/SpotDetail/ImageSection/SpotDetai
 import Summary from '../../components/SpotDetail/Summary/Summary';
 import { Divider } from '@mui/material';
 import AdditionalDetail from '../../components/SpotDetail/Summary/AdditionalDetail';
+import HostDetails from '../../components/SpotDetail/Summary/HostDetails';
+import door from '../../assets/icons/door.svg'
+import calendar from '../../assets/icons/calendar.svg'
+import Paragraph from '../../components/SpotDetail/Summary/Paragraph';
+import Calendar from '../../components/SpotDetail/Summary/Calendar';
 
 
 const SpotDetail: React.FC = (): JSX.Element => {
@@ -33,6 +38,13 @@ if(!spot){
             <Summary name={spot.name} rating={spot.avgRating}/>
             <Divider style={{width: '30rem', }}/>
             <AdditionalDetail />
+            <Divider style={{width: '30rem', }}/>
+            <HostDetails name={door}/>
+            <HostDetails name={calendar}/>
+            <Divider style={{width: '30rem', }}/>
+            <Paragraph />
+            <Divider style={{width: '30rem', }}/>
+            <Calendar />
             <Divider style={{width: '30rem', }}/>
         </div>
         );
