@@ -7,11 +7,11 @@ import db from '../../db/models';
 const{User, SpotImage, ReviewImage, Review, Spot} = db;
 
 //imports from router files
-import userRouter from '../api/users';
-import sessionRouter from '../api/session';
-import spotsRouter from '../api/spots';
-import reviewRouter from '../api/reviews';
-import bookingsRouter from '../api/bookings';
+import userRouter from './users';
+import sessionRouter from './session';
+import spotsRouter from './spots';
+import reviewRouter from './reviews';
+import bookingsRouter from './bookings';
 import { ForbiddenError, NoResourceError, UnauthorizedError } from "../../errors/customErrors";
 
 const router = require('express').Router();

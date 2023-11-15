@@ -11,24 +11,22 @@ COPY /backend .
 
 RUN npm run build
 
-
-
-# Build for React. Converts TSX and React into a static html bundle
-
-FROM --platform=arm64 node:18-alpine as frontendbuild
+# # Build for React. Converts TSX and React into a static html bundle
+FROM --platform=amd64 node:18-alpine as frontendbuild
 
 WORKDIR /frontend
 
-COPY /frontend/package*.json .
+COPY frontend/package*.json .
 
 RUN npm install
 
-COPY /frontend .
+COPY /frontend/ .
 
 RUN npm run build
 
+
 # Production level Image: Inherits from built api and frontend images
-FROM --platform=amd64 node:18-alpine as api
+FROM --platform=amd64 node:18-alpine as production
 
 
 ARG NODE_ENV=production
