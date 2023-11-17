@@ -3,6 +3,7 @@
 .spot-detail-main-container{
     display: flex;
     justify-content: center;
+    width: 100vw;
 }
 .spot-detail-header-container{
     display: flex;
