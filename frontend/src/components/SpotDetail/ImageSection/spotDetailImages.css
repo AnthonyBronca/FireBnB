@@ -1,24 +1,21 @@
 .spot-detail-images-container {
     display: flex;
-    /* flex: 1; */
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
-    max-width: 1200px;
     margin: 0;
     align-items: center;
     justify-content: center;
-    min-width: 100vh
+    width: 100vw;
 }
 
 .main-preview-image-container {
     overflow: hidden;
 }
 
-.main-preview-image-container > img{
+.main-preview-image-container>img {
     display: block;
-    height: 340px;
-    width: 350px;
+    height: 22rem;
+    width: 22.5rem;
     border-radius: .5rem;
 }
 
@@ -29,25 +26,80 @@
     padding-inline: 5px;
 }
 
-.sub-preview-bottom-container{
+.sub-preview-bottom-container {
     display: flex;
     flex-direction: row;
     flex: 1;
     padding-inline: 5px;
+    position: relative;
 }
 
-.sub-preview-top-container > img {
+.sub-preview-top-container>img {
     flex: 1;
-    height: 170px;
-    width: 170px;
+    height: 10.9rem;
+    width: 11rem;
     padding: 2px;
     border-radius: .5rem;
 }
-.sub-preview-bottom-container > img {
+
+.sub-preview-bottom-container>img {
     flex: 1;
-    height: 170px;
-    width: 170px;
+    height: 10.9rem;
+    width: 11rem;
     padding: 2px;
     border-radius: .5rem;
-    /* object-fit: cover; */
+}
+
+.sd-side-imgs {
+    object-fit: cover;
+}
+
+@media screen and (max-width: 800px) {
+    .spot-detail-images-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0px;
+        align-items: center;
+        justify-content: center;
+        width: 90vw;
+        padding: 1rem;
+        border-radius: 0px;
+    }
+
+    .sub-preview-images-container {
+        display: none;
+    }
+
+    .main-preview-image-container > img{
+        width: 100%;
+        object-fit: cover;
+        padding: 0px;
+        margin: 0px;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .main-preview-image-container>img {
+        display: block;
+        height: 27rem;
+        width: 27.5rem;
+        border-radius: .5rem;
+    }
+
+    .sub-preview-top-container>img {
+        flex: 1;
+        height: 13.3rem;
+        width: 13.8rem;
+        padding: 4px;
+        border-radius: .5rem;
+    }
+
+    .sub-preview-bottom-container>img {
+        flex: 1;
+        height: 13.3rem;
+        width: 13.8rem;
+        padding: 4px;
+        border-radius: .5rem;
+    }
 }

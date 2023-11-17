@@ -18,15 +18,15 @@ const SpotDetailImages:React.FC<SpotImageProps> = (props):JSX.Element => {
       </div>
       <div className='sub-preview-images-container'>
         <div className='sub-preview-top-container'>
-          <img src={placeholder2} alt='spot-preview' />
-          <img src={placeholder1} alt='spot-preview' />
+          <img src={placeholder2} alt='spot-preview' className='sd-side-imgs'/>
+          <img src={placeholder1} alt='spot-preview' className='sd-side-imgs'/>
         </div>
         <div className='sub-preview-bottom-container'>
-          <img src={placeholder3} alt='spot-preview' />
-          <img src={placeholder4} alt='spot-preview' />
+          <img src={placeholder3} alt='spot-preview' className='sd-side-imgs'/>
+          <img src={placeholder4} alt='spot-preview' className='sd-side-imgs'/>
+          <ShowAllPhotos />
         </div>
       </div>
-          <ShowAllPhotos />
     </div>
   );
 }
