@@ -7,13 +7,13 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 
-const tileContent = () => {
-  // if (view === 'month') {
-    return (
-      <div style={{ backgroundColor: 'white', borderRadius: '50%', height: '100%', width: '100%' }}></div>
-    );
-  }
-// };
+// const tileContent = () => {
+//   // if (view === 'month') {
+//     return (
+//       <div style={{ backgroundColor: 'white', borderRadius: '50%', height: '100%', width: '100%' }}></div>
+//     );
+//   }
+// // };
 const Calendar: React.FC = (): JSX.Element => {
 
     const [value, setValue] = useState<Value>(new Date());
