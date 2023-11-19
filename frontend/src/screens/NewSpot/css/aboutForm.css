@@ -1,0 +1,55 @@
+.showcase{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.left{
+    margin-left: 3rem;
+    width: 80%;
+}
+
+.left h1{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.left p {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.left :nth-child(3){
+    word-wrap: break-word;
+}
+
+.right{
+    margin-left: 5rem;
+}
+
+.house-builder-vid{
+    width: 90%;
+}
+
+.footer-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.form-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.back-a{
+    text-decoration: underline;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+}
+
+.form-footer .next-btn{
+    background-color: black;
+}
