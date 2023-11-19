@@ -4,12 +4,12 @@ import { useAppDispatch } from './store';
 import { useEffect, useState } from 'react';
 import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
-import NavBar from './components/navigation/NavBar';
-import { Divider } from '@mui/material';
 import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
 import SpotDetail from './screens/SpotDetailPage/SpotDetail';
-import Footer from './components/Footer/Footer';
+import NewSpotForm from './screens/NewSpot/NewSpot'
+import AboutForm from './screens/NewSpot/AboutForm';
+import LocationForm from './screens/NewSpot/LocationForm';
 
 const App: React.FC = ():JSX.Element => {
   const dispatch = useAppDispatch();
@@ -59,6 +59,18 @@ const App: React.FC = ():JSX.Element => {
     path: '/spot/:id',
     element: <SpotDetail />
   },
+  {
+    path: '/become-a-host',
+    element: <NewSpotForm />
+  },
+  {
+    path: '/become-a-host/about',
+    element: <AboutForm />
+  },
+  {
+    path: '/become-a-host/location',
+    element: <LocationForm />
+  }
 
 ]
     // children: [
@@ -66,6 +78,7 @@ const App: React.FC = ():JSX.Element => {
     //   { path: '/', element: <NavBar />},
     //   {path: '404', element: <h1>404 Not Found</h1>},
     // ],
+
 
 
   const routing = useRoutes(mainRoutes);
@@ -76,12 +89,8 @@ const App: React.FC = ():JSX.Element => {
     return (
       <div className='app-container'>
       <LoginModalContext.Provider value={{open: loginModalOpen, toggleOpen}}>
-      <NavBar />
-      <Divider/>
       {routing}
       {loginModalOpen? <LoginModal menuOption={loginModalDisplay} /> : null}
-      <Divider />
-      <Footer />
       </LoginModalContext.Provider>
       </div>
     )

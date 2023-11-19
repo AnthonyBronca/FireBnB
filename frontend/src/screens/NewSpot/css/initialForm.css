@@ -1,0 +1,101 @@
+@import url('../../../index.css');
+
+.listing-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25%;
+    /* margin-bottom: 25%; */
+    position: relative;
+    bottom: 10rem;
+}
+
+.listing-form-container h1{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    flex-wrap: wrap;
+    width: 30vw;
+    margin-left: 5rem;
+}
+
+.check-list-container{
+    width: 50%;
+    margin-left: 3rem;
+    margin-top: 10rem;
+}
+
+.step-container{
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+}
+
+.step-num{
+    margin-right: 10px;
+    position: relative;
+    top: 1rem
+}
+
+.step-num span{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.step-body{
+     display: block;
+     position: relative;
+     bottom: 1.3rem;
+}
+
+.step-body h6{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    flex-wrap: wrap;
+    font-weight: 700;
+    word-wrap: break-word;
+    width: 80%;
+}
+
+.step-body p{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    color: rgb(120, 120, 120);
+    position: relative;
+    bottom: 1rem;
+    width: 80%;
+    text-wrap:wrap;
+}
+
+.listing-image{
+    height: 100px;
+    position: relative;
+    right: 2rem;
+}
+
+.footer-line{
+    position: 'relative';
+    width: 200%;
+    height: 4px;
+    background-color: rgb(190,190,190);
+    right: 10%;
+}
+
+.form-footer{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-footer button{
+    margin-right: 1.5rem;
+    background-color: rgb(230, 29, 82);
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding-inline: 12px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border: hidden;
+    border-radius: 5px;
+    cursor: pointer;
+}

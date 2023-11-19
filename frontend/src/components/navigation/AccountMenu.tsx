@@ -1,5 +1,5 @@
 
-import './accountMenu.css'
+import './css/accountMenu.css'
 import hamburger from '../../assets/icons/hamburger.svg'
 import usericon from '../../assets/icons/user.svg';
 import { useContext, useState } from 'react';
@@ -8,10 +8,12 @@ import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 import LoginModalContext from '../../context/LoginModalContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const AccountMenu = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const {toggleOpen} = useContext(LoginModalContext);
     const user = useAppSelector((state)=> state.session.user);
 
@@ -27,7 +29,7 @@ const AccountMenu = () => {
         }
     }
 
-    const handleModalOpen = (e:any, buttonClicked: string) => {
+    const handleModalOpen = (e:React.MouseEvent<HTMLSpanElement>, buttonClicked: string) => {
         e.preventDefault();
         toggleOpen(buttonClicked);
         handleSignIn();
@@ -57,6 +59,12 @@ const AccountMenu = () => {
         handleMenuOpen();
     }
 
+    const goToListASpot = () => {
+        navigate('/become-a-host')
+        handleMenuOpen()
+    }
+
+
   return (
     <div
     onClick={handleMenuOpen}
@@ -81,7 +89,7 @@ const AccountMenu = () => {
             <span onClick={handleFutureFeature} className='reg-span'>Trips</span>
             <span onClick={handleFutureFeature} className='reg-span'>Wishlists</span>
             <div onClick={handleFutureFeature} className='horizontal-line'></div>
-            <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>
+            <span onClick={goToListASpot} className='unreg-span'>Firebnb your home</span>
             <span onClick={handleFutureFeature} className='unreg-span'>Account</span>
             <div onClick={handleFutureFeature} className='horizontal-line'></div>
             <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>
@@ -91,10 +99,10 @@ const AccountMenu = () => {
         </>
         : <>
         {menuOpen ? <div className='drop-down-container-not-logged'>
-            <span onClick={(e:any) => handleModalOpen(e, "signin")} className='reg-span'>Sign up</span>
-            <span onClick={(e:any) => handleModalOpen(e, "login")} className='unreg-span'>Log in</span>
+            <span onClick={(e:React.MouseEvent<HTMLSpanElement>) => handleModalOpen(e, "signin")} className='reg-span'>Sign up</span>
+            <span onClick={(e:React.MouseEvent<HTMLSpanElement>) => handleModalOpen(e, "login")} className='unreg-span'>Log in</span>
             <Divider />
-            <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>
+            <span onClick={goToListASpot} className='unreg-span'>Firebnb your home</span>
             <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>
         </div>: null}
         </>

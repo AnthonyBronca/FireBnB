@@ -1,7 +1,7 @@
 // import React from 'react';
 // import firebnb from '../../assets/images/firbnb_logo.svg'
 import firenation from '../../assets/images/fire-nation.png'
-import './navbar.css'
+import './css/navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import globe from '../../assets/icons/globe.svg'
