@@ -22,7 +22,7 @@ const removeUser = () => { //action
 
 //thunk
 export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
-    const {firstName, lastName, email, username, password} = user;
+    const {firstName, lastName, email, username, password, isHost} = user;
     try {
       const response = await csrfFetch("/api/users", {
           method: "POST",
@@ -32,7 +32,8 @@ export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<a
               password,
               lastName,
               email,
-              username
+              username,
+              isHost: isHost || false
           }),
       });
       const data = await response.json();

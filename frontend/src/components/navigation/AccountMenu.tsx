@@ -1,5 +1,5 @@
 
-import './accountMenu.css'
+import './css/accountMenu.css'
 import hamburger from '../../assets/icons/hamburger.svg'
 import usericon from '../../assets/icons/user.svg';
 import { useContext, useState } from 'react';
@@ -11,11 +11,11 @@ import LoginModalContext from '../../context/LoginModalContext';
 import { useNavigate } from 'react-router-dom';
 
 
-
 const AccountMenu = () => {
     const dispatch = useDispatch();
     const { toggleOpen } = useContext(LoginModalContext);
     const user = useAppSelector((state) => state.session.user);
+
     const [isOpen, setIsOpen] = useState(false)
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -28,7 +28,7 @@ const AccountMenu = () => {
         }
     }
 
-    const handleModalOpen = (e: any, buttonClicked: string) => {
+    const handleModalOpen = (e: React.MouseEvent<HTMLSpanElement>, buttonClicked: string) => {
         e.preventDefault();
         toggleOpen(buttonClicked);
         handleSignIn();
@@ -55,16 +55,21 @@ const AccountMenu = () => {
 
     const navigate = useNavigate();
 
-    const handleAccount = (e: MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleAccount = () => {
         navigate("/account");
+        handleMenuOpen();
     }
 
     const handleFutureFeature = () => {
         alert("This feature is in development and will be released soon!");
         handleMenuOpen();
     }
+
+    const goToListASpot = () => {
+        navigate('/become-a-host')
+        handleMenuOpen()
+    }
+
 
     return (
         <div
@@ -75,9 +80,9 @@ const AccountMenu = () => {
                     <img src={hamburger} alt='hamburger menu' className='hamburger-icon' />
                     {user ?
                         <div className="user-letter-container">
-                            <span className='user-letter'>A</span>
+                            <span className='user-letter'>{user.firstName[0]}</span>
                             <div className='notification-container'>
-                                <span className='notification-num'>1</span>
+                                <span className='notification-num'>{5}</span>
                             </div>
                         </div>
                         : <img src={usericon} className='anon-avatar-icon' alt='avatar logo' />}
@@ -100,8 +105,8 @@ const AccountMenu = () => {
             </>
                 : <>
                     {menuOpen ? <div className='drop-down-container-not-logged'>
-                        <span onClick={(e: any) => handleModalOpen(e)} className='reg-span'>Sign up</span>
-                        <span onClick={(e: any) => handleModalOpen(e)} className='unreg-span'>Log in</span>
+                        <span onClick={(e: React.MouseEvent<HTMLSpanElement>) => handleModalOpen(e, "signin")} className='reg-span'>Sign up</span>
+                        <span onClick={(e: React.MouseEvent<HTMLSpanElement>) => handleModalOpen(e, "login")} className='unreg-span'>Log in</span>
                         <Divider />
                         <span onClick={handleFutureFeature} className='unreg-span'>Firebnb your home</span>
                         <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>

@@ -5,7 +5,8 @@ export interface LoginUser {
     firstName: string,
     lastName: string,
     email: string,
-    username: string
+    username: string,
+    isHost: boolean
 }
 
 

@@ -27,7 +27,7 @@
     "start:production": "npm run build-db && node dist/psql-setup-script && npm run fill-schema && node dist/bin/www",
     "build": "tsc",
     "fill-schema": "npx sequelize db:migrate && npx sequelize db:seed:all",
-    "build-db":"npx sequelize db:drop && npx sequelize db:create",
+    "build-db": "npx sequelize db:drop && npx sequelize db:create",
     "db:production": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all",
     "build-development": "rimraf ./dist && tsc"
   },
@@ -44,6 +44,7 @@
     "express-validator": "^7.0.1",
     "getrandomjs": "^2.0.1",
     "helmet": "^7.0.0",
+    "https-proxy-agent": "^7.0.2",
     "jsonwebtoken": "^9.0.1",
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
@@ -52,7 +53,7 @@
     "sequelize-cli": "^6.6.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
+    "@faker-js/faker": "^8.2.0",
     "@swc/core": "^1.3.71",
     "@types/chai": "^4.3.5",
     "@types/cookie-parser": "^1.4.3",

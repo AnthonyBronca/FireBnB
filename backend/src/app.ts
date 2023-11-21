@@ -1,6 +1,7 @@
-import express, {NextFunction, Request, Response} from 'express';
-require('express-async-errors');
 
+import express, {NextFunction, Request, Response} from 'express';
+import path from 'path'
+require('express-async-errors');
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
@@ -13,6 +14,8 @@ const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
+
+
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
@@ -30,18 +33,33 @@ app.use(
     })
     );
 
-// Set the _csrf token and create req.csrfToken method
-app.use(
-    csurf({
-        cookie: {
-            secure: isProduction,
-            sameSite: isProduction && "lax",
-            httpOnly: true
-        }
-    })
-);
+    // Set the _csrf token and create req.csrfToken method
+    app.use(
+        csurf({
+            cookie: {
+                secure: isProduction,
+                sameSite: isProduction && "lax",
+                httpOnly: true
+            }
+        })
+        );
 
+
+//apply middleware to allow for usage of static react app from build
+app.use(express.static(path.join(__dirname, "react-app")));
+app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
+
+//api routes
 app.use(routes);
+
+//send the react build as a static file
+app.get('/', (_req: Request, res:Response, _next) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+//send the react build as a static file
+app.get('/favicon.ico', (_req, res, _next) => {
+    res.sendFile(path.join(__dirname, '/favicon.ico'));
+});
 
 
 app.use((_req:Request, _res:Response, next:NextFunction) => {
@@ -51,12 +69,10 @@ app.use((_req:Request, _res:Response, next:NextFunction) => {
     err.status = 404;
     next(err);
 });
-
 // Process sequelize errors
 app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):void => {
-  // check if error is a Sequelize error:
+    // check if error is a Sequelize error:
     let errors: any = {};
-
     if(err.errors instanceof Array){
         for (let error of err.errors) {
             if(error.path){
@@ -80,5 +96,8 @@ app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):Re
     // stack: isProduction ? null : err.stack
   });
 });
+
+
+
 
 export = app;

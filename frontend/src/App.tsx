@@ -10,6 +10,10 @@ import PersonalInfo from './components/PersonalInfo/PersonalInfo';
 import { Divider } from '@mui/material';
 import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
+import SpotDetail from './screens/SpotDetailPage/SpotDetail';
+import NewSpotForm from './screens/NewSpot/NewSpot'
+import AboutForm from './screens/NewSpot/AboutForm';
+import LocationForm from './screens/NewSpot/LocationForm';
 
 const App: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -18,8 +22,18 @@ const App: React.FC = (): JSX.Element => {
 
   const [loginModalDisplay, setLoginModalDisplay] = useState('signup');
 
+  const restoreXSRF = async () => {
+    const res = await fetch('/api/csrf/restore');
+    if (res.ok) {
+      let data = await res.json();
+      document.cookie = data;
+    } else {
+      throw new Error("Could not restore token.")
+    }
+  }
+
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser()).then(() => restoreXSRF()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
 
@@ -45,20 +59,13 @@ const App: React.FC = (): JSX.Element => {
       path: '*',
       element: <h1>404: Error Page</h1>
     },
-    {
-      path: '/account',
-      element: <UserDashboard />,
-    },
-    {
-      path: '/account/personal-info',
-      element: <PersonalInfo />
-    }
   ]
   // children: [
   //   { path: '*', element: <Navigate to={'/404'}/> },
   //   { path: '/', element: <NavBar />},
   //   {path: '404', element: <h1>404 Not Found</h1>},
   // ],
+
 
 
   const routing = useRoutes(mainRoutes);
@@ -72,9 +79,7 @@ const App: React.FC = (): JSX.Element => {
           <NavBar />
           <Divider />
           {routing}
-          <div onClick={toggleOpen}>
-            {loginModalOpen ? <LoginModal /> : null}
-          </div>
+          {loginModalOpen ? <LoginModal menuOption={loginModalDisplay} /> : null}
         </LoginModalContext.Provider>
       </>
     )

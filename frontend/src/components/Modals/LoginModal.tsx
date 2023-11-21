@@ -3,7 +3,7 @@ import './css/loginmodal.css'
 import React, { useContext, useEffect, useState } from 'react';
 import LoginModalContext from '../../context/LoginModalContext';
 import xlogo from '../../assets/icons/x.svg'
-import TextField from '@mui/material/TextField';
+import {TextField, Checkbox} from '@mui/material';
 import ButtonLogos from './ButtonLogos';
 import { useDispatch } from 'react-redux';
 import { login, signup } from '../../store/session';
@@ -24,6 +24,7 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [isHost, setIsHost] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
 
 
@@ -55,7 +56,7 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
             if(!errors.length){
                 //Sign up actions
                 if(menuOption === 'signup'){
-                    let user = {firstName, lastName, email, username, password}
+                    let user = {firstName, lastName, email, username, password, isHost}
                     let res = await dispatch(signup(user));
                     if(res){
                         if(!res.message.startsWith("Validation error:")){
@@ -237,6 +238,13 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
                     }}}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                     />
+
+                {menuOption === 'signup' ? (
+                    <div>
+                        <label>Do You want to sign up as a host?</label>
+                        <Checkbox checked={isHost} onChange={() => setIsHost(!isHost)}/>
+                    </div>
+                ): null}
 
                     <span className='login-modal-disclaimer'>
                         We will NOT call or text you to confirm your number.

@@ -1,18 +1,29 @@
 // import React from 'react';
-import firebnb from '../../assets/images/firbnb_logo.svg'
-import './navbar.css'
+// import firebnb from '../../assets/images/firbnb_logo.svg'
+import firenation from '../../assets/images/fire-nation.png'
+import './css/navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import globe from '../../assets/icons/globe.svg'
 import AccountMenu from './AccountMenu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 const NavBar = () => {
+    const navigate = useNavigate()
+
+    const goToHome = () =>{
+        navigate('/')
+    }
+
+
+
   return (
     <>
     <div className='nav-bar-container '>
-        <div className='nav-logo-container'>
-            <img src={firebnb} className='logo' alt='logo'/>
+        <div className='nav-logo-container' onClick={goToHome}>
+            <img src={firenation} className='logo' alt='logo'/>
             <span>firebnb</span>
         </div>
         <div className='filter-container'>
