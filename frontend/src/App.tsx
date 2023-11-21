@@ -4,7 +4,6 @@ import { useAppDispatch } from './store';
 import { useEffect, useState } from 'react';
 import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
-import NavBar from './components/navigation/NavBar';
 import UserDashboard from './components/UserDashboard/UserDashboard';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo';
 import { Divider } from '@mui/material';
@@ -59,6 +58,14 @@ const App: React.FC = (): JSX.Element => {
       path: '*',
       element: <h1>404: Error Page</h1>
     },
+    {
+      path: '/account',
+      element: <UserDashboard />
+    },
+    {
+      path: '/account/personal-info',
+      element: <PersonalInfo />
+    }
   ]
   // children: [
   //   { path: '*', element: <Navigate to={'/404'}/> },
@@ -76,7 +83,6 @@ const App: React.FC = (): JSX.Element => {
     return (
       <>
         <LoginModalContext.Provider value={{ open: loginModalOpen, toggleOpen }}>
-          <NavBar />
           <Divider />
           {routing}
           {loginModalOpen ? <LoginModal menuOption={loginModalDisplay} /> : null}

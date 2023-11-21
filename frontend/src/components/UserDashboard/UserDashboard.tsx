@@ -11,9 +11,7 @@ const UserDashboard = () => {
         alert("This feature is in development and will be released soon!");
     }
 
-    const handlePersonalInfo = (e: MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handlePersonalInfo = () => {
         navigate("/account/personal-info");
     }
 
