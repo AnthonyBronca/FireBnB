@@ -61,7 +61,6 @@ const InitialForm:React.FC = (): JSX.Element => {
             </div>
         </div>
     </div>
-    <FormFooter nextStep={goToStepOne}/>
     </>
   );
 }

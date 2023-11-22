@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 10rem;
+    margin-bottom: 18rem;
 }
 
 .left{
@@ -52,4 +54,9 @@
 
 .form-footer .next-btn{
     background-color: black;
+    cursor: pointer;
+}
+
+.next-btn{
+    cursor: pointer;
 }

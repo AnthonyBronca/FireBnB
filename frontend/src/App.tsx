@@ -63,14 +63,14 @@ const App: React.FC = ():JSX.Element => {
     path: '/become-a-host',
     element: <NewSpotForm />
   },
-  {
-    path: '/become-a-host/about',
-    element: <AboutForm />
-  },
-  {
-    path: '/become-a-host/location',
-    element: <LocationForm />
-  }
+  // {
+  //   path: '/become-a-host/about',
+  //   element: <AboutForm />
+  // },
+  // {
+  //   path: '/become-a-host/location',
+  //   element: <LocationForm />
+  // }
 
 ]
     // children: [

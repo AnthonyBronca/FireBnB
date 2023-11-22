@@ -13,18 +13,20 @@ const ListNavBar:React.FC = (): JSX.Element => {
 
 
   return (
-    <div className='list-nav-container'>
-        <img
-            src={firebnbLogo}
-            className='firebnb-logo'
-            onClick={returnHome}
-            alt='firebnb logo'
-            />
-        <button
-            className='save-button'
-            onClick={returnHome}
-            >Save & exit
-        </button>
+    <div className='list-nav-parent-container'>
+        <header className='list-nav-container'>
+            <img
+                src={firebnbLogo}
+                className='firebnb-logo'
+                onClick={returnHome}
+                alt='firebnb logo'
+                />
+            <button
+                className='save-button'
+                onClick={returnHome}
+                >Save & exit
+            </button>
+        </header>
     </div>
   );
 }
