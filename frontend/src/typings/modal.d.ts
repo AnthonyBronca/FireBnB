@@ -6,4 +6,4 @@ export interface ModalContext {
 export interface SignInContext {
     open: boolean;
     toggleSignIn: (buttonType:string) => void;
-}
+};

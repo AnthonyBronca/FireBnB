@@ -18,6 +18,7 @@ const Spots = () => {
         dispatch(getAllSpots())
     }, [dispatch])
 
+
   const viewSpot = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, spotId: number) => {
     e.preventDefault();
     e.stopPropagation();

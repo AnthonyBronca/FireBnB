@@ -9,4 +9,4 @@ const defaultState:ModalContext = {
 
 const LoginModalContext = createContext(defaultState);
 
-export default LoginModalContext
+export default LoginModalContext;

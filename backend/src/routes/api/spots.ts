@@ -16,7 +16,6 @@ const router = require('express').Router();
 
 
 //Get all Spots
-// TODO: ADD filter and pagination
 router.get('/', validateQueryParams, async(req:Request, res: Response, next: NextFunction) => {
     try{
 
@@ -78,7 +77,7 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
         const spots = await Spot.findAll({
             ...paginationValues,
             include: [
-                {model: SpotImage}, 
+                {model: SpotImage},
                 {model: User, as: "Owner"},
                 {model: Review}
             ]
@@ -125,7 +124,6 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
                 let total = 0;
                 let previewImage = '';
                 let userspotJson = userspot.toJSON();
-                console.log(userspotJson)
                 let reviews = await Review.findAll({where: {spotId: userspotJson.id}})
                 if(reviews.length){
                     for(let review of reviews){
@@ -233,101 +231,102 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
 
 // create a spot:
 router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: NextFunction) => {
-    try{
-        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
-        if(req.body && req.user){
-            if(!req.body.address ||
-               !req.body.city ||
-               !req.body.state ||
-               !req.body.country ||
-               !req.body.name ||
-               !req.body.description ||
-               !req.body.price ||
-               !req.body.lng ||
-               !req.body.lat
-               ){
-                return res.json({error: "You must fill out all mandatory fields in the form"});
-               } else{
+    console.log(req.body)
+    // try{
+    //     if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
+    //     if(req.body && req.user){
+    //         if(!req.body.address ||
+    //            !req.body.city ||
+    //            !req.body.state ||
+    //            !req.body.country ||
+    //            !req.body.name ||
+    //            !req.body.description ||
+    //            !req.body.price ||
+    //            !req.body.lng ||
+    //            !req.body.lat
+    //            ){
+    //             return res.json({error: "You must fill out all mandatory fields in the form"});
+    //            } else{
 
-                let {
-                    address,
-                    city,
-                    state,
-                    country,
-                    name,
-                    description,
-                    price,
-                    lat,
-                    lng
-                } = req.body;
+    //             let {
+    //                 address,
+    //                 city,
+    //                 state,
+    //                 country,
+    //                 name,
+    //                 description,
+    //                 price,
+    //                 lat,
+    //                 lng
+    //             } = req.body;
 
-                try {
-                    let spot = await Spot.findOne({where: {[Op.or]: [{address}, {name}]}});
-                    if(spot) throw new SpotExistsError()
-                } catch (error) {
-                    return next(error)
-                }
+    //             try {
+    //                 let spot = await Spot.findOne({where: {[Op.or]: [{address}, {name}]}});
+    //                 if(spot) throw new SpotExistsError()
+    //             } catch (error) {
+    //                 return next(error)
+    //             }
 
-                const newSpot = await Spot.create({
-                    address,
-                    city,
-                    state,
-                    country,
-                    name,
-                    description,
-                    price,
-                    lat,
-                    lng,
-                    userId: req.user.id
-                });
+    //             const newSpot = await Spot.create({
+    //                 address,
+    //                 city,
+    //                 state,
+    //                 country,
+    //                 name,
+    //                 description,
+    //                 price,
+    //                 lat,
+    //                 lng,
+    //                 userId: req.user.id
+    //             });
 
-                let result: GoodSpot = {
-                      id: 0,
-                      address: "",
-                      city: "",
-                      state: "",
-                      country: "",
-                      name: "",
-                      description: "",
-                      price: 0,
-                      lat: 0,
-                      lng: 0,
-                      userId: 0,
-                      createdAt: "",
-                      updatedAt: "",
+    //             let result: GoodSpot = {
+    //                   id: 0,
+    //                   address: "",
+    //                   city: "",
+    //                   state: "",
+    //                   country: "",
+    //                   name: "",
+    //                   description: "",
+    //                   price: 0,
+    //                   lat: 0,
+    //                   lng: 0,
+    //                   userId: 0,
+    //                   createdAt: "",
+    //                   updatedAt: "",
 
-                };
-                let newSpotJson = newSpot.toJSON();
-                result.address = newSpotJson.address;
-                result.city = newSpotJson.city;
-                result.state = newSpotJson.state;
-                result.name = newSpotJson.name;
-                result.country = newSpotJson.country;
-                result.description = newSpotJson.description;
-                result.price = newSpotJson.price;
-                result.lat = Number(newSpotJson.lat);
-                result.lng = Number(newSpotJson.lng);
-                result.userId = newSpotJson.userId;
-                result.id = newSpotJson.id;
+    //             };
+    //             let newSpotJson = newSpot.toJSON();
+    //             result.address = newSpotJson.address;
+    //             result.city = newSpotJson.city;
+    //             result.state = newSpotJson.state;
+    //             result.name = newSpotJson.name;
+    //             result.country = newSpotJson.country;
+    //             result.description = newSpotJson.description;
+    //             result.price = newSpotJson.price;
+    //             result.lat = Number(newSpotJson.lat);
+    //             result.lng = Number(newSpotJson.lng);
+    //             result.userId = newSpotJson.userId;
+    //             result.id = newSpotJson.id;
 
 
-                let createdAt = new Date(newSpotJson.createdAt);
-                let updatedAt = new Date(newSpotJson.updatedAt);
+    //             let createdAt = new Date(newSpotJson.createdAt);
+    //             let updatedAt = new Date(newSpotJson.updatedAt);
 
-                let resCreatedDate = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
-                let resUpdatedDate = `${updatedAt.getFullYear()}-${updatedAt.getMonth()}-${updatedAt.getDate()}`;
+    //             let resCreatedDate = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
+    //             let resUpdatedDate = `${updatedAt.getFullYear()}-${updatedAt.getMonth()}-${updatedAt.getDate()}`;
 
-                result.createdAt = resCreatedDate
-                result.updatedAt = resUpdatedDate;
+    //             result.createdAt = resCreatedDate
+    //             result.updatedAt = resUpdatedDate;
 
-                res.status(201);
-                return res.json(result);
+    //             res.status(201);
+    //             return res.json(result);
 
-               }
-        }
-    }catch(e){
-        return next(e);
-    }
+    //            }
+    //     }
+    // }catch(e){
+    //     return next(e);
+    // }
 });
 
 //create an image for an existing spot

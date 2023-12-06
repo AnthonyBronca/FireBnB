@@ -5,6 +5,8 @@ import FormFooter from './FormFooter';
 import { LinearProgress } from '@mui/material';
 import AboutForm from './AboutForm';
 import LocationForm from './LocationForm';
+import NewSpotForm from './NewSpotForm';
+import { FormProvider } from '../../context/NewSpotContext';
 
 
 interface IComponentToRender {
@@ -20,6 +22,7 @@ const NewSpot: React.FC = (): JSX.Element => {
 
   const [val, setVal] = useState<number>(0);
   const [count, setCount] = useState<number>(25)
+
 
   const componentToRender:any = {
     0: {
@@ -39,11 +42,12 @@ const NewSpot: React.FC = (): JSX.Element => {
       classVal: "next",
     },
     75: {
-      component: null,
-      text: "Next",
+      component: <NewSpotForm />,
+      text: "Submit",
       classVal: "next"
     },
   };
+
 
 
 
@@ -55,24 +59,26 @@ const NewSpot: React.FC = (): JSX.Element => {
 
 
   return (
-    <div>
-        <ListNavBar/>
-        {renderFormItems(val).component}
-        <LinearProgress
-            color='inherit'
-            variant='determinate'
-            value={val}
-            style={{marginBottom: '10px'}}
+    <FormProvider>
+      <div>
+          <ListNavBar/>
+          {renderFormItems(val).component}
+          <LinearProgress
+              color='inherit'
+              variant='determinate'
+              value={val}
+              style={{marginBottom: '10px'}}
+              />
+          <FormFooter
+            nextStep={setVal}
+            newVal={val}
+            text={renderFormItems(val).text}
+            classVal={renderFormItems(val).classVal}
+            count={count}
+            setCount={setCount}
             />
-        <FormFooter
-          nextStep={setVal}
-          newVal={val}
-          text={renderFormItems(val).text}
-          classVal={renderFormItems(val).classVal}
-          count={count}
-          setCount={setCount}
-          />
-    </div>
+      </div>
+    </FormProvider>
   );
 }
 
