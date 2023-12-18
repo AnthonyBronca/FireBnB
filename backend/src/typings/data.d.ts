@@ -9,6 +9,12 @@ export interface LoginUser {
     isHost: boolean
 }
 
+export interface GoodSpotImage{
+    id:number,
+    spotId: number,
+    url: string,
+    preview: boolean
+}
 
 export interface GoodSpot{
     address: string,
@@ -24,7 +30,9 @@ export interface GoodSpot{
     id: number,
     createdAt: string,
     updatedAt: string,
+    spotImage?: GoodSpotImage
 }
+
 
 export interface PaginationValues{
     limit?: number,

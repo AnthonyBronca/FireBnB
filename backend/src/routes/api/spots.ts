@@ -9,6 +9,7 @@ import { BookingErrorStack, BookingErrors, ForbiddenError,LoginError,NoResourceE
 import { GoodSpot, PaginationValues, WhereValues } from '../../typings/data';
 import { Op } from 'sequelize';
 import { dateConverter } from '../../utils/date-conversion';
+const {singleMulterUpload, singlePublicFileUpload} = require('../../awsS3');
 
 
 const {Spot, SpotImage, Review, ReviewImage, Booking, User} = db;
@@ -78,7 +79,7 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
         const spots = await Spot.findAll({
             ...paginationValues,
             include: [
-                {model: SpotImage}, 
+                {model: SpotImage},
                 {model: User, as: "Owner"},
                 {model: Review}
             ]
@@ -232,56 +233,73 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
 })
 
 // create a spot:
-router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: NextFunction) => {
+router.post('/', singleMulterUpload("image"), async(req:CustomeRequest, res:Response, next: NextFunction) => {
+    console.log(req.body)
     try{
-        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
-        if(req.body && req.user){
-            if(!req.body.address ||
-               !req.body.city ||
-               !req.body.state ||
-               !req.body.country ||
-               !req.body.name ||
-               !req.body.description ||
-               !req.body.price ||
-               !req.body.lng ||
-               !req.body.lat
-               ){
-                return res.json({error: "You must fill out all mandatory fields in the form"});
-               } else{
+        if(!req.body) throw new Error("An Error occured processing your request body. Please Try Again.");
+        if(!req.body.userId) throw new UnauthorizedError('You must be signed in to perform this action.');
+        if(!req.body.name) throw new Error("You must enter a name for the listing.");
+        if(!req.body.address) throw new Error("You must enter an address.");
+        if(!req.body.city) throw new Error("You must enter a city.");
+        if(!req.body.state) throw new Error("You must enter a state.");
+        if(!req.body.country) throw new Error("You must enter a country.");
+        if(!req.body.zipcode) throw new Error("You must enter a zipcode.");
+        if(!req.body.description) throw new Error("You must enter a description.");
+        if(!req.body.price) throw new Error("You must enter a price per night for this listing.");
+        // if(!req.file) throw new Error("You must provide at least 1 image for a listing.");
 
-                let {
-                    address,
-                    city,
-                    state,
-                    country,
-                    name,
-                    description,
-                    price,
-                    lat,
-                    lng
-                } = req.body;
+        const {
+            name,
+            city,
+            country,
+            description,
+            price,
+            state,
+            address,
+            userId,
+            lat,
+            lng,
+        } = req.body;
 
-                try {
-                    let spot = await Spot.findOne({where: {[Op.or]: [{address}, {name}]}});
-                    if(spot) throw new SpotExistsError()
-                } catch (error) {
-                    return next(error)
-                }
+        //check if the spot already exists with that name or address
+        let spot = await Spot.findOne({where: {[Op.or]: [{address}, {name}]}});
+        if(spot){
+            throw new Error("Spot already exists with that address/name")
+        }
 
-                const newSpot = await Spot.create({
-                    address,
-                    city,
-                    state,
-                    country,
-                    name,
-                    description,
-                    price,
-                    lat,
-                    lng,
-                    userId: req.user.id
-                });
 
-                let result: GoodSpot = {
+        // //check if an image was provided
+        let imgUrl: string | undefined = '';
+        if(req.file){
+            imgUrl = await singlePublicFileUpload(req.file);
+        }
+
+
+        //creates a spot
+        const newSpot = await Spot.create({
+          address,
+          city,
+          state,
+          country,
+          name,
+          description,
+          price,
+          userId,
+          lat,
+          lng
+        });
+
+        if(!newSpot) throw Error("Unable to create a listing. Please try again.");
+
+        const newSpotImg = await SpotImage.create({
+            spotId: newSpot.id,
+            url: imgUrl,
+            preview:true,
+        })
+
+        if(!newSpotImg) throw new Error("Unable to process that listing image. Please try again.");
+
+                 let result: GoodSpot = {
                       id: 0,
                       address: "",
                       city: "",
@@ -319,12 +337,10 @@ router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: Nex
 
                 result.createdAt = resCreatedDate
                 result.updatedAt = resUpdatedDate;
+                result.spotImage = newSpotImg;
 
                 res.status(201);
                 return res.json(result);
-
-               }
-        }
     }catch(e){
         return next(e);
     }
@@ -332,7 +348,7 @@ router.post('/', validateSpot, async(req:CustomeRequest, res:Response, next: Nex
 
 //create an image for an existing spot
 
-router.post('/:spotId/images', async(req:CustomeRequest, res: Response, next: NextFunction) => {
+router.post('/:spotId/images', singleMulterUpload('image'), async(req:CustomeRequest, res: Response, next: NextFunction) => {
     try {
         if(req.body){
             if(!req.body.url){

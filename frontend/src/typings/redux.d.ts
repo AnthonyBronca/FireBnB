@@ -3,7 +3,7 @@
 export interface CSRFHttpOptions {
     method: string;
     headers: any;
-    body?: string;
+    body?: string | FormData;
 };
 
 export interface User {
@@ -61,4 +61,18 @@ export interface SignUpUser {
     username: string;
     isHost: boolean;
     password: string;
+}
+
+export interface INewSpotForm {
+    listingName: string | null;
+    streetAddress: string | null;
+    city: string | null;
+    state: string | null;
+    country: string | null;
+    zipCode: string | null;
+    description: string | null;
+    price:  string | null;
+    imgUrl: string | null;
+    lat?: number | string | null;
+    lng?: number | string | null;
 }

@@ -3,3 +3,4 @@ node_modules
 .DS_Store
 dev.db
 dist
+tests

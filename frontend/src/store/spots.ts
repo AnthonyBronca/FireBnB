@@ -1,11 +1,10 @@
-import {SpotInitialState, Spot, Spots } from "../typings/redux";
+import {SpotInitialState, Spot, Spots, INewSpotForm, User } from "../typings/redux";
 import { csrfFetch } from "./csrf";
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
 
 const SET_SPOTS = 'spots/setSpots';
-
-//initial state for Spots
+const ADD_SPOT = 'spots/addSpot';
 
 const setSpots = (spots: Spots) => {
     return {
@@ -13,6 +12,13 @@ const setSpots = (spots: Spots) => {
         payload: spots
     };
 };
+
+const addSpot = (spot: Spot) => {
+    return {
+        type: ADD_SPOT,
+        payload: spot
+    }
+}
 
 //thunk to get all spots
 export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> => {
@@ -31,11 +37,67 @@ export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> =>
     }
 }
 
+//thunk to post a spot
+
+export const createSpot = (userId: number, form:INewSpotForm):any => async (dispatch: Dispatch): Promise<any> => {
+    try{
+
+        const {
+            listingName,
+            streetAddress,
+            city,
+            state,
+            country,
+            zipCode,
+            description,
+            imgUrl,
+            lat,
+            lng,
+            price,
+        } = form;
+
+        const formData = new FormData();
+
+        if(listingName) formData.append("name",listingName);
+        if(streetAddress) formData.append("address", streetAddress);
+        if(city) formData.append("city", city);
+        if(state)formData.append("state", state);
+        if(country) formData.append('country',country);
+        if(zipCode) formData.append("zipcode", zipCode);
+        if(description) formData.append("description", description);
+        if(imgUrl) formData.append("image", imgUrl);
+        if(lat) formData.append('lat', String(lat));
+        if(lng) formData.append('lng', String(lng));
+        if(price) formData.append('price', price);
+        if(userId) formData.append('userId', String(userId));
+        const options = {
+            method: 'POST',
+            headers: {"Content-Type": "multipart/form-data"},
+            body: formData
+        }
+
+        const response = await csrfFetch('/api/spots', options);
+        if(response.ok){
+            const spot = await response.json();
+            console.log("spot from backend", spot)
+            dispatch(addSpot(spot))
+            return response
+        } else{
+            throw new Error("Unable to create spot")
+        }
+    } catch (e) {
+        return e;
+    }
+}
+
 //Spots initial State
 const initialState:SpotInitialState = {
-    byId: null,
-    allSpots: null
+    byId: {},
+    allSpots: []
 }
+
+
+
 
 
 
@@ -50,6 +112,14 @@ export const SpotSlice = createSlice({
 
             for(let spot of action.payload.Spots){
                 state.byId[`${spot.id}`] = spot;
+            }
+        },
+        addSpot: (state, action: PayloadAction<Spot>) => {
+            if(state.byId !== null){
+                state.byId[`${action.payload.id}`] = action.payload
+            }
+            if(state.allSpots instanceof Array){
+                state.allSpots.push(action.payload);
             }
         }
     }

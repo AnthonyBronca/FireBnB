@@ -11,7 +11,8 @@ export interface SafeUser {
 
 export interface CustomeRequest extends Request {
     user: null | SafeUser;
-    cookies: {token: string}
+    cookies: {token: string};
+    file?: any
 }
 
 export interface RestoreResponseInterface extends Request{
