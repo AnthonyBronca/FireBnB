@@ -42,6 +42,7 @@ const App: React.FC = ():JSX.Element => {
 
   }
 
+  console.log(user, "this is user")
 
   const mainRoutes = [
     {
