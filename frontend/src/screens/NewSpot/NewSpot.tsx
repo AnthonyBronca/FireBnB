@@ -22,7 +22,7 @@ const NewSpot: React.FC = (): JSX.Element => {
 
   const [val, setVal] = useState<number>(0);
   const [count, setCount] = useState<number>(25)
-
+  const [checkMark, setCheck] = useState<boolean>(false);
 
   const componentToRender:any = {
     0: {
@@ -42,7 +42,7 @@ const NewSpot: React.FC = (): JSX.Element => {
       classVal: "next",
     },
     75: {
-      component: <NewSpotForm />,
+      component: <NewSpotForm checkMark={checkMark}/>,
       text: "Submit",
       classVal: "next"
     },
@@ -76,6 +76,8 @@ const NewSpot: React.FC = (): JSX.Element => {
             classVal={renderFormItems(val).classVal}
             count={count}
             setCount={setCount}
+            setCheck={setCheck}
+            check={checkMark}
             />
       </div>
     </FormProvider>

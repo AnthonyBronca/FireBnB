@@ -1,23 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import './css/newSpotForm.css'
 import states from '../../helpers/states';
 import { useDispatch } from 'react-redux';
-import { createSpot } from '../../store/spots';
 import { useAppSelector } from '../../store';
-import { INewSpotForm } from '../../typings/redux';
 import { useFormContext } from '../../context/NewSpotContext';
+import Lottie from 'lottie-react';
+import checkmark_animation from '../../assets/animations/checkmark-animation.json'
 
 interface INewSpotProps {
-
+  checkMark: boolean
 }
 
-const NewSpotForm: React.FC<INewSpotProps> = (): JSX.Element => {
+const NewSpotForm: React.FC<INewSpotProps> = ({checkMark}): JSX.Element => {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const {formData, setFormData} = useFormContext();
 
-  const user = useAppSelector((state) => state.session.user!)
-  const [errors, setErrors] = useState<string[]>([]);
+  // const user = useAppSelector((state) => state.session.user!)
+  // const [errors, setErrors] = useState<string[]>([]);
 
   const [showUpload, setShowUpload] = useState<boolean>(true);
   const [previewUrl, setPreviewUrl] = useState<any>("");
@@ -30,7 +30,6 @@ const NewSpotForm: React.FC<INewSpotProps> = (): JSX.Element => {
         setPreviewUrl(reader.result);
       };
       setShowUpload(false);
-      // setImgUrl(file);
       return file
   };
 
@@ -53,99 +52,107 @@ const handleInputchange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 
 
-  const handleSubmit = async (e:any) => {
-    console.log('handle submit within newSpotForm')
-  }
 
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className='new-spot-form-container'>
-        <h4>Additional Information</h4>
-        <div className='form-input-container'>
-          <input
-            className='new-spot-input'
-            inputMode='text'
-            placeholder='Listing Name'
-            name='listingName'
-            onChange={handleInputchange}
-            />
-          <input
-            className='new-spot-input'
-            inputMode='text'
-            placeholder='Street Address'
-            name='streetAddress'
-            onChange={handleInputchange}
-            />
-         <input
-           className='new-spot-input'
-           inputMode='text'
-           placeholder='City'
-           name='city'
-           onChange={handleInputchange}
-           />
-         <input
-           className='new-spot-input'
-           list="options"
-           placeholder='State'
-           name="state"
-           onChange={handleInputchange}
-           />
-           <datalist id='options'>
-            {states.map((option, index) => (
-              <option key={index} value={option} onClick={()=> console.log('test input')} />
-              ))}
-           </datalist>
-         <input
-           className='new-spot-input'
-           inputMode='text'
-           placeholder='Country'
-           name='country'
-           onChange={handleInputchange}
-           />
-         <input
-           className='new-spot-input'
-           inputMode='numeric'
-           placeholder='Zipcode'
-           name='zipCode'
-           onChange={handleInputchange}
-           />
-         <input
-           className='new-spot-input'
-           inputMode='text'
-           placeholder='Description'
-           name='description'
-           onChange={handleInputchange}
-           />
-         <input
-           className='new-spot-input'
-           inputMode='text'
-           placeholder='Price/night'
-           name='price'
-           onChange={handleInputchange}
-           />
-          <label htmlFor='file-upload' className='custom-file-upload'>
-            Select from Device
+  if(checkMark){
+    return (
+    <Lottie
+      animationData={checkmark_animation}
+      loop={false}
+      style={{
+        height: '300px',
+        marginBottom: '35vh',
+        marginTop: '15vh'
+        }}/>)
+  } else{
+    return (
+      <form>
+        <div className='new-spot-form-container'>
+          <h4>Additional Information</h4>
+          <div className='form-input-container'>
             <input
-              className='input-file-button'
-              id='file-upload'
-              type='file'
-              name='imgUrl'
-              accept=".jpg, .jpeg, .png, .gif"
-              onChange={(e)=> handleInputchange(e)}
+              className='new-spot-input'
+              inputMode='text'
+              placeholder='Listing Name'
+              name='listingName'
+              onChange={handleInputchange}
               />
-          </label>
-          {!showUpload && (
-            <img
-              src={previewUrl}
-              className='previewImage'
-              alt="preview"
-            />
-          )}
+            <input
+              className='new-spot-input'
+              inputMode='text'
+              placeholder='Street Address'
+              name='streetAddress'
+              onChange={handleInputchange}
+              />
+           <input
+             className='new-spot-input'
+             inputMode='text'
+             placeholder='City'
+             name='city'
+             onChange={handleInputchange}
+             />
+           <input
+             className='new-spot-input'
+             list="options"
+             placeholder='State'
+             name="state"
+             onChange={handleInputchange}
+             />
+             <datalist id='options'>
+              {states.map((option, index) => (
+                <option key={index} value={option} onClick={()=> console.log('test input')} />
+                ))}
+             </datalist>
+           <input
+             className='new-spot-input'
+             inputMode='text'
+             placeholder='Country'
+             name='country'
+             onChange={handleInputchange}
+             />
+           <input
+             className='new-spot-input'
+             inputMode='numeric'
+             placeholder='Zipcode'
+             name='zipCode'
+             onChange={handleInputchange}
+             />
+           <input
+             className='new-spot-input'
+             inputMode='text'
+             placeholder='Description'
+             name='description'
+             onChange={handleInputchange}
+             />
+           <input
+             className='new-spot-input'
+             inputMode='text'
+             placeholder='Price/night'
+             name='price'
+             onChange={handleInputchange}
+             />
+            <label htmlFor='file-upload' className='custom-file-upload'>
+              Select from Device
+              <input
+                className='input-file-button'
+                id='file-upload'
+                type='file'
+                name='imgUrl'
+                accept=".jpg, .jpeg, .png, .gif"
+                onChange={(e)=> handleInputchange(e)}
+                />
+            </label>
+            {!showUpload && (
+              <img
+                src={previewUrl}
+                className='previewImage'
+                alt="preview"
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </form>
-  );
+      </form>
+    );
+  }
 }
 
 export default NewSpotForm;
