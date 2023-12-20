@@ -4,14 +4,10 @@ import states from '../../helpers/states';
 // import { useDispatch } from 'react-redux';
 // import { useAppSelector } from '../../store';
 import { useFormContext } from '../../context/NewSpotContext';
-import Lottie from 'lottie-react';
-import checkmark_animation from '../../assets/animations/checkmark-animation.json'
 
-interface INewSpotProps {
-  checkMark: boolean
-}
 
-const NewSpotForm: React.FC<INewSpotProps> = ({checkMark}): JSX.Element => {
+
+const NewSpotForm: React.FC = (): JSX.Element => {
 
   // const dispatch = useDispatch();
   const {setFormData} = useFormContext();
@@ -52,19 +48,6 @@ const handleInputchange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   }
 
-
-
-  // if(checkMark){
-  //   return (
-  //   <Lottie
-  //     animationData={checkmark_animation}
-  //     loop={false}
-  //     style={{
-  //       height: '300px',
-  //       marginBottom: '35vh',
-  //       marginTop: '15vh'
-  //       }}/>)
-  // } else{
     return (
       <form>
         <div className='new-spot-form-container'>

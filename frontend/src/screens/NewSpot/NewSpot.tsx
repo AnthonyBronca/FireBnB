@@ -43,7 +43,7 @@ const NewSpot: React.FC = (): JSX.Element => {
       classVal: "next",
     },
     75: {
-      component: <NewSpotForm checkMark={checkMark}/>,
+      component: <NewSpotForm />,
       text: "Submit",
       classVal: "next"
     },
