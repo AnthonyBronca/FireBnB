@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './css/newSpotForm.css'
 import states from '../../helpers/states';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../store';
+// import { useDispatch } from 'react-redux';
+// import { useAppSelector } from '../../store';
 import { useFormContext } from '../../context/NewSpotContext';
 import Lottie from 'lottie-react';
 import checkmark_animation from '../../assets/animations/checkmark-animation.json'
@@ -14,10 +14,11 @@ interface INewSpotProps {
 const NewSpotForm: React.FC<INewSpotProps> = ({checkMark}): JSX.Element => {
 
   // const dispatch = useDispatch();
-  const {formData, setFormData} = useFormContext();
+  const {setFormData} = useFormContext();
 
   // const user = useAppSelector((state) => state.session.user!)
   // const [errors, setErrors] = useState<string[]>([]);
+
 
   const [showUpload, setShowUpload] = useState<boolean>(true);
   const [previewUrl, setPreviewUrl] = useState<any>("");
@@ -26,7 +27,7 @@ const NewSpotForm: React.FC<INewSpotProps> = ({checkMark}): JSX.Element => {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = (e) => {
+      reader.onload = () => {
         setPreviewUrl(reader.result);
       };
       setShowUpload(false);
@@ -53,17 +54,17 @@ const handleInputchange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
 
 
-  if(checkMark){
-    return (
-    <Lottie
-      animationData={checkmark_animation}
-      loop={false}
-      style={{
-        height: '300px',
-        marginBottom: '35vh',
-        marginTop: '15vh'
-        }}/>)
-  } else{
+  // if(checkMark){
+  //   return (
+  //   <Lottie
+  //     animationData={checkmark_animation}
+  //     loop={false}
+  //     style={{
+  //       height: '300px',
+  //       marginBottom: '35vh',
+  //       marginTop: '15vh'
+  //       }}/>)
+  // } else{
     return (
       <form>
         <div className='new-spot-form-container'>
@@ -152,7 +153,7 @@ const handleInputchange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </form>
     );
-  }
+  // }
 }
 
 export default NewSpotForm;

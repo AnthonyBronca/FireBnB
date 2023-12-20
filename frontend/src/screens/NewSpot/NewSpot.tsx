@@ -7,6 +7,7 @@ import AboutForm from './AboutForm';
 import LocationForm from './LocationForm';
 import NewSpotForm from './NewSpotForm';
 import { FormProvider } from '../../context/NewSpotContext';
+import Checkmark from '../../components/Checkmark';
 
 
 interface IComponentToRender {
@@ -46,6 +47,11 @@ const NewSpot: React.FC = (): JSX.Element => {
       text: "Submit",
       classVal: "next"
     },
+    100: {
+      component: <Checkmark />,
+      classVal: "next",
+      text: "Submitted!"
+    }
   };
 
 

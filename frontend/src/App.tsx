@@ -9,7 +9,7 @@ import LoginModal from './components/Modals/LoginModal';
 import SpotDetail from './screens/SpotDetailPage/SpotDetail';
 import NewSpotForm from './screens/NewSpot/NewSpot'
 
-const App: React.FC = ():JSX.Element => {
+const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -42,7 +42,6 @@ const App: React.FC = ():JSX.Element => {
 
   }
 
-  console.log(user, "this is user")
 
   const mainRoutes = [
     {
@@ -69,8 +68,19 @@ const App: React.FC = ():JSX.Element => {
 
   const routing = useRoutes(mainRoutes);
 
+  function generateLoading(){
+    if(!isLoaded){
+      setTimeout(()=> {
+        return <h1>Loading...</h1>
+      }, 1000)
+    } else{
+      return null
+    }
+  }
+
+
   if(!isLoaded){
-    return <h1>Loading...</h1>
+    return generateLoading()
   } else {
     return (
       <div className='app-container'>

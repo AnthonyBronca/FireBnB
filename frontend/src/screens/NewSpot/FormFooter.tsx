@@ -3,7 +3,6 @@ import './css/list-footer.css';
 import { useFormContext } from '../../context/NewSpotContext';
 import { useDispatch } from 'react-redux';
 import { createSpot } from '../../store/spots';
-// import { useAppSelector } from '../../store';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -20,16 +19,14 @@ interface ButtonFuncProps{
 }
 
 
-const FormFooter: React.FC<ButtonFuncProps> = ({nextStep, newVal, text, classVal, count, setCheck, check}): JSX.Element | null => {
+const FormFooter: React.FC<ButtonFuncProps> = ({nextStep, newVal, text, classVal, count, check}): JSX.Element | null => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {formData} = useFormContext();
-  // const user = useAppSelector((state) => state.session.user)
 
 
   const handleNext = async () => {
     if(newVal >= 75){
-      // if(user){ //delete this after auth is added to page
         if(!formData.lat){
           formData.lat = 40.7128
         }
@@ -39,7 +36,7 @@ const FormFooter: React.FC<ButtonFuncProps> = ({nextStep, newVal, text, classVal
 
         const response = await dispatch(createSpot(1, formData));
         if(response.ok){
-          setCheck(true);
+          nextStep(newVal + count)
           setTimeout(()=> {
             navigate('/');
           }, 3000);

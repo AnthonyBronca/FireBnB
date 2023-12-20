@@ -4,17 +4,17 @@ import './css/initialForm.css';
 import bed from '../../assets/images/bed.png';
 import door from '../../assets/images/door.png';
 import couch from '../../assets/images/couch.png';
-import { useNavigate } from 'react-router-dom';
-import FormFooter from './FormFooter';
+// import { useNavigate } from 'react-router-dom';
+// import FormFooter from './FormFooter';
 
 
 const InitialForm:React.FC = (): JSX.Element => {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const goToStepOne = (): void => {
-        navigate('/become-a-host/about')
-    }
+    // const goToStepOne = (): void => {
+    //     navigate('/become-a-host/about')
+    // }
 
   return (
     <>
