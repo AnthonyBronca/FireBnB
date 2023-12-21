@@ -14,7 +14,7 @@
 Firebnb is a full-stack web application built with the PERN (PostgreSQL, Express.js, React, Node.js) stack, entirely in TypeScript. The project aims to replicate the user experience and design of Airbnb while utilizing modern technologies and best practices.
 
 
-### Team: 
+### Team:
 - [Anthony Bronca](https://github.com/AnthonyBronca)
 - [Alexi Bettinger](https://github.com/OGAlexi)
 
@@ -71,6 +71,32 @@ Deployed image: `docker.io/anthonybronca/firebnb`
 5. Run `npm start` to build your migrations, seed data, and get the api started
 6. In the Frontend directory, run `npm install`
 7. Then run `npm start`
+
+*Note: For AWS S3 storage, you will also need to follow the below steps*
+
+1. Make an account on AWS
+2. Make a bucket with a unique name. Make sure to disable ALCs
+3. Make an IAM User for this project
+4. Add custom policy and apply this .json value:
+```js
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1420751757000",
+      "Effect": "Allow",
+      "Action": ["s3:*"],
+      "Resource": "arn:aws:s3:::<NAME OF BUCKET>/*"
+    }
+  ]
+}
+```
+5. Attach the policy to the IAM User
+6. Add security to your User and grab the API key and Secret key to fill in the .env file within the `/backend` folder of this project.
+
+For more detailed instructions please see this repo:
+
+[AWS PERN Demo Repo]("https://github.com/jdrichardsappacad/aws-s3-pern-demo")
 
 #### Acknowledgments
 - Inspired by Airbnb
