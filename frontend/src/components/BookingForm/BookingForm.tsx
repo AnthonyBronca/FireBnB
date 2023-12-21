@@ -44,6 +44,9 @@ const BookingForm: React.FC = (): JSX.Element => {
                     </select>
                 </div>
             </div>
+            <div className='availability-btn-container'>
+                <button className='availability-btn'>Check availability</button>
+            </div>
         </form>
     </div>
   );
