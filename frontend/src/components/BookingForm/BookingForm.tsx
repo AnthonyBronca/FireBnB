@@ -1,12 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './BookingForm.css'
 import { guestCount } from './guestCount';
 import { endDateValidation } from './dateValidation';
+import { useAppSelector } from '../../store';
+import { csrfFetch } from '../../store/csrf';
 
-const BookingForm: React.FC = (): JSX.Element => {
+interface IBookingFormProps {
+    spotId: number;
+}
+
+const BookingForm: React.FC<IBookingFormProps> = ({spotId}): JSX.Element => {
+    const user = useAppSelector((state)=> state.session.user);
+
     const [startDate, setStartDate] = useState<string>('')
     const [endDate, setEndDate] = useState<string>('');
     const [guest, setGuest] = useState<string>('');
+
 
     const setStart = (e: React.FocusEvent<HTMLInputElement, Element>) => {
         setStartDate(e.target.value);
@@ -20,15 +29,24 @@ const BookingForm: React.FC = (): JSX.Element => {
         setGuest(e.target.value);
     }
 
-    const checkAvailability = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const checkBooking = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        alert("Future Feature. Currently in development")
 
-        let booking = {
-            startDate,
-            endDate,
-            guest
-        }
-        console.log(booking)
+        // if(user){
+        //     let booking = {
+        //         userId: user.id,
+        //         spotId,
+        //         // startDate,
+        //         // endDate,
+        //         // guest
+        //     }
+        //     const options = {
+        //         method: 'GET',
+        //         headers: {'Content-Type': 'application/json'},
+        //         body: JSON.stringify(booking)
+        //     }
+            // const res = await csrfFetch(`/api/spots/:${spotId}/bookings`);
     }
 
   return (
@@ -66,7 +84,7 @@ const BookingForm: React.FC = (): JSX.Element => {
                 </div>
             </div>
             <div className='availability-btn-container'>
-                <button onClick={(e)=> checkAvailability(e)} className='availability-btn'>Check availability</button>
+                <button onClick={(e)=> checkBooking(e)} className='availability-btn'>Check availability</button>
             </div>
         </form>
     </div>

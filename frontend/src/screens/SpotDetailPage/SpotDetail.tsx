@@ -27,6 +27,7 @@ const SpotDetail: React.FC = (): JSX.Element | undefined => {
     const [spot, setSpot] = useState<null | Spot>(null);
     const [show404, set404] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    document.title = `${spot?.name}`;
     useEffect(()=> {
         if(spots){
             if(spots[`${id}`]){
@@ -85,7 +86,7 @@ if(!spot || show404){
                 <MyCalendar />
                 </div>
                 <div className='right-side-container-items'>
-                    <BookingForm />
+                    <BookingForm spotId={spot.id}/>
                 </div>
             </div>
             <Divider style={{width: '52rem', }}/>
