@@ -24,9 +24,6 @@ const Footer: React.FC = (): JSX.Element => {
             <ul>
                 <li><a href='https://github.com/AnthonyBronca'>Anthony Bronca</a></li>
                 <li><a href='https://github.com/OGALEXI'>Alexi Bettinger</a></li>
-                <li><a href='https://github.com/WJVincent'>William Vincent</a></li>
-                <li><a href='https://github.com/optimummars'>Gabriel Gutierrez</a></li>
-                <li><a href='https://github.com/E-F-III'>Edward Felipe III</a></li>
             </ul>
         </div>
         <div className='projects-container'>
@@ -34,9 +31,6 @@ const Footer: React.FC = (): JSX.Element => {
              <ul>
                 <li><a href=''>Anthony Link To Other Proj</a></li>
                 <li><a href=''>Alexi Link To Other Proj</a></li>
-                <li><a href=''>William Link To Other Proj</a></li>
-                <li><a href=''>Gabriel Link To Other Proj</a></li>
-                <li><a href=''>Edward Link To Other Proj</a></li>
             </ul>
         </div>
         <div className='other-links-container'>
@@ -44,9 +38,6 @@ const Footer: React.FC = (): JSX.Element => {
               <ul>
                 <li><a href=''>Anthony Link To Portfolio</a></li>
                 <li><a href=''>Alexi Link To Portfolio</a></li>
-                <li><a href=''>William Link To Portfolio</a></li>
-                <li><a href=''>Gabriel Link To Portfolio</a></li>
-                <li><a href=''>Edward Link To Portfolio</a></li>
             </ul>
         </div>
     </div>
