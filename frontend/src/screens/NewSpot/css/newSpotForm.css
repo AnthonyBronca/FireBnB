@@ -1,0 +1,65 @@
+@import url('../../../index.css');
+
+.new-spot-form-container{
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+
+.form-input-container{
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    margin-bottom: 3rem;
+    border: 1px solid black;
+    padding-bottom: 2rem;
+    padding-inline: 1.5rem;
+    padding-top: 1rem;
+    border-radius: 1rem;
+}
+
+.new-spot-input{
+    margin: 7px;
+    padding-left: 5px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 5px;
+    border-width: 1px;
+
+}
+
+.custom-file-upload{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    margin-top: 3px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    background-color: var(--bnbred);
+    color: white;
+    padding: 3px;
+    cursor: pointer;
+    margin-inline: .4rem;
+    transition: transform 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    box-shadow: 1px 1px 1px 1px black;
+    transform: scale(1.03);
+}
+
+input[type="file"]{
+    display: none;
+}
+
+.previewImage{
+    margin-top: 10px;
+    height: 200px;
+    width: 200px;
+    border-radius: 10%;
+}

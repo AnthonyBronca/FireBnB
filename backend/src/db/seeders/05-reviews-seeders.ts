@@ -1,8 +1,7 @@
 'use strict';
 
 import { OptionsInterface } from "../../typings/seeders";
-
-const bcrypt = require("bcryptjs");
+import seederReviews from "../../utils/reviewSeeders";
 
 let options:OptionsInterface = {};
 if (process.env.NODE_ENV === 'production') {
@@ -27,7 +26,7 @@ module.exports = {
             stars: 4,
             review: "This place was pretty good!"
          },
-
+         ...seederReviews,
     ], {});
   },
 

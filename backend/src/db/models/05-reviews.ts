@@ -1,5 +1,5 @@
 import {CreationOptional, Model, Optional, ForeignKey} from 'sequelize';
-
+import { dateConverter } from '../../utils/date-conversion';
 
 type ReviewAttributes = {
     id: number,
@@ -7,6 +7,8 @@ type ReviewAttributes = {
     spotId: number,
     stars: number,
     review: string,
+    createdAt: Date,
+    updatedAt: Date,
 
 };
 
@@ -22,6 +24,8 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare spotId: ForeignKey<Review['id']>;
         declare stars:number;
         declare review: string;
+        declare createdAt: Date;
+        declare updatedAt: Date;
 
 
         static associate(models:any){
@@ -64,6 +68,20 @@ module.exports = (sequelize: any, DataTypes:any) => {
         spotId: {
             type: DataTypes.INTEGER
         },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            get() {
+                return dateConverter(this.getDataValue('createdAt'));
+            },
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            get() {
+                return dateConverter(this.getDataValue('updatedAt'));
+            },
+        }
     },
     {
         sequelize,

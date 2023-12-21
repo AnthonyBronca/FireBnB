@@ -1,3 +1,53 @@
 .spot-detail-container {
-    margin: 0px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.review-main {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.review-screen-container{
+    display: flex;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    padding-inline: calc(10px + 8rem);
+    padding-inline: 10px;
+    max-width: 900px;
+    flex: 1;
+    min-width: 76vh;
+}
+
+.spot-info-booking-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    margin-inline: calc(10px + 8em);
+    padding-inline: 10px;
+    max-width: 900px;
+    flex: 1;
+    min-width: 76vh;
+    overflow-y: visible;
+}
+
+.left-side-container-items{
+    width: 90%;
+    margin-left: 15px;
+}
+
+.right-side-container-items{
+    width: 400px;
+    top: 0;
+    position: sticky;
 }

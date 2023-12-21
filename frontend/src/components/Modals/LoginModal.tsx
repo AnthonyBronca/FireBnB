@@ -7,6 +7,7 @@ import {TextField, Checkbox} from '@mui/material';
 import ButtonLogos from './ButtonLogos';
 import { useDispatch } from 'react-redux';
 import { login, signup } from '../../store/session';
+import { useAppSelector } from '../../store';
 
 
 interface LoginSignUpProp {
@@ -16,6 +17,7 @@ interface LoginSignUpProp {
 //menuOption can be either login or signup
 const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
     const dispatch = useDispatch();
+    const user = useAppSelector((state)=> state.session.user);
     const {open, toggleOpen} = useContext(LoginModalContext);
 
     //state change for form items
@@ -107,7 +109,9 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
         }
         return;
     }
-
+if(user !== null){
+    return null
+} else{
   return (
     <div className="login-modal">
         <div className="modal-content">
@@ -272,6 +276,7 @@ const LoginModal: React.FC<LoginSignUpProp> = ({menuOption}) => {
         </div>
     </div>
   );
+ }
 }
 
 export default LoginModal;

@@ -1,9 +1,17 @@
+.list-nav-parent-container{
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin-top: 10px;
+    z-index: 999;
+}
+
 .list-nav-container{
     display: flex;
     justify-content: space-between;
     align-content: center;
-    margin-inline: 10px;
-    margin-bottom: 1rem;
+    margin-inline: 20px;
 }
 
 .firebnb-logo{
@@ -14,6 +22,8 @@
 }
 
 .save-button{
+    position: relative;
+    right: 1rem;
     background-color: white;
     border: .5px solid rgb(200, 200, 200, .6);
     border-radius: 1rem;

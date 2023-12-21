@@ -1,6 +1,6 @@
 import './App.css'
 import { useRoutes} from 'react-router-dom'
-import { useAppDispatch } from './store';
+import { useAppDispatch, useAppSelector } from './store';
 import { useEffect, useState } from 'react';
 import * as sessionActions from './store/session'
 import Splash from './screens/Splash/Splash';
@@ -8,11 +8,10 @@ import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
 import SpotDetail from './screens/SpotDetailPage/SpotDetail';
 import NewSpotForm from './screens/NewSpot/NewSpot'
-import AboutForm from './screens/NewSpot/AboutForm';
-import LocationForm from './screens/NewSpot/LocationForm';
 
-const App: React.FC = ():JSX.Element => {
+const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
   const [loginModalOpen, setLoginModal] = useState(false)
 
@@ -44,47 +43,45 @@ const App: React.FC = ():JSX.Element => {
   }
 
 
-
-
   const mainRoutes = [
-  {
-    path: '/',
-    element: <Splash />,
-  },
-  {
-    path: '*',
-    element: <h1>404: Error Page</h1>
-  },
-  {
-    path: '/spot/:id',
-    element: <SpotDetail />
-  },
-  {
-    path: '/become-a-host',
-    element: <NewSpotForm />
-  },
-  {
-    path: '/become-a-host/about',
-    element: <AboutForm />
-  },
-  {
-    path: '/become-a-host/location',
-    element: <LocationForm />
-  }
-
-]
-    // children: [
-    //   { path: '*', element: <Navigate to={'/404'}/> },
-    //   { path: '/', element: <NavBar />},
-    //   {path: '404', element: <h1>404 Not Found</h1>},
-    // ],
-
+    {
+      path: '/',
+      element: <Splash />,
+    },
+    {
+      path: '/spot/:id',
+      element: <SpotDetail />
+    },
+    {
+      path: '/become-a-host',
+      element: user ? <NewSpotForm />: <Splash login={true}/>
+    },
+    {
+      path: '/login',
+      element: <LoginModal menuOption='login'/>
+    },
+    {
+      path: '*',
+      element: <h1>404: Error Page</h1>
+    }
+  ]
 
 
   const routing = useRoutes(mainRoutes);
 
+  function generateLoading(){
+    if(!isLoaded){
+      setTimeout(()=> {
+        return <h1>Loading...</h1>
+      }, 1000)
+    } else{
+      return null
+    }
+  }
+
+
   if(!isLoaded){
-    return <h1>Loading...</h1>
+    return generateLoading()
   } else {
     return (
       <div className='app-container'>

@@ -3,7 +3,7 @@
 export interface CSRFHttpOptions {
     method: string;
     headers: any;
-    body?: string;
+    body?: string | FormData;
 };
 
 export interface User {
@@ -13,6 +13,32 @@ export interface User {
     email: string;
     username: string;
     isHost: boolean;
+}
+
+export interface SpotImage {
+    id: number,
+    preview: boolean,
+    spotId: number,
+    url: string
+}
+
+export interface SpotOwner {
+    id: number,
+    firstName: string,
+    isHost: null | boolean,
+    lastName: string,
+    username: string
+}
+
+
+export interface Review {
+    id: number,
+    review: string,
+    spotId: number,
+    stars: number,
+    createdAt: string | Date,
+    updatedAt: string | Date,
+    userId: number
 }
 
 export interface Spot {
@@ -31,6 +57,9 @@ export interface Spot {
     previewImage: string;
     createdAt: string;
     updatedAt: string;
+    SpotImages: SpotImage[]
+    Owner?: SpotOwner,
+    reviews?: Review[]
 }
 
 
@@ -61,4 +90,18 @@ export interface SignUpUser {
     username: string;
     isHost: boolean;
     password: string;
+}
+
+export interface INewSpotForm {
+    listingName: string | null;
+    streetAddress: string | null;
+    city: string | null;
+    state: string | null;
+    country: string | null;
+    zipCode: string | null;
+    description: string | null;
+    price:  string | null;
+    imgUrl: string | null;
+    lat?: number | string | null;
+    lng?: number | string | null;
 }

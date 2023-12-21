@@ -7,17 +7,24 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import globe from '../../assets/icons/globe.svg'
 import AccountMenu from './AccountMenu';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../store';
 
 
 
 const NavBar = () => {
     const navigate = useNavigate()
-
+    const user = useAppSelector((state) => state.session.user);
     const goToHome = () =>{
         navigate('/')
     }
 
-
+const handleAuthCheck = () => {
+    if(!user){
+        goToHome();
+    } else{
+        navigate('/become-a-host')
+    }
+}
 
   return (
     <>
@@ -44,7 +51,7 @@ const NavBar = () => {
         </div>
         <div className='nav-bar-links-container'>
             <div className='host-home'>
-                <Link className='a-tag' to={'/'}><span className='nav-bar-links-span'>Firebnb your home</span></Link>
+                <Link className='a-tag' onClick={handleAuthCheck} to={'/'}><span className='nav-bar-links-span'>Firebnb your home</span></Link>
             </div>
             <img src={globe} alt='global setting icon' className='globe-icon' />
             <AccountMenu />
