@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import './BookingForm.css'
 import { guestCount } from './guestCount';
+import { endDateValidation } from './dateValidation';
 
 const BookingForm: React.FC = (): JSX.Element => {
     const [startDate, setStartDate] = useState<string>('')
     const [endDate, setEndDate] = useState<string>('');
     const [guest, setGuest] = useState<string>('');
-    console.log(guest)
 
     const setStart = (e: React.FocusEvent<HTMLInputElement, Element>) => {
         setStartDate(e.target.value);
@@ -20,6 +20,17 @@ const BookingForm: React.FC = (): JSX.Element => {
         setGuest(e.target.value);
     }
 
+    const checkAvailability = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+
+        let booking = {
+            startDate,
+            endDate,
+            guest
+        }
+        console.log(booking)
+    }
+
   return (
     <div className='booking-form-container'>
         <div className='price-container'>
@@ -29,8 +40,18 @@ const BookingForm: React.FC = (): JSX.Element => {
         <form>
             <div className='date-container'>
                 <div className='date-container-top'>
-                    <input type='date' className='date-left-input' onFocus={(e) => setStart(e)}/>
-                    <input type='date' className='date-right-input' onFocus={(e) => setEnd(e)}/>
+                    <input
+                        type='date'
+                        className='date-left-input'
+                        onFocus={(e) => setStart(e)}
+                        min={startDate? startDate: endDateValidation('',true)}
+                        />
+                    <input
+                        type='date'
+                        className='date-right-input'
+                        onFocus={(e) => setEnd(e)}
+                        min={startDate.length > 0? endDateValidation(startDate): endDateValidation()}
+                        />
                 </div>
                 <div className='date-container-bottom'>
                     <select
@@ -45,7 +66,7 @@ const BookingForm: React.FC = (): JSX.Element => {
                 </div>
             </div>
             <div className='availability-btn-container'>
-                <button className='availability-btn'>Check availability</button>
+                <button onClick={(e)=> checkAvailability(e)} className='availability-btn'>Check availability</button>
             </div>
         </form>
     </div>
