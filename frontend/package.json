@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/google.maps": "^3.54.8",
     "@types/js-cookie": "^3.0.4",
-    "@types/node": "^20.9.0",
+    "@types/node": "^20.10.5",
     "@types/react": "^18.2.15",
     "@types/react-date-range": "^1.4.9",
     "@types/react-dates": "^21.8.6",
