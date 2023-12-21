@@ -27,7 +27,7 @@ const Spots = () => {
 
   return (
     <div className='spots-container'>
-      {spots? spots.map((spot, idx) => (
+      {spots ? spots.map((spot, idx) => (
         <div className="spot-container" key={idx} onClick={(e) => viewSpot(e, spot.id)}>
           <div className="image-container">
               <img

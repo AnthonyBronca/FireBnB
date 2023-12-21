@@ -66,6 +66,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     }
   ]
 
+
   const routing = useRoutes(mainRoutes);
 
   function generateLoading(){
