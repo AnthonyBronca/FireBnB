@@ -9,7 +9,6 @@ interface ISpotSummary {
 
 
 const Summary:React.FC<ISpotSummary> = ({name, rating}): JSX.Element => {
-    console.log(name, rating)
   return (
     <div className='summary-container'>
         <div>

@@ -5,14 +5,14 @@ import Footer from "../../components/Footer/Footer";
 import React from "react";
 import LoginModal from "../../components/Modals/LoginModal";
 import { useAppSelector } from "../../store";
-import { Navigate, useNavigate } from "react-router-dom";
+// import { Navigate, useNavigate } from "react-router-dom";
 
 interface ISplashProps {
   login?: boolean
 }
 
 const Splash: React.FC<ISplashProps> = ({login}): JSX.Element => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const user = useAppSelector((state) => state.session.user);
 
   const allowList = () => {

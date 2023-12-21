@@ -1,10 +1,11 @@
-import {SpotInitialState, Spot, Spots, INewSpotForm, User } from "../typings/redux";
+import {SpotInitialState, Spot, Spots, INewSpotForm} from "../typings/redux";
 import { csrfFetch } from "./csrf";
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
 
 const SET_SPOTS = 'spots/setSpots';
 const ADD_SPOT = 'spots/addSpot';
+const SET_SPOT = 'spots/setSpot';
 
 const setSpots = (spots: Spots) => {
     return {
@@ -20,9 +21,14 @@ const addSpot = (spot: Spot) => {
     }
 }
 
+const setSpot = (spot: Spot) => {
+    return{
+        type: SET_SPOT,
+        payload: spot
+    }
+}
 //thunk to get all spots
 export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> => {
-
     try {
         const response = await csrfFetch('/api/spots')
         const data = await response.json();
@@ -38,7 +44,6 @@ export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> =>
 }
 
 //thunk to post a spot
-
 export const createSpot = (userId: number, form:INewSpotForm):any => async (dispatch: Dispatch): Promise<any> => {
     try{
 
@@ -90,15 +95,27 @@ export const createSpot = (userId: number, form:INewSpotForm):any => async (disp
     }
 }
 
+// thunk to get a single spot detail
+export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch): Promise<any> => {
+    try {
+        const response = await csrfFetch(`/api/spots/${spotId}`)
+        if(response.ok){
+            const data:Spot = await response.json();
+            dispatch(setSpot(data))
+            return response
+        } else{
+            throw response.json();
+        }
+    } catch (res:any) {
+        return res
+    }
+}
+
 //Spots initial State
 const initialState:SpotInitialState = {
     byId: {},
     allSpots: []
 }
-
-
-
-
 
 
 //state reducer for Spots
@@ -111,7 +128,9 @@ export const SpotSlice = createSlice({
             state.allSpots = action.payload.Spots;
 
             for(let spot of action.payload.Spots){
-                state.byId[`${spot.id}`] = spot;
+                if(!state.byId[`${spot.id}`]){
+                    state.byId[`${spot.id}`] = spot;
+                }
             }
         },
         addSpot: (state, action: PayloadAction<Spot>) => {
@@ -120,6 +139,12 @@ export const SpotSlice = createSlice({
             }
             if(state.allSpots instanceof Array){
                 state.allSpots.push(action.payload);
+            }
+        },
+        setSpot: (state, action: PayloadAction<Spot>) => {
+            console.log(action.payload)
+            if(state.byId){
+                state.byId[`${action.payload.id}`] = action.payload;
             }
         }
     }

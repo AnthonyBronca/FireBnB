@@ -12,7 +12,7 @@ import { dateConverter } from '../../utils/date-conversion';
 const {singleMulterUpload, singlePublicFileUpload} = require('../../awsS3');
 
 
-const {Spot, SpotImage, Review, ReviewImage, Booking, User} = db;
+const {Spot, SpotImage, Review, ReviewImage, Booking, User, UserImage} = db;
 const router = require('express').Router();
 
 
@@ -81,24 +81,38 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             include: [
                 {model: SpotImage},
                 {model: User, as: "Owner"},
-                {model: Review}
+                {
+                    model: Review,
+                    include: [{
+                        model: User,
+                        include: [
+                            {
+                                model: UserImage,
+                            }
+                        ]
+                    }]
+                }
             ]
         });
+
 
         const spotTransform = spots.map((spot:any) => {
             const spotJson = spot.toJSON()
             const {SpotImages, Owner, Reviews, ...res} = spotJson;
             const previewImageUrl = SpotImages.find((image:any) => image.preview === true).url;
             const avgRating = Reviews.reduce((sum:number, review:any) => sum += review.stars ,0) / Reviews.length;
-            const fixedRating = isNaN(avgRating) ? null : avgRating;
+            const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
 
             res.ownerId = Owner.id;
             res.previewImage = previewImageUrl;
             res.avgRating = fixedRating;
-
+            res.reviews = Reviews;
+            res.createdAt = dateConverter(res.createdAt);
+            res.updatedAt = dateConverter(res.updatedAt);
             return res;
         })
 
+        res.status(200);
         res.json({Spots: spotTransform, page, size});
 
     } catch (e) {
@@ -118,7 +132,7 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
                 include: [ {model:SpotImage} ]
             });
 
-            if(userspots.length === 0)throw new NoResourceError("No Spots have been created yet!", 404);
+            if(userspots.length === 0) throw new NoResourceError("No Spots have been created yet!", 404);
 
             let result = [];
             for(let userspot of userspots){
@@ -126,7 +140,6 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
                 let total = 0;
                 let previewImage = '';
                 let userspotJson = userspot.toJSON();
-                console.log(userspotJson)
                 let reviews = await Review.findAll({where: {spotId: userspotJson.id}})
                 if(reviews.length){
                     for(let review of reviews){
@@ -170,7 +183,7 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
                 }
                 result.push(resObj)
             }
-
+            res.status(200)
             return res.json({Spots: result});
 
         }
@@ -182,48 +195,56 @@ router.get('/current', async(req:CustomeRequest, res: Response, next: NextFuncti
 
 //get details of a current spot
 router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction) => {
-
     try {
         if(req.params.spotId){
             let spotId = parseInt(req.params.spotId);
-            let spot = await Spot.findByPk(spotId, {include: [{model: SpotImage}, {model: User, as: "Owner"}]});
+            let spot = await Spot.findByPk(spotId, {
+                include: [
+                    {
+                        model: SpotImage
+                    },
+                    {
+                        model: User, as: "Owner",
+                        include: [
+                            {
+                                model: UserImage,
+                                where: {
+                                    isProfile: true
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        model: Review,
+                        include: [{
+                            model: User,
+                            include: [{
+                                model: UserImage,
+                                where: {
+                                    isProfile: true
+                                }
+                            }]
+                        }]
+                    }
+                ]
+            });
+
             if(!spot){
                 throw new NoResourceError("Spot couldn't be found", 404);
             } else{
                 let spotJson = spot.toJSON();
-                let avgStarRating = 0;
-                let total = 0;
-                let reviews = await Review.findAll({where: {spotId: spotJson.id}});
-                if(reviews.length){
-                    for(let review of reviews){
-                        let rev = review.toJSON();
-                        total += rev.stars;
-                    }
-                }
-                if(total > 0 && reviews.length){
-                    avgStarRating = total / reviews.length;
-                }
-                delete spotJson.Owner.bio;
-                let result = {
-                    id: spotJson.id,
-                    ownerId:spotJson.userId,
-                    address: spotJson.address,
-                    city: spotJson.city,
-                    state: spotJson.state,
-                    country: spotJson.country,
-                    lat: Number(spotJson.lat),
-                    lng: Number(spotJson.lng),
-                    price: spotJson.price,
-                    name: spotJson.name,
-                    description: spotJson.description,
-                    numReviews: reviews.length,
-                    createdAt: dateConverter(spotJson.createdAt),
-                    updatedAt: dateConverter(spotJson.updatedAt),
-                    avgStarRating,
-                    SpotImages: spotJson.SpotImages,
-                    Owner: spotJson.Owner
-
-                }
+                const {SpotImages, Owner, Reviews, ...result} = spotJson;
+                const avgRating = Reviews.reduce((sum:number, review: any) => sum += review.stars, 0) / Reviews.length;
+                const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
+                result.reviews = Reviews;
+                result.createdAt = dateConverter(result.createdAt);
+                result.updatedAt = dateConverter(result.updatedAt);
+                result.avgRating = fixedRating;
+                result.SpotImages = SpotImages;
+                result.Owner = Owner;
+                result.numReviews = Reviews.length;
+                delete spotJson.Owner.bio; //delete this with scope later
+                res.status(200)
                 return res.json(result);
             }
         }

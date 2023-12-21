@@ -1,0 +1,10 @@
+.stars-container{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.star-review-icon {
+    height: 8px;
+    width: 8px;
+}

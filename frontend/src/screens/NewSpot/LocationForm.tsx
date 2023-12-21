@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect} from 'react';
+import React, { useState} from 'react';
 // import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import {GoogleMap, Marker, StandaloneSearchBox, useJsApiLoader, LoadScript, Autocomplete} from '@react-google-maps/api';
+import {GoogleMap, Marker, useJsApiLoader} from '@react-google-maps/api';
 import './css/locationForm.css'
 import { useFormContext } from '../../context/NewSpotContext';
 
@@ -11,9 +11,9 @@ const LocationForm:React.FC = (): JSX.Element => {
 
   const [lat, setLat] = useState<number>(40.7128);
   const [lng, setLng] = useState<number>(-74.006);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState<any>(null);
+  const [_map, setMap] = useState<google.maps.Map | null>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
+  const [_value, _setValue] = useState<any>(null);
   //Marker position state
   const defaultCenter: google.maps.LatLngLiteral = {
     lat,
@@ -46,7 +46,7 @@ const LocationForm:React.FC = (): JSX.Element => {
       googleMapsApiKey: apiKey!
     })
 
-    const onUnmount = React.useCallback((map:any) => {
+    const onUnmount = React.useCallback(() => {
       setMap(null)
     }, [])
 

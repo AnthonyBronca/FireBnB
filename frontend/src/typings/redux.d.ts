@@ -15,6 +15,32 @@ export interface User {
     isHost: boolean;
 }
 
+export interface SpotImage {
+    id: number,
+    preview: boolean,
+    spotId: number,
+    url: string
+}
+
+export interface SpotOwner {
+    id: number,
+    firstName: string,
+    isHost: null | boolean,
+    lastName: string,
+    username: string
+}
+
+
+export interface Review {
+    id: number,
+    review: string,
+    spotId: number,
+    stars: number,
+    createdAt: string | Date,
+    updatedAt: string | Date,
+    userId: number
+}
+
 export interface Spot {
     id: number;
     ownerId: number;
@@ -31,6 +57,9 @@ export interface Spot {
     previewImage: string;
     createdAt: string;
     updatedAt: string;
+    SpotImages: SpotImage[]
+    Owner?: SpotOwner,
+    reviews?: Review[]
 }
 
 
