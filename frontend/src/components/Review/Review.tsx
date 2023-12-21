@@ -1,11 +1,17 @@
 import React from 'react';
 import './review.css'
-import random from '../../assets/images/random-person.jpg'
 import { IReviewProps } from '../../typings/review';
 import ProfileInfo from './ProfileInfo';
 import Stars from './Stars';
 
 const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null => {
+
+
+
+    const handleShowMore = () => {
+        alert('This is a Future Feature and is still in development!')
+    }
+
     if(reviews){
         return (
           <div className='review-container'>
@@ -18,7 +24,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null 
                 </div>
                 <div className='review-details-container'>
                     <p>{review.review}</p>
-                    <span>Show more</span>
+                    <span onClick={handleShowMore}>Show more</span>
                 </div>
                 </div>
             )): null}

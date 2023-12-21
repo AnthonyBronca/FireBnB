@@ -11,7 +11,7 @@ import HostDetails from '../../components/SpotDetail/Summary/HostDetails';
 import door from '../../assets/icons/door.svg'
 import calendar from '../../assets/icons/calendar.svg'
 import Paragraph from '../../components/SpotDetail/Summary/Paragraph';
-import Calendar from '../../components/SpotDetail/Summary/Calendar';
+import MyCalendar from '../../components/SpotDetail/Summary/Calendar';
 import NavBar from '../../components/Navigation/NavBar';
 import Footer from '../../components/Footer/Footer';
 import { useDispatch } from 'react-redux';
@@ -79,7 +79,7 @@ if(!spot || show404){
             <Divider style={{width: '30rem', }}/>
             <Paragraph />
             <Divider style={{width: '30rem', }}/>
-            <Calendar />
+            <MyCalendar />
             <Divider style={{width: '30rem', }}/>
         </div>
         <Divider />

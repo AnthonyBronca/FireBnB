@@ -1,8 +1,7 @@
 'use strict';
 
 import { OptionsInterface } from "../../typings/seeders";
-
-const bcrypt = require("bcryptjs");
+import randomUserProfiles from "../../utils/userImageSeeders";
 
 let options:OptionsInterface = {};
 if (process.env.NODE_ENV === 'production') {
@@ -13,18 +12,7 @@ module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
     options.tableName = 'UserImages';
     return queryInterface.bulkInsert(options, [
-         {
-            userId: 1,
-            url: "someurl.com",
-            isProfile: true,
-         },
-        {
-            userId: 2,
-            url: "someOtherurl.com",
-            isProfile: true,
-         },
-
-
+      ...randomUserProfiles
     ], {});
   },
 

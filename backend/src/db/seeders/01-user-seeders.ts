@@ -9,39 +9,14 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-// import { users } from "../../utils/users_seeder_maker";
+import {seedUsers} from "../../utils/usersSeeder";
 
 
 module.exports = {
   up: async (queryInterface:any, Sequelize:any) => {
     options.tableName = 'Users';
     return queryInterface.bulkInsert(options, [
-         {
-        firstName: "Anthony",
-        lastName: "bronca",
-        email: 'anthony@user.io',
-        username: 'AnthonyB',
-        bio: "I made this site with Typescript :D",
-        hashedPassword: bcrypt.hashSync('password3')
-      },
-        {
-        firstName: "Jade",
-        lastName: "Grabow",
-        email: 'jade@user.io',
-        username: 'Jade',
-        bio: "I am the most beautiful girl ever",
-        hashedPassword: bcrypt.hashSync('password3')
-      },
-      {
-        firstName: "Demo-firstName",
-        lastName: "Demp-lastName",
-        email: 'demo@demouser.io',
-        username: 'Demo-user',
-        bio: "I made this site with Typescript :D",
-        isHost: true,
-        hashedPassword: bcrypt.hashSync('StrongDemoPassword!')
-      },
-    //   ...users
+      ...seedUsers
     ], {});
   },
 

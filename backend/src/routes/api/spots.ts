@@ -81,7 +81,17 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             include: [
                 {model: SpotImage},
                 {model: User, as: "Owner"},
-                {model: Review}
+                {
+                    model: Review,
+                    include: [{
+                        model: User,
+                        include: [
+                            {
+                                model: UserImage,
+                            }
+                        ]
+                    }]
+                }
             ]
         });
 
@@ -205,7 +215,16 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                         ]
                     },
                     {
-                        model: Review
+                        model: Review,
+                        include: [{
+                            model: User,
+                            include: [{
+                                model: UserImage,
+                                where: {
+                                    isProfile: true
+                                }
+                            }]
+                        }]
                     }
                 ]
             });

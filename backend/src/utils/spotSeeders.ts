@@ -1,3 +1,4 @@
+import {hostUsers} from "./usersSeeder";
 const random = require('getrandomjs')
 
 interface Spot {
@@ -236,8 +237,9 @@ const generateSpotSeeders = () => {
     let spotArr: Spot[] = [];
 
     for (let i = 0; i < 18; i++) {
+        console.log(random(hostUsers))
         let spot = {
-            userId: 1,
+            userId: random(hostUsers).userId,
             name: random(propertyNames),
             address: fakeAddresses[i],
             city: random(fakeCities),
@@ -252,5 +254,7 @@ const generateSpotSeeders = () => {
     }
     return spotArr;
 };
+
+generateSpotSeeders()
 
 export default generateSpotSeeders;
