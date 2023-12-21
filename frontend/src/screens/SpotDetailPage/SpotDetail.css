@@ -38,15 +38,16 @@
     max-width: 900px;
     flex: 1;
     min-width: 76vh;
+    overflow-y: visible;
 }
 
 .left-side-container-items{
-    /* background-color: red; */
     width: 90%;
     margin-left: 15px;
 }
 
 .right-side-container-items{
-    background-color: blue;
-    width: 300px;
+    width: 400px;
+    top: 0;
+    position: sticky;
 }
