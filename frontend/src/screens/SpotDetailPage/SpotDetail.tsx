@@ -17,7 +17,8 @@ import Footer from '../../components/Footer/Footer';
 import { useDispatch } from 'react-redux';
 import { getOneSpotThunk } from '../../store/spots';
 import ReviewComponent from '../../components/Review/Review';
-
+import './SpotDetail.css'
+import BookingForm from '../../components/BookingForm';
 
 const SpotDetail: React.FC = (): JSX.Element | undefined => {
     const dispatch = useDispatch();
@@ -67,23 +68,34 @@ if(!spot || show404){
         <>
         <NavBar />
         <Divider/>
-        <div className='spot-detail-container' style={{maxWidth: '1200px', marginBottom: '10px'}}>
+        <div className='spot-detail-container'>
             <SpotDetailHeader name={spot.name}/>
             <SpotDetailImages image={spot.previewImage? spot.previewImage: spot.SpotImages[0].url}/>
-            <Summary name={spot.name} rating={spot.avgRating}/>
-            <Divider style={{width: '30rem', }}/>
-            <AdditionalDetail />
-            <Divider style={{width: '30rem', }}/>
-            <HostDetails name={door}/>
-            <HostDetails name={calendar}/>
-            <Divider style={{width: '30rem', }}/>
-            <Paragraph />
-            <Divider style={{width: '30rem', }}/>
-            <MyCalendar />
-            <Divider style={{width: '30rem', }}/>
+            <div className='spot-info-booking-container'>
+                <div className='left-side-container-items'>
+                <Summary name={spot.name} rating={spot.avgRating}/>
+                <Divider style={{width: '30rem', }}/>
+                <AdditionalDetail />
+                <Divider style={{width: '30rem', }}/>
+                <HostDetails name={door}/>
+                <HostDetails name={calendar}/>
+                <Divider style={{width: '30rem', }}/>
+                <Paragraph />
+                <Divider style={{width: '30rem', }}/>
+                <MyCalendar />
+                </div>
+                <div className='right-side-container-items'>
+                    <BookingForm />
+                </div>
+            </div>
+            <Divider style={{width: '52rem', }}/>
+        {/* <Divider /> */}
         </div>
-        <Divider />
-        <ReviewComponent reviews={spot.reviews}/>
+        <div className='review-main'>
+            <div className='review-screen-container'>
+                <ReviewComponent reviews={spot.reviews}/>
+            </div>
+        </div>
         <Divider />
         <Footer />
         </>
