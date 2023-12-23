@@ -8,6 +8,7 @@ import LoginModalContext from './context/LoginModalContext';
 import LoginModal from './components/Modals/LoginModal';
 import SpotDetail from './screens/SpotDetailPage/SpotDetail';
 import NewSpotForm from './screens/NewSpot/NewSpot'
+import UserDashboard from './screens/UserDashboard';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -59,6 +60,10 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     {
       path: '/login',
       element: <LoginModal menuOption='login'/>
+    },
+    {
+      path: '/account-settings',
+      element: <UserDashboard user={user} />
     },
     {
       path: '*',
