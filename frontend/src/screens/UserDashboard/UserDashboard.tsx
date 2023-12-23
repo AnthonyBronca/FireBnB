@@ -27,6 +27,7 @@ const UserDashboard: React.FC<IUserProps> = ({user}): JSX.Element => {
                 title={prop.title}
                 description={prop.description}
                 action={prop.action}
+                active={prop.active}
                 />
                 ))}
         </div>

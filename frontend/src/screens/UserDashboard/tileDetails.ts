@@ -24,67 +24,71 @@ const tileDetails: ITileProps[] = [
         icon: userIcon,
         title: "Personal Info",
         description: "Provide personal details and how we can reach you",
+        active: "",
         action: handleFutureFeature
     },
     {
         icon: securityIcon,
         title: "Login & security",
         description: "Update your password and secure your account",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "",
     },
     {
         icon: paymentIcon,
         title: "Payments & payouts",
         description: "Review payments, payouts, coupons, and gift cards ",
-        action: handleFutureFeature
-    },
-    {
-        icon: userIcon,
-        title: "Personal Info",
-        description: "Provide personal details and how we can reach you",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "no",
     },
     {
         icon: fileIcon,
-        title: "Taxes",
-        description: "Manage taxpayer information and tax documents",
-        action: handleFutureFeature
+        title: "Listing Management",
+        description: "Manage your listings",
+        action: handleFutureFeature,
+        active: "",
     },
     {
         icon: notificationIcon,
         title: "Notifications",
         description: "Choose notification preferences and how you want to be contacted",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "no",
     },
     {
         icon: eyeIcon,
-        title: "Privacy & sharing",
-        description: "Manage your personal data, connected services, and data sharing settings",
-        action: handleFutureFeature
+        title: "Reviews",
+        description: "Manage reviews you have made",
+        action: handleFutureFeature,
+        active: "",
     },
     {
         icon: switchIcon,
         title: "Global preferences",
         description: "Set your default language, currency, and timezone",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "no",
     },
     {
         icon: deskIcon,
         title: "Travel for work",
         description: "Add a work email for business trip benefits",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "no",
     },
     {
         icon: graphIcon,
         title: "Professional hosting tools",
         description: "get professional tools if you manage several properties on Firebnb",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "no",
     },
     {
         icon: giftIcon,
         title: "Referral credit & coupon",
         description: "This is a fake site, so this does nothing",
-        action: handleFutureFeature
+        action: handleFutureFeature,
+        active: "no",
     },
 ]
 

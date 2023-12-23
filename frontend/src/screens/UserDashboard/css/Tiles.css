@@ -14,6 +14,22 @@
     flex-direction: column;
     cursor: pointer;
 }
+.no{
+    background-color: rgb(245,245,245);
+        width: 16rem;
+        height: 7rem;
+        /* background-color: white; */
+        border: .5px hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-inline: 15px;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        cursor: not-allowed;
+}
 
 .tile-container img{
     height: 25px;

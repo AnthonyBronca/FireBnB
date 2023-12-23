@@ -5,7 +5,8 @@ export interface ITileProps {
     icon: string;
     title: string;
     description: string;
-    action: MouseEventHandler<HTMLDivElement>
+    action: MouseEventHandler<HTMLDivElement>;
+    active?: string;
 }
 
 
@@ -13,10 +14,10 @@ const Tiles: React.FC<ITileProps> = ({
     icon,
     title,
     description,
+    active,
     action}): JSX.Element => {
-        console.log(icon,title,description,action)
   return (
-    <div className='tile-container' onClick={action}>
+    <div className={`tile-container ${active}`} onClick={action}>
         <img src={icon} alt='icon for tile'/>
         <h2>{title}</h2>
         <span>{description}</span>
