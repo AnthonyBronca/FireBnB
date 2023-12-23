@@ -47,11 +47,13 @@ const AccountMenu = () => {
         // dispatch(login({credential: 'anthony@user.io', password: 'password3'}))
     }
 
-      const handleLogout = (e: MouseEvent) => {
+      const handleLogout = async (e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setMenuOpen(false);
-        dispatch(logout()).then(()=> window.location.reload());
+        await dispatch(logout()).then(()=> window.location.reload());
+        navigate('/');
+        window.location.reload();
     }
 
     const handleFutureFeature = () => {
