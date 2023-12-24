@@ -5,13 +5,15 @@ import Footer from "../../components/Footer/Footer";
 import React from "react";
 import LoginModal from "../../components/Modals/LoginModal";
 import { useAppSelector } from "../../store";
+import SpotsSkeleton from "../../components/Spots/SpotsSkeleton";
 // import { Navigate, useNavigate } from "react-router-dom";
 
 interface ISplashProps {
-  login?: boolean
+  login?: boolean;
+  loading: boolean
 }
 
-const Splash: React.FC<ISplashProps> = ({login}): JSX.Element => {
+const Splash: React.FC<ISplashProps> = ({login, loading}): JSX.Element => {
   // const navigate = useNavigate();
   const user = useAppSelector((state) => state.session.user);
 
@@ -23,14 +25,14 @@ const Splash: React.FC<ISplashProps> = ({login}): JSX.Element => {
     }
   }
 
-
+  console.log(loading)
 
   return (
     <>
       <NavBar />
       <Divider/>
       <div style={{marginTop: '30px', marginInline: '45px'}}>
-        <Spots />
+        {loading ? <Spots />: <SpotsSkeleton />}
         {login? allowList() : null}
       </div>
        <Divider />

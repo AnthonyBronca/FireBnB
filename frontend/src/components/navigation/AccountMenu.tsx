@@ -47,11 +47,13 @@ const AccountMenu = () => {
         // dispatch(login({credential: 'anthony@user.io', password: 'password3'}))
     }
 
-      const handleLogout = (e: MouseEvent) => {
+      const handleLogout = async (e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setMenuOpen(false);
-        dispatch(logout()).then(()=> window.location.reload())
+        await dispatch(logout()).then(()=> window.location.reload());
+        navigate('/');
+        window.location.reload();
     }
 
     const handleFutureFeature = () => {
@@ -60,8 +62,13 @@ const AccountMenu = () => {
     }
 
     const goToListASpot = () => {
-        navigate('/become-a-host')
-        handleMenuOpen()
+        navigate('/become-a-host');
+        handleMenuOpen();
+    }
+
+    const goToDashBoard = () => {
+        navigate('/account-settings');
+        handleMenuOpen();
     }
 
 
@@ -90,7 +97,7 @@ const AccountMenu = () => {
             <span onClick={handleFutureFeature} className='reg-span'>Wishlists</span>
             <div onClick={handleFutureFeature} className='horizontal-line'></div>
             <span onClick={goToListASpot} className='unreg-span'>Firebnb your home</span>
-            <span onClick={handleFutureFeature} className='unreg-span'>Account</span>
+            <span onClick={goToDashBoard} className='unreg-span'>Account</span>
             <div onClick={handleFutureFeature} className='horizontal-line'></div>
             <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>
             <span onClick={(e:any) => handleLogout(e)} className='unreg-span'>Log out</span>

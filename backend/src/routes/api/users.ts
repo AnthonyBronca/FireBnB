@@ -10,6 +10,7 @@ const {Op} = require('sequelize')
 
 import db from '../../db/models'
 import { errors } from '../../typings/errors';
+import { NoResourceError } from '../../errors/customErrors';
 
 const {User, UserImage} = db
 
@@ -100,6 +101,43 @@ router.get('/all', async (req:Request, res:Response) => {
             }
         });
         res.json(users)
+})
+
+router.put('/:id', async (req:Request, res: Response, next: NextFunction) => {
+    try{
+        const userId = req.params.id;
+        const {firstName, lastName, email} = req.body;
+        const user = await User.findByPk(userId);
+        if(!user) throw new NoResourceError("No User found with those credentials", 404);
+        if(firstName){
+            user.firstName = firstName;
+        }
+        if(lastName){
+            user.lastName = lastName;
+        }
+        if(email){
+            user.email = email;
+        }
+        user.save();
+        res.status(202)
+        res.json({user})
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.delete('/:id', async (req:Request, res:Response, next: NextFunction) => {
+    try {
+
+        const userId = req.params.id;
+        const user = await User.findByPk(userId);
+        if(!user) throw new NoResourceError("No user found with those credentials", 404);
+        user.destroy();
+        res.status(202);
+        res.json({user: null});
+    } catch (error) {
+        next(error);
+    }
 })
 
 
