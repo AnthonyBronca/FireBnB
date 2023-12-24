@@ -5,6 +5,7 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const EDIT_USER = 'session/editUser';
 
 
 const setUser = (user: User ) => {
@@ -19,6 +20,13 @@ const removeUser = () => { //action
     type: REMOVE_USER,
   };
 };
+
+const editUser = (user: User) => {
+  return {
+    type: EDIT_USER,
+    payload: user
+  }
+}
 
 //thunk
 export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
@@ -87,6 +95,44 @@ export const login = (user: {credential: string, password: string}):any => async
   }
 };
 
+export const editUserThunk = (user:any, form:any): any => async(dispatch:any): Promise<any> => {
+  const {id} = user;
+  const {editEmail, editFirstName, editLastName} = form;
+
+
+  const options = {
+    method: "PUT",
+    headers: {"Content-Type": 'application/json'},
+    body: JSON.stringify({
+      firstName: editFirstName,
+      lastName: editLastName,
+      email: editEmail})
+  }
+  const response = await csrfFetch(`/api/users/${id}`, options);
+  if(response.ok){
+    const data = await response.json();
+    dispatch(editUser(data));
+    return response;
+  } else{
+    return response;
+  }
+}
+
+export const deleteUserThunk = (user:any):any => async(dispatch:any): Promise<any> => {
+  const {id} = user;
+
+  const options = {
+    method: "DELETE",
+    headers: {"Content-Type": "application/json"},
+  }
+  const response = await csrfFetch(`/api/users/${id}`, options);
+  if(response.ok){
+    dispatch(removeUser())
+  } else{
+    return response;
+  }
+}
+
 
 
 //initial state for session
@@ -101,6 +147,12 @@ export const SessionSlice = createSlice({
         setUser: (state, action: PayloadAction<{ user:User }>) => {
             state.user = action.payload.user;
         },
+        editUser: (state, action: PayloadAction<{user: User}>) => {
+          state.user = action.payload.user;
+        },
+        removeUser: (state) => {
+          state.user = null;
+        }
     //additional reducers go here
   }
 });

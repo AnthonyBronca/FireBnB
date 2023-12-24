@@ -18,7 +18,7 @@ const EmailIcon= () => {
 
     const {toggleOpen} = useContext(LoginModalContext);
 
-    const [credential] = useState('Demo-user');
+    const [credential] = useState('Joe_Demo');
     const [password] = useState('StrongDemoPassword!');
 
     const loginDemo = () => {
