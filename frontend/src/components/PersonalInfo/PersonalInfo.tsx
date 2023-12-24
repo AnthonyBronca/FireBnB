@@ -33,28 +33,33 @@ const PersonalInfo: React.FC<IAccountProps> = ({user, title}): JSX.Element => {
     }
 
     const saveName = () => {
-        //dispatch update name with editFirstName and editLastName
-        const form = {
-            editFirstName,
-            editLastName,
-            editEmail
-        };
-        dispatch(editUserThunk(user, form));
-        handleEditName()
-        // alert("In Progress")
+        if(user?.id === 3){
+            alert("Sorry, You can not edit the demo user account. Please create an account to test this feature.")
+            return;
+        } else{
+            const form = {
+                editFirstName,
+                editLastName,
+                editEmail
+            };
+            dispatch(editUserThunk(user, form));
+            handleEditName()
+        }
     }
 
     const saveEmail = () => {
-        //dispatch update user with email
-        const form = {
-            editFirstName,
-            editLastName,
-            editEmail
-        };
-
-        dispatch(editUserThunk(user, form));
-        handleEditEmail();
-        // alert("In Progress")
+      if(user?.id === 3){
+            alert("Sorry, You can not edit the demo user account. Please create an account to test this feature.")
+            return;
+        } else{
+            const form = {
+                editFirstName,
+                editLastName,
+                editEmail
+            };
+            dispatch(editUserThunk(user, form));
+            handleEditName()
+        }
     }
 
     const handleFutureFeature = () => {
