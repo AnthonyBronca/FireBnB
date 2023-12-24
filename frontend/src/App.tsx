@@ -10,6 +10,7 @@ import SpotDetail from './screens/SpotDetailPage/SpotDetail';
 import NewSpotForm from './screens/NewSpot/NewSpot'
 import UserDashboard from './screens/UserDashboard';
 import {SkeletonTheme} from 'react-loading-skeleton'
+import PersonalInfo from './components/PersonalInfo';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -64,7 +65,27 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/account-settings',
-      element: <UserDashboard user={user} />
+      element: <UserDashboard user={user} />,
+    },
+    {
+      path: '/account-details',
+      element: <h1>Hi from account details</h1>,
+    },
+    {
+      path: '/manage-listings',
+      element: <h1>Hi from manage-listings</h1>,
+    },
+    {
+      path: '/manage-reviews',
+      element: <h1>Hi from manage-reviews</h1>,
+    },
+    {
+      path: '/manage-listings',
+      element: <h1>Hi from manage-listings</h1>,
+    },
+    {
+      path: '/personal-info',
+      element: <PersonalInfo user={user} title='Personal info'/>
     },
     {
       path: '*',

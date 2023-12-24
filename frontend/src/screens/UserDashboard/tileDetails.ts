@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 import { ITileProps } from "./components/Tiles";
 import userIcon from './assets/Images/user-icon.png';
 import securityIcon from './assets/Images/security-icon.png';
@@ -12,10 +11,8 @@ import graphIcon from './assets/Images/graph-icon.png';
 import giftIcon from './assets/Images/gift-icon.png';
 
 
-// const navigate = useNavigate();
 
 const handleFutureFeature = () => {
-    // navigate('/')
     alert('This tile may be in development or is a placeholder')
 }
 
@@ -24,72 +21,73 @@ const tileDetails: ITileProps[] = [
         icon: userIcon,
         title: "Personal Info",
         description: "Provide personal details and how we can reach you",
-        active: "",
-        action: handleFutureFeature
+        active: "yes",
+        name: "personalInfo"
     },
     {
         icon: securityIcon,
         title: "Login & security",
         description: "Update your password and secure your account",
-        action: handleFutureFeature,
-        active: "",
+        active: "yes",
+        name: "accountDetails"
     },
     {
         icon: paymentIcon,
         title: "Payments & payouts",
         description: "Review payments, payouts, coupons, and gift cards ",
-        action: handleFutureFeature,
         active: "no",
+        action: handleFutureFeature
     },
     {
         icon: fileIcon,
         title: "Listing Management",
         description: "Manage your listings",
-        action: handleFutureFeature,
-        active: "",
+        active: "yes",
+        name: "manageListings"
     },
     {
         icon: notificationIcon,
         title: "Notifications",
         description: "Choose notification preferences and how you want to be contacted",
-        action: handleFutureFeature,
         active: "no",
+        action: handleFutureFeature
     },
     {
         icon: eyeIcon,
         title: "Reviews",
         description: "Manage reviews you have made",
-        action: handleFutureFeature,
-        active: "",
+        active: "yes",
+        name: "manageReviews"
     },
     {
         icon: switchIcon,
         title: "Global preferences",
         description: "Set your default language, currency, and timezone",
-        action: handleFutureFeature,
         active: "no",
+        action: handleFutureFeature
     },
     {
         icon: deskIcon,
         title: "Travel for work",
         description: "Add a work email for business trip benefits",
-        action: handleFutureFeature,
         active: "no",
+        action: handleFutureFeature
     },
     {
         icon: graphIcon,
         title: "Professional hosting tools",
         description: "get professional tools if you manage several properties on Firebnb",
-        action: handleFutureFeature,
         active: "no",
+        action: handleFutureFeature
     },
     {
         icon: giftIcon,
         title: "Referral credit & coupon",
         description: "This is a fake site, so this does nothing",
-        action: handleFutureFeature,
         active: "no",
+        action: handleFutureFeature
     },
 ]
 
-export default tileDetails
+
+export default tileDetails;

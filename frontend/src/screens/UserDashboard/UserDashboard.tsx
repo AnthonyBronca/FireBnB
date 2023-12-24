@@ -5,14 +5,26 @@ import Header from './components/Header';
 import Tiles from './components/Tiles';
 import tileDetails from './tileDetails';
 import NavBar from '../../components/Navigation/NavBar';
+import { useDispatch } from 'react-redux';
+import { deleteUserThunk } from '../../store/session';
+import { useNavigate } from 'react-router-dom';
 export interface IUserProps{
     user: User | null
 }
 
 const UserDashboard: React.FC<IUserProps> = ({user}): JSX.Element => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDeleteAcc = () => {
-    alert('future feature')
+    if(user?.id === 3){
+      alert("You can not delete the demo user account. Please make an account to test this feature.")
+    } else{
+      dispatch(deleteUserThunk(user))
+      .then(()=>{
+        navigate('/')
+      })
+    }
   }
 
   return (
@@ -28,6 +40,7 @@ const UserDashboard: React.FC<IUserProps> = ({user}): JSX.Element => {
                 description={prop.description}
                 action={prop.action}
                 active={prop.active}
+                name={prop.name}
                 />
                 ))}
         </div>
