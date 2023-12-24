@@ -106,21 +106,25 @@ router.get('/all', async (req:Request, res:Response) => {
 router.put('/:id', async (req:Request, res: Response, next: NextFunction) => {
     try{
         const userId = req.params.id;
-        const {firstName, lastName, email} = req.body;
-        const user = await User.findByPk(userId);
-        if(!user) throw new NoResourceError("No User found with those credentials", 404);
-        if(firstName){
-            user.firstName = firstName;
+        if(userId !== String(3)){
+            const {firstName, lastName, email} = req.body;
+            const user = await User.findByPk(userId);
+            if(!user) throw new NoResourceError("No User found with those credentials", 404);
+            if(firstName){
+                user.firstName = firstName;
+            }
+            if(lastName){
+                user.lastName = lastName;
+            }
+            if(email){
+                user.email = email;
+            }
+            user.save();
+            res.status(202)
+            res.json({user})
+        } else{
+            throw new Error("You can not edit the Demo User account.")
         }
-        if(lastName){
-            user.lastName = lastName;
-        }
-        if(email){
-            user.email = email;
-        }
-        user.save();
-        res.status(202)
-        res.json({user})
     } catch (e) {
         next(e);
     }
@@ -128,13 +132,17 @@ router.put('/:id', async (req:Request, res: Response, next: NextFunction) => {
 
 router.delete('/:id', async (req:Request, res:Response, next: NextFunction) => {
     try {
-
         const userId = req.params.id;
-        const user = await User.findByPk(userId);
-        if(!user) throw new NoResourceError("No user found with those credentials", 404);
-        user.destroy();
-        res.status(202);
-        res.json({user: null});
+        if(userId !== String(userId)){
+
+            const user = await User.findByPk(userId);
+            if(!user) throw new NoResourceError("No user found with those credentials", 404);
+            user.destroy();
+            res.status(202);
+            res.json({user: null});
+        } else{
+            throw new Error("You can not delete the Demo User account.")
+        }
     } catch (error) {
         next(error);
     }
