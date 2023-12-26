@@ -114,7 +114,7 @@ export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch
 //Spots initial State
 const initialState:SpotInitialState = {
     byId: {},
-    allSpots: []
+    allSpots: [],
 }
 
 
@@ -142,7 +142,6 @@ export const SpotSlice = createSlice({
             }
         },
         setSpot: (state, action: PayloadAction<Spot>) => {
-            console.log(action.payload)
             if(state.byId){
                 state.byId[`${action.payload.id}`] = action.payload;
             }

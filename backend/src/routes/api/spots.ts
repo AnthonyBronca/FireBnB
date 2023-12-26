@@ -12,7 +12,7 @@ import { dateConverter } from '../../utils/date-conversion';
 const {singleMulterUpload, singlePublicFileUpload} = require('../../awsS3');
 
 
-const {Spot, SpotImage, Review, ReviewImage, Booking, User, UserImage} = db;
+const {Spot, SpotImage, Review, ReviewImage, Booking, User, UserImage, Like} = db;
 const router = require('express').Router();
 
 
@@ -20,7 +20,6 @@ const router = require('express').Router();
 // TODO: ADD filter and pagination
 router.get('/', validateQueryParams, async(req:Request, res: Response, next: NextFunction) => {
     try{
-
         let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
 
         let paginationPage = 0;
@@ -91,7 +90,7 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
                             }
                         ]
                     }]
-                }
+                },
             ]
         });
 
@@ -765,6 +764,61 @@ router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFun
     }
 });
 
+router.post('/:spotId/likes', async(req:Request, res: Response, next: NextFunction) => {
+    try{
+        let {userId} = req.body;
+        let spotId = req.params.spotId;
+        let user = await User.findByPk(userId);
+        if(!user) throw new NoResourceError("No User found with that Id", 404);
+        let spot = await Spot.findByPk(spotId);
+        if(!spot) throw new NoResourceError("No Spot found with that id", 404);
 
+        let like = await Like.create({userId, spotId});
+        res.status(202);
+
+        res.json({like, Spot:spot})
+
+    } catch (e){
+        next(e);
+    }
+})
+
+
+router.delete('/:spotId/likes', async(req:Request, res: Response, next: NextFunction) => {
+    try{
+
+        let {userId} = req.body;
+        let {spotId} = req.params;
+        let user = await User.findByPk(userId);
+        if(!user) throw new NoResourceError("No User found with that Id", 404);
+        let spot = await Spot.findByPk(spotId);
+        if(!spot) throw new NoResourceError("No Spot found with that id", 404);
+        let like = await Like.findOne({
+            where: {
+                userId,
+                spotId
+            }
+        });
+        if(!like) throw new NoResourceError("No Like found with that id", 404);
+        like.destroy();
+        res.status(202);
+        res.json(like)
+    } catch (e){
+        next(e);
+    }
+});
+
+router.get('/likes/:userId', async(req:Request, res: Response, next: NextFunction) => {
+    try {
+        let {userId} = req.params;
+        let user = await User.findByPk(userId);
+        if(!user) throw new NoResourceError("No User found with that Id", 500);
+        let likes = await Like.findAll({where: {userId: userId}, include: Spot});
+        res.status(200);
+        res.json({likes});
+    } catch (error) {
+        next(error);
+    }
+})
 
 export = router;

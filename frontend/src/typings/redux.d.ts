@@ -62,9 +62,29 @@ export interface Spot {
     reviews?: Review[]
 }
 
+export interface Like {
+    id: number;
+    userId: number;
+    spotId: number;
+    Spot: Spot
+}
+
+export interface LikeRes {
+    like: Like,
+    Spot: Spot
+}
+
 
 export interface Spots{
     spots: Spot[];
+}
+
+export interface Likes {
+    likes: Like[];
+}
+
+export interface LikeSpot {
+  [id:number|string]: Spot
 }
 
 
@@ -74,7 +94,10 @@ export interface SessionInitialState {
 
 
 export interface SpotId {
-   [id:number|string]: Spot;
+    [id:number|string]: Spot;
+}
+export interface LikeId {
+    [id:number|string]: Like
 }
 
 
@@ -82,6 +105,13 @@ export interface SpotInitialState {
     byId: SpotId | null;
     allSpots: Spot[] | null;
 }
+
+
+export interface LikeInitialState {
+    byId: SpotId | null;
+    allLikes: Like[] | null;
+}
+
 
 export interface SignUpUser {
     firstName: string;
