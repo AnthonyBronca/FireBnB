@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { useState } from 'react';
 import './spots.css';
 import heart from '../../assets/icons/heart.svg';
 import heartLike from '../../assets/icons/heart-filled.svg'
@@ -9,9 +9,8 @@ import { getAllSpots } from '../../store/spots';
 import { useAppSelector } from '../../store';
 import { useNavigate } from 'react-router-dom';
 import SpotsSkeleton from './SpotsSkeleton';
-import { LikeSpot, User } from '../../typings/redux';
+import { Spot, User } from '../../typings/redux';
 import { addLikeThunk, getAllLikes, removeLikeThunk } from '../../store/likes';
-import { csrfFetch } from '../../store/csrf';
 
 interface ISpotsProps {
   user?: User | null
@@ -21,16 +20,19 @@ const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const spots = useAppSelector((state) => state.spots.allSpots);
-  const allLikes = useAppSelector((state)=>  state.likes.allLikes);
+  // const allLikes = useAppSelector((state)=>  state.likes.allLikes);
   const likedSpots = useAppSelector((state)=> state.likes.byId);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const [likes, setLikes] = useState<LikeSpot | null>(likedSpots)
+  // const [likes, setLikes] = useState<LikeSpot | null>(likedSpots)
     useEffect(()=> {
         dispatch(getAllSpots())
-        if(user){
+      if(user){
           dispatch(getAllLikes(user.id))
+          .then(()=> setIsLoaded(true))
         }
-    }, [dispatch])
+
+    }, [dispatch, isLoaded])
 
   const viewSpot = (e: React.MouseEvent<HTMLDivElement, MouseEvent> | any, spotId: number) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
     }
   }
 
-  const handleLike = (e:any, spot:any,) => {
+  const handleLike = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, spot: Spot,) => {
     e.preventDefault();
     e.stopPropagation();
     const spotId = spot.id;
@@ -60,10 +62,12 @@ const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
     }
   }
 
-
-  if(!spots){
+if(!isLoaded){
+  // if((!spots || !spots.length)){
+    // return <SpotsSkeleton />
+  // } else if(!isLoaded){
     return <SpotsSkeleton />
-  } else{
+  } else {
   return (
     <div className='spots-container'>
       {spots ? spots.map((spot, idx) => (

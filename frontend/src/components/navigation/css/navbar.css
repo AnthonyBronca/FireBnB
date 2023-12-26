@@ -9,8 +9,9 @@
     height: 3rem;
     justify-content: space-around;
     padding-bottom: 15px;
-    max-width: 1200px;
+    /* max-width: 1200px; */
     min-width: 500px;
+    margin-inline: calc(8px + 3rem);
     /* border-bottom: 1px solid rgba(15,15,15,.2); */
 }
 
@@ -129,4 +130,19 @@
 .horizontal-divider{
     height: 1px;
     width: 150%;
+}
+
+@media screen and (max-width: 599px) {
+    .nav-bar-links-span{
+        display: none;
+    }
+    .filter-container{
+        display: none;
+    }
+    .globe-icon{
+        display: none;
+    }
+    .spots-container{
+        margin-left: 30%;
+    }
 }
