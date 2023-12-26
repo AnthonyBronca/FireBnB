@@ -24,8 +24,8 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare endDate: string;
 
         static associate(models:any){
-            Booking.belongsTo(models.User, { foreignKey: 'userId'});
-            Booking.belongsTo(models.Spot, { foreignKey: 'spotId'});
+            Booking.belongsTo(models.User, { foreignKey: 'userId', onDelete: 'cascade', hooks: true});
+            Booking.belongsTo(models.Spot, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true});
         };
     }
     Booking.init(

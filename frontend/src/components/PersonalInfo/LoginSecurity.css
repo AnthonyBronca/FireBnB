@@ -1,0 +1,22 @@
+.tab-selection-container span{
+    color: #008489;
+}
+
+.user-info-text-container h3{
+    color: #484848;
+}
+
+.update-button{
+    color: #008489;
+    text-decoration: none;
+}
+
+.deactivate{
+    color: #d93900;
+    text-decoration: none;
+}
+
+.tab-selection-container span{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #008489;
+}

@@ -1,9 +1,4 @@
 import React from 'react';
-import random from '../../assets/images/random-person.jpg'
-
-
-
-
 
 
 const ProfileInfo:React.FC<any> = ({review}): JSX.Element => {
