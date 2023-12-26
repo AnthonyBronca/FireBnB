@@ -1,8 +1,7 @@
-
 import './css/accountMenu.css'
 import hamburger from '../../assets/icons/hamburger.svg'
 import usericon from '../../assets/icons/user.svg';
-import { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../store';
 import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -10,18 +9,19 @@ import { logout } from '../../store/session';
 import LoginModalContext from '../../context/LoginModalContext';
 import { useNavigate } from 'react-router-dom';
 
-
-const AccountMenu = () => {
+const AccountMenu: React.FC = ():JSX.Element => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    const ulRef = useRef();
     const {toggleOpen} = useContext(LoginModalContext);
     const user = useAppSelector((state)=> state.session.user);
 
     const [isOpen, setIsOpen] = useState(false)
-
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const handleMenuOpen = () => {
+
+
+    const handleMenuOpen = (e?:any) => {
         if(menuOpen){
             setMenuOpen(false)
         } else{
@@ -71,6 +71,19 @@ const AccountMenu = () => {
         handleMenuOpen();
     }
 
+    useEffect(()=> {
+        if(!menuOpen) return;
+        const closeMenu = (e:any) => {
+            let navBarContainer = document.getElementsByClassName('hamburger-icon')[0];
+            let navBar = document.getElementsByClassName('nav-bar-container')[0];
+            if(e.target && !e.target.contains(navBarContainer) || e.target.contains(navBar)){
+                setMenuOpen(false);
+            }
+        }
+        document.addEventListener('click', closeMenu);
+        return () => document.removeEventListener('click', closeMenu);
+    }, [menuOpen])
+
 
   return (
     <div
@@ -90,7 +103,7 @@ const AccountMenu = () => {
             </div>
         </div>
         {user ? <>
-        {menuOpen? <div className='drop-down-container'>
+        {menuOpen? <div className='drop-down-container' >
             <span onClick={handleFutureFeature} className='reg-span'>Messages</span>
             <span onClick={handleFutureFeature} className='reg-span'>Notifications</span>
             <span onClick={handleFutureFeature} className='reg-span'>Trips</span>
