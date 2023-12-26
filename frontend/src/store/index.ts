@@ -2,12 +2,14 @@ import {configureStore} from '@reduxjs/toolkit'
 import {SessionSlice} from './session'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import logger from 'redux-logger'
-import { SpotSlice } from './spots'
+import { SpotSlice } from './spots';
+import { LikeSlice } from './likes';
 
 
 const reducer = {
     session: SessionSlice.reducer,
-    spots: SpotSlice.reducer
+    spots: SpotSlice.reducer,
+    likes: LikeSlice.reducer
 }
 const store = configureStore({
     reducer,

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import './spots.css';
 import heart from '../../assets/icons/heart.svg';
+import heartLike from '../../assets/icons/heart-filled.svg'
 import star from '../../assets/icons/star.svg';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -8,23 +9,58 @@ import { getAllSpots } from '../../store/spots';
 import { useAppSelector } from '../../store';
 import { useNavigate } from 'react-router-dom';
 import SpotsSkeleton from './SpotsSkeleton';
+import { LikeSpot, User } from '../../typings/redux';
+import { addLikeThunk, getAllLikes, removeLikeThunk } from '../../store/likes';
+import { csrfFetch } from '../../store/csrf';
 
-const Spots = () => {
+interface ISpotsProps {
+  user?: User | null
+}
+const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const spots = useAppSelector((state) => state.spots.allSpots);
+  const allLikes = useAppSelector((state)=>  state.likes.allLikes);
+  const likedSpots = useAppSelector((state)=> state.likes.byId);
 
+  const [likes, setLikes] = useState<LikeSpot | null>(likedSpots)
     useEffect(()=> {
         dispatch(getAllSpots())
+        if(user){
+          dispatch(getAllLikes(user.id))
+        }
     }, [dispatch])
 
-  const viewSpot = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, spotId: number) => {
+  const viewSpot = (e: React.MouseEvent<HTMLDivElement, MouseEvent> | any, spotId: number) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/spot/${spotId}`);
-    return;
+    if(e.target.className === 'heart-icon'){
+      return;
+    } else{
+      navigate(`/spot/${spotId}`);
+      return;
+    }
   }
+
+  const handleLike = (e:any, spot:any,) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const spotId = spot.id;
+    if(user){
+      dispatch(addLikeThunk(user.id, spotId));
+    }
+  }
+
+  const handleUnlike = (e:any, spot:any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if(user){
+      dispatch(removeLikeThunk(user.id, spot.id ))
+    }
+  }
+
+
   if(!spots){
     return <SpotsSkeleton />
   } else{
@@ -39,7 +75,10 @@ const Spots = () => {
                 className="spot-image"
                 />
                 <div className='likes-contanier'>
-                  <img onClick={()=>alert('This Feature is in Development!')} src={heart} alt='heart' className='heart-icon'/>
+                  {
+                    likedSpots && likedSpots[`${spot.id}`] ? <img onClick={(e) => handleUnlike(e, spot)} src={heartLike} alt='heart' className='heart-icon'/>:
+                    <img onClick={(e) => handleLike(e, spot)} src={heart} alt='heart' className='heart-icon'/>
+                  }
                 </div>
           </div>
           <div className='spot-summary'>
