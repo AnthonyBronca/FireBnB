@@ -6,6 +6,9 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 const SET_SPOTS = 'spots/setSpots';
 const ADD_SPOT = 'spots/addSpot';
 const SET_SPOT = 'spots/setSpot';
+const GET_USER_SPOTS = 'spots/getUserSpots';
+const EDIT_USER_SPOT = 'spots/editUserSpot';
+const DELETE_USER_SPOT = 'spots/deleteUserSpot';
 
 const setSpots = (spots: Spots) => {
     return {
@@ -27,6 +30,28 @@ const setSpot = (spot: Spot) => {
         payload: spot
     }
 }
+
+const getUserSpots = (spots: Spots) => {
+    return {
+        type: GET_USER_SPOTS,
+        payload: spots
+    }
+}
+//get all spots for user
+export const getAllUserSpots = ():any => async (dispatch: Dispatch): Promise<any> => {
+    try {
+        const response = await csrfFetch('/api/spots')
+        const data = await response.json();
+        dispatch(getUserSpots(data))
+
+    } catch (res:any) {
+        if(!res.ok){
+            let errors = await res.json();
+            return errors;
+        }
+    }
+}
+
 //thunk to get all spots
 export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> => {
     try {
@@ -115,6 +140,8 @@ export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch
 const initialState:SpotInitialState = {
     byId: {},
     allSpots: [],
+    userSpots: [],
+    userSpotId: {}
 }
 
 
@@ -144,6 +171,16 @@ export const SpotSlice = createSlice({
         setSpot: (state, action: PayloadAction<Spot>) => {
             if(state.byId){
                 state.byId[`${action.payload.id}`] = action.payload;
+            }
+        },
+        getUserSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
+            state.userSpotId = {};
+            state.userSpots = action.payload.Spots;
+
+            for(let spot of action.payload.Spots){
+                if(!state.userSpotId[`${spot.id}`]){
+                    state.userSpotId[`${spot.id}`] = spot;
+                }
             }
         }
     }

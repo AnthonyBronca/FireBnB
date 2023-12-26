@@ -104,6 +104,8 @@ export interface LikeId {
 export interface SpotInitialState {
     byId: SpotId | null;
     allSpots: Spot[] | null;
+    userSpots: Spot[] | null;
+    userSpotId: SpotId | null;
 }
 
 

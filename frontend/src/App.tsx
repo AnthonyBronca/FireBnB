@@ -13,6 +13,7 @@ import {SkeletonTheme} from 'react-loading-skeleton'
 import PersonalInfo from './components/PersonalInfo';
 import { Skeleton } from '@mui/material';
 import LoginSecurity from './components/PersonalInfo/LoginSecurity';
+import ManageListings from './components/PersonalInfo/ManageListings';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -75,15 +76,11 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/manage-listings',
-      element: <h1>Hi from manage-listings</h1>,
+      element: <ManageListings user={user} title='Manage Listings'/>,
     },
     {
       path: '/manage-reviews',
       element: <h1>Hi from manage-reviews</h1>,
-    },
-    {
-      path: '/manage-listings',
-      element: <h1>Hi from manage-listings</h1>,
     },
     {
       path: '/personal-info',
