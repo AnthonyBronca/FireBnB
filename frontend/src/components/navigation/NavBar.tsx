@@ -1,5 +1,4 @@
-// import React from 'react';
-// import firebnb from '../../assets/images/firbnb_logo.svg'
+import React from 'react';
 import firenation from '../../assets/images/fire-nation.png'
 import './css/navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +10,7 @@ import { useAppSelector } from '../../store';
 
 
 
-const NavBar = () => {
+const NavBar:React.FC = (): JSX.Element => {
     const navigate = useNavigate()
     const user = useAppSelector((state) => state.session.user);
     const goToHome = () =>{
