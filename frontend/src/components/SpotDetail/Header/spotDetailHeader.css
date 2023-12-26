@@ -52,3 +52,21 @@
     color: var(--lightColor) !important;
     padding-left: 3px !important;
 }
+
+@media screen and (max-width: 720px) {
+    .spot-detail-header-container{
+        box-sizing: none;
+        margin: none;
+        padding: none;
+        margin-inline: none;
+        padding-inline: none;
+        min-width: none;
+        flex:none;
+        max-width:none;
+        display: block;
+        margin-left: 100%;
+    }
+    .spot-detail-header-options-container{
+        display: none;
+    }
+}
