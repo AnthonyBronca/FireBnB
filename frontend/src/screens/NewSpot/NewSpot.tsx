@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InitialForm from './InitialForm';
-import ListNavBar from '../../components/Navigation/ListNavBar';
+import ListNavBar from '../../components/Nav/ListNavBar';
 import FormFooter from './FormFooter';
 import { LinearProgress } from '@mui/material';
 import AboutForm from './AboutForm';

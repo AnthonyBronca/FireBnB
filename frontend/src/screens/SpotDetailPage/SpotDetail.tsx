@@ -12,7 +12,7 @@ import door from '../../assets/icons/door.svg'
 import calendar from '../../assets/icons/calendar.svg'
 import Paragraph from '../../components/SpotDetail/Summary/Paragraph';
 import MyCalendar from '../../components/SpotDetail/Summary/Calendar';
-import NavBar from '../../components/Navigation/NavBar';
+import NavBar from '../../components/Nav/NavBar';
 import Footer from '../../components/Footer/Footer';
 import { useDispatch } from 'react-redux';
 import { getOneSpotThunk } from '../../store/spots';

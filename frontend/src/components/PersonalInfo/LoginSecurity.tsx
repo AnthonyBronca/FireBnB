@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { User } from '../../typings/redux';
 import { useDispatch } from 'react-redux';
 import AccountInfoHeader from './AccountInfoHeader';
-import NavBar from '../Navigation/NavBar';
+import NavBar from '../Nav/NavBar';
 import { TextField } from '@mui/material';
 import './LoginSecurity.css'
 import { csrfFetch } from '../../store/csrf';

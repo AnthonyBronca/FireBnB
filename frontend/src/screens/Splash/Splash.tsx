@@ -1,6 +1,6 @@
 import { Divider } from "@mui/material";
 import Spots from "../../components/Spots/Spots";
-import NavBar from "../../components/Navigation/NavBar";
+import NavBar from "../../components/Nav/NavBar";
 import Footer from "../../components/Footer/Footer";
 import React from "react";
 import LoginModal from "../../components/Modals/LoginModal";

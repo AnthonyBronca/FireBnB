@@ -4,7 +4,7 @@ import { User } from '../../typings/redux';
 import Header from './components/Header';
 import Tiles from './components/Tiles';
 import tileDetails from './tileDetails';
-import NavBar from '../../components/Navigation/NavBar';
+import NavBar from '../../components/Nav/NavBar';
 import { useDispatch } from 'react-redux';
 import { deleteUserThunk } from '../../store/session';
 import { useNavigate } from 'react-router-dom';
