@@ -7,18 +7,10 @@ import 'react-date-range/dist/theme/default.css' //theme css file
 import { DateRange} from 'react-date-range';
 import { addDays, startOfTomorrow } from 'date-fns';
 
-type ValuePiece = Date | null;
+// type ValuePiece = Date | null;
 
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+// type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-
-// const tileContent = () => {
-//   // if (view === 'month') {
-//     return (
-//       <div style={{ backgroundColor: 'white', borderRadius: '50%', height: '100%', width: '100%' }}></div>
-//     );
-//   }
-// // };
 
 interface ISelection {
   startDate: Date;

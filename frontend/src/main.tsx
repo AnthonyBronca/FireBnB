@@ -16,6 +16,11 @@ declare global {
     }
 }
 
+if(/Android|webOS|iPhone/i.test(navigator.userAgent)){
+  console.log("mobile")
+} else {
+  console.log("not mobile");
+}
 
 if (process.env.NODE_ENV !== "production") {
   restoreCSRF();

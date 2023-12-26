@@ -25,7 +25,6 @@ const Splash: React.FC<ISplashProps> = ({login, loading}): JSX.Element => {
     }
   }
 
-  console.log(loading)
 
   return (
     <>

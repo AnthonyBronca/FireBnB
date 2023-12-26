@@ -18,7 +18,7 @@ WORKDIR /frontend
 
 COPY frontend/package*.json .
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY /frontend/ .
 
@@ -63,6 +63,7 @@ COPY --from=frontendbuild frontend/public ./dist/react-app/public
 
 
 RUN npm install --only=production
+RUN npm install @faker-js/faker
 
 
 COPY --from=backendbuild backend/dist ./dist

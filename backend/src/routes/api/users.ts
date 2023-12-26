@@ -130,6 +130,27 @@ router.put('/:id', async (req:Request, res: Response, next: NextFunction) => {
     }
 });
 
+router.put('/:id/password', async(req:Request, res:Response, next: NextFunction)=> {
+    try {
+        const userId = req.params.id;
+        if(userId !== String(3)){
+            const {password} = req.body;
+            const user = await User.findByPk(userId);
+            if(!user) throw new NoResourceError("No user found with those credentials", 404);
+            if(password){
+                user.password = bcrypt.hashSync(password);
+            }
+            user.save();
+            res.status(202);
+            res.json({"Message": "Succesfully updated password"});
+        } else {
+            throw new Error("You can not edit the Demo User account.")
+        }
+    } catch (error) {
+        next(error);
+    }
+})
+
 router.delete('/:id', async (req:Request, res:Response, next: NextFunction) => {
     try {
         const userId = req.params.id;

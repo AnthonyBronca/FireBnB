@@ -11,7 +11,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 const SpotsSkeleton: React.FC = ():JSX.Element => {
 
-    const spots = new Array(15).fill(1)
+    const spots = new Array(20).fill(1)
 
   return (
     <div className='spots-container'>

@@ -6,7 +6,6 @@ import generateSpotSeeders from "../../utils/spotSeeders";
 
 
 let options:OptionsInterface = {};
-let seeders = []
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 } else{
