@@ -6,6 +6,8 @@ import NavBar from '../Navigation/NavBar';
 import { TextField } from '@mui/material';
 import './LoginSecurity.css'
 import { csrfFetch } from '../../store/csrf';
+import { deleteUserThunk } from '../../store/session';
+import { useNavigate } from 'react-router-dom';
 
 interface IAccountProps {
     user: User | null;
@@ -14,6 +16,7 @@ interface IAccountProps {
 
 const LoginSecurity:React.FC<IAccountProps> = ({user, title}): JSX.Element => {
      const dispatch = useDispatch();
+     const navigate = useNavigate();
      const [editModePassword, setEditModePassword] = useState<boolean>(false);
      const [editPassword, setEditPassword] = useState<string | undefined>('')
 
@@ -49,16 +52,9 @@ const LoginSecurity:React.FC<IAccountProps> = ({user, title}): JSX.Element => {
             alert("Sorry, You can not delete the demo user account. Please create an account to test this feature.")
         } else{
             if(user){
-                 const options = {
-                    method: "DELETE",
-                    headers: {"Content-Type": "application/json"},
-                }
-                const response = await csrfFetch(`/api/users/${user.id}`, options);
-                 if(!response.ok){
-                    alert("There was an error")
-                } else{
-                    const message = response.json()
-                    console.log(message);
+                const response = await dispatch(deleteUserThunk(user));
+                if(response.ok){
+                    navigate('/');
                 }
             }
         }
