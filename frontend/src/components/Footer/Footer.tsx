@@ -14,6 +14,7 @@ const Footer: React.FC = (): JSX.Element => {
                     Additionally, all "listings" on this site are completely fake, and utilize seeded data. No bookings, listings made, or accounts
                     will actually be processed and enforced by Firebnb. If you wish to make a real booking, please visit:
                     <a
+                    target='_blank'
                     style={{color: 'blue', cursor: 'pointer', paddingLeft: '5px'}}
                     href='https://www.airbnb.com/'>Airbnb</a>
                 </li>
@@ -22,23 +23,23 @@ const Footer: React.FC = (): JSX.Element => {
         <div className='authors-container'>
             <h5>Authors</h5>
             <ul>
-                <li><a href='https://github.com/AnthonyBronca'>Anthony Bronca</a></li>
-                <li><a href='https://github.com/OGALEXI'>Alexi Bettinger</a></li>
-            </ul>
-        </div>
-        <div className='projects-container'>
-             <h5>Projects</h5>
-             <ul>
-                <li><a href=''>Anthony Link To Other Proj</a></li>
-                <li><a href=''>Alexi Link To Other Proj</a></li>
+                <li><a target='_blank' href='https://github.com/AnthonyBronca'>Anthony Bronca</a></li>
+                <li><a target='_blank' href='https://github.com/OGALEXI'>Alexi Bettinger</a></li>
             </ul>
         </div>
         <div className='other-links-container'>
-             <h5>Other Links</h5>
+             <h5>Portfolio Links</h5>
               <ul>
-                <li><a href=''>Anthony Link To Portfolio</a></li>
+                <li><a target='_blank' href='https://anthonybronca.github.io/anthony_portfolio/'>Anthony Link To Portfolio</a></li>
                 <li><a href=''>Alexi Link To Portfolio</a></li>
             </ul>
+        </div>
+        <div className='projects-container'>
+             {/* <h5>Projects</h5>
+             <ul>
+                <li><a href=''>Anthony Link To Other Proj</a></li>
+                <li><a href=''>Alexi Link To Other Proj</a></li>
+            </ul> */}
         </div>
     </div>
   );

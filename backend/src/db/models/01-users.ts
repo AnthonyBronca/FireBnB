@@ -48,6 +48,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
             User.hasMany(models.Booking, {foreignKey: 'userId', onDelete: 'cascade', hooks: true});
             User.hasMany(models.UserImage, {foreignKey: 'userId', onDelete: 'cascade', hooks:true});
             User.hasMany(models.Review, { foreignKey: 'userId', onDelete: 'cascade', hooks: true});
+            User.hasMany(models.Like, {foreignKey: 'userId', onDelete: 'cascade', hooks: true})
         }
         // declare public static associations: { [key: string]: Association<Model<any, any>, Model<any, any>>; };
 

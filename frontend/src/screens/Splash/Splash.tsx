@@ -31,7 +31,7 @@ const Splash: React.FC<ISplashProps> = ({login, loading}): JSX.Element => {
       <NavBar />
       <Divider/>
       <div style={{marginTop: '30px', marginInline: '45px'}}>
-        {loading ? <Spots />: <SpotsSkeleton />}
+        {loading ? <Spots user={user} />: <SpotsSkeleton />}
         {login? allowList() : null}
       </div>
        <Divider />
