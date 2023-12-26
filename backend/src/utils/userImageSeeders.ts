@@ -1,12 +1,12 @@
 import {faker} from '@faker-js/faker';
-import { seedUsers } from './usersSeeder';
+import { users } from './usersSeeder';
 import { UserImage } from '../typings/seeders';
 
 
 const makeRandomUserProfiles = (): UserImage[] => {
     let userProfileSeeds: UserImage[] = [];
 
-    for(let i = 1; i <= seedUsers.length; i++){
+    for(let i = 1; i <= users.length; i++){
         const userProfileImage:UserImage = {
             userId: i,
             isProfile: true,
@@ -19,5 +19,6 @@ const makeRandomUserProfiles = (): UserImage[] => {
 }
 
 const randomUserProfiles = makeRandomUserProfiles()
+console.log(randomUserProfiles)
 
 export default randomUserProfiles

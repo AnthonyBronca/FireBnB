@@ -19,7 +19,8 @@ module.exports = {
             spotId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                references: { model: "Spots", schema: 'schema'}
+                references: { model: "Spots", schema: 'schema'},
+                onDelete: 'CASCADE'
             },
             url: {
                 allowNull: false,

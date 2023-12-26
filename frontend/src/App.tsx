@@ -11,6 +11,8 @@ import NewSpotForm from './screens/NewSpot/NewSpot'
 import UserDashboard from './screens/UserDashboard';
 import {SkeletonTheme} from 'react-loading-skeleton'
 import PersonalInfo from './components/PersonalInfo';
+import { Skeleton } from '@mui/material';
+import LoginSecurity from './components/PersonalInfo/LoginSecurity';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -69,7 +71,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/account-details',
-      element: <h1>Hi from account details</h1>,
+      element: <LoginSecurity user={user} title='Login & Security'/>,
     },
     {
       path: '/manage-listings',
@@ -96,19 +98,9 @@ const App: React.FC = ():JSX.Element | undefined | null => {
 
   const routing = useRoutes(mainRoutes);
 
-  function generateLoading(){
-    if(!isLoaded){
-      setTimeout(()=> {
-        return <h1>Loading...</h1>
-      }, 1000)
-    } else{
-      return null
-    }
-  }
-
 
   if(!isLoaded){
-    return generateLoading()
+    return <Skeleton />
   } else {
     return (
       <div className='app-container'>

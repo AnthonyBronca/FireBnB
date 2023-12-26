@@ -1,4 +1,4 @@
-import {hostUsers} from "./usersSeeder";
+
 const random = require('getrandomjs')
 
 interface Spot {
@@ -13,6 +13,109 @@ interface Spot {
     lat: number,
     lng: number,
 };
+
+const hosts = [
+  {
+    firstName: "Anthony",
+    lastName: "bronca",
+    email: "anthony@user.io",
+    username: "AnthonyB",
+    bio: "I made this site with Typescript :D",
+    isHost: true,
+    hashedPassword: "$2a$10$EAMF.0C1mhgsOuULz02Q3.vRu.4m6PiyrFKjCduUF4GMOqkgDQ7dq",
+    userId: 1
+  }, {
+    firstName: "Jade",
+    lastName: "Grabow",
+    email: "jade@user.io",
+    username: "Jade",
+    isHost: true,
+    bio: "I am the most beautiful girl ever",
+    hashedPassword: "$2a$10$7rk2xcHBeV7TKkVNfuMTduelvsW.qdeotxxy1ZYLf8r/oI3IvXu6y",
+    userId: 2
+  }, {
+    firstName: "Joe",
+    lastName: "Smith",
+    email: "Joe.Smith@demo.com",
+    username: "Joe_Demo",
+    bio: "I made this site with Typescript :D",
+    isHost: true,
+    hashedPassword: "$2a$10$Jpoa38dCetj9VgoJuk7tDOdPE2DjnEDElaMiv8rW/eeeCRb8cWNoy",
+    userId: 3
+  }, {
+    firstName: "Berta",
+    lastName: "Hintz",
+    email: "Berta76@hotmail.com",
+    username: "Berta_Boehm29",
+    bio: "Debitis vix pauci error careo accendo. Aperio verbum varius cibo patrocinor denuncio tardus artificiose ver. Vulariter appositus tempus bis valde verbera conatus.",
+    isHost: true,
+    hashedPassword: "$2a$10$CEohrGd3gOlr6EtVHqaKE.pUKQfbfakReHJ0QbdWn6qwZ/D2VA5Z.",
+    userId: 4
+  }, {
+    firstName: "Bertrand",
+    lastName: "Spinka",
+    email: "Bertrand.Spinka7@yahoo.com",
+    username: "Bertrand_Hilpert",
+    bio: "Cras demergo ago amaritudo umerus supplanto. Tui tersus illum antepono. Comparo inventore desolo argumentum tersus qui canis aggero cedo.",
+    isHost: true,
+    hashedPassword: "$2a$10$PJ32/C8RZHjgYl6wErzHx.UcOYiRzZzgk5fO4d.BVfGO/RCvPyG.S",
+    userId: 5
+  }, {
+    firstName: "Eleanora",
+    lastName: "Wiegand",
+    email: "Eleanora11@gmail.com",
+    username: "Eleanora_Mann",
+    bio: "Admoneo quis deripio thermae volup ventus terror arca. Voro degenero molestiae. Calamitas theca aufero vigilo curriculum.",
+    isHost: true,
+    hashedPassword: "$2a$10$E9//xxj0RJLb/h.OnjkT/O..6MITugtvNsL00t9EdN9YONuE3TuKm",
+    userId: 11
+  }, {
+    firstName: "Tom",
+    lastName: "Morar",
+    email: "Tom.Morar83@yahoo.com",
+    username: "Tom.Buckridge",
+    bio: "Laborum appono vinum sono adaugeo sollers repudiandae laboriosam bene urbanus. Tricesimus autus titulus patria quod. Debeo thalassinus ceno aspernatur vos adulatio currus vigor vitiosus.",
+    isHost: true,
+    hashedPassword: "$2a$10$6DRfjGET.rYz.EyoTuqGfehJJUspZrLKY0FMUXBvtpxU.cFiLk4Ga",
+    userId: 12
+  }, {
+    firstName: "Lucius",
+    lastName: "Waters",
+    email: "Lucius_Waters@hotmail.com",
+    username: "Lucius.Lind7",
+    bio: "Absum amicitia adsidue thesaurus harum. Timidus conforto ipsum usitas bonus perspiciatis aequus. Statua rem et aggero defendo casso.",
+    isHost: true,
+    hashedPassword: "$2a$10$mdXpFOXOMRmf4M.ZlaW/iOATFhq2dMuiYIuZ81Nr4FRXcEZVx8HKa",
+    userId: 18
+  }, {
+    firstName: "Assunta",
+    lastName: "Langworth",
+    email: "Assunta.Langworth36@yahoo.com",
+    username: "Assunta.Treutel14",
+    bio: "Denuo votum cauda molestias casus auctus colligo deserunt confugo. Deporto trepide usus vulnero porro tamdiu contabesco peior vulnus titulus. Vilitas thesis delectus cernuus patria adhuc vorax vito atqui.",
+    isHost: true,
+    hashedPassword: "$2a$10$EdgbIr.Fvq.n0gdinHW8IOGGN6B.qeeNses5uZRzUDd5aNZ3YIjKO",
+    userId: 19
+  }, {
+    firstName: "Isobel",
+    lastName: "Zieme",
+    email: "Isobel_Zieme@yahoo.com",
+    username: "Isobel.Fay",
+    bio: "Deduco debeo antiquus vester saepe veniam tamen victoria. Sodalitas confugo solus aeternus. Centum studio cognomen esse temptatio arto veritas virga.",
+    isHost: true,
+    hashedPassword: "$2a$10$SzNBQVd9Rd6B4Iv5ULO4Re1ppPAT5I1BMrbeSh0DB/tul1fVYEf6O",
+    userId: 21
+  }, {
+    firstName: "Sydni",
+    lastName: "Grant",
+    email: "Sydni_Grant86@yahoo.com",
+    username: "Sydni.OReilly82",
+    bio: "Porro enim solium totam adeo teneo victoria. Adficio aegrotatio avarus velut vulariter. Accusamus dolores depopulo defungo.",
+    isHost: true,
+    hashedPassword: "$2a$10$EpmUekby3k87HmOhdS6vtOg1qL04b4YqLBgsC8KexhpVa518x5Obu",
+    userId: 22
+  }
+]
 
 const propertyNames = [
     "Cozy 4 Bedroom",
@@ -237,9 +340,9 @@ const generateSpotSeeders = () => {
     let spotArr: Spot[] = [];
 
     for (let i = 0; i < 18; i++) {
-        console.log(random(hostUsers))
+        console.log(random(hosts))
         let spot = {
-            userId: random(hostUsers).userId,
+            userId: random(hosts).userId,
             name: random(propertyNames),
             address: fakeAddresses[i],
             city: random(fakeCities),

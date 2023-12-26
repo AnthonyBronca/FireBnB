@@ -2,7 +2,6 @@
 
 import { OptionsInterface } from "../../typings/seeders";
 import generateSpotImageSeeders from "../../utils/spotImageSeeders";
-const bcrypt = require("bcryptjs");
 
 let options:OptionsInterface = {};
 if (process.env.NODE_ENV === 'production') {

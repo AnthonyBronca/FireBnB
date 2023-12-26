@@ -33,5 +33,5 @@ const generateReviews = () => {
 
 const seederReviews = generateReviews();
 
-
+// console.log(seederReviews)
 export default seederReviews;

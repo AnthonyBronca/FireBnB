@@ -3,7 +3,7 @@ import './PersonalInfo.css'
 import { User } from '../../typings/redux';
 import AccountInfoHeader from './AccountInfoHeader';
 import NavBar from '../Navigation/NavBar';
-import { Input, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { editUserThunk } from '../../store/session';
 
@@ -71,11 +71,11 @@ const PersonalInfo: React.FC<IAccountProps> = ({user, title}): JSX.Element => {
         <NavBar />
         <div style={{marginTop: '30px', marginLeft: '25px'}}>
             <AccountInfoHeader user={user} title={title}/>
-            <div className='user-info-container'>
+            <div className='user-info-container-dashboard'>
                 <div className='section-container'>
                     <div className='user-info-text-container'>
                         <p>Legal name</p>
-                        <p>{editModeName? "This is the nam eon your travel document, which could be a license or a passport." :`${user?.firstName} ${user?.lastName}`}</p>
+                        <p>{editModeName? "This is the name on your travel document, which could be a license or a passport." :`${user?.firstName} ${user?.lastName}`}</p>
                         <div className='edit-input-fields-container'>
                         { editModeName? <TextField
                          id="filled-basic"

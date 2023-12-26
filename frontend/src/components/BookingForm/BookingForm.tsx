@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './BookingForm.css'
 import { guestCount } from './guestCount';
 import { endDateValidation } from './dateValidation';
-import { useAppSelector } from '../../store';
-import { csrfFetch } from '../../store/csrf';
+// import { useAppSelector } from '../../store';
 
 interface IBookingFormProps {
     spotId: number;
 }
 
-const BookingForm: React.FC<IBookingFormProps> = ({spotId}): JSX.Element => {
-    const user = useAppSelector((state)=> state.session.user);
+const BookingForm: React.FC<IBookingFormProps> = ({}): JSX.Element => {
+    // const user = useAppSelector((state)=> state.session.user);
 
     const [startDate, setStartDate] = useState<string>('')
-    const [endDate, setEndDate] = useState<string>('');
+    const [_endDate, setEndDate] = useState<string>('');
     const [guest, setGuest] = useState<string>('');
 
 

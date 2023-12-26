@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { getAllSpots } from '../../store/spots';
 import { useAppSelector } from '../../store';
 import { useNavigate } from 'react-router-dom';
+import SpotsSkeleton from './SpotsSkeleton';
 
 const Spots = () => {
 
@@ -24,7 +25,9 @@ const Spots = () => {
     navigate(`/spot/${spotId}`);
     return;
   }
-
+  if(!spots){
+    return <SpotsSkeleton />
+  } else{
   return (
     <div className='spots-container'>
       {spots ? spots.map((spot, idx) => (
@@ -60,6 +63,7 @@ const Spots = () => {
       )):null}
   </div>
   );
+  }
 }
 
 export default Spots;
