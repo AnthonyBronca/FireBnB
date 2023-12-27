@@ -14,6 +14,7 @@ import PersonalInfo from './components/PersonalInfo';
 import { Skeleton } from '@mui/material';
 import LoginSecurity from './components/PersonalInfo/LoginSecurity';
 import ManageListings from './components/PersonalInfo/ManageListings';
+import EditFormModalContext from './context/EditFormContext';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
   const [loginModalOpen, setLoginModal] = useState(false)
 
   const [loginModalDisplay, setLoginModalDisplay] = useState('signup');
+  const [editformModalOpen, setEditFormModal] = useState<boolean>(false);
 
   const restoreXSRF = async () => {
     const res = await fetch('/api/csrf/restore');
@@ -45,7 +47,10 @@ const App: React.FC = ():JSX.Element | undefined | null => {
       setLoginModalDisplay('signup');
     }
     setLoginModal(!loginModalOpen);
+  }
 
+  const toggleFormOpen = () => {
+    setEditFormModal(!editformModalOpen);
   }
 
 
@@ -76,7 +81,9 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/manage-listings',
-      element: <ManageListings user={user} title='Manage Listings'/>,
+      element: <EditFormModalContext.Provider value={{open: editformModalOpen, toggleFormOpen}}>
+        <ManageListings user={user} title='Manage Listings'/>,
+        </EditFormModalContext.Provider>
     },
     {
       path: '/manage-reviews',

@@ -1,4 +1,4 @@
-import {SpotInitialState, Spot, Spots, INewSpotForm} from "../typings/redux";
+import {SpotInitialState, Spot, Spots, INewSpotForm, IEditForm} from "../typings/redux";
 import { csrfFetch } from "./csrf";
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
@@ -7,7 +7,7 @@ const SET_SPOTS = 'spots/setSpots';
 const ADD_SPOT = 'spots/addSpot';
 const SET_SPOT = 'spots/setSpot';
 const GET_USER_SPOTS = 'spots/getUserSpots';
-const EDIT_USER_SPOT = 'spots/editUserSpot';
+const EDIT_SPOT = 'spots/editSpot';
 const DELETE_USER_SPOT = 'spots/deleteUserSpot';
 
 const setSpots = (spots: Spots) => {
@@ -37,18 +37,55 @@ const getUserSpots = (spots: Spots) => {
         payload: spots
     }
 }
-//get all spots for user
-export const getAllUserSpots = ():any => async (dispatch: Dispatch): Promise<any> => {
-    try {
-        const response = await csrfFetch('/api/spots')
-        const data = await response.json();
-        dispatch(getUserSpots(data))
 
+const editSpot = (spot: Spot) => {
+    return {
+        type: EDIT_SPOT,
+        payload: spot
+    }
+};
+
+//edit a spot
+export const editSpotThunk = (userId: number, form: IEditForm):any => async (dispatch: Dispatch): Promise<any> => {
+    try {
+        let {spotId} = form;
+        const options = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                newPrice: form.price,
+                newName: form.name,
+                userId
+            })
+        }
+        const response = await csrfFetch(`/api/spots/${spotId}`, options)
+        if(response.ok){
+            const data = await response.json();
+            dispatch(editSpot(data));
+            return response;
+        } else{
+            throw response
+        }
     } catch (res:any) {
-        if(!res.ok){
             let errors = await res.json();
             return errors;
+    }
+}
+
+//get all spots for user
+export const getAllUserSpots = (userId: number):any => async (dispatch: Dispatch): Promise<any> => {
+    try {
+        const response = await csrfFetch(`/api/spots/current/${userId}`)
+        if(response.ok){
+            const data = await response.json();
+            dispatch(getUserSpots(data));
+            return response
+        } else{
+            throw response;
         }
+    } catch (res:any) {
+        let error = res.json();
+        return error;
     }
 }
 
@@ -176,11 +213,44 @@ export const SpotSlice = createSlice({
         getUserSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
             state.userSpotId = {};
             state.userSpots = action.payload.Spots;
-
+            console.log(action.payload)
             for(let spot of action.payload.Spots){
                 if(!state.userSpotId[`${spot.id}`]){
                     state.userSpotId[`${spot.id}`] = spot;
                 }
+            }
+        },
+        editSpot: (state, action: PayloadAction<Spot>) => {
+            console.log(action.payload, "this is edit spot payload")
+            if(state.userSpotId && state.userSpotId[`${action.payload.id}`]){
+                state.userSpotId[`${action.payload.id}`].name = action.payload.name;
+                state.userSpotId[`${action.payload.id}`].price = action.payload.price;
+            }
+
+            if(state.byId && state.byId[`${action.payload.id}`]){
+                state.byId[`${action.payload.id}`].name = action.payload.name;
+                state.byId[`${action.payload.id}`].price = action.payload.price;
+            }
+
+            if(state.userSpots && state.userSpots.length > 0){
+               for(let i = 0; i < state.userSpots.length; i++){
+                let spot = state.userSpots[i];
+                if(spot.id === action.payload.id){
+                    state.userSpots[i].name = action.payload.name;
+                    state.userSpots[i].price = action.payload.price;
+                    break;
+                }
+               }
+            }
+            if(state.allSpots && state.allSpots.length > 0){
+               for(let i = 0; i < state.allSpots.length; i++){
+                let spot = state.allSpots[i];
+                if(spot.id === action.payload.id){
+                    state.allSpots[i].name = action.payload.name;
+                    state.allSpots[i].price = action.payload.price;
+                    break;
+                }
+               }
             }
         }
     }

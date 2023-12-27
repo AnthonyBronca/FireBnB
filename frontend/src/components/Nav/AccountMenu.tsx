@@ -1,7 +1,7 @@
 import './css/accountMenu.css'
 import hamburger from '../../assets/icons/hamburger.svg'
 import usericon from '../../assets/icons/user.svg';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useAppSelector } from '../../store';
 import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 const AccountMenu: React.FC = ():JSX.Element => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const ulRef = useRef();
     const {toggleOpen} = useContext(LoginModalContext);
     const user = useAppSelector((state)=> state.session.user);
 
@@ -21,7 +20,7 @@ const AccountMenu: React.FC = ():JSX.Element => {
 
 
 
-    const handleMenuOpen = (e?:any) => {
+    const handleMenuOpen = () => {
         if(menuOpen){
             setMenuOpen(false)
         } else{
@@ -37,14 +36,11 @@ const AccountMenu: React.FC = ():JSX.Element => {
 
 
     const handleSignIn = () => {
-        // e.preventDefault();
-        // e.stopPropagation();
         if(isOpen){
             setIsOpen(false)
         } else {
             setIsOpen(true)
         }
-        // dispatch(login({credential: 'anthony@user.io', password: 'password3'}))
     }
 
       const handleLogout = async (e: MouseEvent) => {

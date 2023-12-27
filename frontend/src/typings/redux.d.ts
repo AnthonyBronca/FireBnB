@@ -137,3 +137,11 @@ export interface INewSpotForm {
     lat?: number | string | null;
     lng?: number | string | null;
 }
+
+
+export interface IEditForm{
+    spotId: number;
+    name?: string;
+    price?: string | number;
+
+}
