@@ -104,6 +104,8 @@ export interface LikeId {
 export interface SpotInitialState {
     byId: SpotId | null;
     allSpots: Spot[] | null;
+    userSpots: Spot[] | null;
+    userSpotId: SpotId | null;
 }
 
 
@@ -134,4 +136,12 @@ export interface INewSpotForm {
     imgUrl: string | null;
     lat?: number | string | null;
     lng?: number | string | null;
+}
+
+
+export interface IEditForm{
+    spotId: number;
+    name?: string;
+    price?: string | number;
+
 }

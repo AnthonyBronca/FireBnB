@@ -340,7 +340,6 @@ const generateSpotSeeders = () => {
     let spotArr: Spot[] = [];
 
     for (let i = 0; i < 18; i++) {
-        console.log(random(hosts))
         let spot = {
             userId: random(hosts).userId,
             name: random(propertyNames),
@@ -354,7 +353,8 @@ const generateSpotSeeders = () => {
             lng: getRandomInRange(-180, 180, 6),
         };
         spotArr.push(spot);
-    }
+      }
+      console.log(spotArr)
     return spotArr;
 };
 
