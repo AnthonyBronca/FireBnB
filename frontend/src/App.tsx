@@ -13,6 +13,9 @@ import {SkeletonTheme} from 'react-loading-skeleton'
 import PersonalInfo from './components/PersonalInfo';
 import { Skeleton } from '@mui/material';
 import LoginSecurity from './components/PersonalInfo/LoginSecurity';
+import ManageListings from './components/PersonalInfo/ManageListings';
+import EditFormModalContext from './context/EditFormContext';
+import DeleteFormModalContext from './context/DeleteFormContext';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -21,6 +24,8 @@ const App: React.FC = ():JSX.Element | undefined | null => {
   const [loginModalOpen, setLoginModal] = useState(false)
 
   const [loginModalDisplay, setLoginModalDisplay] = useState('signup');
+  const [editformModalOpen, setEditFormModal] = useState<boolean>(false);
+  const [deleteFormModalOpen, setDeleteFormModal] = useState<boolean>(false);
 
   const restoreXSRF = async () => {
     const res = await fetch('/api/csrf/restore');
@@ -44,7 +49,14 @@ const App: React.FC = ():JSX.Element | undefined | null => {
       setLoginModalDisplay('signup');
     }
     setLoginModal(!loginModalOpen);
+  }
 
+  const toggleFormOpen = () => {
+    setEditFormModal(!editformModalOpen);
+  }
+
+  const toggleDeleteOpen = () => {
+    setDeleteFormModal(!deleteFormModalOpen);
   }
 
 
@@ -75,15 +87,16 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/manage-listings',
-      element: <h1>Hi from manage-listings</h1>,
+      element:
+      <DeleteFormModalContext.Provider value={{deleteOpen: deleteFormModalOpen, toggleDeleteOpen}}>
+        <EditFormModalContext.Provider value={{open: editformModalOpen, toggleFormOpen}}>
+          <ManageListings user={user} title='Manage Listings'/>
+        </EditFormModalContext.Provider>
+      </DeleteFormModalContext.Provider>
     },
     {
       path: '/manage-reviews',
       element: <h1>Hi from manage-reviews</h1>,
-    },
-    {
-      path: '/manage-listings',
-      element: <h1>Hi from manage-listings</h1>,
     },
     {
       path: '/personal-info',
