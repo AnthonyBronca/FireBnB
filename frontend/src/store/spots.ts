@@ -8,7 +8,9 @@ const ADD_SPOT = 'spots/addSpot';
 const SET_SPOT = 'spots/setSpot';
 const GET_USER_SPOTS = 'spots/getUserSpots';
 const EDIT_SPOT = 'spots/editSpot';
-const DELETE_USER_SPOT = 'spots/deleteUserSpot';
+const DELETE_USER_SPOT = 'spots/deleteSpot';
+
+
 
 const setSpots = (spots: Spots) => {
     return {
@@ -44,6 +46,39 @@ const editSpot = (spot: Spot) => {
         payload: spot
     }
 };
+
+const deleteSpot = (spot: Spot) => {
+    return {
+        type: DELETE_USER_SPOT,
+        payload: spot
+    }
+}
+
+//delete a spot
+
+export const deleteSpotThunk = (userId: number, spotId: number):any => async (dispatch: Dispatch): Promise<any> => {
+    try{
+
+        const options = {
+            method: 'DELETE',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({userId})
+        }
+
+        const response = await csrfFetch(`/api/spots/${spotId}`, options);
+        if(response.ok){
+            const data = await response.json();
+            dispatch(deleteSpot(data));
+            return response;
+        } else {
+            throw response;
+        }
+    } catch(e){
+        return e;
+    }
+}
+
+
 
 //edit a spot
 export const editSpotThunk = (userId: number, form: IEditForm):any => async (dispatch: Dispatch): Promise<any> => {
@@ -221,7 +256,6 @@ export const SpotSlice = createSlice({
             }
         },
         editSpot: (state, action: PayloadAction<Spot>) => {
-            console.log(action.payload, "this is edit spot payload")
             if(state.userSpotId && state.userSpotId[`${action.payload.id}`]){
                 state.userSpotId[`${action.payload.id}`].name = action.payload.name;
                 state.userSpotId[`${action.payload.id}`].price = action.payload.price;
@@ -251,6 +285,30 @@ export const SpotSlice = createSlice({
                     break;
                 }
                }
+            }
+        },
+        deleteSpot: (state, action: PayloadAction<Spot>) => {
+            console.log(action.payload, "here");
+            if(state.allSpots && state.allSpots.length > 0){
+                let newState = state.allSpots.filter(spot => {
+                    return spot.id !== action.payload.id;
+                })
+                state.allSpots = newState;
+            }
+
+            if(state.byId && state.byId[`${action.payload.id}`]){
+                delete state.byId[`${action.payload.id}`]
+            }
+
+            if(state.userSpots && state.userSpots.length > 0){
+                let newState = state.userSpots.filter(spot => {
+                    return spot.id !== action.payload.id;
+                })
+                state.userSpots = newState;
+            }
+
+            if(state.userSpotId && state.userSpotId[`${action.payload.id}`]){
+                delete state.userSpotId[`${action.payload.id}`];
             }
         }
     }

@@ -492,7 +492,6 @@ router.post('/:spotId/reviews', validateReview, async(req:CustomeRequest, res: R
 
 
 // get reviews for a spot based on id
-
 router.get('/:spotId/reviews', async(req:CustomeRequest, res:Response, next: NextFunction) => {
 
     let spotId = req.params.spotId;
@@ -559,7 +558,6 @@ router.get('/:spotId/reviews', async(req:CustomeRequest, res:Response, next: Nex
 
 
 //Create a booking for a spot
-
 router.post('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: NextFunction) => {
     try {
 
@@ -687,27 +685,9 @@ router.get('/:spotId/bookings', async(req:CustomeRequest, res: Response, next: N
 });
 
 
-//delete a spot
-router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction)=>{
 
-    try {
-        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
-        let userId = req.user.id;
-        let spotId: string | number = req.params.spotId;
-        if(!spotId) throw new Error('Please pass in a valid spot id');
 
-        spotId = parseInt(spotId);
-        let spot = await Spot.findByPk(spotId);
-        if(!spot) throw new NoResourceError("Spot couldn't be found", 404);
-        let spotJSON = await spot.toJSON();
-        if(spotJSON.userId !== userId) throw new ForbiddenError('Forbidden: This is not your spot');
-        spot.destroy();
-        return res.json({message: "Successfully deleted"});
-    } catch (error) {
-        return next(error);
-    }
-});
-
+//make a like
 router.post('/:spotId/likes', async(req:Request, res: Response, next: NextFunction) => {
     try{
         let {userId} = req.body;
@@ -727,7 +707,7 @@ router.post('/:spotId/likes', async(req:Request, res: Response, next: NextFuncti
     }
 })
 
-
+//delete a like
 router.delete('/:spotId/likes', async(req:Request, res: Response, next: NextFunction) => {
     try{
 
@@ -752,6 +732,7 @@ router.delete('/:spotId/likes', async(req:Request, res: Response, next: NextFunc
     }
 });
 
+//get all likes for a user
 router.get('/likes/:userId', async(req:Request, res: Response, next: NextFunction) => {
     try {
         let {userId} = req.params;
@@ -763,6 +744,28 @@ router.get('/likes/:userId', async(req:Request, res: Response, next: NextFunctio
     } catch (error) {
         next(error);
     }
-})
+});
+
+
+//delete a spot
+router.delete('/:spotId', async(req:CustomeRequest, res: Response, next: NextFunction)=>{
+
+    try {
+        if(!req.user) throw new UnauthorizedError('You must be signed in to perform this action');
+        let userId = req.user.id;
+        let spotId: string | number = req.params.spotId;
+        if(!spotId) throw new Error('Please pass in a valid spot id');
+
+        spotId = parseInt(spotId);
+        let spot = await Spot.findByPk(spotId);
+        if(!spot) throw new NoResourceError("Spot couldn't be found", 404);
+        let spotJSON = await spot.toJSON();
+        if(spotJSON.userId !== userId) throw new ForbiddenError('Forbidden: This is not your spot');
+        spot.destroy();
+        return res.json(spot);
+    } catch (error) {
+        return next(error);
+    }
+});
 
 export = router;
