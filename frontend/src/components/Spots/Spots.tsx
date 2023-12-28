@@ -20,19 +20,18 @@ const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const spots = useAppSelector((state) => state.spots.allSpots);
-  // const allLikes = useAppSelector((state)=>  state.likes.allLikes);
   const likedSpots = useAppSelector((state)=> state.likes.byId);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // const [likes, setLikes] = useState<LikeSpot | null>(likedSpots)
     useEffect(()=> {
-        dispatch(getAllSpots())
       if(user){
           dispatch(getAllLikes(user.id))
-          .then(()=> setIsLoaded(true))
         }
+        dispatch(getAllSpots())
+        .then(() => setIsLoaded(true))
 
-    }, [dispatch, isLoaded])
+
+    }, [dispatch, isLoaded, user])
 
   const viewSpot = (e: React.MouseEvent<HTMLDivElement, MouseEvent> | any, spotId: number) => {
     e.preventDefault();
@@ -63,9 +62,6 @@ const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
   }
 
 if(!isLoaded){
-  // if((!spots || !spots.length)){
-    // return <SpotsSkeleton />
-  // } else if(!isLoaded){
     return <SpotsSkeleton />
   } else {
   return (
