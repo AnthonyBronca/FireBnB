@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Divider } from '@mui/material';
 import xlogo from '../../assets/icons/x.svg'
 import { useDispatch } from 'react-redux';
 import './css/EditForm.css'
-import EditFormModalContext from '../../context/EditFormContext';
-import { deleteSpotThunk, editSpotThunk } from '../../store/spots';
+import { deleteSpotThunk} from '../../store/spots';
 import DeleteFormModalContext from '../../context/DeleteFormContext';
 
 interface IEditFormProps {
@@ -16,8 +15,6 @@ interface IEditFormProps {
 const DeleteForm:React.FC<IEditFormProps> = ({title, userId, spotId}):JSX.Element => {
   const dispatch = useDispatch();
 
-  const [errors, setErrors] = useState<string[]>([]);
-  const [name, setName] = useState<string>(title);
   const {toggleDeleteOpen} = useContext(DeleteFormModalContext);
 
   useEffect(()=> {
@@ -30,30 +27,6 @@ const DeleteForm:React.FC<IEditFormProps> = ({title, userId, spotId}):JSX.Elemen
       })
     }
   });
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setErrors([]);
-    let err: string[] = [];
-    if(name.length <= 0){
-      err.push('Name can not be empty')
-    }
-    if(name.startsWith(" ")){
-      err.push("Name can not start with spaces");
-    }
-
-
-    setErrors(err);
-    if(errors.length === 0){
-      let form = {spotId, name,}
-      let res = await dispatch(editSpotThunk(userId, form))
-      if(!res.ok){
-        setErrors([res.message]);
-      } else{
-        closeModal()
-      }
-    }
-  }
 
   const closeModal = () => {
     toggleDeleteOpen(false)
