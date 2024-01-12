@@ -248,7 +248,6 @@ export const SpotSlice = createSlice({
         getUserSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
             state.userSpotId = {};
             state.userSpots = action.payload.Spots;
-            console.log(action.payload)
             for(let spot of action.payload.Spots){
                 if(!state.userSpotId[`${spot.id}`]){
                     state.userSpotId[`${spot.id}`] = spot;
