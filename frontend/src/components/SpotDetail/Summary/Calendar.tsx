@@ -31,7 +31,6 @@ const MyCalendar: React.FC = (): JSX.Element => {
 
 
   const handleSelect = (date: any) => {
-    console.log(date.selection)
     const newSelection:ISelection = {
       startDate: date.selection.startDate,
       endDate: date.selection.endDate,
@@ -47,7 +46,7 @@ const MyCalendar: React.FC = (): JSX.Element => {
     <div className='calendar-container'>
         <div className='calendar-header'>
             <h2>Select check-in date</h2>
-            <span>Add your travel dates for exact pricing</span>
+            <span className='calendar-header-info-span'>Add your travel dates for exact pricing</span>
         </div>
         <div className="react-calendar-container">
           <DateRange

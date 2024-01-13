@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { CustomeRequest } from "../../typings/express";
 import {handleValidationErrors, validateQueryParams, validateSpot} from '../../utils/validation';
-
+import reviewSplitter from '../../utils/reviewSplitter';
 const { check } = require('express-validator');
 
 import db from '../../db/models';
@@ -132,6 +132,7 @@ router.get('/current/:userId', async(req:CustomeRequest, res: Response, next: Ne
                 {model: User, as: "Owner"},
                 {
                     model: Review,
+                    where: {userId: userId},
                     include: [{
                         model: User,
                         include: [
@@ -150,6 +151,10 @@ router.get('/current/:userId', async(req:CustomeRequest, res: Response, next: Ne
             const previewImageUrl = SpotImages.find((image:any) => image.preview === true).url;
             const avgRating = Reviews.reduce((sum:number, review:any) => sum += review.stars ,0) / Reviews.length;
             const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
+
+            for(let revObj of Reviews){
+                revObj.review = reviewSplitter(revObj.review)
+            }
 
             res.ownerId = Owner.id;
             res.previewImage = previewImageUrl;
@@ -211,6 +216,10 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                 const {SpotImages, Owner, Reviews, ...result} = spotJson;
                 const avgRating = Reviews.reduce((sum:number, review: any) => sum += review.stars, 0) / Reviews.length;
                 const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
+                for(let revObj of Reviews){
+                    revObj.review = reviewSplitter(revObj.review)
+                }
+                console.log(Reviews)
                 result.reviews = Reviews;
                 result.createdAt = dateConverter(result.createdAt);
                 result.updatedAt = dateConverter(result.updatedAt);

@@ -16,6 +16,7 @@ import LoginSecurity from './components/PersonalInfo/LoginSecurity';
 import ManageListings from './components/PersonalInfo/ManageListings';
 import EditFormModalContext from './context/EditFormContext';
 import DeleteFormModalContext from './context/DeleteFormContext';
+import ManageReviews from './components/PersonalInfo/ManageReviews';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -96,7 +97,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/manage-reviews',
-      element: <h1>Hi from manage-reviews</h1>,
+      element: <ManageReviews user={user} title='Manage Reviews' />,
     },
     {
       path: '/personal-info',

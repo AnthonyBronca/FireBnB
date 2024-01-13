@@ -50,7 +50,7 @@ const handleAuthCheck = () => {
         </div>
         <div className='nav-bar-links-container'>
             <div className='host-home'>
-                <Link className='a-tag' onClick={handleAuthCheck} to={'/'}><span className='nav-bar-links-span'>Firebnb your home</span></Link>
+                <Link className='a-tag' onClick={handleAuthCheck} to={'/become-a-host'}><span className='nav-bar-links-span'>Firebnb your home</span></Link>
             </div>
             <img src={globe} alt='global setting icon' className='globe-icon' />
             <AccountMenu />

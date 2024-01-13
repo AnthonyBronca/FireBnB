@@ -23,7 +23,7 @@ const generateReviews = () => {
                 userId: random(1, 3),
                 spotId: i,
                 stars: random(1,3),
-                review: faker.lorem.sentences(1)
+                review: faker.lorem.sentences(random(1,4))
             }
             reviews.push(review);
         }
@@ -32,6 +32,5 @@ const generateReviews = () => {
 }
 
 const seederReviews = generateReviews();
-
 // console.log(seederReviews)
 export default seederReviews;

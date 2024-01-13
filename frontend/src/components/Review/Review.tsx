@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './review.css'
 import { IReviewProps } from '../../typings/review';
 import ProfileInfo from './ProfileInfo';
 import Stars from './Stars';
+import { Review } from '../../typings/redux';
 
 const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null => {
 
+    const [seeMoreObj, setSeeMoreObj] = useState<any>({});
 
 
-    const handleShowMore = () => {
-        alert('This is a Future Feature and is still in development!')
+     const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
+        const newSeeMore:any = {}
+        if(!seeMoreObj[review.id]){
+            newSeeMore[review.id] = review
+            setSeeMoreObj(newSeeMore);
+        }
+    }
+
+
+    const handleSeeLess = (e:React.MouseEvent<HTMLSpanElement>, review: Review) => {
+        const newSeeMore:any = {...seeMoreObj}
+        if(seeMoreObj[review.id]){
+            delete newSeeMore[review.id]
+            setSeeMoreObj(newSeeMore)
+        }
     }
 
     if(reviews){
@@ -23,8 +38,15 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null 
                     <span>2 weeks ago</span>
                 </div>
                 <div className='review-details-container'>
-                    <p>{review.review}</p>
-                    <span onClick={handleShowMore}>Show more</span>
+                     {review.review[0].length > 0 ?
+                        <div>
+                            {!seeMoreObj[review.id]? <span className='review-text'>{`${review.review[0]}...`}</span>:
+                            <span className='review-text'>{`${review.review[1]}`}</span> }
+                            {!seeMoreObj[review.id]? <p className='show-more-text' onClick={(e) => handleSeeMore(e, review)}>See More...</p>:
+                                <p className='show-more-text' onClick={(e) => handleSeeLess(e, review)}>See Less...</p>
+                            }
+                        </div>:
+                        <span className='review-text'>{`${review.review[1]}`}</span> }
                 </div>
                 </div>
             )): null}
