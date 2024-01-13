@@ -199,9 +199,9 @@ export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch
         if(response.ok){
             const data:Spot = await response.json();
             dispatch(setSpot(data))
-            return response
+            return data
         } else{
-            throw response.json();
+            throw response;
         }
     } catch (res:any) {
         return res

@@ -216,6 +216,10 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                 const {SpotImages, Owner, Reviews, ...result} = spotJson;
                 const avgRating = Reviews.reduce((sum:number, review: any) => sum += review.stars, 0) / Reviews.length;
                 const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
+                for(let revObj of Reviews){
+                    revObj.review = reviewSplitter(revObj.review)
+                }
+                console.log(Reviews)
                 result.reviews = Reviews;
                 result.createdAt = dateConverter(result.createdAt);
                 result.updatedAt = dateConverter(result.updatedAt);

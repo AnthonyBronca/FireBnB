@@ -4,7 +4,7 @@ import { useAppSelector } from '../../store';
 import './ManageListings.css'
 import NavBar from '../Nav/NavBar';
 import AccountInfoHeader from './AccountInfoHeader';
-import { Spot, User } from '../../typings/redux';
+import { Review, Spot, User } from '../../typings/redux';
 import { useNavigate } from 'react-router-dom';
 import { getAllUserSpots } from '../../store/spots';
 import EditForm from '../Modals/EditForm';
@@ -13,6 +13,7 @@ import DeleteFormModalContext from '../../context/DeleteFormContext';
 import DeleteForm from '../Modals/DeleteForm';
 import NoResource from './NoResource';
 import Stars from '../Review/Stars';
+import { Divider } from '@mui/material';
 
 interface IManageListingsProps {
     user: User | null;
@@ -37,6 +38,7 @@ const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element
     const [editItemPrice, setEditItemPrice] = useState<string | number>(0);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [spotId, setSpotId] = useState<number>(0);
+    const [seeMoreObj, setSeeMoreObj] = useState<any>({});
 
     const [deleteItemName, setDeleteItemName] = useState<string>("");
 
@@ -76,9 +78,22 @@ const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element
         toggleDeleteOpen(true);
     }
 
+    const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
+        const newSeeMore:any = {}
+        if(!seeMoreObj[review.id]){
+            newSeeMore[review.id] = review
+            setSeeMoreObj(newSeeMore);
+        }
+    }
 
-    const testText = "Hello world awdawd awd awd amwd wkim dawdw";
 
+    const handleSeeLess = (e:React.MouseEvent<HTMLSpanElement>, review: Review) => {
+        const newSeeMore:any = {...seeMoreObj}
+        if(seeMoreObj[review.id]){
+            delete newSeeMore[review.id]
+            setSeeMoreObj(newSeeMore)
+        }
+    }
 
 if(!isLoaded){
     return <h1>Loading...</h1>
@@ -95,27 +110,34 @@ if(!isLoaded){
             <div className='user-info-container-dashboard'>
                 {spots && spots.length > 0? spots.map((spot, idx) => (
                 <div className='listing-section-container' key={`${idx}-${spotId}-${spot.name}`}>
-                    <div className='listing-info-container' style={{"cursor": "pointer"}} onClick={()=> handleNavigateToSpot(spot)}>
-                        <img className='manage-listings-preview-card' src={spot.previewImage}/>
-                        <div className='listing-info-text-container' onClick={()=> console.log('test')}>
-                            <p>{`$${spot.price}/night`}</p>
-                            <p>{spot.reviews && spot.reviews.length > 0? `You left ${spot.reviews.length} reviews`: "No reviews yet!"}</p>
+                    <div className='listing-info-container-review' >
+                        <img className='manage-listings-preview-card' src={spot.previewImage} style={{"cursor": "pointer"}} onClick={()=> handleNavigateToSpot(spot)}/>
+                        <div className='listing-info-text-container' >
+                            <p>{`$${spot.price} / night`}</p>
+                            <p className='review-text'>{spot.reviews && spot.reviews.length > 0? `You left ${spot.reviews.length} reviews`: "No reviews yet!"}</p>
                             <Stars starCount={spot.avgRating}/>
-                            <p>Your Reviews</p>
+                            <p>Your Reviews:</p>
                             <div className='user-reviews-container'>
                                 {spot.reviews? spot.reviews.length > 0?
-                                    <div>
-                                        <span>"{`${spot.reviews[0].review[1]}`}"</span>
-                                        <p onClick={() => console.log("See more clicked")}>See More...</p>
+                                    spot.reviews.map((rev, idx) => (
+                                    <div key={`${idx}-${spot.id}`}>
+                                        {rev.review[0].length > 0 ?
+                                        <div>
+                                            {!seeMoreObj[rev.id]? <span>"{`${rev.review[0]}...`}"</span>: <span>"{`${rev.review[1]}`}"</span> }:
+                                            {!seeMoreObj[rev.id]? <p className='see-more-reviews-p' onClick={(e) => handleSeeMore(e, rev)}>See More...</p>:
+                                                <p className='see-more-reviews-p' onClick={(e) => handleSeeLess(e, rev)}>See Less...</p>
+                                            }
+                                        </div>:
+                                         <span>"{`${rev.review[1]}`}"</span> }
+                                    <div className='divider-review-seperator'>
+                                        <Divider />
                                     </div>
+                                    </div>
+                                    ))
                                     :
-                                    <span>
-                                        {`${spot.reviews[0].review[1]}`}
-                                    </span>
-                                         : "No Review Yet"}
-                                {/* <span>"{testText}"</span> */}
+                                    <span>No Reviews Yet</span>:
+                                    <span>No Reviews Yet</span>}
                             </div>
-                            {/* <p>{text.split(' ').length > 15? : text}</p> */}
                             <div className='edit-input-fields-container'></div>
                         </div>
                     </div>

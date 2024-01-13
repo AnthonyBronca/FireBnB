@@ -53,7 +53,7 @@ const AccountMenu: React.FC = ():JSX.Element => {
     }
 
     const handleFutureFeature = () => {
-        alert("This feature is in development and will be released soon!");
+        alert("This feature is either in development, or is a placeholder. Sorry!");
         handleMenuOpen();
     }
 
@@ -100,15 +100,15 @@ const AccountMenu: React.FC = ():JSX.Element => {
         </div>
         {user ? <>
         {menuOpen? <div className='drop-down-container' >
-            <span onClick={handleFutureFeature} className='reg-span'>Messages</span>
-            <span onClick={handleFutureFeature} className='reg-span'>Notifications</span>
-            <span onClick={handleFutureFeature} className='reg-span'>Trips</span>
-            <span onClick={handleFutureFeature} className='reg-span'>Wishlists</span>
+            <span onClick={handleFutureFeature} style={{"cursor": "not-allowed"}} className='reg-span inactive-item'>Messages</span>
+            <span onClick={handleFutureFeature} style={{"cursor": "not-allowed"}} className='reg-span inactive-item'>Notifications</span>
+            <span onClick={handleFutureFeature} style={{"cursor": "not-allowed"}} className='reg-span inactive-item'>Trips</span>
+            <span onClick={handleFutureFeature} style={{"cursor": "not-allowed"}} className='reg-span inactive-item'>Wishlists</span>
             <div onClick={handleFutureFeature} className='horizontal-line'></div>
             <span onClick={goToListASpot} className='unreg-span'>Firebnb your home</span>
             <span onClick={goToDashBoard} className='unreg-span'>Account</span>
             <div onClick={handleFutureFeature} className='horizontal-line'></div>
-            <span onClick={handleFutureFeature} className='unreg-span'>Help Center</span>
+            <span onClick={handleFutureFeature} style={{"cursor": "not-allowed"}} className='unreg-span inactive-item'>Help Center</span>
             <span onClick={(e:any) => handleLogout(e)} className='unreg-span'>Log out</span>
         </div>
         : null}

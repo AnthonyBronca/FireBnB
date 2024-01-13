@@ -59,7 +59,7 @@ module.exports = (sequelize: any, DataTypes:any) => {
                         throw new Error('Description can not start with spaces');
                     }
                 },
-                len: [2, 70]
+                len: [2, 1000]
             }
         },
         userId: {
