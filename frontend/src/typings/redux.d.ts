@@ -22,12 +22,22 @@ export interface SpotImage {
     url: string
 }
 
+export interface IUserImage {
+    createdAt: string;
+    url: string;
+    userId: number;
+    updatedAt: string;
+    isProfile: boolean
+    id: number
+}
+
 export interface SpotOwner {
     id: number,
     firstName: string,
     isHost: null | boolean,
     lastName: string,
-    username: string
+    username: string,
+    UserImages: IUserImage[]
 }
 
 
@@ -58,7 +68,7 @@ export interface Spot {
     createdAt: string;
     updatedAt: string;
     SpotImages: SpotImage[]
-    Owner?: SpotOwner,
+    Owner: SpotOwner,
     reviews?: Review[]
 }
 

@@ -199,9 +199,9 @@ export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch
         if(response.ok){
             const data:Spot = await response.json();
             dispatch(setSpot(data))
-            return response
+            return data
         } else{
-            throw response.json();
+            throw response;
         }
     } catch (res:any) {
         return res
@@ -248,7 +248,6 @@ export const SpotSlice = createSlice({
         getUserSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
             state.userSpotId = {};
             state.userSpots = action.payload.Spots;
-            console.log(action.payload)
             for(let spot of action.payload.Spots){
                 if(!state.userSpotId[`${spot.id}`]){
                     state.userSpotId[`${spot.id}`] = spot;

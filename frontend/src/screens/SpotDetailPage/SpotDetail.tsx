@@ -37,19 +37,13 @@ const SpotDetail: React.FC = (): JSX.Element | undefined => {
             }
         }
         if(!spot && id){
-            dispatch(getOneSpotThunk(id))
-            .then((response:any) => {
-                if(response.ok){
-                    set404(false);
-                    if(spot === null  && spots){
-                        setSpot(spots[`${id}`])
-                    }
-                }
-            })
-            .then(() => setIsLoaded(true));
+            const getSpots = async () => {
+                const data = await dispatch(getOneSpotThunk(id))
+                setSpot(data)
+                setIsLoaded(true)
+            }
 
-        } else {
-            set404(true);
+            getSpots()
         }
     }, [spot])
 
@@ -64,8 +58,8 @@ function generate404(){
 if(!spot || show404){
     setTimeout(generate404, 2000)
     // return <h1>Loading...</h1>
-} else {
-    return (
+} else if(isLoaded) {
+    return(
         <>
         <NavBar />
         <Divider/>
@@ -76,12 +70,22 @@ if(!spot || show404){
                 <div className='left-side-container-items'>
                 <Summary name={spot.name} rating={spot.avgRating}/>
                 <Divider style={{width: '30rem', }}/>
-                <AdditionalDetail />
+                <AdditionalDetail spot={spot} />
                 <Divider style={{width: '30rem', }}/>
-                <HostDetails name={door}/>
-                <HostDetails name={calendar}/>
+                <HostDetails
+                    info={{text1: "Self Check-in Available", text2: "Self Checkout-out Available"}}
+                    spot={spot}
+                    name={door}
+                    type="door"
+                    />
+                <HostDetails
+                    info={{text1: "Easy Booking Enabled", text2: "High-Demand"}}
+                    spot={spot}
+                    name={calendar}
+                    type="booking"
+                    />
                 <Divider style={{width: '30rem', }}/>
-                <Paragraph />
+                <Paragraph spot={spot}/>
                 <Divider style={{width: '30rem', }}/>
                 <MyCalendar />
                 </div>
@@ -90,7 +94,6 @@ if(!spot || show404){
                 </div>
             </div>
             <Divider style={{width: '52rem', }}/>
-        {/* <Divider /> */}
         </div>
         <div className='review-main'>
             <div className='review-screen-container'>

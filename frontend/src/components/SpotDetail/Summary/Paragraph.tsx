@@ -1,11 +1,17 @@
 import React from 'react';
 import './summary.css'
+import { Spot } from '../../../typings/redux';
 
-const Paragraph:React.FC = (): JSX.Element => {
+
+interface IParagraph {
+  spot: Spot
+}
+
+
+const Paragraph:React.FC<IParagraph> = ({spot}): JSX.Element => {
   return (
     <div className='paragraph-container'>
-        <p className='paragraph-text'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis exercitationem corrupti maxime sequi quas placeat provident distinctio itaque. Nulla quod quaerat nobis ea! Explicabo assumenda deserunt error voluptatibus temporibus? Dolore!</p>
-        <span >{'Show more'}</span>
+        <p className='paragraph-text'>{spot.description}</p>
     </div>
   );
 }
