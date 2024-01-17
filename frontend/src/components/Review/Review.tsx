@@ -4,6 +4,7 @@ import { IReviewProps } from '../../typings/review';
 import ProfileInfo from './ProfileInfo';
 import Stars from './Stars';
 import { Review } from '../../typings/redux';
+import random from '../../helpers/random';
 
 const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null => {
 
@@ -11,7 +12,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null 
 
 
      const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
-        const newSeeMore:any = {}
+        const newSeeMore:any = {...seeMoreObj}
         if(!seeMoreObj[review.id]){
             newSeeMore[review.id] = review
             setSeeMoreObj(newSeeMore);
@@ -53,7 +54,6 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null 
           </div>
         );
     } else{
-        //Add a component here for if there are no reviews
         return null;
     }
 }

@@ -68,7 +68,7 @@ if(!spot || show404){
             <SpotDetailImages image={spot.previewImage? spot.previewImage: spot.SpotImages[0].url}/>
             <div className='spot-info-booking-container'>
                 <div className='left-side-container-items'>
-                <Summary name={spot.name} rating={spot.avgRating}/>
+                <Summary reviewCount={spot.reviews?.length} name={spot.name} rating={spot.avgRating}/>
                 <Divider style={{width: '30rem', }}/>
                 <AdditionalDetail spot={spot} />
                 <Divider style={{width: '30rem', }}/>
