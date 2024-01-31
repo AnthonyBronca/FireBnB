@@ -43,6 +43,14 @@ const App: React.FC = ():JSX.Element | undefined | null => {
   }, [dispatch]);
 
 
+  const handleNotSignIn = () => {
+    if (!user){
+      setLoginModal(true)
+    } else{
+      setLoginModal(false)
+    }
+  }
+
   const toggleOpen = (buttonClicked:string) => {
     if(buttonClicked === 'login'){
       setLoginModalDisplay('login')
