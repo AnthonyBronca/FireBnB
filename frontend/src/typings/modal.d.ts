@@ -17,3 +17,8 @@ export interface SignInContext {
     open: boolean;
     toggleSignIn: (buttonType:string) => void;
 }
+
+export interface PostReviewModalContext {
+    open: boolean;
+    togglePostReviewOpen: (buttonType: boolean) => void;
+}

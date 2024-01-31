@@ -17,6 +17,7 @@ import ManageListings from './components/PersonalInfo/ManageListings';
 import EditFormModalContext from './context/EditFormContext';
 import DeleteFormModalContext from './context/DeleteFormContext';
 import ManageReviews from './components/PersonalInfo/ManageReviews';
+import NewReviewModalContext from './context/NewReviewModalContext';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
   const [loginModalDisplay, setLoginModalDisplay] = useState('signup');
   const [editformModalOpen, setEditFormModal] = useState<boolean>(false);
   const [deleteFormModalOpen, setDeleteFormModal] = useState<boolean>(false);
+  const [newReviewModalOpen, setNewReviewModal] = useState<boolean>(false);
 
   const restoreXSRF = async () => {
     const res = await fetch('/api/csrf/restore');
@@ -42,6 +44,14 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     dispatch(sessionActions.restoreUser()).then(() => restoreXSRF()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+
+  const handleNotSignIn = () => {
+    if (!user){
+      setLoginModal(true)
+    } else{
+      setLoginModal(false)
+    }
+  }
 
   const toggleOpen = (buttonClicked:string) => {
     if(buttonClicked === 'login'){
@@ -60,6 +70,10 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     setDeleteFormModal(!deleteFormModalOpen);
   }
 
+  const togglePostReviewOpen = () => {
+    setNewReviewModal(!newReviewModalOpen);
+  }
+
 
   const mainRoutes = [
     {
@@ -68,7 +82,10 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/spot/:id',
-      element: <SpotDetail />
+      element: 
+      <NewReviewModalContext.Provider value={{open: newReviewModalOpen, togglePostReviewOpen}}>
+        <SpotDetail />
+      </NewReviewModalContext.Provider>
     },
     {
       path: '/become-a-host',

@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './review.css'
 import { IReviewProps } from '../../typings/review';
 import ProfileInfo from './ProfileInfo';
 import Stars from './Stars';
 import { Review } from '../../typings/redux';
+import { useAppSelector } from '../../store';
+import NewReviewModal from '../Modals/NewReviewModal';
+import NewReviewModalContext from '../../context/NewReviewModalContext';
 import random from '../../helpers/random';
 
-const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null => {
+const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element | null => {
+
+    const sessionUser = useAppSelector((state) => state.session.user);
+    const { open, togglePostReviewOpen } = useContext(NewReviewModalContext);
+
+    const handleNewReviewOpen = (e: React.MouseEvent<HTMLSpanElement>) => {
+        e.preventDefault();
+        togglePostReviewOpen(true)
+    }
 
     const [seeMoreObj, setSeeMoreObj] = useState<any>({});
 
+    let reviewUsers: Array<number> = [];
+    if (reviews && reviews.length > 0) {
+        reviewUsers = reviews.map((review) => {
+            return review.userId
+        })
+    }
+
+    let spotOwner = spot?.Owner;
 
      const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
         const newSeeMore:any = {...seeMoreObj}
@@ -51,6 +70,13 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews}): JSX.Element | null 
                 </div>
                 </div>
             )): null}
+            {sessionUser && sessionUser.id !== spotOwner?.id &&
+            !reviewUsers.includes(sessionUser.id) && (
+                <div>
+                    <span onClick={(e) => handleNewReviewOpen(e)}>NEW REVIEW</span>
+                    { open ? <NewReviewModal spotId={spot.id}/> : null}
+                </div>
+            )}
           </div>
         );
     } else{

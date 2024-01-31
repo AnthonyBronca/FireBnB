@@ -19,6 +19,5 @@ const makeRandomUserProfiles = (): UserImage[] => {
 }
 
 const randomUserProfiles = makeRandomUserProfiles()
-console.log(randomUserProfiles)
 
 export default randomUserProfiles

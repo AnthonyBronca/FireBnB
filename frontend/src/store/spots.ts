@@ -134,7 +134,6 @@ export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> =>
     } catch (res:any) {
         if(!res.ok){
             let errors = await res.json();
-            console.log(errors)
             return errors;
         }
     }
@@ -181,7 +180,6 @@ export const createSpot = (userId: number, form:INewSpotForm):any => async (disp
         const response = await csrfFetch('/api/spots', options);
         if(response.ok){
             const spot = await response.json();
-            console.log("spot from backend", spot)
             dispatch(addSpot(spot))
             return response
         } else{
@@ -287,7 +285,6 @@ export const SpotSlice = createSlice({
             }
         },
         deleteSpot: (state, action: PayloadAction<Spot>) => {
-            console.log(action.payload, "here");
             if(state.allSpots && state.allSpots.length > 0){
                 let newState = state.allSpots.filter(spot => {
                     return spot.id !== action.payload.id;

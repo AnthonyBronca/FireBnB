@@ -1,5 +1,6 @@
-import { Review } from "./redux";
+import { Review, Spot } from "./redux";
 
 export interface IReviewProps{
-    reviews: Review[] | undefined
+    reviews: Review[] | undefined,
+    spot: Spot
 }

@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import './css/newSpotForm.css'
 import states from '../../helpers/states';
-// import { useDispatch } from 'react-redux';
-// import { useAppSelector } from '../../store';
 import { useFormContext } from '../../context/NewSpotContext';
 
 
 
 const NewSpotForm: React.FC = (): JSX.Element => {
 
-  // const dispatch = useDispatch();
   const {setFormData} = useFormContext();
-
-  // const user = useAppSelector((state) => state.session.user!)
-  // const [errors, setErrors] = useState<string[]>([]);
-
 
   const [showUpload, setShowUpload] = useState<boolean>(true);
   const [previewUrl, setPreviewUrl] = useState<any>("");

@@ -14,7 +14,6 @@ interface IImageProp {
     },
     type: string
 }
-console.log(name)
 
 const HostDetails: React.FC<IImageProp> = ({name, spot, info, type}): JSX.Element => {
   return (

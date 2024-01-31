@@ -97,7 +97,7 @@ if(!spot || show404){
         </div>
         <div className='review-main'>
             <div className='review-screen-container'>
-                <ReviewComponent reviews={spot.reviews}/>
+                <ReviewComponent reviews={spot.reviews} spot={spot}/>
             </div>
         </div>
         <Divider />
