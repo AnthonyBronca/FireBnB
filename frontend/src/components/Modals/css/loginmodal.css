@@ -40,6 +40,11 @@ h3{
     background: none;
     border: none;
 }
+button.close-button {
+    width: 2rem;
+    height: 1rem;
+    cursor: pointer;
+}
 
 .close-button-image{
     height: .7rem;
