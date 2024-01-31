@@ -354,7 +354,6 @@ const generateSpotSeeders = () => {
         };
         spotArr.push(spot);
       }
-      console.log(spotArr)
     return spotArr;
 };
 

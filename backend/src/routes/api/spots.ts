@@ -219,7 +219,6 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
                 for(let revObj of Reviews){
                     revObj.review = reviewSplitter(revObj.review)
                 }
-                console.log(Reviews)
                 result.reviews = Reviews;
                 result.createdAt = dateConverter(result.createdAt);
                 result.updatedAt = dateConverter(result.updatedAt);
@@ -239,7 +238,6 @@ router.get('/:spotId', async(req:CustomeRequest, res: Response, next: NextFuncti
 
 // create a spot:
 router.post('/', singleMulterUpload("image"), async(req:CustomeRequest, res:Response, next: NextFunction) => {
-    console.log(req.body)
     try{
         if(!req.body) throw new Error("An Error occured processing your request body. Please Try Again.");
         if(!req.body.userId) throw new UnauthorizedError('You must be signed in to perform this action.');

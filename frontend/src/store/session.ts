@@ -49,7 +49,6 @@ export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<a
     } catch (res:any) {
       if(!res.ok){
         let errors = await res.json();
-        console.log(errors)
         return errors;
       }
     }

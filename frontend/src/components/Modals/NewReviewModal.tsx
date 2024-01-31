@@ -17,7 +17,6 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
         }
     }
     const handleOpen = () => {
-        console.log(open, "click")
         togglePostReviewOpen(true)
     }
 

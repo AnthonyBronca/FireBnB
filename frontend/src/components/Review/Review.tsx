@@ -9,14 +9,13 @@ import NewReviewModal from '../Modals/NewReviewModal';
 import NewReviewModalContext from '../../context/NewReviewModalContext';
 
 const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element | null => {
-    
+
     const sessionUser = useAppSelector((state) => state.session.user);
     const { open, togglePostReviewOpen } = useContext(NewReviewModalContext);
 
     const handleNewReviewOpen = (e: React.MouseEvent<HTMLSpanElement>) => {
         e.preventDefault();
         togglePostReviewOpen(true)
-        console.log("OPEN", open)
     }
 
     const [seeMoreObj, setSeeMoreObj] = useState<any>({});
@@ -70,7 +69,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
                 </div>
                 </div>
             )): null}
-            {sessionUser && sessionUser.id !== spotOwner?.id && 
+            {sessionUser && sessionUser.id !== spotOwner?.id &&
             !reviewUsers.includes(sessionUser.id) && (
                 <div>
                     <span onClick={(e) => handleNewReviewOpen(e)}>NEW REVIEW</span>
