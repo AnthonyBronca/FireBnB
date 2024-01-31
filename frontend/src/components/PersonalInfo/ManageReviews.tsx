@@ -147,25 +147,6 @@ if(!isLoaded){
                     </div>
                 </div>
                 )) : null}
-                {/* {spots? spots.map((spot, idx) => (
-                    <div className='listing-section-container' key={idx}>
-                    <div className='listing-info-container'>
-                        <img className='manage-listings-preview-card' src={spot.previewImage}/>
-                        <div className='listing-info-text-container' onClick={()=> handleNavigateToSpot(spot)}>
-                            <h4>{spot.name}</h4>
-                            <p>{spot.address}</p>
-                            <p>{`${spot.city}, ${spot.state}`}</p>
-                            <p>{`$${spot.price}/night`}</p>
-                            <p>{spot.reviews && spot.reviews.length > 0? `Reviews: ${spot.reviews.length}`: "No reviews yet!"}</p>
-                            <div className='edit-input-fields-container'></div>
-                        </div>
-                    </div>
-                    <div className='manage-listing-buttons-container'>
-                        <span className='edit-listing-span-button' onClick={(e)=> handleFormOpen(e, spot.name, spot.price, spot.id)}>Edit</span>
-                        <span className='delete-span-button' onClick={(e)=> handleDeleteOpen(e, spot.name, spot.id)} >Delete</span>
-                    </div>
-                </div>
-                )): null} */}
             </div>
         </div>
     </div>

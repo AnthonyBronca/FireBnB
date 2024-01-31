@@ -40,7 +40,6 @@ const LoginSecurity:React.FC<IAccountProps> = ({user, title}): JSX.Element => {
                     alert("There was an error")
                 } else{
                     const message = response.json()
-                    console.log(message);
                 }
             }
         }
