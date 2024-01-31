@@ -4,11 +4,12 @@ import './summary.css'
 
 interface ISpotSummary {
     name: string;
-    rating:number
+    rating:number;
+    reviewCount: number | undefined;
 };
 
 
-const Summary:React.FC<ISpotSummary> = ({name, rating}): JSX.Element => {
+const Summary:React.FC<ISpotSummary> = ({name, rating, reviewCount}): JSX.Element => {
   return (
     <div className='summary-container'>
         <div>
@@ -28,7 +29,7 @@ const Summary:React.FC<ISpotSummary> = ({name, rating}): JSX.Element => {
             <span className='info-span'>{rating}</span>
             <span className='info-span'>•</span>
             <span className='info-span rating-info'>
-                <a className='review-a-tag'>66 reviews</a>
+                <a style={{"cursor": "initial"}} className='review-a-tag'>{reviewCount? `${reviewCount} Reviews`: "NEW!"}</a>
             </span>
         </div>
     </div>

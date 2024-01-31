@@ -7,6 +7,7 @@ import { Review } from '../../typings/redux';
 import { useAppSelector } from '../../store';
 import NewReviewModal from '../Modals/NewReviewModal';
 import NewReviewModalContext from '../../context/NewReviewModalContext';
+import random from '../../helpers/random';
 
 const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element | null => {
 
@@ -29,8 +30,8 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
 
     let spotOwner = spot?.Owner;
 
-    const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
-        const newSeeMore:any = {}
+     const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
+        const newSeeMore:any = {...seeMoreObj}
         if(!seeMoreObj[review.id]){
             newSeeMore[review.id] = review
             setSeeMoreObj(newSeeMore);
@@ -79,7 +80,6 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
           </div>
         );
     } else{
-        //Add a component here for if there are no reviews
         return null;
     }
 }
