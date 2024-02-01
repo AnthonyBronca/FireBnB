@@ -18,6 +18,7 @@ import EditFormModalContext from './context/EditFormContext';
 import DeleteFormModalContext from './context/DeleteFormContext';
 import ManageReviews from './components/PersonalInfo/ManageReviews';
 import NewReviewModalContext from './context/NewReviewModalContext';
+import React from 'react';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -45,13 +46,6 @@ const App: React.FC = ():JSX.Element | undefined | null => {
   }, [dispatch]);
 
 
-  const handleNotSignIn = () => {
-    if (!user){
-      setLoginModal(true)
-    } else{
-      setLoginModal(false)
-    }
-  }
 
   const toggleOpen = (buttonClicked:string) => {
     if(buttonClicked === 'login'){
@@ -82,7 +76,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
     },
     {
       path: '/spot/:id',
-      element: 
+      element:
       <NewReviewModalContext.Provider value={{open: newReviewModalOpen, togglePostReviewOpen}}>
         <SpotDetail />
       </NewReviewModalContext.Provider>
