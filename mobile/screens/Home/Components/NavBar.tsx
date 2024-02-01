@@ -14,6 +14,7 @@ const wishlists = "Wishlists";
 const trips = "Trips";
 const inbox = "Inbox";
 const login = "Log In";
+
 let iconName:IconDefinition;
 
 const NavBar:React.FC = ():JSX.Element => {
