@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { IconDefinition, faHeart, faMessage, faCircleUser} from '@fortawesome/free-regular-svg-icons';
+import { IconDefinition, faHeart, faMessage, faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { faAirbnb } from '@fortawesome/free-brands-svg-icons';
 // import Svg, {Path} from 'react-native-svg';
 import Test from './Test';
@@ -25,21 +25,21 @@ const NavBar:React.FC = ():JSX.Element => {
         tabBarActiveTintColor:"#ff375d",
         tabBarInactiveTintColor:"#8e8e8f",
         tabBarIcon: ({ color }) => {
-          let rn = route.name;
+          let routeName = route.name;
 
-          if (rn === explore ) {
+          if (routeName === explore ) {
             iconName = faMagnifyingGlass
           } 
-          if (rn === wishlists) {
+          if (routeName === wishlists) {
             iconName = faHeart
           }
-          if (rn === trips) {
+          if (routeName === trips) {
             iconName = faAirbnb
           }
-          if (rn === inbox ) {
+          if (routeName === inbox ) {
             iconName = faMessage
           } 
-          if (rn === login) {
+          if (routeName === login) {
             iconName = faCircleUser
           } 
         return <FontAwesomeIcon icon={iconName} color={color} size={25} />
