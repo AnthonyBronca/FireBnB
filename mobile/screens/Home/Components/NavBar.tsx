@@ -1,10 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition, faHeart } from '@fortawesome/free-regular-svg-icons';
+import Svg, {Path} from 'react-native-svg';
+import SvgUri from 'react-native-svg-uri';
+
+
+
+
 import Test from './Test';
+
+
 
 
 const Tab = createBottomTabNavigator();
@@ -31,25 +38,45 @@ const NavBar:React.FC = ():JSX.Element => {
             iconName = faHeart
             color = "#ff375d"
           }
-          if (rn === trips && focused) {
-            iconName = faHeart
-            color = "#ff375d"
-          }
-          if (rn === inbox && focused) {
-            iconName = faHeart
-            color = "#ff375d"
-          }
-          if (rn === login && focused) {
-            iconName = faHeart
-            color = "#ff375d"
-          }
+          if (rn === trips) {
+            if (focused) {
+              return (
+                <SvgUri
+                width="40"
+                height="40"
+                fill="#ff375d"
+                source={require('../../../assets/icons/trips.svg')}
+              />
+              );
+            } else {
+              return (
+                  <SvgUri
+                  width="40"
+                  height="40"
+                  fill="#8e8e8f"
+                  source={require('../../../assets/icons/trips.svg')}
+                />
+              )
+            }
+         
+          } 
+          // if (rn === inbox && focused) {
+          //   iconName = faHeart
+          //   color = "#ff375d"
+          // }
+          // if (rn === login && focused) {
+          //   iconName = faHeart
+          //   color = "#ff375d"
+          // }
           return <FontAwesomeIcon icon={iconName} color={color} size={size} />
         }
       })}>
         <Tab.Screen name={explore} component={Test} />
         <Tab.Screen name={wishlists} component={Test} />
+        <Tab.Screen name={trips} component={Test} />
       </Tab.Navigator>
   );
 }
+
 
 export default NavBar;
