@@ -31,7 +31,7 @@ const Footer: React.FC = (): JSX.Element => {
              <h5>Portfolio Links</h5>
               <ul>
                 <li><a target='_blank' href='https://anthonybronca.github.io/anthony_portfolio/'>Anthony Link To Portfolio</a></li>
-                <li><a href=''>Alexi Link To Portfolio</a></li>
+                <li><a target='_blank' href='https://ogalexi.github.io/'>Alexi Link To Portfolio</a></li>
             </ul>
         </div>
         <div className='projects-container'>
