@@ -20,7 +20,7 @@ const initialState: spotState = {
     userSpotId: {}
 };
 
-// SessionSlice reducer
+// SpotSlice reducer
 export const SpotSlice = createSlice({
     name: 'spots',
     initialState,
