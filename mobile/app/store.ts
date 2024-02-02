@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { SessionSlice } from "./session";
+import { SpotSlice } from "./spots";
 
 const rootReducer = combineReducers({
     session: SessionSlice,
+    spots: SpotSlice
 });
 
 const store = configureStore({
