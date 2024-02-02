@@ -5,6 +5,7 @@ import logger from 'redux-logger'
 import { SpotSlice } from './spots';
 import { LikeSlice } from './likes';
 
+console.log(import.meta.env.VITE_NODE_ENV)
 
 const reducer = {
     session: SessionSlice.reducer,
@@ -17,6 +18,7 @@ const store = configureStore({
     devTools: import.meta.env.VITE_NODE_ENV !== 'production'
 })
 
+console.log(store)
 
 
 declare global {
