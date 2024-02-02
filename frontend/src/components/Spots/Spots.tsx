@@ -39,7 +39,7 @@ const Spots: React.FC<ISpotsProps> = ({user}):JSX.Element => {
     if(e.target.className === 'heart-icon'){
       return;
     } else{
-      navigate(`/spot/${spotId}`);
+      navigate(`/spots/${spotId}`);
       return;
     }
   }

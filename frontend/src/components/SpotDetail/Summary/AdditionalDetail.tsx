@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import randomPerson from '../../../assets/images/random-person.jpg'
 import { Spot} from '../../../typings/redux';
 import './additionalDetail.css';
 import avatarIcon from '../../../assets/images/avatar.png'

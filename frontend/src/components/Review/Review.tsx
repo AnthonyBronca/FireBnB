@@ -7,7 +7,7 @@ import { Review } from '../../typings/redux';
 import { useAppSelector } from '../../store';
 import NewReviewModal from '../Modals/NewReviewModal';
 import NewReviewModalContext from '../../context/NewReviewModalContext';
-import random from '../../helpers/random';
+// import random from '../../helpers/random';
 
 const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element | null => {
 
@@ -30,7 +30,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
 
     let spotOwner = spot?.Owner;
 
-     const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
+     const handleSeeMore = (review: Review) => {
         const newSeeMore:any = {...seeMoreObj}
         if(!seeMoreObj[review.id]){
             newSeeMore[review.id] = review
@@ -39,7 +39,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
     }
 
 
-    const handleSeeLess = (e:React.MouseEvent<HTMLSpanElement>, review: Review) => {
+    const handleSeeLess = ( review: Review) => {
         const newSeeMore:any = {...seeMoreObj}
         if(seeMoreObj[review.id]){
             delete newSeeMore[review.id]
@@ -62,8 +62,8 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
                         <div>
                             {!seeMoreObj[review.id]? <span className='review-text'>{`${review.review[0]}...`}</span>:
                             <span className='review-text'>{`${review.review[1]}`}</span> }
-                            {!seeMoreObj[review.id]? <p className='show-more-text' onClick={(e) => handleSeeMore(e, review)}>See More...</p>:
-                                <p className='show-more-text' onClick={(e) => handleSeeLess(e, review)}>See Less...</p>
+                            {!seeMoreObj[review.id]? <p className='show-more-text' onClick={() => handleSeeMore(review)}>See More...</p>:
+                                <p className='show-more-text' onClick={() => handleSeeLess(review)}>See Less...</p>
                             }
                         </div>:
                         <span className='review-text'>{`${review.review[1]}`}</span> }
