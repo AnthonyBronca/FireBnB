@@ -26,6 +26,10 @@ export const SessionSlice = createSlice({
     },
 });
 
-export const { setUser, editUser, removeUser } = SessionSlice.actions;
+export const { 
+    setUser, 
+    editUser, 
+    removeUser 
+} = SessionSlice.actions;
 
 export default SessionSlice.reducer;

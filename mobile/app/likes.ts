@@ -46,6 +46,10 @@ export const LikeSlice = createSlice({
     },
 });
 
-export const { setLikes, addLike, removeLike } = LikeSlice.actions;
+export const { 
+    setLikes, 
+    addLike, 
+    removeLike 
+} = LikeSlice.actions;
 
 export default LikeSlice.reducer;
