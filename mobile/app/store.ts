@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { SessionSlice } from "./session";
 import { SpotSlice } from "./spots";
+import { LikeSlice } from "./likes";
 
 const rootReducer = combineReducers({
     session: SessionSlice,
-    spots: SpotSlice
+    spots: SpotSlice,
+    likes: LikeSlice
 });
 
 const store = configureStore({
