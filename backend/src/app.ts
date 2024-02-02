@@ -1,19 +1,21 @@
 
 import express, {NextFunction, Request, Response} from 'express';
-import path from 'path'
 require('express-async-errors');
 import morgan from 'morgan';
+import path from 'path'
 import cors from 'cors';
 import csurf from 'csurf';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { NoResourceError } from './errors/customErrors';
 import routes from './routes'
+import { request } from 'http';
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
+
 
 
 app.use(morgan('dev'));
@@ -46,20 +48,14 @@ app.use(
 
 
 //apply middleware to allow for usage of static react app from build
-app.use(express.static(path.join(__dirname, "react-app")));
-app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
+// app.use(express.static(path.join(__dirname, "react-app")));
+// app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
 
 //api routes
-app.use(routes);
 
-//send the react build as a static file
-app.get('/', (_req: Request, res:Response, _next) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
-//send the react build as a static file
-app.get('/favicon.ico', (_req, res, _next) => {
-    res.sendFile(path.join(__dirname, '/favicon.ico'));
-});
+
+
+app.use(routes);
 
 
 app.use((_req:Request, _res:Response, next:NextFunction) => {
@@ -86,14 +82,15 @@ app.use((err:NoResourceError, _req:Request, _res:Response, next:NextFunction):vo
 
 // // Error formatter
 
-app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):Response => {
+app.use((err:NoResourceError, _req:Request, res:Response, _next:NextFunction):Response | any => {
   res.status(err.status || 500);
-  console.error(err);
+  if(err.status === 404){
+    res.sendFile(path.join(__dirname, '../static/index.html'))
+    return
+  }
   return res.json({
-    // title: isProduction? null : err.title? err.title: 'Server Error',
     message: err.message,
     errors: err.errors,
-    // stack: isProduction ? null : err.stack
   });
 });
 

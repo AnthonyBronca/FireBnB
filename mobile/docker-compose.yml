@@ -1,0 +1,22 @@
+version: '3.0'
+
+services:
+  react_native_app:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    environment:
+      - NODE_ENV=development
+    tty: true
+    ports:
+     - '8000:8000'
+     - '3000:3000'
+    volumes:
+      - ./react_native_app:/opt/react_native_app/app:delegated
+      - ./react_native_app/package.json:/opt/react_native_app/package.json
+      - ./react_native_app/package-lock.json:/opt/react_native_app/package-lock.json
+      - notused:/opt/react_native_app/app/node_modules
+
+volumes:
+  notused:

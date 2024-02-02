@@ -8,6 +8,7 @@ import store from './store/index.ts'
 import { csrfFetch, restoreCSRF } from './store/csrf.ts'
 import * as sessionActions from './store/session.ts';
 
+
 declare global {
     interface Window {
       csrfFetch: any,
@@ -19,10 +20,11 @@ declare global {
 // if(/Android|webOS|iPhone/i.test(navigator.userAgent)){
 //   console.log("mobile")
 // } else {
+
 //   console.log("not mobile");
 // }
 
-if (process.env.NODE_ENV !== "production") {
+if (import.meta.env.VITE_NODE_ENV !== "production") {
   restoreCSRF();
   window.csrfFetch = csrfFetch;
   window.store = store;

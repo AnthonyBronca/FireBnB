@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store';
 import './ManageListings.css'
@@ -7,11 +7,8 @@ import AccountInfoHeader from './AccountInfoHeader';
 import { Review, Spot, User } from '../../typings/redux';
 import { useNavigate } from 'react-router-dom';
 import { getAllUserSpots } from '../../store/spots';
-import EditForm from '../Modals/EditForm';
-import EditFormModalContext from '../../context/EditFormContext';
-import DeleteFormModalContext from '../../context/DeleteFormContext';
-import DeleteForm from '../Modals/DeleteForm';
-import NoResource from './NoResource';
+// import EditFormModalContext from '../../context/EditFormContext';
+// import DeleteFormModalContext from '../../context/DeleteFormContext';
 import Stars from '../Review/Stars';
 import { Divider } from '@mui/material';
 
@@ -23,8 +20,8 @@ interface IManageListingsProps {
 const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {open, toggleFormOpen} = useContext(EditFormModalContext);
-    const {deleteOpen, toggleDeleteOpen} = useContext(DeleteFormModalContext);
+    // const {toggleFormOpen} = useContext(EditFormModalContext);
+    // const {toggleDeleteOpen} = useContext(DeleteFormModalContext);
 
     if(!user){
         navigate('/')
@@ -32,15 +29,15 @@ const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element
 
     const spots = useAppSelector((state) => state.spots.userSpots)
 
-    const [text, setText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate sint voluptatum quis, ratione quos saepe culpa quo rerum repudiandae similique nulla, voluptates excepturi atque hic provident quae vero quaerat dignissimos!')
+    // const [text, setText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate sint voluptatum quis, ratione quos saepe culpa quo rerum repudiandae similique nulla, voluptates excepturi atque hic provident quae vero quaerat dignissimos!')
 
-    const [editedItemName, setEditedItemName] = useState<string>("");
-    const [editItemPrice, setEditItemPrice] = useState<string | number>(0);
+    // const [editedItemName, setEditedItemName] = useState<string>("");
+    // const [editItemPrice, setEditItemPrice] = useState<string | number>(0);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    const [spotId, setSpotId] = useState<number>(0);
+    const [spotId] = useState<number>(0);
     const [seeMoreObj, setSeeMoreObj] = useState<any>({});
 
-    const [deleteItemName, setDeleteItemName] = useState<string>("");
+    // const [deleteItemName, setDeleteItemName] = useState<string>("");
 
     useEffect(()=> {
         const fetchData = async() => {
@@ -63,22 +60,22 @@ const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element
         }
     }
 
-    const handleFormOpen = (e:React.MouseEvent<HTMLSpanElement>, spotName:string, spotPrice: string | number, spotId: number) => {
-        e.preventDefault();
-        setEditedItemName(spotName)
-        setEditItemPrice(spotPrice)
-        setSpotId(spotId)
-        toggleFormOpen(true);
-    }
+    // const handleFormOpen = (e:React.MouseEvent<HTMLSpanElement>, spotName:string, spotPrice: string | number, spotId: number) => {
+    //     e.preventDefault();
+    //     setEditedItemName(spotName)
+    //     setEditItemPrice(spotPrice)
+    //     setSpotId(spotId)
+    //     toggleFormOpen(true);
+    // }
 
-    const handleDeleteOpen = (e: React.MouseEvent<HTMLSpanElement>, spotName: string, spotId:number) => {
-        e.preventDefault();
-        setDeleteItemName(spotName);
-        setSpotId(spotId);
-        toggleDeleteOpen(true);
-    }
+    // const handleDeleteOpen = (e: React.MouseEvent<HTMLSpanElement>, spotName: string, spotId:number) => {
+    //     e.preventDefault();
+    //     setDeleteItemName(spotName);
+    //     setSpotId(spotId);
+    //     toggleDeleteOpen(true);
+    // }
 
-    const handleSeeMore = (e: React.MouseEvent<HTMLSpanElement>, review: Review) => {
+    const handleSeeMore = (review: Review) => {
         const newSeeMore:any = {}
         if(!seeMoreObj[review.id]){
             newSeeMore[review.id] = review
@@ -87,7 +84,7 @@ const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element
     }
 
 
-    const handleSeeLess = (e:React.MouseEvent<HTMLSpanElement>, review: Review) => {
+    const handleSeeLess = (review: Review) => {
         const newSeeMore:any = {...seeMoreObj}
         if(seeMoreObj[review.id]){
             delete newSeeMore[review.id]
@@ -97,8 +94,6 @@ const ManageReviews:React.FC<IManageListingsProps> = ({user, title}):JSX.Element
 
 if(!isLoaded){
     return <h1>Loading...</h1>
-// } else if( spots && spots.length <= 0){
-    // return <NoResource user={user} title='Spots' />
 } else {
     return (
         <div>
@@ -124,8 +119,8 @@ if(!isLoaded){
                                         {rev.review[0].length > 0 ?
                                         <div>
                                             {!seeMoreObj[rev.id]? <span>"{`${rev.review[0]}...`}"</span>: <span>"{`${rev.review[1]}`}"</span> }:
-                                            {!seeMoreObj[rev.id]? <p className='see-more-reviews-p' onClick={(e) => handleSeeMore(e, rev)}>See More...</p>:
-                                                <p className='see-more-reviews-p' onClick={(e) => handleSeeLess(e, rev)}>See Less...</p>
+                                            {!seeMoreObj[rev.id]? <p className='see-more-reviews-p' onClick={() => handleSeeMore(rev)}>See More...</p>:
+                                                <p className='see-more-reviews-p' onClick={() => handleSeeLess(rev)}>See Less...</p>
                                             }
                                         </div>:
                                          <span>"{`${rev.review[1]}`}"</span> }
@@ -142,8 +137,8 @@ if(!isLoaded){
                         </div>
                     </div>
                     <div className='manage-listing-buttons-container'>
-                        <span className='edit-listing-span-button' onClick={(e)=> console.log('edit')}>Edit</span>
-                        <span className='delete-span-button' onClick={(e)=> console.log('delete')} >Delete</span>
+                        <span className='edit-listing-span-button' onClick={()=> console.log('edit')}>Edit</span>
+                        <span className='delete-span-button' onClick={()=> console.log('delete')} >Delete</span>
                     </div>
                 </div>
                 )) : null}

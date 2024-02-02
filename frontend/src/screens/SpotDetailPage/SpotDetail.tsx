@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { useAppSelector } from '../../store';
 import { Spot } from '../../typings/redux';
 import SpotDetailHeader from '../../components/SpotDetail/Header/SpotDetailHeader';
@@ -22,42 +22,55 @@ import BookingForm from '../../components/BookingForm';
 
 const SpotDetail: React.FC = (): JSX.Element | undefined => {
     const dispatch = useDispatch();
+    // const navigate = useNavigate();
     const {id} = useParams()
     const spots = useAppSelector((state) => state.spots.byId)
     const [spot, setSpot] = useState<null | Spot>(null);
-    const [show404, set404] = useState<boolean>(false);
+    const [show404] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     document.title = `${spot?.name}`;
     useEffect(()=> {
+        console.log('here 1')
         if(spots){
+            console.log('here 2')
             if(spots[`${id}`]){
+                console.log('here 3')
                 setSpot(spots[`${id}`])
             } else{
+                console.log('here 4')
                 setSpot(null)
             }
         }
         if(!spot && id){
+            console.log('here 5')
             const getSpots = async () => {
-                const data = await dispatch(getOneSpotThunk(id))
-                setSpot(data)
-                setIsLoaded(true)
+                try{
+                    const data = await dispatch(getOneSpotThunk(id))
+                    setSpot(data)
+                    setIsLoaded(true)
+                    console.log('here 6')
+                } catch (e:any){
+                    console.log('here 7')
+                    if(e.message){
+                    }
+                }
             }
 
             getSpots()
         }
-    }, [spot])
+    }, [spots])
 
-function generate404(){
-    if(show404 && isLoaded){
-        return <h1>404</h1>
-    } else {
-        return null;
-    }
-}
+// function generate404(){
+//     if(show404 && isLoaded){
+//         return <h1>404</h1>
+//     } else {
+//         return null;
+//     }
+// }
 
 if(!spot || show404){
-    setTimeout(generate404, 2000)
-    // return <h1>Loading...</h1>
+    // setTimeout(generate404, 2000)
+    return <h1>Loading...</h1>
 } else if(isLoaded) {
     return(
         <>

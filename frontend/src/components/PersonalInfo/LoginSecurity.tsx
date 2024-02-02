@@ -38,8 +38,6 @@ const LoginSecurity:React.FC<IAccountProps> = ({user, title}): JSX.Element => {
                 const response = await csrfFetch(`/api/users/${user.id}/password`, options);
                 if(!response.ok){
                     alert("There was an error")
-                } else{
-                    const message = response.json()
                 }
             }
         }

@@ -75,7 +75,7 @@ const App: React.FC = ():JSX.Element | undefined | null => {
       element: <Splash loading={isLoaded} />,
     },
     {
-      path: '/spot/:id',
+      path: '/spots/:id',
       element:
       <NewReviewModalContext.Provider value={{open: newReviewModalOpen, togglePostReviewOpen}}>
         <SpotDetail />
