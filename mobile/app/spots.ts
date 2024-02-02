@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Spot, SpotId, SpotOwner } from "../typings/redux";
+import { Spot, SpotId } from "../typings/redux";
 // import type { RootState } from "./store";
 
 
