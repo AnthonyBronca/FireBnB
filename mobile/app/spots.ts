@@ -1,19 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Spot, SpotId } from "../typings/redux";
+import { Spot, SpotInitialState } from "../typings/redux";
 // import type { RootState } from "./store";
 
 
-// Define types for the slice state
-interface spotState {
-    byId: SpotId | null;
-    allSpots: Spot[] | null;
-    userSpots: Spot[] | null;
-    userSpotId: SpotId | null;
-};
-
-// Define the initial state using that type
-const initialState: spotState = {
+// Define the initial state
+const initialState: SpotInitialState = {
     byId: {},
     allSpots: [],
     userSpots: [],
