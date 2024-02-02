@@ -1,3 +1,10 @@
+export interface CSRFHttpOptions {
+    method: string;
+    headers: any;
+    body?: string | FormData;
+};
+
+
 export interface User {
     id: number;
     firstName: string;
@@ -5,7 +12,7 @@ export interface User {
     email: string;
     username: string;
     isHost: boolean;
-}
+};
 
 
 export interface SpotImage {
@@ -13,7 +20,7 @@ export interface SpotImage {
     preview: boolean,
     spotId: number,
     url: string
-}
+};
 
 
 export interface IUserImage {
@@ -23,7 +30,7 @@ export interface IUserImage {
     updatedAt: string;
     isProfile: boolean
     id: number
-}
+};
 
 
 export interface SpotOwner {
@@ -33,7 +40,7 @@ export interface SpotOwner {
     lastName: string,
     username: string,
     UserImages: IUserImage[]
-}
+};
 
 
 export interface Review {
@@ -44,7 +51,7 @@ export interface Review {
     createdAt: string | Date,
     updatedAt: string | Date,
     userId: number
-}
+};
 
 
 export interface Spot {
@@ -66,7 +73,7 @@ export interface Spot {
     SpotImages: SpotImage[]
     Owner: SpotOwner,
     reviews?: Review[]
-}
+};
 
 
 export interface Like {
@@ -74,43 +81,43 @@ export interface Like {
     userId: number;
     spotId: number;
     Spot: Spot
-}
+};
 
 
 export interface LikeRes {
     like: Like,
     Spot: Spot
-}
+};
 
 
 export interface Spots{
     spots: Spot[];
-}
+};
 
 
 export interface Likes {
     likes: Like[];
-}
+};
 
 
 export interface LikeSpot {
   [id:number|string]: Spot
-}
+};
 
 
 export interface SessionInitialState {
     user: null | User;
-}
+};
 
 
 export interface SpotId {
     [id:number|string]: Spot;
-}
+};
 
 
 export interface LikeId {
     [id:number|string]: Like
-}
+};
 
 
 export interface SpotInitialState {
@@ -118,13 +125,13 @@ export interface SpotInitialState {
     allSpots: Spot[] | null;
     userSpots: Spot[] | null;
     userSpotId: SpotId | null;
-}
+};
 
 
 export interface LikeInitialState {
     byId: SpotId | null;
     allLikes: Like[] | null;
-}
+};
 
 
 export interface SignUpUser {
@@ -134,7 +141,7 @@ export interface SignUpUser {
     username: string;
     isHost: boolean;
     password: string;
-}
+};
 
 
 export interface INewSpotForm {
@@ -149,11 +156,11 @@ export interface INewSpotForm {
     imgUrl: string | null;
     lat?: number | string | null;
     lng?: number | string | null;
-}
+};
 
 
 export interface IEditForm{
     spotId: number;
     name?: string;
     price?: string | number;
-}
+};
