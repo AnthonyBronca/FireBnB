@@ -6,7 +6,7 @@ import { LikeSlice } from "./likes";
 const rootReducer = combineReducers({
     session: SessionSlice,
     spots: SpotSlice,
-    likes: LikeSlice
+    likes: LikeSlice,
 });
 
 const store = configureStore({
@@ -15,5 +15,5 @@ const store = configureStore({
     devTools: process.env.NODE_ENV !== 'production',
 })
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
