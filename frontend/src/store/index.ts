@@ -14,8 +14,9 @@ const reducer = {
 const store = configureStore({
     reducer,
     middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat(logger),
-    devTools: process.env.NODE_ENV !== 'production'
+    devTools: import.meta.env.VITE_NODE_ENV !== 'production'
 })
+
 
 
 declare global {
