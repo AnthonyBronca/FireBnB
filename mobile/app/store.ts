@@ -1,12 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { SessionSlice } from "./session";
 
-const reducer = {
-    session: SessionSlice.reducer
-}
+const rootReducer = combineReducers({
+    session: SessionSlice,
+});
 
 const store = configureStore({
-    reducer,
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: process.env.NODE_ENV !== 'production',
 })
