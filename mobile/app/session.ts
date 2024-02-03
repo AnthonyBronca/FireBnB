@@ -1,11 +1,8 @@
 import { createSlice, Dispatch, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { User, SignUpUser, SessionInitialState } from "../typings/redux";
 import axios from "axios";
-// import type { RootState } from "./store";
 
-
-// Define thunks
-
+// DEFINE THUNKS
 // To create an account
 export const signUp = createAsyncThunk("session/setUser", async (user:SignUpUser) => {
   try {
@@ -47,7 +44,7 @@ export const logInUser = createAsyncThunk("session/logInUser", async () => {
 });
 
 // To edit the user's information
-export const modifyUser = createAsyncThunk("session/editUser", async ({userId, form}:{userId:number|string, form:any}) => {
+export const editUser = createAsyncThunk("session/editUser", async ({userId, form}:{userId:number|string, form:any}) => {
   try {
       const response = await axios.put(`/api/users/${userId}`, form);
       return response.data;
@@ -67,7 +64,7 @@ export const deleteUser = createAsyncThunk("session/removeUser", async (userId:n
 });
 
   
-// Define the initial state
+// DEFINE THE INITIAL STATE
 const initialState: SessionInitialState = {
     user: null
 };
@@ -76,23 +73,28 @@ const initialState: SessionInitialState = {
 export const SessionSlice = createSlice({
     name: 'session',
     initialState,
-    reducers: {
-        setUser: (state, action: PayloadAction<{user: User}>) => {
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+        .addCase(signUp.fulfilled, (state, action:PayloadAction<{user:User}>) => {
             state.user = action.payload.user;
-        },
-        editUser: (state, action: PayloadAction<{user: User}>) => {
+        })
+        .addCase(restoreUser.fulfilled, (state, action:PayloadAction<{user:User}>) => {
             state.user = action.payload.user;
-        },
-        removeUser: (state) => {
+        })
+        .addCase(logOutUser.fulfilled, (state, action) => {
             state.user = null;
-        },
-    },
+        })
+        .addCase(logInUser.fulfilled, (state, action:PayloadAction<{user:User}>) => {
+            state.user = action.payload.user;
+        })
+        .addCase(editUser.fulfilled, (state, action:PayloadAction<{user: User}>) => {
+            state.user = action.payload.user;
+        })
+        .addCase(deleteUser.fulfilled, (state, action) => {
+            state.user = null;
+        })
+    }
 });
-
-export const { 
-    setUser, 
-    editUser, 
-    removeUser 
-} = SessionSlice.actions;
 
 export default SessionSlice.reducer;
