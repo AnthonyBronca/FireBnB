@@ -5,7 +5,7 @@ import NavBar from './Components/NavBar';
 const Home = () => {
   return (
     <SafeAreaView>
-      <Text>Hello World</Text>
+      <Text>This is the homepage</Text>
       <NavBar/>
     </SafeAreaView>
   );
