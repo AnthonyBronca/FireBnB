@@ -18,6 +18,14 @@ interface IFont {
 };
 
 const BNBRED = "#FF375D";
+const BLACK = "#000000"
+const WHITE = '#FFFFFF'
+
+export const colors= {
+    BNBRED,
+    BLACK,
+    WHITE
+}
 
 const lightMode:ITheme= {
     primaryColor:"#FFFFFF",
