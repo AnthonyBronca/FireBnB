@@ -1,62 +1,40 @@
 import { createSlice, PayloadAction, Dispatch, createAsyncThunk } from "@reduxjs/toolkit";
 import { Like, Likes, LikeRes, LikeInitialState } from "../typings/redux";
+import axios from "axios";
 
 
 // Define thunks
 
 // To get all likes
-export const getAllLikes = (userId:number):any => async (dispatch: Dispatch): Promise<any> => {
+export const fetchLikes = createAsyncThunk("likes/setLikes", async (userId:number) => {
     try {
-        const response = await fetch(`/api/spots/likes/${userId}`);
-        const data = await response.json();
-        dispatch(setLikes(data));
-        return data;
+        const response = await axios.get(`/api/spots/likes/${userId}`);
+        return response.data;
     } catch (error) {
-        return error;
+        throw error
     }
-};
+  });
 
 // To add a like
-export const addLikeThunk = (userId:number, spotId:number):any => async (dispatch:Dispatch): Promise<any> => {
+export const createLike = createAsyncThunk("likes/addLike", async (spotId:number) => {
     try {
-        const options = {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({userId})
-        }
-        const response = await fetch(`/api/spots/${spotId}/likes`, options);
-        if(response.ok){
-            const data = await response.json();
-            dispatch(addLike(data));
-        } else {
-            throw response;
-        }
+        const response = await axios.post(`/api/spots/${spotId}/likes`);
+        return response.data;
     } catch (error) {
-        return error;
+        throw error
     }
-};
+  });
 
 // To remove a like
-export const removeLikeThunk = (userId: number, spotId:number):any => async (dispatch:Dispatch): Promise<any> => {
+export const deleteLike = createAsyncThunk("likes/removeLike", async (spotId:number) => {
     try {
-        const options = {
-            method: "DELETE",
-            headers: {"Content-Type": 'application/json'},
-            body: JSON.stringify({userId})
-            };
-
-        const res = await fetch(`/api/spots/${spotId}/likes`, options);
-        if(res.ok){
-            const data = await res.json();
-            dispatch(removeLike(data));
-            return res;
-        } else{
-            throw res;
-        }
+        const response = await axios.delete(`/api/spots/${spotId}/likes`);
+        return response.data;
     } catch (error) {
-        return error;
+        throw error
     }
-};
+  });
+
 
 
 // Define the initial state
