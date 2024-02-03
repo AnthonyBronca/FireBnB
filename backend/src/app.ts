@@ -1,4 +1,3 @@
-
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path'
 require('express-async-errors');
@@ -45,27 +44,28 @@ app.use(
 );
 
 
-// //apply middleware to allow for usage of static react app from build
-// app.use(express.static(path.join(__dirname, "react-app")));
-// app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
+//apply middleware to allow for usage of static react app from build
+app.use(express.static(path.join(__dirname, "react-app")));
+app.use(express.static(path.join(__dirname, 'react-app/assets/favicon.ico')));
 
 //api routes
 app.use(routes);
 
-// //send the react build as a static file
-// app.get('/', (req: Request, res: Response, _next:NextFunction) => {
-//     res.cookie('XSRF-TOKEN', req.csrfToken());
-//     res.sendFile(path.join(__dirname, "index.html"));
-// });
-// //send the react build as a static file
-// app.get('/favicon.ico', (_req: Request, res:Response, _next:NextFunction) => {
-//     res.sendFile(path.join(__dirname, '/favicon.ico'));
-// });
+//send the react build as a static file
+app.get('/', (_req: Request, res: Response, _next) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+//send the react build as a static file
+app.get('/favicon.ico', (_req, res, _next) => {
+    res.sendFile(path.join(__dirname, '/favicon.ico'));
+});
 
-// app.get(/^(?!\/?api).*/, (req:Request,res:Response) => {
-//     res.cookie('XSRF-TOKEN', req.csrfToken());
-//     res.sendFile(path.resolve(__dirname, 'index.html'))
-// })
+app.get(/^(?!\/?api).*/, (req:Request, res:Response) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    res.sendFile(
+        path.join(__dirname, 'react-app', 'index.html')
+    );
+});
 
 
 app.use((_req: Request, _res: Response, next: NextFunction) => {
