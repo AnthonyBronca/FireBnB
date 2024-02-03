@@ -1,4 +1,4 @@
-import { createSlice, Dispatch, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { User, SignUpUser, SessionInitialState } from "../typings/redux";
 import axios from "axios";
 

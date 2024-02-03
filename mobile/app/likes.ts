@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, Dispatch, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Like, Likes, LikeRes, LikeInitialState } from "../typings/redux";
 import axios from "axios";
 
