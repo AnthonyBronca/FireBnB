@@ -17,6 +17,7 @@ Firebnb is a full-stack web application built with the PERN (PostgreSQL, Express
 ### Team:
 - [Anthony Bronca](https://github.com/AnthonyBronca)
 - [Alexi Bettinger](https://github.com/OGAlexi)
+- [Krystal Kimmel](https://github.com/kryskimmel)
 
 ### DockerImage:
 API image: `docker.io/anthonybronca/firebnb-api:latest`
