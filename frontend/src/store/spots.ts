@@ -194,7 +194,6 @@ export const createSpot = (userId: number, form:INewSpotForm):any => async (disp
 export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch): Promise<any> => {
     try {
         const response = await csrfFetch(`/api/spots/${spotId}`)
-        console.log(response, "from getOneSpot")
         if(response.ok){
             const data:Spot = await response.json();
             dispatch(setSpot(data))
