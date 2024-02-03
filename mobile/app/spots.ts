@@ -1,158 +1,69 @@
 import { createSlice, PayloadAction, Dispatch, createAsyncThunk } from "@reduxjs/toolkit";
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
-// import type { RootState } from "./store";
 
+import axios from "axios";
 
 // Define thunks
 
 // To get all spots
-export const getAllSpots = ():any => async (dispatch: Dispatch): Promise<any> => {
+export const fetchSpots = createAsyncThunk("spots/setSpots", async () => {
     try {
-        const response = await fetch('/api/spots')
-        const data = await response.json();
-        dispatch(setSpots(data))
-
-    } catch (res:any) {
-        if(!res.ok){
-            let errors = await res.json();
-            return errors;
-        }
+        const response = await axios.get("/api/spots")
+        return response.data;
+    } catch (error) {
+        throw error
     }
-};
+});
 
 // To get all of the user's spots
-export const getAllUserSpots = (userId: number):any => async (dispatch: Dispatch): Promise<any> => {
+export const fetchUserSpots = createAsyncThunk("spots/getUserSpots", async (userId:number) => {
     try {
-        const response = await fetch(`/api/spots/current/${userId}`)
-        if(response.ok){
-            const data = await response.json();
-            dispatch(getUserSpots(data));
-            return response
-        } else{
-            throw response;
-        }
-    } catch (res:any) {
-        let error = res.json();
-        return error;
+        const response = await axios.get(`/api/spots/current/${userId}`);
+        return response.data;
+    } catch (error) {
+        throw error
     }
-};
+})
 
 // To get a spot's details
-export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch): Promise<any> => {
+export const fetchSingleSpot = createAsyncThunk("spots/setSpot", async (spotId:number) => {
     try {
-        const response = await fetch(`/api/spots/${spotId}`)
-        if(response.ok){
-            const data:Spot = await response.json();
-            dispatch(setSpot(data))
-            return data
-        } else{
-            throw response;
-        }
-    } catch (res:any) {
-        return res
+        const response = await axios.get(`/api/spots/${spotId}`);
+        return response.data;
+    } catch (error) {
+        throw error
     }
-};
+});
 
 // To post a spot
-export const createSpot = (userId: number, form:INewSpotForm):any => async (dispatch: Dispatch): Promise<any> => {
-    try{
-
-        const {
-            listingName,
-            streetAddress,
-            city,
-            state,
-            country,
-            zipCode,
-            description,
-            imgUrl,
-            lat,
-            lng,
-            price,
-        } = form;
-
-        const formData = new FormData();
-
-        if(listingName) formData.append("name",listingName);
-        if(streetAddress) formData.append("address", streetAddress);
-        if(city) formData.append("city", city);
-        if(state)formData.append("state", state);
-        if(country) formData.append('country',country);
-        if(zipCode) formData.append("zipcode", zipCode);
-        if(description) formData.append("description", description);
-        if(imgUrl) formData.append("image", imgUrl);
-        if(lat) formData.append('lat', String(lat));
-        if(lng) formData.append('lng', String(lng));
-        if(price) formData.append('price', price);
-        if(userId) formData.append('userId', String(userId));
-        const options = {
-            method: 'POST',
-            headers: {"Content-Type": "multipart/form-data"},
-            body: formData
-        }
-
-        const response = await fetch('/api/spots', options);
-        if(response.ok){
-            const spot = await response.json();
-            dispatch(addSpot(spot))
-            return response
-        } else{
-            throw new Error("Unable to create spot")
-        }
-    } catch (e) {
-        return e;
+export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpotForm) => {
+    try {
+        const response = await axios.post('/api/spots', form);
+        return response.data;
+    } catch (error) {
+        throw error
     }
-};
+});
 
 // To edit a spot
-export const editSpotThunk = (userId: number, form: IEditForm):any => async (dispatch: Dispatch): Promise<any> => {
+export const modifySpot = createAsyncThunk("spots/editSpot", async ({spotId, form}: {spotId:number, form:IEditForm}) => {
     try {
-        let {spotId} = form;
-        const options = {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                newPrice: form.price,
-                newName: form.name,
-                userId
-            })
-        }
-        const response = await fetch(`/api/spots/${spotId}`, options)
-        if(response.ok){
-            const data = await response.json();
-            dispatch(editSpot(data));
-            return response;
-        } else{
-            throw response
-        }
-    } catch (res:any) {
-            let errors = await res.json();
-            return errors;
+        const response = await axios.put(`/api/spots/${spotId}`, form);
+        return response.data;
+    } catch (error) {
+        throw error
     }
-};
+});
 
 // To delete a spot
-export const deleteSpotThunk = (userId: number, spotId: number):any => async (dispatch: Dispatch): Promise<any> => {
-    try{
-
-        const options = {
-            method: 'DELETE',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({userId})
-        }
-
-        const response = await fetch(`/api/spots/${spotId}`, options);
-        if(response.ok){
-            const data = await response.json();
-            dispatch(deleteSpot(data));
-            return response;
-        } else {
-            throw response;
-        }
-    } catch(e){
-        return e;
+export const removeSpot = createAsyncThunk("spots/deleteSpot", async (spotId:number) => {
+    try {
+        const response = await axios.delete(`/api/spots/${spotId}`);
+        return response.data;
+    } catch (error) {
+        throw error
     }
-}
+});
 
 
 // Define the initial state
