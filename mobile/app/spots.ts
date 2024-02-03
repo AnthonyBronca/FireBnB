@@ -2,10 +2,9 @@ import { createSlice, PayloadAction, Dispatch, createAsyncThunk } from "@reduxjs
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
 import axios from "axios";
 
-// Define thunks
-
+// DEFINE THUNKS
 // To get all spots
-export const fetchSpots = createAsyncThunk("spots/setSpots", async () => {
+export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
     try {
         const response = await axios.get("/api/spots")
         return response.data;
@@ -15,7 +14,7 @@ export const fetchSpots = createAsyncThunk("spots/setSpots", async () => {
 });
 
 // To get all of the user's spots
-export const fetchUserSpots = createAsyncThunk("spots/getUserSpots", async (userId:number) => {
+export const fetchUserSpots = createAsyncThunk("spots/fetchUserSpots", async (userId:number) => {
     try {
         const response = await axios.get(`/api/spots/current/${userId}`);
         return response.data;
@@ -25,7 +24,7 @@ export const fetchUserSpots = createAsyncThunk("spots/getUserSpots", async (user
 })
 
 // To get a spot's details
-export const fetchSingleSpot = createAsyncThunk("spots/setSpot", async (spotId:number) => {
+export const fetchSingleSpot = createAsyncThunk("spots/fetchSingleSpot", async (spotId:number) => {
     try {
         const response = await axios.get(`/api/spots/${spotId}`);
         return response.data;
@@ -45,7 +44,7 @@ export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpo
 });
 
 // To edit a spot
-export const modifySpot = createAsyncThunk("spots/editSpot", async ({spotId, form}: {spotId:number, form:IEditForm}) => {
+export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}: {spotId:number, form:IEditForm}) => {
     try {
         const response = await axios.put(`/api/spots/${spotId}`, form);
         return response.data;
@@ -55,7 +54,7 @@ export const modifySpot = createAsyncThunk("spots/editSpot", async ({spotId, for
 });
 
 // To delete a spot
-export const removeSpot = createAsyncThunk("spots/deleteSpot", async (spotId:number) => {
+export const deleteSpot = createAsyncThunk("spots/deleteSpot", async (spotId:number) => {
     try {
         const response = await axios.delete(`/api/spots/${spotId}`);
         return response.data;
@@ -65,7 +64,7 @@ export const removeSpot = createAsyncThunk("spots/deleteSpot", async (spotId:num
 });
 
 
-// Define the initial state
+// DEFINE THE INITIAL STATE
 const initialState: SpotInitialState = {
     byId: {},
     allSpots: [],
@@ -77,8 +76,10 @@ const initialState: SpotInitialState = {
 export const SpotSlice = createSlice({
     name: 'spots',
     initialState,
-    reducers: {
-        setSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+        .addCase(fetchSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
             state.byId = {};
             state.allSpots = action.payload.Spots;
 
@@ -87,21 +88,8 @@ export const SpotSlice = createSlice({
                     state.byId[`${spot.id}`] = spot;
                 }
             };
-        },
-        addSpot: (state, action: PayloadAction<Spot>) => {
-            if(state.byId !== null){
-                state.byId[`${action.payload.id}`] = action.payload
-            };
-            if(state.allSpots instanceof Array){
-                state.allSpots.push(action.payload);
-            };
-        },
-        setSpot: (state, action: PayloadAction<Spot>) => {
-            if(state.byId){
-                state.byId[`${action.payload.id}`] = action.payload;
-            };
-        },
-        getUserSpots: (state, action: PayloadAction<{Spots: Spot[]}>) => {
+        })
+        .addCase(fetchUserSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
             state.userSpotId = {};
             state.userSpots = action.payload.Spots;
             for (let spot of action.payload.Spots){
@@ -109,8 +97,21 @@ export const SpotSlice = createSlice({
                     state.userSpotId[`${spot.id}`] = spot;
                 };
             };
-        },
-        editSpot: (state, action: PayloadAction<Spot>) => {
+        })
+        .addCase(fetchSingleSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
+            if(state.byId){
+                state.byId[`${action.payload.id}`] = action.payload;
+            };
+        })
+        .addCase(createSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
+            if(state.byId !== null){
+                state.byId[`${action.payload.id}`] = action.payload
+            };
+            if(state.allSpots instanceof Array){
+                state.allSpots.push(action.payload);
+            };
+        })
+        .addCase(editSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
             if(state.userSpotId && state.userSpotId[`${action.payload.id}`]){
                 state.userSpotId[`${action.payload.id}`].name = action.payload.name;
                 state.userSpotId[`${action.payload.id}`].price = action.payload.price;
@@ -139,8 +140,8 @@ export const SpotSlice = createSlice({
                  }
                 }
             };
-        },
-        deleteSpot: (state, action: PayloadAction<Spot>) => {
+        })
+        .addCase(deleteSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
             if(state.allSpots && state.allSpots.length > 0){
                 let newState = state.allSpots.filter(spot => {
                     return spot.id !== action.payload.id;
@@ -159,17 +160,9 @@ export const SpotSlice = createSlice({
             if(state.userSpotId && state.userSpotId[`${action.payload.id}`]){
                 delete state.userSpotId[`${action.payload.id}`];
             };
-        },
+        })
+
     },
 });
-
-export const { 
-    setSpots, 
-    addSpot, 
-    setSpot, 
-    getUserSpots, 
-    editSpot, 
-    deleteSpot 
-} = SpotSlice.actions;
 
 export default SpotSlice.reducer;
