@@ -36,7 +36,6 @@ export const deleteLike = createAsyncThunk("likes/removeLike", async (spotId:num
   });
 
 
-
 // Define the initial state
 const initialState: LikeInitialState = {
     byId: {},
