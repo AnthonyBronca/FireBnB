@@ -1,117 +1,70 @@
-import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, Dispatch, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { User, SignUpUser, SessionInitialState } from "../typings/redux";
+import axios from "axios";
 // import type { RootState } from "./store";
 
 
 // Define thunks
 
 // To create an account
-export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
-    const {firstName, lastName, email, username, password, isHost} = user;
-    try {
-      const response = await fetch("/api/users", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({
-              firstName,
-              password,
-              lastName,
-              email,
-              username,
-              isHost: isHost || false
-          }),
-      });
-      const data = await response.json();
-        dispatch(setUser(data));
-    } catch (res:any) {
-      if(!res.ok){
-        let errors = await res.json();
-        return errors;
-      }
-    }
-};
+export const signUp = createAsyncThunk("session/setUser", async (user:SignUpUser) => {
+  try {
+      const response = await axios.post("/api/users");
+      return response.data;
+  } catch (error) {
+      throw error
+  }
+});
 
 // To restore the user session
-export const restoreUser = () => async (dispatch: Dispatch) => {
-    const response = await fetch('/api/session');
-    if(response.ok){
-        const data = await response.json();
-        dispatch(setUser(data));
-        return response;
-    } else {
-        throw new Error("Unable to restore user");
-    }
-};
+export const restoreUser = createAsyncThunk("session/restoreUser", async () => {
+  try {
+      const response = await axios.get("/api/session");
+      return response.data;
+  } catch (error) {
+      throw error
+  }
+});
 
 // To log out the user
-export const logout = ():any => async (dispatch: Dispatch) => {
-    const response = await fetch('/api/session', {
-      method: 'DELETE',
-      headers: {"Content-Type": "application/json"}
-    });
-    dispatch(removeUser());
-    return response;
-  };
+export const logOutUser = createAsyncThunk("session/removeUser", async () => {
+  try {
+      const response = await axios.delete("/api/session");
+      return response.data;
+  } catch (error) {
+      throw error
+  }
+});
 
 // To log in the user
-  export const login = (user: {credential: string, password: string}):any => async (dispatch: any): Promise<any> => { //thunks for database
-    const { credential, password } = user;
-    const response = await fetch('/api/session', {
-      method: 'POST',
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        credential,
-        password,
-      }),
-    });
-  
-    if(response.ok){
-      const data = await response.json();
-      dispatch(setUser(data));
-      return response;
-    } else{
-      return response
-    }
-  };
+export const logInUser = createAsyncThunk("session/logInUser", async () => {
+  try {
+      const response = await axios.post("/api/session");
+      return response.data;
+  } catch (error) {
+      throw error
+  }
+});
 
 // To edit the user's information
-  export const editUserThunk = (user:any, form:any): any => async(dispatch:any): Promise<any> => {
-    const {id} = user;
-    const {editEmail, editFirstName, editLastName} = form;
-  
-    const options = {
-      method: "PUT",
-      headers: {"Content-Type": 'application/json'},
-      body: JSON.stringify({
-        firstName: editFirstName,
-        lastName: editLastName,
-        email: editEmail})
-    }
-    const response = await fetch(`/api/users/${id}`, options);
-    if(response.ok){
-      const data = await response.json();
-      dispatch(editUser(data));
-      return response;
-    } else{
-      return response;
-    }
-  };
+export const modifyUser = createAsyncThunk("session/editUser", async ({userId, form}:{userId:number|string, form:any}) => {
+  try {
+      const response = await axios.put(`/api/users/${userId}`, form);
+      return response.data;
+  } catch (error) {
+      throw error
+  }
+});
 
 // To delete a user
-  export const deleteUserThunk = (user:any):any => async(dispatch:any): Promise<any> => {
-    const {id} = user;
-  
-    const options = {
-      method: "DELETE",
-      headers: {"Content-Type": "application/json"},
-    }
-    const response = await fetch(`/api/users/${id}`, options);
-    if(response.ok){
-      dispatch(removeUser())
-    } else{
-      return response;
-    }
-  };
+export const deleteUser = createAsyncThunk("session/removeUser", async (userId:number|string) => {
+  try {
+      const response = await axios.delete(`/api/users.${userId}`);
+      return response.data;
+  } catch (error) {
+      throw error
+  }
+});
 
   
 // Define the initial state
