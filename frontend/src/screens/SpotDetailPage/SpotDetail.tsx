@@ -19,6 +19,7 @@ import { getOneSpotThunk } from '../../store/spots';
 import ReviewComponent from '../../components/Review/Review';
 import './SpotDetail.css'
 import BookingForm from '../../components/BookingForm';
+import NoResource from '../../components/NoResource';
 
 const SpotDetail: React.FC = (): JSX.Element | undefined => {
     const dispatch = useDispatch();
@@ -30,27 +31,20 @@ const SpotDetail: React.FC = (): JSX.Element | undefined => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     document.title = `${spot?.name}`;
     useEffect(()=> {
-        console.log('here 1')
         if(spots){
-            console.log('here 2')
             if(spots[`${id}`]){
-                console.log('here 3')
                 setSpot(spots[`${id}`])
             } else{
-                console.log('here 4')
                 setSpot(null)
             }
         }
         if(!spot && id){
-            console.log('here 5')
             const getSpots = async () => {
                 try{
                     const data = await dispatch(getOneSpotThunk(id))
                     setSpot(data)
                     setIsLoaded(true)
-                    console.log('here 6')
                 } catch (e:any){
-                    console.log('here 7')
                     if(e.message){
                     }
                 }
@@ -60,17 +54,17 @@ const SpotDetail: React.FC = (): JSX.Element | undefined => {
         }
     }, [spots])
 
-// function generate404(){
-//     if(show404 && isLoaded){
-//         return <h1>404</h1>
-//     } else {
-//         return null;
-//     }
-// }
+function generate404(){
+    if(show404 && isLoaded){
+        return <NoResource />
+    } else {
+        return null;
+    }
+}
 
 if(!spot || show404){
-    // setTimeout(generate404, 2000)
-    return <h1>Loading...</h1>
+    setTimeout(generate404, 2000)
+    // return <h1>Loading...</h1>
 } else if(isLoaded) {
     return(
         <>

@@ -18,8 +18,6 @@ WORKDIR /frontend
 
 COPY frontend/package*.json .
 
-ENV VITE_NODE_ENV=production
-
 RUN npm install --legacy-peer-deps
 
 COPY /frontend/ .
@@ -33,8 +31,6 @@ FROM --platform=amd64 node:18-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-
-ENV VITE_NODE_ENV=production
 
 ARG SCHEMA=firebnb
 ENV SCHEMA=${SCHEMA}
@@ -68,8 +64,8 @@ COPY /backend/package*.json .
 COPY /backend/.sequelizerc .
 
 
-COPY --from=frontendbuild frontend/dist ./dist/routes/dist
-COPY --from=frontendbuild frontend/public ./dist/routes/dist/public
+COPY --from=frontendbuild frontend/dist ./dist/react-app
+COPY --from=frontendbuild frontend/public ./dist/react-app/public
 # COPY /frontend/dist ./dist/react-app
 # COPY /frontend/public ./dist/react-app/public
 
@@ -79,7 +75,6 @@ RUN npm install @faker-js/faker
 
 
 COPY --from=backendbuild backend/dist ./dist
-COPY ./backend/static ./static
 
 
 EXPOSE 8000

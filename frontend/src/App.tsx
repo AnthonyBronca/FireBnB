@@ -19,6 +19,7 @@ import DeleteFormModalContext from './context/DeleteFormContext';
 import ManageReviews from './components/PersonalInfo/ManageReviews';
 import NewReviewModalContext from './context/NewReviewModalContext';
 import React from 'react';
+// import NoResource from './components/NoResource';
 
 const App: React.FC = ():JSX.Element | undefined | null => {
   const dispatch = useAppDispatch();
@@ -114,10 +115,10 @@ const App: React.FC = ():JSX.Element | undefined | null => {
       path: '/personal-info',
       element: <PersonalInfo user={user} title='Personal info'/>
     },
-    {
-      path: '*',
-      element: <h1>404: Error Page</h1>
-    }
+    // {
+    //   path: '*',
+    //   element: <NoResource />
+    // }
   ]
 
 
