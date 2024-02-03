@@ -4,6 +4,8 @@ import { User, SignUpUser, SessionInitialState } from "../typings/redux";
 
 
 // Define thunks
+
+// To create an account
 export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<any> => {
     const {firstName, lastName, email, username, password, isHost} = user;
     try {
@@ -29,7 +31,7 @@ export const signup = (user: SignUpUser):any => async (dispatch: any): Promise<a
     }
 };
 
-
+// To restore the user session
 export const restoreUser = () => async (dispatch: Dispatch) => {
     const response = await fetch('/api/session');
     if(response.ok){
@@ -41,7 +43,7 @@ export const restoreUser = () => async (dispatch: Dispatch) => {
     }
 };
 
-
+// To log out the user
 export const logout = ():any => async (dispatch: Dispatch) => {
     const response = await fetch('/api/session', {
       method: 'DELETE',
@@ -51,7 +53,7 @@ export const logout = ():any => async (dispatch: Dispatch) => {
     return response;
   };
 
-
+// To log in the user
   export const login = (user: {credential: string, password: string}):any => async (dispatch: any): Promise<any> => { //thunks for database
     const { credential, password } = user;
     const response = await fetch('/api/session', {
@@ -72,7 +74,7 @@ export const logout = ():any => async (dispatch: Dispatch) => {
     }
   };
 
-
+// To edit the user's information
   export const editUserThunk = (user:any, form:any): any => async(dispatch:any): Promise<any> => {
     const {id} = user;
     const {editEmail, editFirstName, editLastName} = form;
@@ -95,7 +97,7 @@ export const logout = ():any => async (dispatch: Dispatch) => {
     }
   };
 
-
+// To delete a user
   export const deleteUserThunk = (user:any):any => async(dispatch:any): Promise<any> => {
     const {id} = user;
   
