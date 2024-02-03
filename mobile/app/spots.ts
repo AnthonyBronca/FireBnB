@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, Dispatch, createAsyncThunk } from "@reduxjs/toolkit";
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
-
 import axios from "axios";
 
 // Define thunks
