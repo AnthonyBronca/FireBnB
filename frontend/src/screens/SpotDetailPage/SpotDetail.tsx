@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { useAppSelector } from '../../store';
 import { Spot } from '../../typings/redux';
 import SpotDetailHeader from '../../components/SpotDetail/Header/SpotDetailHeader';
@@ -19,13 +19,15 @@ import { getOneSpotThunk } from '../../store/spots';
 import ReviewComponent from '../../components/Review/Review';
 import './SpotDetail.css'
 import BookingForm from '../../components/BookingForm';
+import NoResource from '../../components/NoResource';
 
 const SpotDetail: React.FC = (): JSX.Element | undefined => {
     const dispatch = useDispatch();
+    // const navigate = useNavigate();
     const {id} = useParams()
     const spots = useAppSelector((state) => state.spots.byId)
     const [spot, setSpot] = useState<null | Spot>(null);
-    const [show404, set404] = useState<boolean>(false);
+    const [show404] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     document.title = `${spot?.name}`;
     useEffect(()=> {
@@ -38,18 +40,23 @@ const SpotDetail: React.FC = (): JSX.Element | undefined => {
         }
         if(!spot && id){
             const getSpots = async () => {
-                const data = await dispatch(getOneSpotThunk(id))
-                setSpot(data)
-                setIsLoaded(true)
+                try{
+                    const data = await dispatch(getOneSpotThunk(id))
+                    setSpot(data)
+                    setIsLoaded(true)
+                } catch (e:any){
+                    if(e.message){
+                    }
+                }
             }
 
             getSpots()
         }
-    }, [spot])
+    }, [spots])
 
 function generate404(){
     if(show404 && isLoaded){
-        return <h1>404</h1>
+        return <NoResource />
     } else {
         return null;
     }

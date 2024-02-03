@@ -8,14 +8,7 @@ interface INewReviewProps {
 }
 
 const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
-    //const user = useAppSelector((state) => state.session.user);
-    const { open, togglePostReviewOpen } = useContext(NewReviewModalContext);
-
-    const handleClose = () => {
-        if (open) {
-            togglePostReviewOpen(false)
-        }
-    }
+    const {togglePostReviewOpen } = useContext(NewReviewModalContext);
     const handleOpen = () => {
         togglePostReviewOpen(true)
     }

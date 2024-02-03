@@ -1,7 +1,7 @@
 import React from 'react';
 import './summary.css'
-import { useAppSelector } from '../../../hooks';
-import { useParams } from 'react-router-dom';
+// import { useAppSelector } from '../../../hooks';
+// import { useParams } from 'react-router-dom';
 import { Spot } from '../../../typings/redux';
 
 
@@ -15,7 +15,7 @@ interface IImageProp {
     type: string
 }
 
-const HostDetails: React.FC<IImageProp> = ({name, spot, info, type}): JSX.Element => {
+const HostDetails: React.FC<IImageProp> = ({name, info, type}): JSX.Element => {
   return (
      <div className='additional-detail-container user-detail-container'>
         <div className='user-info-container'>

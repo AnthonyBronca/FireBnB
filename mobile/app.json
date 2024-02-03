@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anthonybronca.firebnb"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +32,6 @@
         "projectId": "c35b1cfe-4ea7-4da6-bdb8-f62e1625f96a"
       }
     },
-    "owner": "kkimmel"
+    "owner": ["kkimmel", "anthonybronca"]
   }
 }
