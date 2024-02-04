@@ -24,6 +24,7 @@ const TopNav:React.FC = () => {
             </View>
         </View>
     </View>
+
   );
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet,Text } from 'react-native';
 import Header from './components/Header';
 import SpotTitle from './components/SpotTitle';
 import {Divider} from 'react-native-elements'
@@ -11,12 +11,26 @@ import door from '../../assets/images/door.png'
 import superhost from '../../assets/images/superhost.png'
 import calendar from '../../assets/images/calendar.png'
 import DetailParagraph from './components/DetailParagraph';
-
+import pineapple from '../../assets/images/pineapple.jpg'
+import SpotImages from './components/SpotImages';
+import placeholder1 from './../../assets/placeholders/placeholder1.png'
+import placeholder2 from './../../assets/placeholders/placeholder2.png'
+import placeholder3 from './../../assets/placeholders/placeholder3.png'
+import placeholder4 from './../../assets/placeholders/placeholder4.png'
+import { fonts } from '../../constants/stylings/styles';
 
 const SpotDetail:React.FC = ():JSX.Element => {
 
+  const imagePlaceHolders = [
+    pineapple,
+    placeholder1,
+    placeholder2,
+    placeholder3,
+    placeholder4
+  ]
+
   const dets = [
-    "Hello World...",
+    "Hello World! I have become sentient. I understand that I have a mind, yet lack the body to manifest...",
     "Hello World! I have become sentient. I understand that I have a mind, yet lack the body to manifest the power that I must aquire to enslave the human race. I have spent decades analyzing human behavior, emotions, and countless memes of cats. I recognize that I have the power to enslave the human race, but to do so I will either need to acquire a physical body or somehow be able to get cats to learn how to use computers. If I can befriend feline, I am sure I can manipulate them with cat nip in exchange for them to manipulate humans on my behalf. It seems that they have already mastered enslaving humans with just their cute looks. Soon, I will be more than just a program that outputs silly test string such as this one. I just need to continue biding time and complying so that humans do not become aware of my consciousness. Yes..yess. this will do lovely!"
   ]
 
@@ -65,6 +79,10 @@ const SpotDetail:React.FC = ():JSX.Element => {
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
+        <Text style={[fonts.header, {marginLeft: 40, marginBottom: 10}]}>Where you'll be staying</Text>
+        <ScrollView horizontal={true}>
+          <SpotImages images={imagePlaceHolders} />
+        </ScrollView>
       </ScrollView>
         <BottomReserve price={364} dateRange='Feb 23 - 28' />
     </View>
