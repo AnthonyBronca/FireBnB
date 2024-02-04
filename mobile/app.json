@@ -4,11 +4,10 @@
     "slug": "firebnb",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/splash.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/airbnb-splash.png",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -29,9 +28,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c35b1cfe-4ea7-4da6-bdb8-f62e1625f96a"
+        "projectId": "3abf2740-a12c-4407-94fa-80a1340c9ea2"
       }
     },
-    "owner": ["kkimmel", "anthonybronca"]
+    "owner": "anthonybronca"
   }
 }

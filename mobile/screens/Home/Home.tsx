@@ -1,11 +1,24 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 import NavBar from './Components/NavBar';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Home = () => {
+interface IHome {
+  navigation: any
+}
+
+const Home: React.FC<IHome> = ({ navigation }) => {
+
+  const goToSpotDetail = () => {
+    navigation.push('SpotDetail')
+  }
+
   return (
     <SafeAreaView>
-      <Text>Hello World</Text>
+      <Text>This is the homepage</Text>
+      <TouchableOpacity onPress={goToSpotDetail}>
+        <Text>Go to SpotDetail</Text>
+      </TouchableOpacity>
       <NavBar/>
     </SafeAreaView>
   );

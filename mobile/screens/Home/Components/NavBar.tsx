@@ -1,14 +1,55 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faHeart, faMessage, faCircleUser } from '@fortawesome/free-regular-svg-icons';
+import { faAirbnb } from '@fortawesome/free-brands-svg-icons';
+// import Svg, {Path} from 'react-native-svg';
 import Test from './Test';
 
 const Tab = createBottomTabNavigator();
+const home = "Home";
+const explore = "Explore";
+const wishlists = "Wishlists";
+const trips = "Trips";
+const inbox = "Inbox";
+const login = "Log In";
 
-const NavBar = () => {
+let iconName:IconDefinition;
+
+const NavBar:React.FC = ():JSX.Element => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Test" component={Test} />
+    <Tab.Navigator 
+      initialRouteName={home}
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor:"#ff375d",
+        tabBarInactiveTintColor:"#8e8e8f",
+        tabBarIcon: ({ color }) => {
+          let routeName = route.name;
+
+          if (routeName === explore ) {
+            iconName = faMagnifyingGlass
+          } 
+          if (routeName === wishlists) {
+            iconName = faHeart
+          }
+          if (routeName === trips) {
+            iconName = faAirbnb
+          }
+          if (routeName === inbox ) {
+            iconName = faMessage
+          } 
+          if (routeName === login) {
+            iconName = faCircleUser
+          } 
+        return <FontAwesomeIcon icon={iconName} color={color} size={25} />
+        },
+      })}>
+      <Tab.Screen name={explore} component={Test} />
+      <Tab.Screen name={wishlists} component={Test} />
+      <Tab.Screen name={trips} component={Test} />
+      <Tab.Screen name={inbox} component={Test} />
+      <Tab.Screen name={login} component={Test} />
     </Tab.Navigator>
   );
 }
