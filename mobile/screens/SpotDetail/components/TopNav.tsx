@@ -5,14 +5,26 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
 import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons/faArrowUpFromBracket';
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 import { colors } from '../../../constants/stylings/styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const TopNav:React.FC = () => {
+interface ITopNav {
+    navigation: any
+}
+
+const TopNav:React.FC<ITopNav> = ({navigation}) => {
+
+    const goBack = () => {
+        navigation.pop()
+    }
+
   return (
     <View style={styles.topNavContainer}>
         <View>
             <View style={styles.button}>
-                <FontAwesomeIcon size={15} icon={faChevronLeft} />
+                <TouchableOpacity onPress={goBack}>
+                    <FontAwesomeIcon size={15} icon={faChevronLeft} />
+                </TouchableOpacity>
             </View>
         </View>
         <View style={styles.rightButtonContainer}>
