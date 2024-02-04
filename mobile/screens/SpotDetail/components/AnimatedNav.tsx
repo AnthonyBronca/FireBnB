@@ -78,7 +78,7 @@ interface INewNav {
     children: any;
 }
 
-const NewNav:React.FC<INewNav> = ({navigation, children}) => {
+const AnimatedNav:React.FC<INewNav> = ({navigation, children}) => {
 
     const scrollOffSetY = useRef(new Animated.Value(0)).current;
 
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default NewNav;
+export default AnimatedNav;
