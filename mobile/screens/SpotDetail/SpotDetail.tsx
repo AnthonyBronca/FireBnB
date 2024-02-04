@@ -19,7 +19,11 @@ import placeholder3 from './../../assets/placeholders/placeholder3.png'
 import placeholder4 from './../../assets/placeholders/placeholder4.png'
 import { fonts } from '../../constants/stylings/styles';
 
-const SpotDetail:React.FC = ():JSX.Element => {
+interface ISpotDetail {
+  navigation: any
+}
+
+const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
 
   const imagePlaceHolders = [
     pineapple,
@@ -36,7 +40,7 @@ const SpotDetail:React.FC = ():JSX.Element => {
 
   return (
     <View style={styles.screenContainer}>
-      <TopNav />
+      <TopNav navigation={navigation} />
       <ScrollView>
       <Header />
         <SpotTitle />

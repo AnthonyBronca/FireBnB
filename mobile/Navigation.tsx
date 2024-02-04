@@ -14,7 +14,7 @@ const RootNavigation:React.FC = (): JSX.Element => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={screenOptions} initialRouteName="SpotDetail">
+            <Stack.Navigator screenOptions={screenOptions} initialRouteName="Home">
                 <Stack.Screen name='Home' component={Home} />
                 <Stack.Screen name='SpotDetail' component={SpotDetail} />
             </Stack.Navigator>
