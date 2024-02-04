@@ -8,7 +8,7 @@ const RootNavigation:React.FC = (): JSX.Element => {
     const Stack = createStackNavigator();
 
     const screenOptions = {
-        headerShown: false,
+        headerShown: false
     };
 
 

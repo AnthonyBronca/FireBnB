@@ -1,29 +1,31 @@
 import React from 'react';
-import { ScrollView, View, StyleSheet,Text } from 'react-native';
-import Header from './components/Header';
+import { ScrollView, View, StyleSheet,Text} from 'react-native';
 import SpotTitle from './components/SpotTitle';
 import {Divider} from 'react-native-elements'
 import SubDetail from './components/SubDetail';
 import BottomReserve from './components/BottomReserve';
-import TopNav from './components/TopNav';
-import randomPerson from '../../assets/images/random-person.jpg'
-import door from '../../assets/images/door.png'
-import superhost from '../../assets/images/superhost.png'
-import calendar from '../../assets/images/calendar.png'
+import randomPerson from '../../assets/images/random-person.jpg';
+import door from '../../assets/images/door.png';
+import superhost from '../../assets/images/superhost.png';
+import calendar from '../../assets/images/calendar.png';
 import DetailParagraph from './components/DetailParagraph';
-import pineapple from '../../assets/images/pineapple.jpg'
+import pineapple from '../../assets/images/pineapple.jpg';
 import SpotImages from './components/SpotImages';
 import placeholder1 from './../../assets/placeholders/placeholder1.png'
 import placeholder2 from './../../assets/placeholders/placeholder2.png'
 import placeholder3 from './../../assets/placeholders/placeholder3.png'
 import placeholder4 from './../../assets/placeholders/placeholder4.png'
 import { fonts } from '../../constants/stylings/styles';
+import AnimatedNav from './components/AnimatedNav';
 
 interface ISpotDetail {
   navigation: any
 }
 
+
+
 const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
+
 
   const imagePlaceHolders = [
     pineapple,
@@ -40,10 +42,11 @@ const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
 
   return (
     <View style={styles.screenContainer}>
-      <TopNav navigation={navigation} />
+      <AnimatedNav navigation={navigation}>
       <ScrollView>
-      <Header />
+      <View style={styles.titleContainer}>
         <SpotTitle />
+      </View>
         <View style={styles.contentContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
@@ -84,10 +87,15 @@ const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
           <Divider width={1} orientation='horizontal'/>
         </View>
         <Text style={[fonts.header, {marginLeft: 40, marginBottom: 10}]}>Where you'll be staying</Text>
-        <ScrollView horizontal={true}>
-          <SpotImages images={imagePlaceHolders} />
+        <ScrollView
+          horizontal={true}
+          snapToInterval={3}
+          decelerationRate={"fast"}
+          >
+          <SpotImages images={imagePlaceHolders}/>
         </ScrollView>
       </ScrollView>
+        </AnimatedNav>
         <BottomReserve price={364} dateRange='Feb 23 - 28' />
     </View>
   );
@@ -109,6 +117,9 @@ const styles = StyleSheet.create({
   },
   additionalDetsContainer: {
     marginBottom: 20
+  },
+  titleContainer: {
+    marginTop: 20
   }
 })
 

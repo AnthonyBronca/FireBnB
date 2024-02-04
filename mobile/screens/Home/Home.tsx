@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 import NavBar from './Components/NavBar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 

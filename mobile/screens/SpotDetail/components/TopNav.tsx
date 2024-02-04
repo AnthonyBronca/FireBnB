@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Animated} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
 import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons/faArrowUpFromBracket';
@@ -9,34 +9,53 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 interface ITopNav {
-    navigation: any
+    navigation: any;
+    val: any
 }
 
-const TopNav:React.FC<ITopNav> = ({navigation}) => {
+const TopNav:React.FC<ITopNav> = ({navigation, val}) => {
+
 
     const goBack = () => {
         navigation.pop()
     }
 
+    const animatedButtons = val.interpolate({
+        inputRange: [0, 50],
+        outputRange: [colors.WHITE, "transparent"],
+        extrapolate: 'clamp'
+    })
+
   return (
     <View style={styles.topNavContainer}>
         <View>
-            <View style={styles.button}>
+            <Animated.View style={[
+                styles.button, {
+                    backgroundColor: animatedButtons
+                }]}>
                 <TouchableOpacity onPress={goBack}>
                     <FontAwesomeIcon size={15} icon={faChevronLeft} />
                 </TouchableOpacity>
-            </View>
+            </Animated.View>
         </View>
         <View style={styles.rightButtonContainer}>
-            <View style={[styles.button, { marginRight: 5 }]}>
+            <Animated.View style={[
+                styles.button,{
+                marginRight: 5,
+                backgroundColor: animatedButtons
+                }]}>
                 <FontAwesomeIcon size={15} icon={faArrowUpFromBracket} />
-            </View>
-            <View style={[styles.button, { marginLeft: 5 }]}>
+            </Animated.View>
+            <Animated.View
+                style={[
+                    styles.button,{
+                    marginLeft: 5,
+                    backgroundColor: animatedButtons
+                    }]}>
                 <FontAwesomeIcon size={15} style={{ 'color': 'black' }} icon={faHeart} />
-            </View>
+            </Animated.View>
         </View>
     </View>
-
   );
 }
 
@@ -55,7 +74,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     button: {
-        backgroundColor: colors.WHITE,
         borderRadius: 50,
         padding: 10,
         shadowColor: '#171717',
