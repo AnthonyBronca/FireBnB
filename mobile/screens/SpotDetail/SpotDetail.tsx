@@ -42,10 +42,8 @@ const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
 
   return (
     <View style={styles.screenContainer}>
-      {/* <TopNav navigation={navigation} /> */}
       <AnimatedNav navigation={navigation}>
       <ScrollView>
-      {/* <Header /> */}
       <View style={styles.titleContainer}>
         <SpotTitle />
       </View>

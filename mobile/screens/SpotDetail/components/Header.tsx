@@ -1,10 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import { colors } from '../../../constants/stylings/styles';
-// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-// import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft'
-// import {faArrowUpFromBracket} from '@fortawesome/free-solid-svg-icons/faArrowUpFromBracket';
-// import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
+
 
 import pineapple from '../../../assets/images/pineapple.jpg'
 

@@ -20,15 +20,11 @@ const TopNav:React.FC<ITopNav> = ({navigation, val}) => {
         navigation.pop()
     }
 
-
-
     const animatedButtons = val.interpolate({
         inputRange: [0, 50],
         outputRange: [colors.WHITE, "transparent"],
         extrapolate: 'clamp'
     })
-
-
 
   return (
     <View style={styles.topNavContainer}>
