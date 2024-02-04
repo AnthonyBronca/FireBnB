@@ -1,40 +1,54 @@
 import React from 'react';
-import { View, Image, StyleSheet, Button, Text } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
 import { colors } from '../../../constants/stylings/styles';
-
+// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+// import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft'
+// import {faArrowUpFromBracket} from '@fortawesome/free-solid-svg-icons/faArrowUpFromBracket';
+// import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 
 import pineapple from '../../../assets/images/pineapple.jpg'
-import icons from '../../../assets/icons/icons';
 
 
 const Header:React.FC = ():JSX.Element => {
 
-    const goBack = () => {
-        console.log("Go back")
-    }
 
   return (
     <View>
-        <View style={styles.topNavContainer}>
-            <View>
-                <View><Text>{"<"}</Text></View>
-            </View>
-            <View style={styles.rightButtonContainer}>
-                <View><Image style={styles.navIcon} source={pineapple}/></View>
-                <Button title='<3' onPress={goBack}></Button>
-            </View>
-        </View>
         <View style={styles.mainImgContainer}>
-            {/* <Image style={styles.mainImg} source={pineapple} /> */}
+            <Image style={styles.mainImg} source={pineapple} />
         </View>
+            <View style={styles.photoCountContainer}>
+                <View style={styles.photoCount}>
+                    <Text style={styles.photoCountText}>1 / 4</Text>
+                </View>
+            </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+    photoCountText: {
+        fontSize: 12,
+        fontWeight: '600',
+        padding: 3,
+        color: colors.WHITE
+
+    },
+    photoCountContainer: {
+        width: 50,
+        backgroundColor: 'rgba(10, 10, 10, 0.5)',
+        alignSelf: 'flex-end',
+        right: 20,
+        bottom: 30,
+        borderRadius: 4
+    },
+    photoCount: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
     mainImg: {
         flex: 1,
-        height: 350,
+        height: 320,
         width: null,
     },
     mainImgContainer: {
@@ -45,23 +59,35 @@ const styles = StyleSheet.create({
     topNavContainer: {
         zIndex: 100,
         position: 'absolute',
-        top: 40,
+        top: 50,
         flex: 1,
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
-        paddingHorizontal: 5
+        paddingHorizontal: 10,
     },
     rightButtonContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
-    buttonColor: {
-        color: colors.BLACK
+    button: {
+        backgroundColor: colors.WHITE,
+        borderRadius: 50,
+        padding: 10,
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+
+
     },
     navIcon:{
-        height: 30,
-        width: 30,
-    }
+        padding: 3,
+        width: 3,
+    },
+    navButton: {
+        backgroundColor: colors.WHITE,
+        borderRadius: 50,
+    },
 
 })
 
