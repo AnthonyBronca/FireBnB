@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Image, Alert, Pressable, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { uploadFilesToS3 } from '../../../awsS3';
+// import { uploadFilesToS3 } from '../../../awsS3';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 uuidv4()
@@ -47,13 +47,13 @@ const Test = () => {
     }
   }, [images]);
 
-  console.log(uploadFilesToS3([
-    {
-      Key: "demofile5.txt",
-      Body: "Content of file 5",
-      ACL: "public-read",
-    }
-  ]))
+  // console.log(uploadFilesToS3([
+  //   {
+  //     Key: "demofile5.txt",
+  //     Body: "Content of file 5",
+  //     ACL: "public-read",
+  //   }
+  // ]))
 
  
   return (
