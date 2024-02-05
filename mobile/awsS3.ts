@@ -30,8 +30,8 @@ interface IFileObject {
   }
   
   export async function uploadFilesToS3(files: IFileObject[]) {
-    const s3Client = new S3Client({ region: 'us-east-2' });
-    const S3_BUCKET = 'demo-firebnb-s3';
+    const s3Client = new S3Client({ region: '' });
+    const S3_BUCKET = '';
   
     try {
       for (const file of files) {
