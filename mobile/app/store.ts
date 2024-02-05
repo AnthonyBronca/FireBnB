@@ -4,9 +4,9 @@ import { SpotSlice } from "./spots";
 import { LikeSlice } from "./likes";
 
 const rootReducer = combineReducers({
-    session: SessionSlice,
-    spots: SpotSlice,
-    likes: LikeSlice,
+    session: SessionSlice.reducer,
+    spots: SpotSlice.reducer,
+    likes: LikeSlice.reducer,
 });
 
 export const store = configureStore({
