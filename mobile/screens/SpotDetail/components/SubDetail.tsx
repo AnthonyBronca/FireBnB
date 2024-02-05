@@ -6,13 +6,14 @@ interface ISubDetail {
     img: ImageSourcePropType,
     title: string,
     text: string,
-    additionalDets: boolean
+    additionalDets: boolean,
+    style?: any
 }
 
 
-const SubDetail: React.FC<ISubDetail> = ({img, title, text, additionalDets}) => {
+const SubDetail: React.FC<ISubDetail> = ({img, title, text, additionalDets, style}) => {
   return (
-    <View style={styles.mainContainer}>
+    <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>
         <View style={styles.imgContainer}>
             <Image style={additionalDets ? styles.detImg :styles.profileImg} source={img} />
         </View>
