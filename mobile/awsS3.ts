@@ -2,8 +2,6 @@ import {
     S3Client,
     PutObjectCommand,
   } from "@aws-sdk/client-s3";
-
-
 //   return `https://${params.Bucket}.s3${regionString}.amazonaws.com/${fileName}`
 
 
@@ -27,7 +25,7 @@ const filesToUpload = [
 
 interface IFileObject {
     Key: string;
-    Body: string; 
+    Body: string;
     ACL: string | any;
   }
   
