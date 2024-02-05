@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Image, Alert, Pressable, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { uploadFilesToS3 } from '../../../awsS3';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+uuidv4()
 
 
 const Test = () => {
@@ -43,39 +47,14 @@ const Test = () => {
     }
   }, [images]);
 
-//   console.log('images---------', images)
+  console.log(uploadFilesToS3([
+    {
+      Key: "demofile5.txt",
+      Body: "Content of file 5",
+      ACL: "public-read",
+    }
+  ]))
 
-//   interface IFileObject {
-//     Key: string;
-//     Body: string; 
-//     ACL: string;
-//   }
-
-
-//   function convertFilenames(filenames: string[]): IFileObject[] {
-//     const currentDate = new Date();
-//     const formattedDate = currentDate.toISOString().replace(/[-T:]/g, '').split('.')[0]; // Format: YYYYMMDDHHmmss
-//     const randomInt = Math.floor(Math.random() * 1000); // Random integer between 0 and 999
-  
-//     return filenames.map((filename) => {
-//       const originalExtension = filename.split('.').pop();
-//       const formattedFilename = `${formattedDate}_${randomInt}.${originalExtension}`;
-//       const fileObjectToSend: IFileObject = {
-//         Key: formattedFilename,
-//         Body: filename, // Change this according to the actual content you want to send
-//         ACL: "public-read"
-//       };
-//       return fileObjectToSend;
-//     });
-//   }
-
-
-  
-//   const filesToUpload = convertFilenames(images);
-
-
-// console.log(filesToUpload, '--------')
-// console.log('!!!!!!!!!', uploadFilesToS3(filesToUpload))
  
   return (
     <View style={styles.container}>
