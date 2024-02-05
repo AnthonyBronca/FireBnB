@@ -4,12 +4,12 @@ import { SpotSlice } from "./spots";
 import { LikeSlice } from "./likes";
 
 const rootReducer = combineReducers({
-    session: SessionSlice,
-    spots: SpotSlice,
-    likes: LikeSlice,
+    session: SessionSlice.reducer,
+    spots: SpotSlice.reducer,
+    likes: LikeSlice.reducer,
 });
 
-const store = configureStore({
+export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: process.env.NODE_ENV !== 'production',

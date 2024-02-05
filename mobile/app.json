@@ -31,6 +31,14 @@
         "projectId": "3abf2740-a12c-4407-94fa-80a1340c9ea2"
       }
     },
-    "owner": "anthonybronca"
+    "owner": "anthonybronca",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }

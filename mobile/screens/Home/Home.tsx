@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, SafeAreaView } from 'react-native';
+import { Text, SafeAreaView, StyleSheet } from 'react-native';
 import NavBar from './Components/NavBar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -14,7 +14,7 @@ const Home: React.FC<IHome> = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text>This is the homepage</Text>
       <TouchableOpacity onPress={goToSpotDetail}>
         <Text>Go to SpotDetail</Text>
@@ -23,5 +23,11 @@ const Home: React.FC<IHome> = ({ navigation }) => {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+})
 
 export default Home;
