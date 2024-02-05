@@ -17,6 +17,7 @@ import placeholder3 from './../../assets/placeholders/placeholder3.png'
 import placeholder4 from './../../assets/placeholders/placeholder4.png'
 import { fonts } from '../../constants/stylings/styles';
 import AnimatedNav from './components/AnimatedNav';
+import Reviews from './components/Reviews';
 
 interface ISpotDetail {
   navigation: any
@@ -94,6 +95,13 @@ const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
           >
           <SpotImages images={imagePlaceHolders}/>
         </ScrollView>
+        <View style={styles.sectionContainer}>
+          <Divider width={1} orientation='horizontal'/>
+        </View>
+        <Reviews />
+        <View style={styles.sectionContainer}>
+          <Divider width={1} orientation='horizontal'/>
+        </View>
       </ScrollView>
         </AnimatedNav>
         <BottomReserve price={364} dateRange='Feb 23 - 28' />
