@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import { ScrollView, Animated, StyleSheet} from 'react-native';
+import {ScrollView, Animated, StyleSheet} from 'react-native';
 import pineapple from '../../../assets/images/pineapple.jpg'
 import TopNav from './TopNav';
 
@@ -46,6 +46,7 @@ const DynamicHeader:React.FC<IDynamicHeader> = ({val, img}) => {
         outputRange: [0, 1],
         extrapolate: 'clamp'
     })
+
 
     return (
         <Animated.View
@@ -110,8 +111,7 @@ const styles = StyleSheet.create({
     },
     container: {
 
-    }
-
+    },
 })
 
 export default AnimatedNav;

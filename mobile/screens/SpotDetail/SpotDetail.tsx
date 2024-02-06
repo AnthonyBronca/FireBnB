@@ -19,13 +19,8 @@ import { fonts } from '../../constants/stylings/styles';
 import AnimatedNav from './components/AnimatedNav';
 import Reviews from './components/Reviews';
 
-interface ISpotDetail {
-  navigation: any
-}
 
-
-
-const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
+const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
 
 
   const imagePlaceHolders = [
@@ -92,13 +87,14 @@ const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
           horizontal={true}
           snapToInterval={3}
           decelerationRate={"fast"}
+          showsHorizontalScrollIndicator={false}
           >
           <SpotImages images={imagePlaceHolders}/>
         </ScrollView>
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
-        <Reviews />
+        <Reviews navigation={navigation} spot={spot} />
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>

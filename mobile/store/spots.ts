@@ -1,12 +1,15 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
 import axios from "axios";
+import url from './url'
+
+
 
 // DEFINE THUNKS
 // To get all spots
 export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
     try {
-        const response = await axios.get("/api/spots")
+        const response = await axios.get(`${url}/api/spots`);
         return response.data;
     } catch (error) {
         throw error

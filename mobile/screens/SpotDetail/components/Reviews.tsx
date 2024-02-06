@@ -9,8 +9,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import SubDetail from './SubDetail';
 import randomPerson from '../../../assets/images/random-person.jpg'
 
+interface IReviewsProps {
+    navigation: any;
+    spot: any;
+}
 
-const Reviews: React.FC = () => {
+const Reviews: React.FC<IReviewsProps> = ({navigation, spot}) => {
 
     const [seeMoreObj, setSeeMoreObj] = useState<any>({});
 
@@ -96,6 +100,12 @@ const Reviews: React.FC = () => {
     }
 
 
+    const goToReviews = (spot:any) => {
+        navigation.navigate('Reviews', {
+            spot
+        })
+    }
+
   return (
     <View style={styles.container}>
         <View style={styles.reviewContainer}>
@@ -104,7 +114,7 @@ const Reviews: React.FC = () => {
             <FontAwesomeIcon size={3} icon={faCircle} />
             <Text style={styles.reviewCount}>{dummyReviews.length}</Text>
         </View>
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
             {dummyReviews.map((rev, idx) => (
                 <View style={styles.reviewCard} key={`${rev.username}-${idx}`}>
                   {makeStars(rev.review)}
@@ -123,7 +133,7 @@ const Reviews: React.FC = () => {
                             <Text style={styles.showMore} onPress={() => handleSeeMore(rev)}>See More...</Text>
                         </View>
                              :
-                        <View style={styles.showMoreContainer}>
+                             <View style={styles.showMoreContainer}>
                             <Text style={styles.showMore} onPress={() => handleSeeLess(rev)}>See Less...</Text>
                         </View>
                     }
@@ -138,7 +148,7 @@ const Reviews: React.FC = () => {
                 </View>
             ))}
         </ScrollView>
-        <TouchableOpacity activeOpacity={.5}>
+        <TouchableOpacity activeOpacity={.5} onPress={()=> goToReviews(spot)}>
             <View style={styles.showAllButton}>
                 <Text>{`Show all ${dummyReviews.length} reviews`}</Text>
             </View>
@@ -149,14 +159,15 @@ const Reviews: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 40,
+        // marginHorizontal: 40,
         marginVertical: 20,
     },
     reviewContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        gap: 5
+        gap: 5,
+        marginLeft: 40
     },
     reviewNum: fonts.subHeader,
     reviewCount: fonts.subHeader,
@@ -166,8 +177,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderColor: 'rgb(200,200,200)',
         borderRadius: 10,
-        marginHorizontal: 10,
-        marginBottom:40
+        marginHorizontal: 5,
+        marginBottom:40,
+        marginLeft: 25
     },
     starsContainer: {
         flexDirection: 'row',
@@ -214,7 +226,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 10,
         borderRadius: 5,
-        marginBottom: 10
+        marginBottom: 10,
+        marginHorizontal: 40
     },
     reviewUser: {
         flexDirection: 'row'

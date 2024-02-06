@@ -12,6 +12,8 @@ interface ISubDetail {
 
 
 const SubDetail: React.FC<ISubDetail> = ({img, title, text, additionalDets, style}) => {
+
+
   return (
     <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>
         <View style={styles.imgContainer}>
