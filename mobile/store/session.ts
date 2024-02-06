@@ -63,7 +63,7 @@ export const deleteUser = createAsyncThunk("session/removeUser", async (userId:n
   }
 });
 
-  
+
 // DEFINE THE INITIAL STATE
 const initialState: SessionInitialState = {
     user: null

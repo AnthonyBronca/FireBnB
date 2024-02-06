@@ -87,6 +87,7 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
           horizontal={true}
           snapToInterval={3}
           decelerationRate={"fast"}
+          showsHorizontalScrollIndicator={false}
           >
           <SpotImages images={imagePlaceHolders}/>
         </ScrollView>

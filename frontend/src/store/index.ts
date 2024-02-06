@@ -18,7 +18,6 @@ const store = configureStore({
     devTools: import.meta.env.VITE_NODE_ENV !== 'production'
 })
 
-console.log(store)
 
 
 declare global {
