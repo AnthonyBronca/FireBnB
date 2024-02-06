@@ -17,14 +17,10 @@ import placeholder3 from './../../assets/placeholders/placeholder3.png'
 import placeholder4 from './../../assets/placeholders/placeholder4.png'
 import { fonts } from '../../constants/stylings/styles';
 import AnimatedNav from './components/AnimatedNav';
-
-interface ISpotDetail {
-  navigation: any
-}
+import Reviews from './components/Reviews';
 
 
-
-const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
+const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
 
 
   const imagePlaceHolders = [
@@ -91,9 +87,17 @@ const SpotDetail:React.FC<ISpotDetail> = ({navigation}):JSX.Element => {
           horizontal={true}
           snapToInterval={3}
           decelerationRate={"fast"}
+          showsHorizontalScrollIndicator={false}
           >
           <SpotImages images={imagePlaceHolders}/>
         </ScrollView>
+        <View style={styles.sectionContainer}>
+          <Divider width={1} orientation='horizontal'/>
+        </View>
+        <Reviews navigation={navigation} spot={spot} />
+        <View style={styles.sectionContainer}>
+          <Divider width={1} orientation='horizontal'/>
+        </View>
       </ScrollView>
         </AnimatedNav>
         <BottomReserve price={364} dateRange='Feb 23 - 28' />
