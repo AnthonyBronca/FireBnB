@@ -24,6 +24,7 @@ const NavBar:React.FC = ():JSX.Element => {
       screenOptions={({ route }) => ({
         tabBarActiveTintColor:"#ff375d",
         tabBarInactiveTintColor:"#8e8e8f",
+        headerShown: false,
         tabBarIcon: ({ color }) => {
           let routeName = route.name;
 

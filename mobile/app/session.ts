@@ -24,7 +24,7 @@ export const restoreUser = createAsyncThunk("session/restoreUser", async () => {
 });
 
 // To log out the user
-export const logOutUser = createAsyncThunk("session/removeUser", async () => {
+export const logOutUser = createAsyncThunk("session/logOutUser", async () => {
   try {
       const response = await axios.delete("/api/session");
       return response.data;
