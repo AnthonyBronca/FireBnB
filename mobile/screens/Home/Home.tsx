@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, StyleSheet, View, Image } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Text, SafeAreaView, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { fetchSpots } from '../../store/spots';
 import BottomTabs from './Components/NavBar';
+import Search from './Components/Search';
+
 // import pineapple from '../../assets/images/pineapple.jpg'
 
 interface IHome {
@@ -62,6 +64,7 @@ const Home: React.FC<IHome> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Search/>
       <Text>This is the homepage</Text>
       <TouchableOpacity onPress={goToSpotDetail}>
         <Text>Go to SpotDetail</Text>
