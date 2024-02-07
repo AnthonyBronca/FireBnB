@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
 
 
 const Search:React.FC = () => {
@@ -15,9 +17,11 @@ const Search:React.FC = () => {
     <SafeAreaView >
         <View style={styles.searchBarContainer}>
             <TouchableOpacity style={styles.searchBar}>
-            <Text style={styles.placeholderHeading}>Where To?</Text>
-            <Text style={styles.placeholderSubheading}>Anywhere · Any week · Add guests</Text>
+                <FontAwesomeIcon icon={faSearch} style={styles.searchIcon} size={20}/>
+                <Text style={styles.placeholderHeading}>Where To?</Text>
+                <Text style={styles.placeholderSubheading}>Anywhere · Any week · Add guests</Text>
             </TouchableOpacity>
+   
          
 
 
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
     searchBar: {
         backgroundColor: 'white',
         height: 50,
-        width: 300,
+        width: 350,
         borderColor: '#e4e4e4',
         borderWidth: 0.4,
         shadowColor: '#e4e4e4',
@@ -64,15 +68,21 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     placeholderHeading: {
-        marginLeft: 30,
+        marginLeft: 60,
         fontWeight: '500',
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: 'System'
     },
     placeholderSubheading: {
-        marginLeft: 30,
+        marginLeft: 60,
         color: '#717171',
-        fontSize: 12
+        fontSize: 12,
+        fontFamily: 'System'
     },
+    searchIcon: {
+        position: 'absolute',
+        marginLeft: 20
+    }
 })
 
 export default Search;
