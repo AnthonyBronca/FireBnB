@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import './css/NewReviewModalStyles.css'
 //import { useAppSelector } from '../../store';
 
 import NewReviewModalContext from '../../context/NewReviewModalContext';
@@ -15,10 +16,16 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
 
     return (
         <section id="new-review-modal">
-            <span onClick={handleOpen}>
-                NEW REVIEW MODAL!!!
+            <div id="nr-modal-content">
+                <span onClick={handleOpen}>
+                    X
                 </span>
-            <p>{spotId}</p>
+                <div>
+                    <p>Write a public review</p>
+                    <p>Tell the next guests what you loved, and anything else about this place.</p>
+                </div>
+                <p>{spotId}</p>
+            </div>
         </section>
     )
 }
