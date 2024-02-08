@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
         height: 100,
         justifyContent: 'center',
         borderBottomColor: '#e2e2e2',
-        shadowColor: '#cecece',
         borderBottomWidth: 1
         // alignItems: 'center'
     },
