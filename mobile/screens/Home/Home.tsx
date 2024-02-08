@@ -41,17 +41,10 @@ const Home: React.FC<IHome> = ({ navigation }) => {
 
 */
 
-  // console.log(isLoaded)
-// console.log(data)
-
-
-
   return (
     <SafeAreaView style={styles.container}>
       <Search/>
-      {/* <Text>This is the homepage</Text> */}
       <Spots navigation={navigation}/>
-      {/* <Image style={{ width: 400, height: 400, objectFit: 'contain' }} source={{ uri: "https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg"}} /> */}
       <BottomTabs navigation={navigation}/>
     </SafeAreaView>
   );
