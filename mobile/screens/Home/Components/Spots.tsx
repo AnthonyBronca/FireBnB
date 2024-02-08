@@ -2,70 +2,74 @@ import React, {useEffect, useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { View, ScrollView, Image, Pressable, StyleSheet } from 'react-native';
 import { fetchSpots } from '../../../store/spots';
+import SpotDetails from '../../Home/Components/SpotDetails'
+
 
 
 interface IHome {
     navigation: any
-  }
+};
+
+
+
 
 const Spots:React.FC<IHome> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const allSpots = useAppSelector((state) => state.spots.allSpots);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  
+
 
     useEffect(() => {
         const getInfo = async() => {
-          await dispatch(fetchSpots())
-          setIsLoaded(true)
+            await dispatch(fetchSpots())
+            setIsLoaded(true)
         }
         getInfo()
-      }, [isLoaded])
+    }, [isLoaded]);
 
-      const goToSpotDetail = () => {
+    const goToSpotDetail = () => {
         navigation.push('SpotDetail')
-      }
-
-      console.log('data--', allSpots)
-
-      return (
-        <ScrollView>
-            {allSpots?.map((spot) => (
-                <View style={styles.spotImageView}>
-                <Pressable
-                    style={styles.spotImageContainer} 
-                    onPress={goToSpotDetail}
-                >
-                    <Image 
-                    style={styles.image} 
-                    source={{ uri: spot.previewImage}}
-                    />
-                </Pressable>
-            </View>
-            ))}
-        </ScrollView>
-      );
     };
 
-    const styles = StyleSheet.create({
-        spotImageView: {
-            alignItems: 'center',
-            marginVertical: 20
-        },
-        spotImageContainer: {
-            width: 375,
-            height: 375,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 15,
-        },
-        image: {
-            width: 375,
-            height: 375,
-            objectFit: 'fill',
-            borderRadius: 15,
-            backgroundColor:'#FFFFFF',
-        }
-    })
+    return (
+    <ScrollView>
+        {allSpots?.map((spot) => (
+            <View style={styles.spotImageView}>
+            <Pressable
+                style={styles.spotImageContainer} 
+                onPress={goToSpotDetail}
+            >
+                <Image 
+                    style={styles.image} 
+                    source={{ uri: spot.previewImage}}
+                />
+                <SpotDetails spot={spot}/>
+            </Pressable>
+        </View>
+        ))}
+    </ScrollView>
+    );
+};
+
+const styles = StyleSheet.create({
+spotImageView: {
+    alignItems: 'center',
+    marginVertical: 20
+},
+spotImageContainer: {
+    width: 375,
+    height: 425,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+},
+image: {
+    width: 375,
+    height: 375,
+    objectFit: 'fill',
+    borderRadius: 10,
+    backgroundColor:'#FFFFFF',
+}
+});
 
 export default Spots;
