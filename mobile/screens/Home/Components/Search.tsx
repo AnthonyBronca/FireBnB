@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { fonts } from '../../../constants/stylings/styles';
 
 
 const Search:React.FC = () => {
@@ -53,16 +54,13 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     placeholderHeading: {
-        marginLeft: 60,
+        ...fonts.defaultText,
         fontWeight: '500',
-        fontSize: 14,
-        fontFamily: 'System'
+        marginLeft: 60,
     },
     placeholderSubheading: {
-        marginLeft: 60,
-        color: '#717171',
-        fontSize: 12,
-        fontFamily: 'System'
+        ...fonts.subText,
+        marginLeft: 60, 
     },
     searchIcon: {
         position: 'absolute',
