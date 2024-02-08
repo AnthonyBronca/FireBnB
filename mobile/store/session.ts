@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { User, SignUpUser, SessionInitialState } from "../typings/redux";
 import axios from "axios";
+import urlParser from "../utils/url-parser";
 
 // DEFINE THUNKS
 // To create an account
 export const signUp = createAsyncThunk("session/setUser", async (user:SignUpUser) => {
   try {
-      const response = await axios.post("/api/users");
+      const response = await axios.post(urlParser("/api/users"), user);
       return response.data;
   } catch (error) {
       throw error
@@ -16,7 +17,7 @@ export const signUp = createAsyncThunk("session/setUser", async (user:SignUpUser
 // To restore the user session
 export const restoreUser = createAsyncThunk("session/restoreUser", async () => {
   try {
-      const response = await axios.get("/api/session");
+      const response = await axios.get(urlParser("/api/session"));
       return response.data;
   } catch (error) {
       throw error
@@ -26,7 +27,7 @@ export const restoreUser = createAsyncThunk("session/restoreUser", async () => {
 // To log out the user
 export const logOutUser = createAsyncThunk("session/logOutUser", async () => {
   try {
-      const response = await axios.delete("/api/session");
+      const response = await axios.delete(urlParser("/api/session"));
       return response.data;
   } catch (error) {
       throw error
@@ -34,9 +35,9 @@ export const logOutUser = createAsyncThunk("session/logOutUser", async () => {
 });
 
 // To log in the user
-export const logInUser = createAsyncThunk("session/logInUser", async () => {
+export const logInUser = createAsyncThunk("session/logInUser", async (user: { credential: string, password: string }) => {
   try {
-      const response = await axios.post("/api/session");
+      const response = await axios.post(urlParser("/api/session"),user);
       return response.data;
   } catch (error) {
       throw error
@@ -46,7 +47,7 @@ export const logInUser = createAsyncThunk("session/logInUser", async () => {
 // To edit the user's information
 export const editUser = createAsyncThunk("session/editUser", async ({userId, form}:{userId:number|string, form:any}) => {
   try {
-      const response = await axios.put(`/api/users/${userId}`, form);
+      const response = await axios.put(urlParser(`/api/users/${userId}`), form);
       return response.data;
   } catch (error) {
       throw error
@@ -56,7 +57,7 @@ export const editUser = createAsyncThunk("session/editUser", async ({userId, for
 // To delete a user
 export const deleteUser = createAsyncThunk("session/removeUser", async (userId:number|string) => {
   try {
-      const response = await axios.delete(`/api/users.${userId}`);
+      const response = await axios.delete(urlParser(`/api/users/${userId}`));
       return response.data;
   } catch (error) {
       throw error

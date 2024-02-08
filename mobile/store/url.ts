@@ -1,3 +1,3 @@
-const url = "https://test.loca.lt";
+const url = "https://firebnb.loca.lt";
 
 export default url

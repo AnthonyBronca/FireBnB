@@ -46,31 +46,31 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     return (
     <ScrollView>
         {allSpots?.map((spot, idx) => (
-            <View 
+            <View
                 key={`spot-${idx}-${date}-${sec}`}
                 style={styles.spotImageView}
             >
-            <Pressable 
+            <Pressable
                 style={styles.heartIcon}
                 onPress={() => toggleHeartPress(spot.id)}
-            >   
+            >
                 {idx % 2 === 0 && (
                     <View style={styles.guestFavContainer}>
                         <Text style={styles.guestFavText}>Guest favorite</Text>
                     </View>
                 )}
-                <FontAwesomeIcon 
-                    icon={faHeart} 
-                    size={25} 
+                <FontAwesomeIcon
+                    icon={faHeart}
+                    size={25}
                     color={isHeartPressed[spot.id] ? '#FF385B' :'#535350'}
                 />
             </Pressable>
             <Pressable
-                style={styles.spotImageContainer} 
+                style={styles.spotImageContainer}
                 onPress={goToSpotDetail}
             >
-                <Image 
-                    style={styles.image} 
+                <Image
+                    style={styles.image}
                     source={{ uri: spot.previewImage}}
                 />
                 <SpotDetails spot={spot}/>
