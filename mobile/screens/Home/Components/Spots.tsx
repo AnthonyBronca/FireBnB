@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, Pressable, StyleSheet } from 'react-native';
 import { fetchSpots } from '../../../store/spots';
 
 
@@ -32,7 +32,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
       return (
         <View>
             <View style={styles.spotImageView}>
-                <TouchableOpacity
+                <Pressable
                     style={styles.spotImageContainer} 
                     onPress={goToSpotDetail}
                    
@@ -41,7 +41,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
                     style={styles.image} 
                     source={{ uri: "https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg"}}
                     />
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
       );
@@ -53,17 +53,18 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             marginVertical: 20
         },
         spotImageContainer: {
-            backgroundColor:'green',
-            height: 265,
-            width: 400,
+            width: 375,
+            height: 375,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+             borderRadius: 15,
         },
         image: {
-            width: 400,
-            height: 265,
+            width: 375,
+            height: 375,
             objectFit: 'contain',
-            backgroundColor:'blue',
+            borderRadius: 15,
+            backgroundColor:'#FFFFFF',
         }
     })
 
