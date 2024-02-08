@@ -26,19 +26,41 @@ const SpotDetails:React.FC<ISpotDetails> = ({spot}) => {
 
 const styles = StyleSheet.create({
     spotDetailsView: {
-        // backgroundColor: 'pink',
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: 375,
         marginTop: 10
     },
     spotDetailsContainer: {
-        // backgroundColor: 'blue',
         height: 75,
     },
     rating: {
-        // backgroundColor: 'green'
     }
 })
 
 export default SpotDetails;
+
+/*
+[
+"address": "71720 Laron Plains",
+"avgRating": "NEW",
+"city": "Dublin",
+"country": "United States",
+"createdAt": "2024-1-6",
+"description": "Great place to stay when you want to get away from it all",
+"id": 20,
+"lat": "-41.946337",
+"lng": "-29.062167",
+"name": "Cuban-style home",
+"ownerId": 3, "previewImage":
+"https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg",
+"price": 62,
+"reviews": [],
+"state":
+"Wisconsin",
+"updatedAt":
+"2024-1-6",
+"userId": 3}
+]
+
+*/
