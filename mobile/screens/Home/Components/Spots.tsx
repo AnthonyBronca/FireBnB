@@ -58,14 +58,15 @@ const Spots:React.FC<IHome> = ({navigation}) => {
 const styles = StyleSheet.create({
 spotImageView: {
     alignItems: 'center',
-    marginVertical: 20
+    marginTop: 20
 },
 spotImageContainer: {
     width: 375,
-    height: 425,
+    height: 460,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    marginBottom: 20,
 },
 image: {
     width: 375,
