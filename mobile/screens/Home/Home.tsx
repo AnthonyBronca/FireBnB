@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, StyleSheet, Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { fetchSpots } from '../../store/spots';
+import React from 'react';
+import { SafeAreaView, StyleSheet} from 'react-native';
+
+// import { useAppDispatch, useAppSelector } from '../../store';
+// import { fetchSpots } from '../../store/spots';
 import BottomTabs from './Components/NavBar';
 import Search from './Components/Search';
+import Spots from './Components/Spots';
 
-// import pineapple from '../../assets/images/pineapple.jpg'
 
 interface IHome {
   navigation: any
@@ -14,23 +14,7 @@ interface IHome {
 
 const Home: React.FC<IHome> = ({ navigation }) => {
 
-  const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.spots.allSpots);
 
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getInfo = async() => {
-      await dispatch(fetchSpots())
-      setIsLoaded(true)
-    }
-    getInfo()
-  }, [isLoaded])
-
-
-  const goToSpotDetail = () => {
-    navigation.push('SpotDetail')
-  }
 
 /*
 [
@@ -57,7 +41,7 @@ const Home: React.FC<IHome> = ({ navigation }) => {
 
 */
 
-  console.log(isLoaded)
+  // console.log(isLoaded)
 // console.log(data)
 
 
@@ -65,11 +49,9 @@ const Home: React.FC<IHome> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Search/>
-      <Text>This is the homepage</Text>
-      <TouchableOpacity onPress={goToSpotDetail}>
-        <Text>Go to SpotDetail</Text>
-      </TouchableOpacity>
-      <Image style={{ width: 400, height: 400, objectFit: 'contain' }} source={{ uri: "https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg"}} />
+      {/* <Text>This is the homepage</Text> */}
+      <Spots navigation={navigation}/>
+      {/* <Image style={{ width: 400, height: 400, objectFit: 'contain' }} source={{ uri: "https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg"}} /> */}
       <BottomTabs navigation={navigation}/>
     </SafeAreaView>
   );
