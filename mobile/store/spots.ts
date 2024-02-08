@@ -10,7 +10,6 @@ import urlParser from "../utils/url-parser";
 export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
     try {
         const response = await axios.get(urlParser(`/api/spots`));
-        console.log(response.data, "RESPONSE%%%%%%%%%%%%%%%")
         return response.data;
     } catch (error) {
         throw error

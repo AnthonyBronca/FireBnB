@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Image, StyleSheet, ImageSourcePropType, Text} from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SpotImages;
+export default memo(SpotImages);

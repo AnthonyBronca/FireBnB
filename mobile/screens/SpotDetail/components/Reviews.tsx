@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {faCircle} from '@fortawesome/free-solid-svg-icons/faCircle'
@@ -138,13 +138,13 @@ const Reviews: React.FC<IReviewsProps> = ({navigation, spot}) => {
                         </View>
                     }
                     </View>
-                    <SubDetail
+                    {/* <SubDetail
                         style={styles.reviewUser}
                         title={rev.username}
-                        img={randomPerson}
+                        // img={randomPerson}
                         text={rev.location}
                         additionalDets={false}
-                        />
+                        /> */}
                 </View>
             ))}
         </ScrollView>
@@ -235,4 +235,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Reviews;
+export default memo(Reviews);

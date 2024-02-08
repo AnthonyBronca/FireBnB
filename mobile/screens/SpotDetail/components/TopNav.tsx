@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, StyleSheet, Animated} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default TopNav;
+export default memo(TopNav);

@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
+import { Spot } from '../../../typings/redux';
 
 interface ISubDetail {
-    img: ImageSourcePropType,
     title: string,
     text: string,
     additionalDets: boolean,
     style?: any
+    spot: Spot
 }
 
 
-const SubDetail: React.FC<ISubDetail> = ({img, title, text, additionalDets, style}) => {
-
+const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot}) => {
 
   return (
     <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>
         <View style={styles.imgContainer}>
-            <Image style={additionalDets ? styles.detImg :styles.profileImg} source={img} />
+              <Image style={additionalDets ? styles.detImg : styles.profileImg} source={{ uri: spot?.Owner.UserImages[0].url }} />
         </View>
       <View style={styles.txtContainer}>
         <Text style={[styles.subHeader, styles.txtSpacing]}>{title}</Text>
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SubDetail;
+export default memo(SubDetail);

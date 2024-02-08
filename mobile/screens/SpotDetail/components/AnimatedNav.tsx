@@ -1,16 +1,15 @@
-import React, {useRef} from 'react';
+import React, {memo, useRef} from 'react';
 import {ScrollView, Animated, StyleSheet} from 'react-native';
 import pineapple from '../../../assets/images/pineapple.jpg'
 import TopNav from './TopNav';
-
+import { Spot } from '../../../typings/redux';
 
 interface IDynamicHeader {
     val: any;
-    img: any; //change this to be a string when redux is added
+    img: string; //change this to be a string when redux is added
 }
 
 const DynamicHeader:React.FC<IDynamicHeader> = ({val, img}) => {
-
 
     const header_max = 200;
     const header_min = 100;
@@ -61,7 +60,7 @@ const DynamicHeader:React.FC<IDynamicHeader> = ({val, img}) => {
             ]}
         >
             <Animated.Image
-                source={img}
+                source={{uri:img}}
                 style={{
                     flexDirection: 'row',
                     width: '100%',
@@ -77,16 +76,17 @@ const DynamicHeader:React.FC<IDynamicHeader> = ({val, img}) => {
 interface INewNav {
     navigation: any;
     children: any;
+    spotHeader: string
 }
 
-const AnimatedNav:React.FC<INewNav> = ({navigation, children}) => {
+const AnimatedNav:React.FC<INewNav> = ({navigation, children, spotHeader}) => {
 
     const scrollOffSetY = useRef(new Animated.Value(0)).current;
 
     return (
     <>
         <TopNav navigation={navigation} val={scrollOffSetY}/>
-        <DynamicHeader val={scrollOffSetY} img={pineapple}/>
+        <DynamicHeader val={scrollOffSetY} img={spotHeader}/>
         <ScrollView
         style={styles.container}
             scrollEventThrottle={5}
@@ -102,16 +102,11 @@ const AnimatedNav:React.FC<INewNav> = ({navigation, children}) => {
 
 const styles = StyleSheet.create({
     header: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // left: 0,
-        // right: 0,
-        // paddingTop: 25,
-        // height: 3
+
     },
     container: {
 
     },
 })
 
-export default AnimatedNav;
+export default memo(AnimatedNav);

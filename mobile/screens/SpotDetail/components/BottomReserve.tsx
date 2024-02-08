@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, fonts } from '../../../constants/stylings/styles';
 
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default BottomReserve;
+export default memo(BottomReserve);

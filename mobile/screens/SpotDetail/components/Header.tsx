@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import { colors } from '../../../constants/stylings/styles';
 
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Header;
+export default memo(Header);

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { View, ScrollView, Image, Text, Pressable, StyleSheet } from 'react-native';
 import { fetchSpots } from '../../../store/spots';
@@ -6,6 +6,8 @@ import SpotDetails from '../../Home/Components/SpotDetails'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { fonts } from '../../../constants/stylings/styles';
+import { Spot } from '../../../typings/redux';
+import FastImage from 'react-native-fast-image';
 
 interface IHome {
     navigation: any
@@ -39,8 +41,10 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         }));
     };
 
-    const goToSpotDetail = () => {
-        navigation.push('SpotDetail')
+    const goToSpotDetail = (spot: Spot) => {
+        navigation.navigate('SpotDetail', {
+            spot
+        })
     };
 
     return (
@@ -67,9 +71,9 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             </Pressable>
             <Pressable
                 style={styles.spotImageContainer}
-                onPress={goToSpotDetail}
+                onPress={()=> goToSpotDetail(spot)}
             >
-                <Image
+                <FastImage
                     style={styles.image}
                     source={{ uri: spot.previewImage}}
                 />
@@ -123,4 +127,4 @@ guestFavText: {
 }
 });
 
-export default Spots;
+export default memo(Spots);

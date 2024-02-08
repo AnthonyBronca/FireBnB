@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import { ScrollView, View, StyleSheet,Text} from 'react-native';
 import SpotTitle from './components/SpotTitle';
 import {Divider} from 'react-native-elements'
 import SubDetail from './components/SubDetail';
 import BottomReserve from './components/BottomReserve';
-import randomPerson from '../../assets/images/random-person.jpg';
-import door from '../../assets/images/door.png';
-import superhost from '../../assets/images/superhost.png';
-import calendar from '../../assets/images/calendar.png';
+// import randomPerson from '../../assets/images/random-person.jpg';
+// import door from '../../assets/images/door.png';
+// import superhost from '../../assets/images/superhost.png';
+// import calendar from '../../assets/images/calendar.png';
 import DetailParagraph from './components/DetailParagraph';
 import pineapple from '../../assets/images/pineapple.jpg';
 import SpotImages from './components/SpotImages';
@@ -18,10 +18,19 @@ import placeholder4 from './../../assets/placeholders/placeholder4.png'
 import { fonts } from '../../constants/stylings/styles';
 import AnimatedNav from './components/AnimatedNav';
 import Reviews from './components/Reviews';
+import { Spot } from '../../typings/redux';
 
 
-const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
+interface ISpotDetail {
+  navigation:any;
+  route: any;
+}
 
+
+
+const SpotDetail:React.FC<ISpotDetail> = ({route, navigation}):JSX.Element => {
+  const spot:Spot = route.params.spot
+  console.log(spot)
 
   const imagePlaceHolders = [
     pineapple,
@@ -38,24 +47,28 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
 
   return (
     <View style={styles.screenContainer}>
-      <AnimatedNav navigation={navigation}>
+      <AnimatedNav
+        spotHeader={spot.previewImage}
+        navigation={navigation}>
       <ScrollView>
       <View style={styles.titleContainer}>
-        <SpotTitle />
+        <SpotTitle spot={spot}/>
       </View>
         <View style={styles.contentContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
         <SubDetail
+            spot={spot}
             title="Hosted By Joe"
             text='4 years hosting'
             additionalDets={false}
-            img={randomPerson} />
+            />
         <View style={styles.contentContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
-          <View style={styles.additionalDetsContainer}>
+          {/* <View style={styles.additionalDetsContainer}>
             <SubDetail
+              spot={spot}
               title="Self check-in"
               text='Check yourself in.'
               additionalDets={true}
@@ -63,6 +76,7 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
           </View>
           <View style={styles.additionalDetsContainer}>
             <SubDetail
+              spot={spot}
               title="Joe is a superhost"
               text='Superhosts are experienced, highly rated Hosts.'
               additionalDets={true}
@@ -70,11 +84,12 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
           </View>
           <View style={styles.additionalDetsContainer}>
             <SubDetail
+              spot={spot}
               title="Free Cancellation for 48 hours"
               text='Easy cancellation process.'
               additionalDets={true}
               img={calendar} />
-          </View>
+          </View> */}
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
@@ -105,7 +120,6 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
   );
 }
 
-
 const styles = StyleSheet.create({
   contentContainer: {
     marginHorizontal: 40,
@@ -128,4 +142,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default SpotDetail;
+export default memo(SpotDetail);
