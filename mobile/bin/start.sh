@@ -1,3 +1,3 @@
 #!/bin/bash
 
-lt --subdomain test -p 8000
+lt -subdomain firebnb -p 8000
