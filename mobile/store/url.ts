@@ -1,3 +1,3 @@
-const url = "https://seven-rivers-cross.loca.lt";
+const url = "https://test.loca.lt";
 
 export default url
