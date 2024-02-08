@@ -15,6 +15,7 @@ const SpotDetails:React.FC<ISpotDetails> = ({spot}) => {
     <View style={styles.spotDetailsView}>
         <View style={styles.spotDetailsContainer}>
             <Text style={styles.locationText}>{spot.city}, {spot.state}</Text>
+            <Text style={styles.nameText}>{spot.name}</Text>
             <Text style={styles.dateText}>Feb 7 - 12</Text>
             <Text style={[styles.priceText, {fontWeight:'600'}]}>${spot.price} <Text style={{fontWeight: '400'}}>night</Text></Text>
         </View>
@@ -37,6 +38,10 @@ const styles = StyleSheet.create({
     },
     locationText: {
         ...fonts.subHeader
+    },
+    nameText: {
+        ...fonts.subHeader,
+        color: '#505050'
     },
     dateText: {
         ...fonts.subHeader,
