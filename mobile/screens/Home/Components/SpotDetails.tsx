@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Spot } from '../../../typings/redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { fonts } from '../../../constants/stylings/styles'
 
 interface ISpotDetails {
     spot: Spot
@@ -13,12 +14,12 @@ const SpotDetails:React.FC<ISpotDetails> = ({spot}) => {
     return (
     <View style={styles.spotDetailsView}>
         <View style={styles.spotDetailsContainer}>
-            <Text>{spot.city}, {spot.state}</Text>
-            <Text>Feb 7 - 12</Text>
-            <Text>${spot.price} <Text>night</Text></Text>
+            <Text style={styles.locationText}>{spot.city}, {spot.state}</Text>
+            <Text style={styles.dateText}>Feb 7 - 12</Text>
+            <Text style={[styles.priceText, {fontWeight:'600'}]}>${spot.price} <Text style={{fontWeight: '400'}}>night</Text></Text>
         </View>
-        <View style={styles.rating}>
-            <Text><FontAwesomeIcon icon={faStar}/> {spot.avgRating}</Text>
+        <View>
+            <Text style={styles.ratingText}><FontAwesomeIcon icon={faStar}/> {spot.avgRating}</Text>
         </View>
     </View>
     );
@@ -34,7 +35,19 @@ const styles = StyleSheet.create({
     spotDetailsContainer: {
         height: 75,
     },
-    rating: {
+    locationText: {
+        ...fonts.subHeader
+    },
+    dateText: {
+        ...fonts.subHeader,
+        color: '#505050'
+    },
+    ratingText: {
+        ...fonts.subHeader,
+        fontWeight: '400'
+    },
+    priceText: {
+        ...fonts.subHeader,
     }
 })
 
