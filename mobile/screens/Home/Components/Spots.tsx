@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { View, Image, Pressable, StyleSheet } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet } from 'react-native';
 import { fetchSpots } from '../../../store/spots';
 
 
@@ -10,9 +10,8 @@ interface IHome {
 
 const Spots:React.FC<IHome> = ({navigation}) => {
     const dispatch = useAppDispatch();
-    const data = useAppSelector((state) => state.spots.allSpots);
+    const allSpots = useAppSelector((state) => state.spots.allSpots);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    console.log('data--', data)
   
 
     useEffect(() => {
@@ -27,23 +26,24 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         navigation.push('SpotDetail')
       }
 
-      console.log('data--', data)
+      console.log('data--', allSpots)
 
       return (
-        <View>
-            <View style={styles.spotImageView}>
+        <ScrollView>
+            {allSpots?.map((spot) => (
+                <View style={styles.spotImageView}>
                 <Pressable
                     style={styles.spotImageContainer} 
                     onPress={goToSpotDetail}
-                   
                 >
                     <Image 
                     style={styles.image} 
-                    source={{ uri: "https://harbr.de/fileadmin/_processed_/a/1/csm_harbr_boardinghouse_ludwigsburg_apartment_comfort_02_8fdc0763bd.jpg"}}
+                    source={{ uri: spot.previewImage}}
                     />
                 </Pressable>
             </View>
-        </View>
+            ))}
+        </ScrollView>
       );
     };
 
@@ -57,12 +57,12 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             height: 375,
             alignItems: 'center',
             justifyContent: 'center',
-             borderRadius: 15,
+            borderRadius: 15,
         },
         image: {
             width: 375,
             height: 375,
-            objectFit: 'contain',
+            objectFit: 'fill',
             borderRadius: 15,
             backgroundColor:'#FFFFFF',
         }
