@@ -17,6 +17,8 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const allSpots = useAppSelector((state) => state.spots.allSpots);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const date = new Date().getDate();
+    const sec = new Date().getSeconds();
 
 
     useEffect(() => {
@@ -34,7 +36,9 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     return (
     <ScrollView>
         {allSpots?.map((spot) => (
-            <View style={styles.spotImageView}>
+            <View 
+                key={`spot-${spot.id}-${date}-${sec}`}
+                style={styles.spotImageView}>
             <Pressable
                 style={styles.spotImageContainer} 
                 onPress={goToSpotDetail}
