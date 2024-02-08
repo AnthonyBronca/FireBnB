@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
 import axios from "axios";
-import url from './url'
+import urlParser from "../utils/url-parser";
 
 
 
@@ -9,7 +9,8 @@ import url from './url'
 // To get all spots
 export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
     try {
-        const response = await axios.get(`${url}/api/spots`);
+        const response = await axios.get(urlParser(`/api/spots`));
+        console.log(response.data, "RESPONSE%%%%%%%%%%%%%%%")
         return response.data;
     } catch (error) {
         throw error
@@ -19,7 +20,7 @@ export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
 // To get all of the user's spots
 export const fetchUserSpots = createAsyncThunk("spots/fetchUserSpots", async (userId:number) => {
     try {
-        const response = await axios.get(`/api/spots/current/${userId}`);
+        const response = await axios.get(urlParser(`/api/spots/current/${userId}`));
         return response.data;
     } catch (error) {
         throw error
@@ -29,7 +30,7 @@ export const fetchUserSpots = createAsyncThunk("spots/fetchUserSpots", async (us
 // To get a spot's details
 export const fetchSingleSpot = createAsyncThunk("spots/fetchSingleSpot", async (spotId:number) => {
     try {
-        const response = await axios.get(`/api/spots/${spotId}`);
+        const response = await axios.get(urlParser(`/api/spots/${spotId}`));
         return response.data;
     } catch (error) {
         throw error
@@ -39,7 +40,7 @@ export const fetchSingleSpot = createAsyncThunk("spots/fetchSingleSpot", async (
 // To post a spot
 export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpotForm) => {
     try {
-        const response = await axios.post('/api/spots', form);
+        const response = await axios.post(urlParser(`/api/spots`), form);
         return response.data;
     } catch (error) {
         throw error
@@ -49,7 +50,7 @@ export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpo
 // To edit a spot
 export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}: {spotId:number, form:IEditForm}) => {
     try {
-        const response = await axios.put(`/api/spots/${spotId}`, form);
+        const response = await axios.put(urlParser(`/api/spots/${spotId}`), form);
         return response.data;
     } catch (error) {
         throw error
@@ -59,7 +60,7 @@ export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}
 // To delete a spot
 export const deleteSpot = createAsyncThunk("spots/deleteSpot", async (spotId:number) => {
     try {
-        const response = await axios.delete(`/api/spots/${spotId}`);
+        const response = await axios.delete(urlParser(`/api/spots/${spotId}`));
         return response.data;
     } catch (error) {
         throw error
