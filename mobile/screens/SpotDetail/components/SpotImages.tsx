@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
-import { View, Image, StyleSheet, ImageSourcePropType, Text} from 'react-native';
+import { View, StyleSheet, ImageSourcePropType, Text, Image} from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
-
 
 interface ISpotImageProps {
     images: ImageSourcePropType[]
@@ -13,7 +12,7 @@ const SpotImages:React.FC<ISpotImageProps> = ({images}) => {
       {images.map((img, key) => (
         <View style={styles.imageContainer} key={`${key}-${new Date()}`}>
             <Image style={styles.img} source={img}/>
-            <Text style={[fonts.subHeader, {marginTop: 5}]}>{`Bedroom ${key+1}`}</Text>
+            <Text style={[fonts.subHeader, {marginTop: 5}]}>{`Photo ${key+1}`}</Text>
         </View>
         ))}
     </View>

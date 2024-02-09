@@ -1,13 +1,13 @@
 import React, {memo, useEffect, useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { View, ScrollView, Image, Text, Pressable, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, Pressable, StyleSheet, ActivityIndicator} from 'react-native';
 import { fetchSpots } from '../../../store/spots';
 import SpotDetails from '../../Home/Components/SpotDetails'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { fonts } from '../../../constants/stylings/styles';
+import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 
 interface IHome {
     navigation: any
@@ -21,18 +21,18 @@ interface IHeartPressed {
 const Spots:React.FC<IHome> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const allSpots = useAppSelector((state) => state.spots.allSpots);
+    const [isLoaded, setIsLoaded] = useState(false);
     const date = new Date().getDate();
     const sec = new Date().getSeconds();
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
 
     useEffect(() => {
         const getInfo = async() => {
-            await dispatch(fetchSpots())
-            setIsLoaded(true)
+            await dispatch(fetchSpots());
+            setIsLoaded(true);
         }
         getInfo()
-    }, [isLoaded]);
+    }, [dispatch]);
 
     const toggleHeartPress = (spotId:number) => {
         setIsHeartPressed(prev => ({
@@ -43,9 +43,16 @@ const Spots:React.FC<IHome> = ({navigation}) => {
 
     const goToSpotDetail = (spot: Spot) => {
         navigation.navigate('SpotDetail', {
-            spot
+            spot,
         })
     };
+
+    if(!isLoaded){
+        return <ActivityIndicator
+        style={styles.loading}
+        size="large"
+        color={colors.RESERVERED}/>
+    }
 
     return (
     <ScrollView>
@@ -73,7 +80,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
                 style={styles.spotImageContainer}
                 onPress={()=> goToSpotDetail(spot)}
             >
-                <FastImage
+                <Image
                     style={styles.image}
                     source={{ uri: spot.previewImage}}
                 />
@@ -86,45 +93,51 @@ const Spots:React.FC<IHome> = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-spotImageView: {
-    alignItems: 'center',
-    marginTop: 20
-},
-spotImageContainer: {
-    width: 375,
-    height: 460,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginBottom: 20,
-},
-image: {
-    width: 375,
-    height: 375,
-    objectFit: 'fill',
-    borderRadius: 10,
-    backgroundColor:'#FFFFFF',
-},
-heartIcon: {
-    position: 'absolute',
-    top: 10,
-    right: 45,
-    zIndex: 1
-},
-guestFavContainer: {
-    backgroundColor: "#FBFBFB",
-    borderColor: '#A19F9D',
-    borderRadius: 20,
-    position: 'absolute',
-    right: 220,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 125,
-    height: 25,
-},
-guestFavText: {
-    ...fonts.subHeader
-}
+    spotImageView: {
+        alignItems: 'center',
+        marginTop: 20
+    },
+    spotImageContainer: {
+        width: 375,
+        height: 460,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        marginBottom: 20,
+    },
+    image: {
+        width: 375,
+        height: 375,
+        objectFit: 'fill',
+        borderRadius: 10,
+        backgroundColor:'#FFFFFF',
+    },
+    heartIcon: {
+        position: 'absolute',
+        top: 10,
+        right: 45,
+        zIndex: 1
+    },
+    guestFavContainer: {
+        backgroundColor: "#FBFBFB",
+        borderColor: '#A19F9D',
+        borderRadius: 20,
+        position: 'absolute',
+        right: 220,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 125,
+        height: 25,
+    },
+    guestFavText: {
+        ...fonts.subHeader
+    },
+    loading: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    }
 });
 
 export default memo(Spots);

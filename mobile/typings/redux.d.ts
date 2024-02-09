@@ -92,6 +92,7 @@ export interface LikeRes {
 
 export interface Spots{
     spots: Spot[];
+    previewImages: string[];
 };
 
 

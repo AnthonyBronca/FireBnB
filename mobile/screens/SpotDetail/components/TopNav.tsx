@@ -8,6 +8,7 @@ import { colors } from '../../../constants/stylings/styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
+
 interface ITopNav {
     navigation: any;
     val: any

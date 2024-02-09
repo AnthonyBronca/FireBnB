@@ -8,16 +8,25 @@ interface ISubDetail {
     text: string,
     additionalDets: boolean,
     style?: any
-    spot: Spot
+    spot: Spot,
+    img?: ImageSourcePropType;
 }
 
 
-const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot}) => {
+const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot, img}) => {
 
   return (
     <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>
         <View style={styles.imgContainer}>
-              <Image style={additionalDets ? styles.detImg : styles.profileImg} source={{ uri: spot?.Owner.UserImages[0].url }} />
+              {
+                additionalDets?
+                <Image
+              style={styles.detImg}
+              source={img} />
+              :
+              <Image
+              style={styles.profileImg}
+              source={{ uri: spot?.Owner.UserImages[0].url }} />}
         </View>
       <View style={styles.txtContainer}>
         <Text style={[styles.subHeader, styles.txtSpacing]}>{title}</Text>
