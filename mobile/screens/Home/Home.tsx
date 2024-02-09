@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { SafeAreaView, StyleSheet} from 'react-native';
 import BottomTabs from './Components/NavBar';
 import Search from './Components/Search';
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Home;
+export default memo(Home);

@@ -8,7 +8,7 @@ It will take our string url and output the appropriate ending
 
 // adjust this once we deploy backend api
 const deployedBackendURL = "";
-const devURL = "https://firebnb.loca.lt";
+const devURL = "https://tender-wombat-69.loca.lt";
 let environment = process.env.NODE_ENV === "production";
 
 

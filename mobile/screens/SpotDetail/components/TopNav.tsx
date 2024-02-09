@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, StyleSheet, Animated} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
@@ -6,6 +6,7 @@ import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons/faArrowU
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 import { colors } from '../../../constants/stylings/styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 
 interface ITopNav {
@@ -93,4 +94,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default TopNav;
+export default memo(TopNav);

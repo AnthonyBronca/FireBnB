@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ const Search:React.FC = () => {
   return (
         <View style={styles.searchBarComponentContainer}>
             <View style={styles.searchBarView}>
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.searchBar}
                     activeOpacity={0.8}
                 >
@@ -20,14 +20,14 @@ const Search:React.FC = () => {
                 </TouchableOpacity>
             </View>
             <View style={styles.filterIconView}>
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.filterIconContainer}
                     activeOpacity={0.9}
                 >
                     <FontAwesomeIcon icon={faFilter} size={20}/>
                 </TouchableOpacity>
             </View>
-        </View> 
+        </View>
   );
 }
 
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     },
     placeholderSubheading: {
         ...fonts.subText,
-        marginLeft: 60, 
+        marginLeft: 60,
     },
     searchIcon: {
         position: 'absolute',
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Search;
+export default memo(Search);

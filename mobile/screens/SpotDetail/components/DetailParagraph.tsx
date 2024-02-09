@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft';
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DetailParagraph;
+export default memo(DetailParagraph);

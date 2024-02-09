@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import React, { memo } from 'react';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import { colors } from '../../../constants/stylings/styles';
-
 
 import pineapple from '../../../assets/images/pineapple.jpg'
 
@@ -89,4 +88,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Header;
+export default memo(Header);
