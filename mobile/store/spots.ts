@@ -9,7 +9,7 @@ import urlParser from "../utils/url-parser";
 // To get all spots
 export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
     try {
-        const response = await axios.get(urlParser(`/api/spots`));
+        const response = await axios.get(urlParser(`api/spots`));
         return response.data;
     } catch (error) {
         throw error
