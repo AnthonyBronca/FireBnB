@@ -1,6 +1,6 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 
 
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default NavBarTile;
+export default memo(NavBarTile);

@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import SpotSpecs from '../../../components/SpotSpecs';
 import {faCircle} from '@fortawesome/free-solid-svg-icons/faCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {faStar} from '@fortawesome/free-solid-svg-icons/faStar';
+import { Spot } from '../../../typings/redux';
 
-const SpotTitle:React.FC = () => {
+interface ISpotTile {
+    spot: Spot
+}
+
+const SpotTitle:React.FC<ISpotTile> = ({spot}) => {
   return (
     <View>
         <View style={styles.titleContainer}>
-            <Text style={styles.title}>Lakefront Home with Pool, Kayak, and Game Room</Text>
+            <Text style={styles.title}>{spot.name}</Text>
         </View>
         <View style={styles.mainContainer}>
             <Text style={styles.subheader}>
-                Entire Home in Orlando, Florida
+                {`${spot.description} in ${spot.city}, ${spot.state}`}
             </Text>
             <View style={styles.spotSpecView}>
                 <SpotSpecs style={styles.detail} count={8} info='guests'/>
@@ -23,13 +28,15 @@ const SpotTitle:React.FC = () => {
                 <FontAwesomeIcon style={styles.dot} size={3} icon={faCircle} />
                 <SpotSpecs style={styles.detail} count={5} info='beds'/>
                 <FontAwesomeIcon style={styles.dot} size={3} icon={faCircle} />
-                <SpotSpecs style={styles.detail} count={2} info='bats'/>
+                <SpotSpecs style={styles.detail} count={2} info='baths'/>
             </View>
             <View style={styles.reviewContainer}>
                 <FontAwesomeIcon size={10} icon={faStar} />
-                <Text style={styles.reviewNum}>4.87</Text>
+                <Text style={styles.reviewNum}>{spot.avgRating}</Text>
                 <FontAwesomeIcon size={3} icon={faCircle} />
-                <Text style={styles.reviewCount}>150 reviews</Text>
+                  <Text style={styles.reviewCount}>{spot.reviews && spot.reviews.length > 0 ?
+                `${spot.reviews.length} reviews`:
+                'No reviews yet!'}</Text>
             </View>
         </View>
     </View>
@@ -77,4 +84,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default SpotTitle;
+export default memo(SpotTitle);
