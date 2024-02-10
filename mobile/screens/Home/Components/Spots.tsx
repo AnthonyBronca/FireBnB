@@ -136,17 +136,15 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     spotImageContainer: {
-        width: 375,
-        height: 460,
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: 355,
+        height: 450,
         borderRadius: 10,
-        marginBottom: 20,
-        overflow: 'hidden'
+        marginBottom: 10,
+        overflow: 'hidden',
     },
     image: {
-        width: 375,
-        height: 375,
+        width: 355,
+        height: 355,
         objectFit: 'fill',
         borderRadius: 10,
         backgroundColor:'#FFFFFF',
