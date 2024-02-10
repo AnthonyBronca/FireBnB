@@ -67,7 +67,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
                 <Pressable style={styles.heartIcon} onPress={() => toggleHeartPress(item.id)}>
                 <FontAwesomeIcon
                     icon={faHeart}
-                    size={20}
+                    size={25}
                     color={isHeartPressed[item.id] ? '#FF385B' :'#535350'}
                     />
                 </Pressable>
