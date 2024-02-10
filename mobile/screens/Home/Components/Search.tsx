@@ -9,7 +9,7 @@ const Search:React.FC = () => {
 
   return (
         <View style={styles.searchBarComponentContainer}>
-            <View style={styles.searchBarView}>
+            <View>
                 <TouchableOpacity
                     style={styles.searchBar}
                     activeOpacity={0.8}
@@ -19,7 +19,7 @@ const Search:React.FC = () => {
                     <Text style={styles.placeholderSubheading}>Anywhere · Any week · Add guests</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.filterIconView}>
+            <View>
                 <TouchableOpacity
                     style={styles.filterIconContainer}
                     activeOpacity={0.9}
@@ -35,19 +35,16 @@ const styles = StyleSheet.create({
     searchBarComponentContainer: {
         height: 100,
         justifyContent: 'center',
+        gap: 10,
         borderBottomColor: '#e2e2e2',
-        borderBottomWidth: 1
-        // alignItems: 'center'
-    },
-    searchBarView: {
-        width: 320,
-        marginLeft: 25,
-        borderRadius: 30,
+        borderBottomWidth: 1,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     searchBar: {
         backgroundColor: 'white',
         height: 50,
-        width: 320,
+        width: 310,
         borderColor: '#e4e4e4',
         borderWidth: 0.4,
         borderRadius: 30,
@@ -66,15 +63,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         marginLeft: 20
     },
-    filterIconView: {
-        width: 40,
-        height: 40,
-        position: 'absolute',
-        left: 360,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 30,
-    },
     filterIconContainer: {
         width: 40,
         height: 40,
@@ -82,7 +70,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderRadius: 30,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 })
 
