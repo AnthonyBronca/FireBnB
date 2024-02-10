@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native';
+import { View, Text, StyleSheet, ImageSourcePropType } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
+import { Image } from 'expo-image';
 
 interface ISubDetail {
     title: string,
@@ -21,12 +22,13 @@ const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, sp
               {
                 additionalDets?
                 <Image
-              style={styles.detImg}
-              source={img} />
-              :
-              <Image
-              style={styles.profileImg}
-              source={{ uri: spot?.Owner.UserImages[0].url }} />}
+                    placeholder={img}
+                    style={styles.detImg}
+                    source={img} />
+                :
+                <Image
+                    style={styles.profileImg}
+                    source={{ uri: spot?.Owner.UserImages[0].url }} />}
         </View>
       <View style={styles.txtContainer}>
         <Text style={[styles.subHeader, styles.txtSpacing]}>{title}</Text>

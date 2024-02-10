@@ -1,5 +1,5 @@
-import React, { memo} from 'react';
-import { ScrollView, View, StyleSheet,Text} from 'react-native';
+import React, { memo, useRef} from 'react';
+import { ScrollView, View, StyleSheet,Text, Animated} from 'react-native';
 import SpotTitle from './components/SpotTitle';
 import {Divider, ImageProps} from 'react-native-elements'
 import SubDetail from './components/SubDetail';
@@ -20,7 +20,6 @@ import AnimatedNav from './components/AnimatedNav';
 import Reviews from './components/Reviews';
 import { Spot } from '../../typings/redux';
 
-
 interface ISpotDetail {
   navigation:any;
   route: any;
@@ -30,6 +29,19 @@ interface ISpotDetail {
 
 const SpotDetail:React.FC<ISpotDetail> = ({route, navigation}):JSX.Element => {
   const spot:Spot = route.params.spot;
+
+
+  const scrollOffSetY = useRef(new Animated.Value(0)).current;
+  const moveUpMax = 200;
+  const moveUpMin = 100;
+  const scrollDistance = moveUpMax - moveUpMin;
+
+  const animatedScrollViewHeight = scrollOffSetY.interpolate({
+    inputRange: [0, scrollDistance],
+    outputRange: [200, 300],
+    extrapolate: 'clamp'
+  })
+
 
   const imagePlaceHolders = [
     pineapple,
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     marginHorizontal: 40,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   sectionContainer: {
     marginHorizontal: 40,

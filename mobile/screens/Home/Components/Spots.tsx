@@ -64,7 +64,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             <Pressable
                 style={styles.heartIcon}
                 onPress={() => toggleHeartPress(spot.id)}
-            >
+                >
                 {idx % 2 === 0 && (
                     <View style={styles.guestFavContainer}>
                         <Text style={styles.guestFavText}>Guest favorite</Text>
@@ -74,7 +74,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
                     icon={faHeart}
                     size={25}
                     color={isHeartPressed[spot.id] ? '#FF385B' :'#535350'}
-                />
+                    />
             </Pressable>
             <Pressable
                 style={styles.spotImageContainer}
@@ -82,6 +82,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             >
                 <Image
                     style={styles.image}
+
                     source={{ uri: spot.previewImage}}
                 />
                 <SpotDetails spot={spot}/>

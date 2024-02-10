@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'row',
-        marginHorizontal: 40
+        marginHorizontal: 40,
     },
     subheader: fonts.subHeader,
     mainContainer: {

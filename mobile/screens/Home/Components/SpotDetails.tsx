@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: 375,
-        marginTop: 10
+        marginTop: 10,
     },
     spotDetailsContainer: {
         height: 75,

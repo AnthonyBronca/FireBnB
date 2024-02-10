@@ -3,6 +3,7 @@ import { ScrollView, Animated, StyleSheet } from 'react-native';
 import {Image} from 'expo-image'
 import pineapple from '../../../assets/images/pineapple.jpg'
 import TopNav from './TopNav';
+import { colors } from '../../../constants/stylings/styles';
 
 interface IDynamicHeader {
     val: any;
@@ -36,16 +37,16 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
         extrapolate: 'clamp'
     })
 
-    const animatedBottomBorderColor = val.interpolate({
-        inputRange: [0, 100],
-        outputRange: ["transparent", "rgb(200,200,200)"],
-        extrapolate: 'clamp'
-    })
-    const animatedBottomBorder = val.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, 1],
-        extrapolate: 'clamp'
-    })
+    // const animatedBottomBorderColor = val.interpolate({
+    //     inputRange: [0, 100],
+    //     outputRange: ["transparent", "rgb(200,200,200)"],
+    //     extrapolate: 'clamp'
+    // })
+    // const animatedBottomBorder = val.interpolate({
+    //     inputRange: [0, 100],
+    //     outputRange: [0, 1],
+    //     extrapolate: 'clamp'
+    // })
 
 
     return (
@@ -55,8 +56,8 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
                 height: animatedHeaderHeight,
                 backgroundColor: animatedHeadercolor,
                 marginBottom: 10,
-                borderBottomColor: animatedBottomBorderColor,
-                borderBottomWidth: animatedBottomBorder,
+                // borderBottomColor: animatedBottomBorderColor,
+                // borderBottomWidth: animatedBottomBorder,
             }
             ]}
         >
@@ -72,7 +73,7 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
             <Image
                 placeholder={{uri: spotHeader}}
                 source={{uri: spotHeader}}
-                style={{height: 200, width: '100%', flexDirection: 'row'}}
+                style={{height: 250, width: '100%', flexDirection: 'row'}}
             />
             </Animated.View>
         </Animated.View>
@@ -90,19 +91,36 @@ const AnimatedNav: React.FC<INewNav> = ({ navigation, children, spotHeader }) =>
 
     const scrollOffSetY = useRef(new Animated.Value(0)).current;
 
+    const animatedBottomBorderColor = scrollOffSetY.interpolate({
+        inputRange: [0, 100],
+        outputRange: ["transparent", "rgb(200,200,200)"],
+        extrapolate: 'clamp'
+    })
+    const animatedBottomBorder = scrollOffSetY.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, 1],
+        extrapolate: 'clamp'
+    })
+
+
     return (
         <>
             <TopNav navigation={navigation} val={scrollOffSetY} />
             <DynamicHeader val={scrollOffSetY} spotHeader={spotHeader} />
-            <ScrollView
-                style={styles.container}
+            <Animated.ScrollView
+                style={[styles.container,
+                    {
+                        borderTopColor: animatedBottomBorderColor,
+                        borderTopWidth: animatedBottomBorder,
+                    }
+                ]}
                 scrollEventThrottle={5}
                 showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{
                     nativeEvent: { contentOffset: { y: scrollOffSetY } }
                 }], { useNativeDriver: false })}>
                 {children}
-            </ScrollView>
+            </Animated.ScrollView>
         </>
     );
 }
@@ -111,7 +129,7 @@ const styles = StyleSheet.create({
     header: {
     },
     container: {
-
+        backgroundColor: colors.WHITE
     },
 })
 
