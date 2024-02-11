@@ -7,7 +7,7 @@ import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
-import { useGetPaginatedSpotsQuery } from '../../../store/api';
+import { useGetPaginatedSpotsQuery } from '../../../store/spots';
 
 
 interface IHome {
@@ -20,7 +20,6 @@ interface IHeartPressed {
 
 
 const Spots:React.FC<IHome> = ({navigation}) => {
-    const [isLoaded, setIsLoaded] = useState(false);
     const [currPage, setCurrPage] = useState(1);
     const [paginatedData, setPaginatedData] = useState<Spot[]>([]);
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
