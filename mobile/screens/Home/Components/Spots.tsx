@@ -6,9 +6,9 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
-import axios from 'axios';
-import urlParser from '../../../utils/url-parser';
 import { FlatList } from 'react-native-gesture-handler';
+import { useGetPaginatedSpotsQuery } from '../../../store/api';
+
 
 interface IHome {
     navigation: any
@@ -23,17 +23,20 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [currPage, setCurrPage] = useState(1);
     const [paginatedData, setPaginatedData] = useState<Spot[]>([]);
-    const size = 10;
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
+    const size=10
+
+    const { data: spots, isLoading, isFetching } = useGetPaginatedSpotsQuery({page:currPage,size});
 
     useEffect(() => {
-        const getInfo = async () => {
-            setIsLoaded(true);
-            const response = await axios.get(urlParser(`api/spots?page=${currPage}&size=${size}`));
-            setPaginatedData(prevData => [...prevData, ...(response.data.Spots as Spot[])]);
-        };
-        getInfo();
-    }, [currPage]);
+        if (!isLoading && spots) {
+            setPaginatedData(prevData => [...prevData, ...spots.Spots]);
+        }
+    }, [isLoading, spots, currPage]);
+
+    console.log("PAGINATED DATA", paginatedData)
+
+  
 
     const handleLoadMore = () => {
         setCurrPage(prevPage => prevPage + 1);    
@@ -51,6 +54,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             [spotId]: !prev[spotId]
         }));
     };
+
 
     const renderSpots = ({ item }: { item: Spot }) => {
         return (
@@ -79,12 +83,12 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         );
     };
 
+
     const renderLoading = () => {
-        return (
-        <View style={styles.loading}>
-            <ActivityIndicator size="large" color={colors.RESERVERED} />
-        </View>
-        );
+        if (!isFetching && paginatedData.length === 0) {
+            return null;
+        }
+        return isLoading ? <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View> : null;
     };
 
 
@@ -95,7 +99,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             keyExtractor={(item, index) => `${item.id}-${index}`}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.1}
-            ListFooterComponent={isLoaded ? null : renderLoading}
+            ListFooterComponent={renderLoading}
         />
     );
 };
