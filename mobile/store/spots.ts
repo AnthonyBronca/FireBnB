@@ -5,7 +5,7 @@ import axios from "axios";
 import urlParser from "../utils/url-parser";
 
 
-export const apiSlice = createApi({
+export const apiSpotSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: `${urlParser(`api`)}`}),
     endpoints: builder => ({
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
 });
 
 
-export const { useGetPaginatedSpotsQuery } = apiSlice;
+export const { useGetPaginatedSpotsQuery } = apiSpotSlice;
 
 // DEFINE THUNKS
 
