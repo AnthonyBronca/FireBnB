@@ -7,7 +7,7 @@ import urlParser from "../utils/url-parser";
 
 // DEFINE THUNKS
 // To get all spots
-export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
+export const fetchAllSpots = createAsyncThunk("spots/fetchAllSpots", async () => {
     try {
         const response = await axios.get(urlParser(`api/spots`));
         return response.data;
@@ -15,6 +15,17 @@ export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
         throw error
     }
 });
+
+
+// To get all spots with pagination involved
+// export const fetchPaginatedSpots = createAsyncThunk("spots/fetchPaginatedSpots", async ({page = 1, size = 20}) => {
+//     try {
+//         const response = await axios.get(urlParser(`api/spots?page=${page}&size=${size}`));
+//         return response.data;
+//     } catch (error) {
+//         throw error
+//     }
+// });
 
 // To get all of the user's spots
 export const fetchUserSpots = createAsyncThunk("spots/fetchUserSpots", async (userId:number) => {
@@ -82,7 +93,7 @@ export const SpotSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(fetchSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
+        .addCase(fetchAllSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
             state.byId = {};
             state.allSpots = action.payload.Spots;
 
