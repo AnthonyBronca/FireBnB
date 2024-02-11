@@ -82,8 +82,8 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             >
                 <Image
                     style={styles.image}
-
                     source={{ uri: spot.previewImage}}
+                    cachePolicy={'memory-disk'}
                 />
                 <SpotDetails spot={spot}/>
             </Pressable>

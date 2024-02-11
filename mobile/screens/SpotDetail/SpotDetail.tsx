@@ -1,7 +1,7 @@
-import React, { memo, useRef} from 'react';
-import { ScrollView, View, StyleSheet,Text, Animated} from 'react-native';
+import React, { memo} from 'react';
+import { ScrollView, View, StyleSheet,Text, ImageSourcePropType} from 'react-native';
 import SpotTitle from './components/SpotTitle';
-import {Divider, ImageProps} from 'react-native-elements'
+import {Divider} from 'react-native-elements'
 import SubDetail from './components/SubDetail';
 import BottomReserve from './components/BottomReserve';
 // import randomPerson from '../../assets/images/random-person.jpg';
@@ -31,19 +31,7 @@ const SpotDetail:React.FC<ISpotDetail> = ({route, navigation}):JSX.Element => {
   const spot:Spot = route.params.spot;
 
 
-  const scrollOffSetY = useRef(new Animated.Value(0)).current;
-  const moveUpMax = 200;
-  const moveUpMin = 100;
-  const scrollDistance = moveUpMax - moveUpMin;
-
-  const animatedScrollViewHeight = scrollOffSetY.interpolate({
-    inputRange: [0, scrollDistance],
-    outputRange: [200, 300],
-    extrapolate: 'clamp'
-  })
-
-
-  const imagePlaceHolders = [
+  const imagePlaceHolders: ImageSourcePropType[] = [
     pineapple,
     placeholder1,
     placeholder2,
@@ -98,13 +86,17 @@ const SpotDetail:React.FC<ISpotDetail> = ({route, navigation}):JSX.Element => {
               additionalDets={true}
               img={calendar} />
           </View>
-        <View style={styles.sectionContainer}>
-          <Divider width={1} orientation='horizontal'/>
-        </View>
-        <DetailParagraph details={[spot.description, "fix me"]}/>
-        <View style={styles.sectionContainer}>
-          <Divider width={1} orientation='horizontal'/>
-        </View>
+          { spot.description[0].length > 0 ?
+            <>
+            <View style={styles.sectionContainer}>
+            <Divider width={1} orientation='horizontal'/>
+            </View>
+            <DetailParagraph details={spot.description}/>
+            <View style={styles.sectionContainer}>
+            <Divider width={1} orientation='horizontal'/>
+            </View>
+            </>: null
+        }
         <Text style={[fonts.header, {marginLeft: 40, marginBottom: 10}]}>Where you'll be staying</Text>
         <ScrollView
           horizontal={true}
@@ -117,7 +109,7 @@ const SpotDetail:React.FC<ISpotDetail> = ({route, navigation}):JSX.Element => {
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
-        <Reviews navigation={navigation} spot={spot} />
+        <Reviews navigation={navigation} spot={spot} reviews={spot.reviews} />
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>

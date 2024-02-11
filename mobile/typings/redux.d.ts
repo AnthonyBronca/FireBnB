@@ -50,8 +50,26 @@ export interface Review {
     stars: number,
     createdAt: string | Date,
     updatedAt: string | Date,
-    userId: number
+    userId: number;
+
 };
+
+
+export interface IReview {
+    ReviewImages: ReviewImage[];
+    User: User;
+    createdAt: string;
+    updatedAt: string;
+    id: number;
+    review: string;
+    spotId: number;
+    stars: number;
+    userId: number;
+};
+
+export interface IReviews {
+    Reviews: IReview[]
+}
 
 
 export interface Spot {
@@ -61,7 +79,7 @@ export interface Spot {
     city: string;
     state: string;
     country: string;
-    description: string;
+    description: string[];
     avgRating: number;
     name: string;
     price: number;

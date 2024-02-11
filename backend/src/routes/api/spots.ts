@@ -94,7 +94,8 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
                                 model: UserImage,
                             }
                         ]
-                    }]
+                    },
+                ]
                 },
             ]
         });
@@ -106,9 +107,9 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             const previewImageUrl = SpotImages.find((image:any) => image.preview === true).url;
             const avgRating = Reviews.reduce((sum:number, review:any) => sum += review.stars ,0) / Reviews.length;
             const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
-
+            const descriptionArr = reviewSplitter(res.description);
             spotImages.push(previewImageUrl);
-
+            res.description = descriptionArr
             res.ownerId = Owner.id;
             res.previewImage = previewImageUrl;
             res.avgRating = fixedRating;

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { View, Text, StyleSheet, ImageSourcePropType } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
-import { Spot } from '../../../typings/redux';
+import { Review, Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
 
 interface ISubDetail {
@@ -11,10 +11,12 @@ interface ISubDetail {
     style?: any
     spot: Spot,
     img?: ImageSourcePropType;
+    rev?: Review
 }
 
 
-const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot, img}) => {
+const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot, img, rev}) => {
+
 
   return (
     <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>
@@ -24,9 +26,12 @@ const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, sp
                 <Image
                     placeholder={img}
                     style={styles.detImg}
-                    source={img} />
+                    source={img}
+                    />
                 :
                 <Image
+                    cachePolicy={'memory-disk'}
+                    placeholder={{uri: spot.Owner.UserImages[0].url}}
                     style={styles.profileImg}
                     source={{ uri: spot?.Owner.UserImages[0].url }} />}
         </View>
