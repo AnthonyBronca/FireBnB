@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { SessionSlice } from './session'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { SpotSlice } from './spots';
+// import { SpotSlice } from './spots';
 import { LikeSlice } from './likes';
 import { apiSpotSlice } from './spots';
 import logger from 'redux-logger';
@@ -9,7 +9,7 @@ import logger from 'redux-logger';
 
 const reducer = {
     session: SessionSlice.reducer,
-    spots: SpotSlice.reducer,
+    // spots: SpotSlice.reducer,
     likes: LikeSlice.reducer,
     [apiSpotSlice.reducerPath]: apiSpotSlice.reducer
 }
