@@ -91,7 +91,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         return null;
     };
 
-console.log(isLoading, 'is loading??')
+
     return (     
         <FlatList
             data={paginatedData}
