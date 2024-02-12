@@ -57,11 +57,11 @@ export interface Review {
 
 export interface IReview {
     ReviewImages: ReviewImage[];
-    User: User;
+    User: User & {previewImageUrl: string};
     createdAt: string;
     updatedAt: string;
     id: number;
-    review: string;
+    review: string[];
     spotId: number;
     stars: number;
     userId: number;

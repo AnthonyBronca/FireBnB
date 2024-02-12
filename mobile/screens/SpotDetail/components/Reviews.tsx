@@ -22,7 +22,7 @@ interface IReviewsProps {
 const Reviews: React.FC<IReviewsProps> = ({navigation, spot, reviews}) => {
 
     const [seeMoreObj, setSeeMoreObj] = useState<any>({});
-    const [spotReviews, setSpotReviews] = useState<IReviews>();
+    const [spotReviews, setSpotReviews] = useState<IReviews>({Reviews: []});
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
@@ -121,15 +121,14 @@ const Reviews: React.FC<IReviewsProps> = ({navigation, spot, reviews}) => {
     };
 
 
-    const goToReviews = (spot:any) => {
+    const goToReviews = (reviews: IReviews) => {
         navigation.navigate('Reviews', {
-            spot
+            reviews
         });
     };
 
-console.log(spotReviews, ">-----> spot details")
 
-if(!reviews || reviews.length === 0){
+if(!spotReviews || spotReviews.Reviews.length === 0){
     return null;
 } else if(!isLoaded){
     return <ActivityIndicator style={{marginBottom: 20}} color={colors.LIGHT} />
@@ -143,17 +142,17 @@ if(!reviews || reviews.length === 0){
             <Text style={styles.reviewCount}>{`${dummyReviews.length} Reviews`}</Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-            {dummyReviews.map((rev, idx) => (
-                <View style={styles.reviewCard} key={`${rev.username}-${idx}`}>
-                  {makeStars(rev.review)}
+            {spotReviews.Reviews.map((rev, idx) => (
+                <View style={styles.reviewCard} key={`${rev.User.username}-${idx}`}>
+                  {makeStars(rev.stars)}
                   <View style={styles.revSection}>
                     {!seeMoreObj[rev.id] ?
                         <View style={styles.textContainer}>
-                            <Text style={styles.revText}>{`${rev.body[0]}...`}</Text>
+                            <Text style={styles.revText}>{`${rev.review[0]}...`}</Text>
                         </View>
                          :
                          <View style={styles.textContainer}>
-                            <Text style={styles.revText}>{`${rev.body[1]}`}</Text>
+                            <Text style={styles.revText}>{`${rev.review[1]}`}</Text>
                         </View>
                     }
                     {!seeMoreObj[rev.id] ?
@@ -168,17 +167,18 @@ if(!reviews || reviews.length === 0){
                     </View>
                     <SubDetail
                         style={styles.reviewUser}
-                        title={rev.username}
+                        title={rev.User.username}
                         spot={spot}
-                        text={rev.location}
+                        text={`${spot.city}, ${spot.state}`}
                         additionalDets={false}
+                        rev={rev}
                         />
                 </View>
             ))}
         </ScrollView>
-        <TouchableOpacity activeOpacity={.5} onPress={()=> goToReviews(spot)}>
+        <TouchableOpacity activeOpacity={.5} onPress={()=> goToReviews(spotReviews)}>
             <View style={styles.showAllButton}>
-                <Text>{`Show all ${dummyReviews.length} reviews`}</Text>
+                <Text>{`Show all ${spotReviews.Reviews.length} reviews`}</Text>
             </View>
         </TouchableOpacity>
     </View>
