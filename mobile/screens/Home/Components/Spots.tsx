@@ -7,7 +7,7 @@ import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
-import { useGetPaginatedSpotsQuery } from '../../../store/spots';
+import { useGetAllSpotsQuery } from '../../../store/spots';
 
 
 interface IHome {
@@ -25,20 +25,19 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
     const size=10
 
-    const { data: spots, isLoading, isFetching } = useGetPaginatedSpotsQuery({page:currPage,size});
+    const { data: spots, isLoading } = useGetAllSpotsQuery({page:currPage,size});
 
     useEffect(() => {
-        if (!isLoading && spots) {
-            setPaginatedData(prevData => [...prevData, ...spots.Spots]);
+        if (!isLoading && spots && spots.Spots) {
+            setPaginatedData((prev) => [...prev, ...spots.Spots]);
         }
-    }, [isLoading, spots, currPage]);
+    }, [spots, isLoading]);
 
-    console.log("PAGINATED DATA", paginatedData)
-
-  
 
     const handleLoadMore = () => {
-        setCurrPage(prevPage => prevPage + 1);    
+        if (!isLoading && spots && spots.Spots.length === size) {
+            setCurrPage(prevPage => prevPage + 1);
+        }
     };
    
     const goToSpotDetail = (spot: Spot) => {
@@ -84,13 +83,15 @@ const Spots:React.FC<IHome> = ({navigation}) => {
 
 
     const renderLoading = () => {
-        if (!isFetching && paginatedData.length === 0) {
-            return null;
+        if (isLoading && !paginatedData.length) {
+            return <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View>;
+        } else if (isLoading) {
+            return <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View>;
         }
-        return isLoading ? <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View> : null;
+        return null;
     };
 
-
+console.log(isLoading, 'is loading??')
     return (     
         <FlatList
             data={paginatedData}
@@ -98,6 +99,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             keyExtractor={(item, index) => `${item.id}-${index}`}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.1}
+            initialNumToRender={10}
             ListFooterComponent={renderLoading}
         />
     );
