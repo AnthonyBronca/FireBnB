@@ -31,11 +31,9 @@ export const apiSpotSlice = createApi({
     })
 });
 
-
 export const { useGetAllSpotsQuery } = apiSpotSlice;
 
 // DEFINE THUNKS
-
 // To post a spot
 export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpotForm) => {
     try {
@@ -82,30 +80,6 @@ export const SpotSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        // .addCase(fetchAllSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
-        //     state.byId = {};
-        //     state.allSpots = action.payload.Spots;
-
-        //     for(let spot of action.payload.Spots){
-        //         if(!state.byId[`${spot.id}`]){
-        //             state.byId[`${spot.id}`] = spot;
-        //         }
-        //     };
-        // })
-        // .addCase(fetchUserSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
-        //     state.userSpotId = {};
-        //     state.userSpots = action.payload.Spots;
-        //     for (let spot of action.payload.Spots){
-        //         if(!state.userSpotId[`${spot.id}`]){
-        //             state.userSpotId[`${spot.id}`] = spot;
-        //         };
-        //     };
-        // })
-        // .addCase(fetchSingleSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
-        //     if(state.byId){
-        //         state.byId[`${action.payload.id}`] = action.payload;
-        //     };
-        // })
         .addCase(createSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
             if(state.byId !== null){
                 state.byId[`${action.payload.id}`] = action.payload
