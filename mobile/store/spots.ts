@@ -6,19 +6,21 @@ import urlParser from "../utils/url-parser";
 
 
 export const apiSpotSlice = createApi({
-    reducerPath: 'api',
+    reducerPath: 'spots',
     baseQuery: fetchBaseQuery({ baseUrl: `${urlParser(`api`)}`}),
     endpoints: builder => ({
         getAllSpots: builder.query({
-            query: () => '/spots'
-        }),
-        getPaginatedSpots: builder.query({
-            query: ({page = 1, size = 20}) => `/spots?page=${page}&size=${size}`,
-            transformResponse: (res: {Spots: Spot[]}) => {
-               res.Spots.sort((a,b) => a.id - b.id)
-               return res
-          
+            query: ({page, size}) => {
+                let queryStr = '/spots';
+                if (page !== undefined && size !== undefined) {
+                    queryStr += `?page=${page}&size=${size}`
+                }
+                return queryStr;
             },
+            transformResponse: (res: {Spots: Spot[]}) => {
+                res.Spots.sort((a,b) => a.id - b.id)
+                return res
+             },
         }),
         getUserSpots: builder.query({
             query: userId => `/spots/current/${userId}`
@@ -30,7 +32,7 @@ export const apiSpotSlice = createApi({
 });
 
 
-export const { useGetPaginatedSpotsQuery } = apiSpotSlice;
+export const { useGetAllSpotsQuery } = apiSpotSlice;
 
 // DEFINE THUNKS
 
