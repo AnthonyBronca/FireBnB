@@ -13,7 +13,15 @@ export const apiSpotSlice = createApi({
             query: () => '/spots'
         }),
         getPaginatedSpots: builder.query({
-            query: ({page = 1, size = 20}) => `/spots?page=${page}&size=${size}`
+            query: ({page = 1, size = 20}) => `/spots?page=${page}&size=${size}`,
+            transformResponse: (res: {Spots: Spot[]}) => {
+               res.Spots.sort((a,b) => a.id - b.id)
+               return res
+          
+            },
+        }),
+        getUserSpots: builder.query({
+            query: userId => `/spots/current/${userId}`
         }),
         getSingleSpot: builder.query({
             query: spotId  => `/spots/${spotId}`
