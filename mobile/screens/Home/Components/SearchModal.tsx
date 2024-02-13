@@ -31,7 +31,7 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
   return (
     <View>
       <Modal
-        animationType='slide'
+        animationType='fade'
         transparent={true}
         visible={isVisible}
         presentationStyle='overFullScreen'
@@ -65,8 +65,14 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
                     </TouchableOpacity>
                 ))}
             </ScrollView>
-            <View></View>
-            <View></View>
+        </View>
+        <View style={styles.whenAndWhoBox}>
+            <Text style={styles.whenAndWhoBoxTextLeft}>When</Text>
+            <Text style={styles.whenAndWhoBoxTextRight}>Any week</Text>
+        </View>
+        <View style={styles.whenAndWhoBox}>
+            <Text style={styles.whenAndWhoBoxTextLeft}>Who</Text>
+            <Text style={styles.whenAndWhoBoxTextRight}>Add guests</Text>
         </View>
       </Modal>
     </View>
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
         marginTop: 22,
     },
     whereBox: {
-        marginVertical: 100,
+        marginTop: 100,
         marginHorizontal: 10,
         backgroundColor: 'white',
         borderRadius: 20,
@@ -140,6 +146,32 @@ const styles = StyleSheet.create({
         color: '#5f5f5f',
         width: 100,
         textAlign: 'center'
+    },
+    whenAndWhoBox: {
+        marginTop: 15,
+        marginHorizontal: 10,
+        backgroundColor: 'white',
+        borderRadius: 15,
+        paddingHorizontal: 35,
+        paddingVertical: 25,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    whenAndWhoBoxTextLeft: {
+        ...fonts.defaultText,
+        color: '#5f5f5f',
+    },
+    whenAndWhoBoxTextRight: {
+        ...fonts.defaultText,
     }
 })
 
