@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
-import { View, ScrollView, Modal, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
+import { View, ScrollView, Modal, TouchableOpacity, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface ISearchModalProps {
-    isVisible: boolean
+    isVisible:boolean,
+    setIsVisible:(isVisible: boolean) => void;
 };
 
-const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
+const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) => {
     const [focusedImage, setFocusedImage] = useState<number | null>(null);
 
     const whereToImagesData = [
@@ -32,10 +33,15 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
     <View>
       <Modal
         animationType='fade'
-        transparent={true}
+        transparent={false}
         visible={isVisible}
         presentationStyle='overFullScreen'
       >
+        <View>
+            <Pressable style={styles.closeModal} onPress={() => setIsVisible(false)}>
+                <Text style={{fontWeight: "600"}}>x</Text>
+            </Pressable>
+        </View>
         <View style={styles.whereBox}>
             <Text style={styles.whereToHeading}>Where to?</Text>
             <View>
@@ -85,6 +91,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
+    },
+    closeModal: {
+        marginTop: 60,
+        marginLeft: 10,
+        width: 25,
+        height: 25,
+        position: 'absolute',
+        elevation: 5,
+        borderColor: '#b9b9b9',
+        borderWidth: 1,
+        borderRadius: 30,
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     whereBox: {
         marginTop: 100,
