@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, ScrollView, Modal, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -6,9 +6,28 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface ISearchModalProps {
     isVisible: boolean
-}
+};
 
 const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
+    const [focusedImage, setFocusedImage] = useState<number | null>(null);
+
+    const whereToImagesData = [
+        { image: require('../../../assets/images/flexible.jpg'), alt:"I'm flexible", text:"I'm flexible" },
+        { image: require('../../../assets/images/europe.jpg'), alt:"Europe", text:"Europe"},
+        { image: require('../../../assets/images/mexico.jpg'), alt:"Mexico", text:"Mexico"},
+        { image: require('../../../assets/images/caribbean.jpg'), alt:"Caribbean", text:"Caribbean"},
+        { image: require('../../../assets/images/italy.jpg'), alt:"Italy", text:"Italy"},
+        { image: require('../../../assets/images/south-america.jpg'), alt:"South America", text:"South America"},
+        { image: require('../../../assets/images/canada.jpg'), alt:"Canada", text:"Canada"},
+        { image: require('../../../assets/images/central-america.jpg'), alt:"Central America", text:"Central America"},
+        { image: require('../../../assets/images/colombia.jpg'), alt:"Colombia", text:"Colombia"},
+    ];
+
+    const toggleWhereToImgPress = (id:number) => {
+       setFocusedImage(id)
+    };
+
+
   return (
     <View>
       <Modal
@@ -31,42 +50,20 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
                 horizontal={true} 
                 showsHorizontalScrollIndicator={false}
                 style={styles.whereToImagesContainer}>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/flexible.jpg')} alt="I'm flexible" style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>I'm flexible</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/europe.jpg')}  alt= 'Europe' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Europe</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/mexico.jpg')} alt='Mexico' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Mexico</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/caribbean.jpg')} alt='Caribbean' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Caribbean</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/italy.jpg')} alt='Italy' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Italy</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/south-america.jpg')} alt='South America' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>South America</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/canada.jpg')} alt='Canada' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Canada</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/central-america.jpg')} alt='Central America' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Central America</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                    <Image source={require('../../../assets/images/colombia.jpg')} alt='Colombia' style={styles.whereToImage}/>
-                    <Text style={styles.whereToImageText}>Colombia</Text>
-                </TouchableOpacity>
+                {whereToImagesData.map((image, idx)=> (
+                    <TouchableOpacity 
+                        key={`whereToImage-${idx}`} 
+                        activeOpacity={0.8}
+                        onPress={() => toggleWhereToImgPress(idx)}
+                    >
+                        <Image
+                            source={image.image}
+                            alt={image.alt}
+                            style={focusedImage !== idx ? styles.whereToImage : styles.whereToImageFocused}
+                        />
+                        <Text style={styles.whereToImageText}>{image.text}</Text>
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
             <View></View>
             <View></View>
@@ -125,12 +122,15 @@ const styles = StyleSheet.create({
     whereToImage: {
         width: 100,
         height: 100,
+        marginRight: 15,
         borderWidth: 1,
         borderColor: '#DDDDDD',
-        borderRadius: 10,
-        marginRight: 15,
+        borderRadius: 10
     },
     whereToImageFocused: {
+        width: 100,
+        height: 100,
+        marginRight: 15,
         borderWidth: 2,
         borderColor: '#000000',
         borderRadius: 10
@@ -138,6 +138,8 @@ const styles = StyleSheet.create({
     whereToImageText: {
         ...fonts.detailText,
         color: '#5f5f5f',
+        width: 100,
+        textAlign: 'center'
     }
 })
 
