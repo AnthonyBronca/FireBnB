@@ -31,15 +31,33 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible }) => {
                 horizontal={true} 
                 showsHorizontalScrollIndicator={false}
                 style={styles.whereToImagesContainer}>
-                <Image source={require('../../../assets/images/flexible.jpg')} alt="I'm flexible" style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/europe.jpg')}  alt= 'Europe' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/mexico.jpg')} alt='Mexico' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/caribbean.jpg')} alt='Caribbean' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/italy.jpg')} alt='Italy' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/south-america.jpg')} alt='South America' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/canada.jpg')} alt='Canada' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/central-america.jpg')} alt='Central America' style={styles.whereToImage}/>
-                <Image source={require('../../../assets/images/colombia.jpg')} alt='Colombia' style={styles.whereToImage}/>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/flexible.jpg')} alt="I'm flexible" style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/europe.jpg')}  alt= 'Europe' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/mexico.jpg')} alt='Mexico' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/caribbean.jpg')} alt='Caribbean' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/italy.jpg')} alt='Italy' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/south-america.jpg')} alt='South America' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/canada.jpg')} alt='Canada' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/central-america.jpg')} alt='Central America' style={styles.whereToImage}/>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+                    <Image source={require('../../../assets/images/colombia.jpg')} alt='Colombia' style={styles.whereToImage}/>
+                </TouchableOpacity>
             </ScrollView>
             <View></View>
             <View></View>
@@ -102,9 +120,11 @@ const styles = StyleSheet.create({
         borderColor: '#DDDDDD',
         borderRadius: 10,
         marginRight: 15
-        // borderWidth: 2,
-        // borderColor: '#000000',
-        // borderRadius: 10
+    },
+    whereToImageFocused: {
+        borderWidth: 2,
+        borderColor: '#000000',
+        borderRadius: 10
     }
 })
 
