@@ -11,6 +11,7 @@ interface ISearchModalProps {
 
 const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) => {
     const [focusedImage, setFocusedImage] = useState<number | null>(null);
+    const [focusedImageText, setFocusedImageText] = useState<string | null>(null);
 
     const whereToImagesData = [
         { image: require('../../../assets/images/flexible.jpg'), alt:"I'm flexible", text:"I'm flexible" },
@@ -24,8 +25,9 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
         { image: require('../../../assets/images/colombia.jpg'), alt:"Colombia", text:"Colombia"},
     ];
 
-    const toggleWhereToImgPress = (id:number) => {
+    const toggleWhereToImgPress = (id:number, text:string) => {
        setFocusedImage(id)
+       setFocusedImageText(text)
     };
 
 
@@ -49,7 +51,7 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
                     style={styles.searchDestination}
                     activeOpacity={0.8}>
                     <FontAwesomeIcon icon={faSearch} size={15}/>
-                    <Text style={styles.searchDestinationText}>Search destinations</Text>
+                    <Text style={styles.searchDestinationText}>{focusedImage !== null ? `${focusedImageText}` : 'Search destinations'}</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView 
@@ -60,12 +62,12 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
                     <TouchableOpacity 
                         key={`whereToImage-${idx}`} 
                         activeOpacity={0.8}
-                        onPress={() => toggleWhereToImgPress(idx)}
+                        onPress={() => toggleWhereToImgPress(idx, image.text)}
                     >
                         <Image
                             source={image.image}
                             alt={image.alt}
-                            style={focusedImage !== idx ? styles.whereToImage : styles.whereToImageFocused}
+                            style={focusedImage === idx ? styles.whereToImageFocused: styles.whereToImage}
                         />
                         <Text style={styles.whereToImageText}>{image.text}</Text>
                     </TouchableOpacity>
@@ -79,6 +81,15 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
         <View style={styles.whenAndWhoBox}>
             <Text style={styles.whenAndWhoBoxTextLeft}>Who</Text>
             <Text style={styles.whenAndWhoBoxTextRight}>Add guests</Text>
+        </View>
+        <View style={styles.modalFooter}>
+            <Pressable>
+                <Text style={styles.searchFooterClearText} onPress={() => setFocusedImage(null)}>Clear all</Text>
+            </Pressable>
+            <Pressable style={styles.searchFooterButton} onPress={() => setIsVisible(false)}>
+                <FontAwesomeIcon icon={faSearch} size={15} color='#FFFFFF'/>
+                <Text style={styles.searchFooterButtonText}>Search</Text>
+            </Pressable>
         </View>
       </Modal>
     </View>
@@ -94,7 +105,7 @@ const styles = StyleSheet.create({
     },
     closeModal: {
         marginTop: 60,
-        marginLeft: 10,
+        marginLeft: 15,
         width: 25,
         height: 25,
         position: 'absolute',
@@ -108,7 +119,7 @@ const styles = StyleSheet.create({
     },
     whereBox: {
         marginTop: 100,
-        marginHorizontal: 10,
+        marginHorizontal: 15,
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
@@ -118,8 +129,10 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        borderColor: '#DDDDDD',
+        borderWidth: 0.5,
         elevation: 5,
     },
     whereToHeading: {
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
     searchDestination: {
         borderColor: '#b9b9b9',
         borderWidth: 1,
-        width: 305,
+        width: 300,
         height: 35,
         borderRadius: 10,
         alignItems: 'center',
@@ -169,7 +182,7 @@ const styles = StyleSheet.create({
     },
     whenAndWhoBox: {
         marginTop: 15,
-        marginHorizontal: 10,
+        marginHorizontal: 15,
         backgroundColor: 'white',
         borderRadius: 15,
         paddingHorizontal: 35,
@@ -182,8 +195,10 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        borderColor: '#DDDDDD',
+        borderWidth: 0.5,
         elevation: 5,
     },
     whenAndWhoBoxTextLeft: {
@@ -192,6 +207,36 @@ const styles = StyleSheet.create({
     },
     whenAndWhoBoxTextRight: {
         ...fonts.defaultText,
+    },
+    modalFooter: {
+        width: '100%',
+        backgroundColor: '#FFFFFF',
+        borderWidth: 1,
+        borderColor: '#DDDDDD',
+        marginTop: 200,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        paddingVertical: 20
+    },
+    searchFooterClearText: {
+        ...fonts.subHeader,
+        textDecorationLine: 'underline'
+    },
+    searchFooterButton: {
+        backgroundColor: "#FF375D",
+        width: 100,
+        height: 35,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5,
+        borderRadius: 5
+    },
+    searchFooterButtonText: {
+        ...fonts.subHeader,
+        color: "#FFFFFF",
     }
 })
 
