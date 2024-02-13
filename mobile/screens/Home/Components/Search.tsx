@@ -30,7 +30,7 @@ const Search:React.FC = () => {
                         <FontAwesomeIcon icon={faFilter} size={20}/>
                     </TouchableOpacity>
                 </View>
-                <SearchModal isVisible={modalVisible}/>
+                <SearchModal isVisible={modalVisible} setIsVisible={setModalVisible}/>
             </View>
     );
 }
