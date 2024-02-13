@@ -1,34 +1,38 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { fonts } from '../../../constants/stylings/styles';
+import SearchModal from './SearchModal';
 
 
 const Search:React.FC = () => {
+    const [modalVisible, setModalVisible] = useState<boolean>(false)
 
-  return (
-        <View style={styles.searchBarComponentContainer}>
-            <View>
-                <TouchableOpacity
-                    style={styles.searchBar}
-                    activeOpacity={0.8}
-                >
-                    <FontAwesomeIcon icon={faSearch} style={styles.searchIcon} size={20}/>
-                    <Text style={styles.placeholderHeading}>Where To?</Text>
-                    <Text style={styles.placeholderSubheading}>Anywhere · Any week · Add guests</Text>
-                </TouchableOpacity>
+    return (
+            <View style={styles.searchBarComponentContainer}>
+                <View>
+                    <TouchableOpacity
+                        style={styles.searchBar}
+                        activeOpacity={0.8}
+                        onPress={() => setModalVisible(!modalVisible)}
+                    >
+                        <FontAwesomeIcon icon={faSearch} style={styles.searchIcon} size={20}/>
+                        <Text style={styles.placeholderHeading}>Where To?</Text>
+                        <Text style={styles.placeholderSubheading}>Anywhere · Any week · Add guests</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        style={styles.filterIconContainer}
+                        activeOpacity={0.9}
+                    >
+                        <FontAwesomeIcon icon={faFilter} size={20}/>
+                    </TouchableOpacity>
+                </View>
+                <SearchModal isVisible={modalVisible}/>
             </View>
-            <View>
-                <TouchableOpacity
-                    style={styles.filterIconContainer}
-                    activeOpacity={0.9}
-                >
-                    <FontAwesomeIcon icon={faFilter} size={20}/>
-                </TouchableOpacity>
-            </View>
-        </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
