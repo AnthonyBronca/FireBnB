@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     searchDestination: {
         borderColor: '#b9b9b9',
         borderWidth: 1,
-        width: 300,
+        width: 305,
         height: 35,
         borderRadius: 10,
         alignItems: 'center',
