@@ -1,5 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import './css/NewReviewModalStyles.css'
+import star from '../../assets/icons/star.svg';
+import emptyStar from '../../assets/icons/empty-star.svg';
+import xBtn from '../../assets/icons/x.svg'
 //import { useAppSelector } from '../../store';
 
 import NewReviewModalContext from '../../context/NewReviewModalContext';
@@ -33,9 +36,7 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
         <section id="new-review-modal">
             <div id="nr-modal-content">
                 <div id="exit-parent">
-                    <span onClick={handleClose} id="nr-exit-btn">
-                        X
-                    </span>
+                    <img src={xBtn} onClick={handleClose} id="nr-exit-btn" />
                 </div>
                 <div id="nrm-header">
                     <h1>Write a public review</h1>
@@ -44,13 +45,14 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
                 <form id="review-form">
                     <TextareaAutosize
                         id="rvw-txt-area"
-                        minRows={4}
+                        minRows={5}
                         placeholder='How was your stay?'
                     />
                     <div id="review-stars">
-                        1 2 3 4 5
+                       <img src={star}></img>
+                       <img src={emptyStar}></img>
                     </div>
-                    <button type="submit">Submit Review</button>
+                    <button id="nw-rvw-sbmt-btn" type="submit">Submit Review</button>
                 </form>
             </div>
         </section>
