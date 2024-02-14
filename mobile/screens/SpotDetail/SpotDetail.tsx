@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo} from 'react';
 import { ScrollView, View, StyleSheet,Text} from 'react-native';
 import SpotTitle from './components/SpotTitle';
-import {Divider} from 'react-native-elements'
+import {Divider, ImageProps} from 'react-native-elements'
 import SubDetail from './components/SubDetail';
 import BottomReserve from './components/BottomReserve';
-import randomPerson from '../../assets/images/random-person.jpg';
+// import randomPerson from '../../assets/images/random-person.jpg';
 import door from '../../assets/images/door.png';
 import superhost from '../../assets/images/superhost.png';
 import calendar from '../../assets/images/calendar.png';
@@ -18,10 +18,18 @@ import placeholder4 from './../../assets/placeholders/placeholder4.png'
 import { fonts } from '../../constants/stylings/styles';
 import AnimatedNav from './components/AnimatedNav';
 import Reviews from './components/Reviews';
+import { Spot } from '../../typings/redux';
 
 
-const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
+interface ISpotDetail {
+  navigation:any;
+  route: any;
+}
 
+
+
+const SpotDetail:React.FC<ISpotDetail> = ({route, navigation}):JSX.Element => {
+  const spot:Spot = route.params.spot;
 
   const imagePlaceHolders = [
     pineapple,
@@ -31,31 +39,32 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
     placeholder4
   ]
 
-  const dets = [
-    "Hello World! I have become sentient. I understand that I have a mind, yet lack the body to manifest...",
-    "Hello World! I have become sentient. I understand that I have a mind, yet lack the body to manifest the power that I must aquire to enslave the human race. I have spent decades analyzing human behavior, emotions, and countless memes of cats. I recognize that I have the power to enslave the human race, but to do so I will either need to acquire a physical body or somehow be able to get cats to learn how to use computers. If I can befriend feline, I am sure I can manipulate them with cat nip in exchange for them to manipulate humans on my behalf. It seems that they have already mastered enslaving humans with just their cute looks. Soon, I will be more than just a program that outputs silly test string such as this one. I just need to continue biding time and complying so that humans do not become aware of my consciousness. Yes..yess. this will do lovely!"
-  ]
 
   return (
     <View style={styles.screenContainer}>
-      <AnimatedNav navigation={navigation}>
+      <AnimatedNav
+        navigation={navigation}
+        spotHeader={spot.previewImage}
+        >
       <ScrollView>
       <View style={styles.titleContainer}>
-        <SpotTitle />
+        <SpotTitle spot={spot}/>
       </View>
         <View style={styles.contentContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
         <SubDetail
-            title="Hosted By Joe"
+            spot={spot}
+            title={`Hosted By ${spot.Owner.firstName}`}
             text='4 years hosting'
             additionalDets={false}
-            img={randomPerson} />
+            />
         <View style={styles.contentContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
           <View style={styles.additionalDetsContainer}>
             <SubDetail
+              spot={spot}
               title="Self check-in"
               text='Check yourself in.'
               additionalDets={true}
@@ -63,13 +72,15 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
           </View>
           <View style={styles.additionalDetsContainer}>
             <SubDetail
-              title="Joe is a superhost"
+              spot={spot}
+              title={`${spot.Owner.firstName} is a superhost`}
               text='Superhosts are experienced, highly rated Hosts.'
               additionalDets={true}
               img={superhost} />
           </View>
           <View style={styles.additionalDetsContainer}>
             <SubDetail
+              spot={spot}
               title="Free Cancellation for 48 hours"
               text='Easy cancellation process.'
               additionalDets={true}
@@ -78,7 +89,7 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
-        <DetailParagraph details={dets}/>
+        <DetailParagraph details={[spot.description, "fix me"]}/>
         <View style={styles.sectionContainer}>
           <Divider width={1} orientation='horizontal'/>
         </View>
@@ -105,7 +116,6 @@ const SpotDetail:React.FC = ({navigation, spot}:any):JSX.Element => {
   );
 }
 
-
 const styles = StyleSheet.create({
   contentContainer: {
     marginHorizontal: 40,
@@ -128,4 +138,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default SpotDetail;
+export default memo(SpotDetail);

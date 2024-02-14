@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faMessage, faCircleUser } from '@fortawesome/free-regular-svg-icons';
@@ -23,13 +23,6 @@ const BottomTabs:React.FC<IBottomTabs> = ({navigation}) => {
 
   const [activeIcon, setActiveIcon] = useState<any>(icons);
 
-
-
-  // const [homeState, setHomeState] = useState(true);
-  // const [searchState, setSearchState] = useState(false);
-  // const [micState, setMicState] = useState(false);
-  // const [bellState, setBellState] = useState(false);
-  // const [letterState, setLetterState] = useState(false);
 
   const clearIcons = () => {
    const keys = Object.keys(activeIcon);
@@ -173,96 +166,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default BottomTabs;
-
-
-// import React from 'react';
-// import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-// import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-// import { IconDefinition, faHeart, faMessage, faCircleUser } from '@fortawesome/free-regular-svg-icons';
-// import { faAirbnb } from '@fortawesome/free-brands-svg-icons';
-// import SpotDetail from '../../SpotDetail';
-// import Home from '..';
-// import NavBarTile from './NavBarTile';
-// // import Svg, {Path} from 'react-native-svg';
-// // import Test from './Test';
-
-// const Tab = createBottomTabNavigator();
-// const home = "Home";
-// const explore = "Explore";
-// const wishlists = "Wishlists";
-// const trips = "Trips";
-// const inbox = "Inbox";
-// const login = "Log In";
-
-// let iconName:IconDefinition;
-
-// const NavBar:React.FC = ():JSX.Element => {
-
-
-
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.iconContainer}>
-//         <TouchableOpacity>
-//           <NavBarTile icon={faMagnifyingGlass} name={'Explore'} color={'#8E8E8F'} size={25}/>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//     // <Tab.Navigator
-//     //   initialRouteName={home}
-//     //   screenOptions={({ route }) => ({
-//     //     tabBarActiveTintColor:"#ff375d",
-//     //     tabBarInactiveTintColor:"#8e8e8f",
-//     //     headerShown: false,
-//     //     tabBarIcon: ({ color }) => {
-//     //       let routeName = route.name;
-
-//     //       if (routeName === explore ) {
-//     //         iconName = faMagnifyingGlass
-//     //       }
-//     //       if (routeName === wishlists) {
-//     //         iconName = faHeart
-//     //       }
-//     //       if (routeName === trips) {
-//     //         iconName = faAirbnb
-//     //       }
-//     //       if (routeName === inbox ) {
-//     //         iconName = faMessage
-//     //       }
-//     //       if (routeName === login) {
-//     //         iconName = faCircleUser
-//     //       }
-//     //     return <FontAwesomeIcon icon={iconName} color={color} size={25} />
-//     //     },
-//     //   })}>
-//     //   <Tab.Screen name={explore} component={Home} />
-//     //   <Tab.Screen name={wishlists} component={SpotDetail} />
-//     //   <Tab.Screen name={trips} component={SpotDetail} />
-//     //   <Tab.Screen name={inbox} component={SpotDetail} />
-//     //   <Tab.Screen name={login} component={SpotDetail} />
-//     // </Tab.Navigator>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     // marginTop: 20,
-//     flexDirection: 'row',
-//     justifyContent: 'space-around',
-//     alignContent: 'flex-end',
-//     borderTopColor: 'rgb(200,200,200)',
-//     borderTopWidth: .5,
-//   },
-//   iconContainer: {
-//     flexDirection: 'column',
-//     justifyContent: 'flex-end',
-//     alignItems: 'flex-end',
-//     backgroundColor: 'orange',
-//   }
-// })
-
-// export default NavBar;
+export default memo(BottomTabs);
