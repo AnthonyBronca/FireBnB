@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     spotDetailsView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 375,
+        width: 355,
         marginTop: 10
     },
     spotDetailsContainer: {
