@@ -76,3 +76,19 @@
     cursor: pointer;
     font-size: 12px;
 }
+
+#write-rvw-btn {
+    background-color: #FF375D;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: .5rem 1rem .5rem 1rem;
+    cursor: pointer;
+    transition: padding 300ms;
+    border: none;
+    border-radius: 3px;
+    margin: 5px;
+}
+
+#write-rvw-btn:hover {
+    padding: .7rem 1.3rem .7rem 1.3rem;
+}
