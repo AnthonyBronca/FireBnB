@@ -1,13 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { View, ScrollView, Text, Pressable, StyleSheet, ActivityIndicator} from 'react-native';
-import { fetchSpots } from '../../../store/spots';
+import { View, Pressable, StyleSheet, ActivityIndicator, Text} from 'react-native';
 import SpotDetails from '../../Home/Components/SpotDetails'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
+import { FlatList } from 'react-native-gesture-handler';
+import { useGetAllSpotsQuery } from '../../../store/spots';
+
 
 interface IHome {
     navigation: any
@@ -15,119 +16,137 @@ interface IHome {
 
 interface IHeartPressed {
     [key:number]: boolean
-}
+};
 
 
 const Spots:React.FC<IHome> = ({navigation}) => {
-    const dispatch = useAppDispatch();
-    const allSpots = useAppSelector((state) => state.spots.allSpots);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const date = new Date().getDate();
-    const sec = new Date().getSeconds();
+    const [currPage, setCurrPage] = useState(1);
+    const [paginatedData, setPaginatedData] = useState<Spot[]>([]);
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
+    const size=10
+
+    const { data: spots, isLoading } = useGetAllSpotsQuery({page:currPage,size});
 
     useEffect(() => {
-        const getInfo = async() => {
-            await dispatch(fetchSpots());
-            setIsLoaded(true);
+        if (!isLoading && spots && spots.Spots) {
+            setPaginatedData((prev) => [...prev, ...spots.Spots]);
         }
-        getInfo()
-    }, [dispatch]);
+    }, [spots, isLoading]);
 
-    const toggleHeartPress = (spotId:number) => {
-        setIsHeartPressed(prev => ({
-            ...prev,
-            [spotId]: !prev[spotId]
-        }));
+
+    const handleLoadMore = () => {
+        if (!isLoading && spots && spots.Spots.length === size) {
+            setCurrPage(prevPage => prevPage + 1);
+        }
     };
-
+   
     const goToSpotDetail = (spot: Spot) => {
         navigation.navigate('SpotDetail', {
             spot,
         })
     };
 
-    if(!isLoaded){
-        return <ActivityIndicator
-        style={styles.loading}
-        size="large"
-        color={colors.RESERVERED}/>
-    }
+       const toggleHeartPress = (spotId:number) => {
+        setIsHeartPressed(prev => ({
+            ...prev,
+            [spotId]: !prev[spotId]
+        }));
+    };
 
-    return (
-    <ScrollView>
-        {allSpots?.map((spot, idx) => (
-            <View
-                key={`spot-${idx}-${date}-${sec}`}
-                style={styles.spotImageView}
-            >
-            <Pressable
-                style={styles.heartIcon}
-                onPress={() => toggleHeartPress(spot.id)}
-            >
-                {idx % 2 === 0 && (
-                    <View style={styles.guestFavContainer}>
-                        <Text style={styles.guestFavText}>Guest favorite</Text>
-                    </View>
-                )}
+
+    const renderSpots = ({ item }: { item: Spot }) => {
+        return (
+          <View style={styles.spotImageView}>
+            <Pressable style={styles.spotImageContainer} onPress={() => goToSpotDetail(item)}>
+            <View style={styles.heartContainer}>
+                <View>
+                    {item.id % 2 === 0 && (
+                        <View style={styles.guestFavContainer}>
+                            <Text style={styles.guestFavText}>Guest favorite</Text>
+                        </View>
+                    )}
+                </View>
+                <Pressable style={styles.heartIcon} onPress={() => toggleHeartPress(item.id)}>
                 <FontAwesomeIcon
                     icon={faHeart}
                     size={25}
-                    color={isHeartPressed[spot.id] ? '#FF385B' :'#535350'}
-                />
+                    color={isHeartPressed[item.id] ? '#FF385B' :'#535350'}
+                    />
+                </Pressable>
+            </View>
+              <Image style={styles.image} source={{ uri: item.previewImage }} />
+              <SpotDetails spot={item} />
             </Pressable>
-            <Pressable
-                style={styles.spotImageContainer}
-                onPress={()=> goToSpotDetail(spot)}
-            >
-                <Image
-                    style={styles.image}
-                    source={{ uri: spot.previewImage}}
-                />
-                <SpotDetails spot={spot}/>
-            </Pressable>
-        </View>
-        ))}
-    </ScrollView>
+          </View>
+        );
+    };
+
+
+    const renderLoading = () => {
+        if (isLoading && !paginatedData.length) {
+            return <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View>;
+        } else if (isLoading) {
+            return <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View>;
+        }
+        return null;
+    };
+
+
+    return (     
+        <FlatList
+            data={paginatedData}
+            renderItem={renderSpots}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.1}
+            initialNumToRender={10}
+            ListFooterComponent={renderLoading}
+        />
     );
 };
+
 
 const styles = StyleSheet.create({
     spotImageView: {
         alignItems: 'center',
-        marginTop: 20
+        marginTop: 20,
+        overflow: 'hidden'
     },
     spotImageContainer: {
-        width: 375,
-        height: 460,
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: 355,
+        height: 450,
         borderRadius: 10,
-        marginBottom: 20,
+        marginBottom: 10,
+        overflow: 'hidden',
     },
     image: {
-        width: 375,
-        height: 375,
+        width: 355,
+        height: 355,
         objectFit: 'fill',
         borderRadius: 10,
         backgroundColor:'#FFFFFF',
     },
-    heartIcon: {
+    heartContainer: {
         position: 'absolute',
-        top: 10,
-        right: 45,
-        zIndex: 1
+        top: 15,
+        zIndex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: 355,
+    },
+    heartIcon: {
+        marginHorizontal: 15
     },
     guestFavContainer: {
         backgroundColor: "#FBFBFB",
         borderColor: '#A19F9D',
         borderRadius: 20,
-        position: 'absolute',
-        right: 220,
         justifyContent: 'center',
         alignItems: 'center',
         width: 125,
         height: 25,
+        marginHorizontal: 15
     },
     guestFavText: {
         ...fonts.subHeader

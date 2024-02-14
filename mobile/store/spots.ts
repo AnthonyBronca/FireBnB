@@ -1,41 +1,39 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
 import axios from "axios";
 import urlParser from "../utils/url-parser";
 
 
+export const apiSpotSlice = createApi({
+    reducerPath: 'spots',
+    baseQuery: fetchBaseQuery({ baseUrl: `${urlParser(`api`)}`}),
+    endpoints: builder => ({
+        getAllSpots: builder.query({
+            query: ({page, size}) => {
+                let queryStr = '/spots';
+                if (page !== undefined && size !== undefined) {
+                    queryStr += `?page=${page}&size=${size}`
+                }
+                return queryStr;
+            },
+            transformResponse: (res: {Spots: Spot[]}) => {
+                res.Spots.sort((a,b) => a.id - b.id)
+                return res
+             },
+        }),
+        getUserSpots: builder.query({
+            query: userId => `/spots/current/${userId}`
+        }),
+        getSingleSpot: builder.query({
+            query: spotId  => `/spots/${spotId}`
+        })
+    })
+});
+
+export const { useGetAllSpotsQuery } = apiSpotSlice;
 
 // DEFINE THUNKS
-// To get all spots
-export const fetchSpots = createAsyncThunk("spots/fetchSpots", async () => {
-    try {
-        const response = await axios.get(urlParser(`/api/spots`));
-        return response.data;
-    } catch (error) {
-        throw error
-    }
-});
-
-// To get all of the user's spots
-export const fetchUserSpots = createAsyncThunk("spots/fetchUserSpots", async (userId:number) => {
-    try {
-        const response = await axios.get(urlParser(`/api/spots/current/${userId}`));
-        return response.data;
-    } catch (error) {
-        throw error
-    }
-})
-
-// To get a spot's details
-export const fetchSingleSpot = createAsyncThunk("spots/fetchSingleSpot", async (spotId:number) => {
-    try {
-        const response = await axios.get(urlParser(`/api/spots/${spotId}`));
-        return response.data;
-    } catch (error) {
-        throw error
-    }
-});
-
 // To post a spot
 export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpotForm) => {
     try {
@@ -82,30 +80,6 @@ export const SpotSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(fetchSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
-            state.byId = {};
-            state.allSpots = action.payload.Spots;
-
-            for(let spot of action.payload.Spots){
-                if(!state.byId[`${spot.id}`]){
-                    state.byId[`${spot.id}`] = spot;
-                }
-            };
-        })
-        .addCase(fetchUserSpots.fulfilled, (state, action:PayloadAction<{Spots:Spot[]}>) => {
-            state.userSpotId = {};
-            state.userSpots = action.payload.Spots;
-            for (let spot of action.payload.Spots){
-                if(!state.userSpotId[`${spot.id}`]){
-                    state.userSpotId[`${spot.id}`] = spot;
-                };
-            };
-        })
-        .addCase(fetchSingleSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
-            if(state.byId){
-                state.byId[`${action.payload.id}`] = action.payload;
-            };
-        })
         .addCase(createSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
             if(state.byId !== null){
                 state.byId[`${action.payload.id}`] = action.payload
