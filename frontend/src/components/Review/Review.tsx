@@ -14,7 +14,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
     const sessionUser = useAppSelector((state) => state.session.user);
     const { open, togglePostReviewOpen } = useContext(NewReviewModalContext);
 
-    const handleNewReviewOpen = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const handleNewReviewOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         togglePostReviewOpen(true)
     }
@@ -73,7 +73,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
             {sessionUser && sessionUser.id !== spotOwner?.id &&
             !reviewUsers.includes(sessionUser.id) && (
                 <div>
-                    <span onClick={(e) => handleNewReviewOpen(e)}>NEW REVIEW</span>
+                    <button onClick={(e) => handleNewReviewOpen(e)} id="write-rvw-btn">Write a Review</button>
                     { open ? <NewReviewModal spotId={spot.id}/> : null}
                 </div>
             )}
