@@ -97,12 +97,6 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
 };
 
 const styles = StyleSheet.create({
-    searchModalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
     closeModal: {
         marginTop: 60,
         marginLeft: 15,
