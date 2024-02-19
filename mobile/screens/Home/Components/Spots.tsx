@@ -7,7 +7,8 @@ import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
-import { useGetAllPaginatedSpotsQuery } from '../../../store/spots';
+import { getAllPaginatedSpots } from '../../../store/spots';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 
 interface IHome {
@@ -23,21 +24,30 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const [currPage, setCurrPage] = useState(1);
     const [paginatedData, setPaginatedData] = useState<Spot[]>([]);
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
+    const [isLoading, setIsLoading] = useState(false);
     const size=10
+    const dispatch = useAppDispatch()
+    const paginatedSpots = useAppSelector(state => state.spots.allSpots)
 
-    const { data: spots, isLoading } = useGetAllPaginatedSpotsQuery({page:currPage,size});
+    // const { data: spots, isLoading } = useGetAllPaginatedSpotsQuery({page:currPage,size});
 
     useEffect(() => {
-        if (!isLoading && spots && spots.Spots) {
-            setPaginatedData((prev) => [...prev, ...spots.Spots]);
-        }
-    }, [spots, isLoading]);
+        setIsLoading(true);
+        dispatch(getAllPaginatedSpots({page:currPage, size}))
+        .then(() => paginatedSpots && setPaginatedData((prev) => [...prev, ...paginatedSpots]))
+        .then(() => setIsLoading(false))
+    }, [dispatch, currPage]);
+
+
+
+    console.log('paginated Data', paginatedData)
 
 
     const handleLoadMore = () => {
-        if (!isLoading && spots && spots.Spots.length === size) {
+        if (!isLoading && paginatedSpots && paginatedSpots.length >= size) {
             setCurrPage(prevPage => prevPage + 1);
         }
+
     };
    
     const goToSpotDetail = (spot: Spot) => {
