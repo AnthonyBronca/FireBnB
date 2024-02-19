@@ -42,6 +42,7 @@ export const getAllSpots = createAsyncThunk("spots/fetchAllSpots", async () => {
         throw error
     }
 });
+
 // To get all spots with search parameters
 export const getAllPaginatedSpots = createAsyncThunk("spots/fetchAllPaginatedSpots", async ({ page, size }: { page: number, size: number }) => {
     try {
@@ -51,10 +52,31 @@ export const getAllPaginatedSpots = createAsyncThunk("spots/fetchAllPaginatedSpo
         throw error
     }
 });
+
+// To get all of the current users spots
+export const getCurrUserSpots = createAsyncThunk("spots/fetchAllCurrUserSpots", async (userId:number) => {
+    try {
+        const response = await axios.get(urlParser(`api/spots/current/${userId}`));
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+});
+
+// To get a spot's details
+export const getSingleSpotDetails = createAsyncThunk("spots/fetchSingleSpotDetails", async (spotId:number) => {
+    try {
+        const response = await axios.get(urlParser(`api/spots/${spotId}`));
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+});
+
 // To post a spot
 export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpotForm) => {
     try {
-        const response = await axios.post(urlParser(`/api/spots`), form);
+        const response = await axios.post(urlParser(`api/spots`), form);
         return response.data;
     } catch (error) {
         throw error
@@ -64,7 +86,7 @@ export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpo
 // To edit a spot
 export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}: {spotId:number, form:IEditForm}) => {
     try {
-        const response = await axios.put(urlParser(`/api/spots/${spotId}`), form);
+        const response = await axios.put(urlParser(`api/spots/${spotId}`), form);
         return response.data;
     } catch (error) {
         throw error
@@ -74,7 +96,7 @@ export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}
 // To delete a spot
 export const deleteSpot = createAsyncThunk("spots/deleteSpot", async (spotId:number) => {
     try {
-        const response = await axios.delete(urlParser(`/api/spots/${spotId}`));
+        const response = await axios.delete(urlParser(`api/spots/${spotId}`));
         return response.data;
     } catch (error) {
         throw error
