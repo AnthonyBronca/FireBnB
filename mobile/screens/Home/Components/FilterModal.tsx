@@ -15,12 +15,14 @@ interface IPriceElement {
     focused: 'min'| 'max'| null;
 };
 
+const initialPriceElementVals = {
+    minPrice: 10,
+    maxPrice: 220,
+    focused: null
+}
+
 const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) => {
-    const [focusedPriceElement, setFocusedPriceElement] = useState<IPriceElement>({
-        minPrice: 10,
-        maxPrice: 220,
-        focused: null
-    });
+    const [focusedPriceElement, setFocusedPriceElement] = useState<IPriceElement>(initialPriceElementVals);
 
     const handlePriceValChanges = (name: 'minPrice' | 'maxPrice', value:number) => {
         setFocusedPriceElement(prev => ({
@@ -71,7 +73,7 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
                     <Text style={styles.priceElementCurrSign}>$</Text>
                     <TextInput
                         style={focusedPriceElement.focused === 'min' ? styles.priceInputBoxFocused : styles.priceInputBox}
-                        keyboardType='numeric'
+                        inputMode='numeric'
                         value={focusedPriceElement.minPrice.toString()}
                         onChangeText={(value: string) => handlePriceValChanges('minPrice', parseInt(value))}
                         onFocus={() => handlePriceElementFocus('min')}
@@ -84,7 +86,7 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
                     <Text style={styles.priceElementCurrSign}>$</Text>
                     <TextInput
                         style={focusedPriceElement.focused === 'max' ? styles.priceInputBoxFocused : styles.priceInputBox}
-                        keyboardType='numeric'
+                        inputMode='numeric'
                         value={focusedPriceElement.maxPrice.toString()}
                         onChangeText={(value: string) => handlePriceValChanges('maxPrice', parseInt(value))}
                         onFocus={() => handlePriceElementFocus('max')}
@@ -92,6 +94,18 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
                 </View>
       
             </View>
+        </View>
+        <View style={styles.modalFooter}>
+            <Pressable>
+                <Text 
+                    style={styles.searchFooterClearText} 
+                    onPress={() => setFocusedPriceElement(initialPriceElementVals)}>
+                    Clear all
+                </Text>
+            </Pressable>
+            <Pressable style={styles.searchFooterButton} onPress={() => setIsVisible(false)}>
+                <Text style={styles.searchFooterButtonText}>Show places</Text>
+            </Pressable>
         </View>
         </Modal>
     </View>
@@ -147,9 +161,10 @@ const styles = StyleSheet.create({
     },
     priceInputView: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        marginVertical: 10
+        marginVertical: 10,
+        gap: 45
     },
     priceInputBox: {
         borderColor: '#b4b4b4',
@@ -184,6 +199,36 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 15
     },
+    modalFooter: {
+        width: '100%',
+        backgroundColor: '#FFFFFF',
+        borderWidth: 1,
+        borderColor: '#DDDDDD',
+        marginTop: 400,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        paddingVertical: 20
+    },
+    searchFooterClearText: {
+        ...fonts.subHeader,
+        textDecorationLine: 'underline'
+    },
+    searchFooterButton: {
+        backgroundColor: "#000000",
+        width: 100,
+        height: 35,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5,
+        borderRadius: 5
+    },
+    searchFooterButtonText: {
+        ...fonts.subHeader,
+        color: "#FFFFFF",
+    }
 })
 
 
