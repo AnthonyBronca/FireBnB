@@ -29,8 +29,6 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const dispatch = useAppDispatch()
     const paginatedSpots = useAppSelector(state => state.spots.allSpots)
 
-    // const { data: spots, isLoading } = useGetAllPaginatedSpotsQuery({page:currPage,size});
-
     useEffect(() => {
         setIsLoading(true);
         dispatch(getAllPaginatedSpots({page:currPage, size}))
@@ -38,16 +36,10 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         .then(() => setIsLoading(false))
     }, [dispatch, currPage]);
 
-
-
-    console.log('paginated Data', paginatedData)
-
-
     const handleLoadMore = () => {
         if (!isLoading && paginatedSpots && paginatedSpots.length >= size) {
             setCurrPage(prevPage => prevPage + 1);
         }
-
     };
    
     const goToSpotDetail = (spot: Spot) => {
@@ -56,13 +48,12 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         })
     };
 
-       const toggleHeartPress = (spotId:number) => {
+    const toggleHeartPress = (spotId:number) => {
         setIsHeartPressed(prev => ({
             ...prev,
             [spotId]: !prev[spotId]
         }));
     };
-
 
     const renderSpots = ({ item }: { item: Spot }) => {
         return (
@@ -90,7 +81,6 @@ const Spots:React.FC<IHome> = ({navigation}) => {
           </View>
         );
     };
-
 
     const renderLoading = () => {
         if (isLoading && !paginatedData.length) {
