@@ -1,10 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Modal, Text } from 'react-native';
 
-const FilterModal:React.FC = () => {
+interface IFilterModalProps {
+    isVisible:boolean,
+    setIsVisible:(isVisible: boolean) => void;
+};
+
+const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) => {
   return (
     <View>
-      <Text></Text>
+        <Modal
+            animationType='fade'
+            transparent={false}
+            visible={isVisible}
+            presentationStyle='overFullScreen'
+        >
+
+        </Modal>
     </View>
   );
 }
