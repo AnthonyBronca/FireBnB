@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import { View, Modal, Pressable, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faXmark, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { fonts } from '../../../constants/stylings/styles';
-import { useAppDispatch } from '../../../store/hooks';
-import { getAllSpots } from '../../../store/spots';
 
 
 interface IFilterModalProps {
@@ -22,16 +20,11 @@ const initialPriceElementVals = {
     minPrice: 10,
     maxPrice: 220,
     focused: null
-}
-
+};
 
 const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) => {
     const [focusedPriceElement, setFocusedPriceElement] = useState<IPriceElement>(initialPriceElementVals);
-    const dispatch = useAppDispatch()
-    
-
-    
-
+  
     const handlePriceValChanges = (name: 'minPrice' | 'maxPrice', value:number) => {
         setFocusedPriceElement(prev => ({
             ...prev,
@@ -87,7 +80,6 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
                         onFocus={() => handlePriceElementFocus('min')}
                     />
                 </View>
-             
                 <FontAwesomeIcon icon={faMinus}/>
                 <View>
                     <Text style={styles.priceElementText}>Maximum</Text>
@@ -238,7 +230,5 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
     }
 })
-
-
 
 export default FilterModal;
