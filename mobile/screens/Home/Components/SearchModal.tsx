@@ -85,7 +85,11 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
         </View>
         <View style={styles.modalFooter}>
             <Pressable>
-                <Text style={styles.searchFooterClearText} onPress={() => setFocusedImage(null)}>Clear all</Text>
+                <Text 
+                    style={styles.searchFooterClearText} 
+                    onPress={() => setFocusedImage(null)}>
+                    Clear all
+                </Text>
             </Pressable>
             <Pressable style={styles.searchFooterButton} onPress={() => setIsVisible(false)}>
                 <FontAwesomeIcon icon={faSearch} size={15} color='#FFFFFF'/>
