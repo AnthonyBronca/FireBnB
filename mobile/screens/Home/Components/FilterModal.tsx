@@ -10,10 +10,10 @@ interface IFilterModalProps {
 };
 
 interface IFocusedPriceElement {
-    minPrice:number;
-    maxPrice:number;
-    focused: 'min'| 'max'| null
-}
+    minPrice: number| '';
+    maxPrice: number| '';
+    focused: 'min'| 'max'| null;
+};
 
 const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) => {
     const [focusedPriceElement, setFocusedPriceElement] = useState<IFocusedPriceElement>({
@@ -22,18 +22,20 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
         focused: null
     });
 
-    const handlePriceValChanges = (name:string, value:number) => {
+    const handlePriceValChanges = (name: 'minPrice' | 'maxPrice', value:number) => {
         setFocusedPriceElement(prev => ({
             ...prev,
-            [name]: value
+            [name]: isNaN(value) ? 0 : value
         }));
     };
+
     const handlePriceElementFocus = (focusedElement: 'min' | 'max' | null) => {
         setFocusedPriceElement(prev => ({
             ...prev,
             focused: focusedElement
         }))
-    }
+    };
+
 
   return (
     <View>
@@ -64,30 +66,38 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
             <Text style={styles.fitlerSectionText}> Price range</Text>
             <Text style={styles.filterSectionSubText}> Nightly prices before fees and taxes</Text>
             <View style={styles.priceInputView}>
-                <TextInput
-                    style={focusedPriceElement? styles.priceInputBoxFocused : styles.priceInputBox}
-                    keyboardType='numeric'
-                    placeholder='Minimum'
-                    value={focusedPriceElement.minPrice.toString()}
-                    onChangeText={(value: string) => handlePriceValChanges('minPrice', parseInt(value))}
-                    onFocus={() => handlePriceElementFocus('min')}
-                ></TextInput>
+                <View>
+                    <Text style={styles.priceElementText}>Minimum</Text>
+                    <Text style={styles.priceElementCurrSign}>$</Text>
+                    <TextInput
+                        style={focusedPriceElement.focused === 'min' ? styles.priceInputBoxFocused : styles.priceInputBox}
+                        keyboardType='numeric'
+                        value={focusedPriceElement.minPrice.toString()}
+                        onChangeText={(value: string) => handlePriceValChanges('minPrice', parseInt(value))}
+                        onFocus={() => handlePriceElementFocus('min')}
+                    />
+                </View>
+             
                 <FontAwesomeIcon icon={faMinus}/>
-                <TextInput
-                    style={focusedPriceElement.focused ? styles.priceInputBoxFocused : styles.priceInputBox}
-                    keyboardType='numeric'
-                    placeholder='Maximum'
-                    value={focusedPriceElement.maxPrice.toString()}
-                    onChangeText={(value: string) => handlePriceValChanges('maxPricePrice', parseInt(value))}
-                    onFocus={() => handlePriceElementFocus('max')}
-                ></TextInput>
+                <View>
+                    <Text style={styles.priceElementText}>Maximum</Text>
+                    <Text style={styles.priceElementCurrSign}>$</Text>
+                    <TextInput
+                        style={focusedPriceElement.focused === 'max' ? styles.priceInputBoxFocused : styles.priceInputBox}
+                        keyboardType='numeric'
+                        value={focusedPriceElement.maxPrice.toString()}
+                        onChangeText={(value: string) => handlePriceValChanges('maxPrice', parseInt(value))}
+                        onFocus={() => handlePriceElementFocus('max')}
+                    />
+                </View>
+      
             </View>
-
         </View>
         </Modal>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
     filterModalHeader: {
@@ -145,17 +155,35 @@ const styles = StyleSheet.create({
         borderColor: '#b4b4b4',
         borderWidth: 1,
         borderRadius: 5,
-        height: 40,
-        width: 130
+        height: 45,
+        width: 130,
+        paddingHorizontal: 25,
+        paddingTop: 12
     },
     priceInputBoxFocused: {
         borderColor: '#000000',
         borderWidth: 2,
         borderRadius: 5,
-        height: 40,
-        width: 130
-    }
-
+        height: 45,
+        width: 130,
+        paddingHorizontal: 25,
+        paddingTop: 12
+    },
+    priceElementText: {
+        ...fonts.subText,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        marginVertical: 5,
+        marginHorizontal: 15
+    },
+    priceElementCurrSign: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        marginVertical: 20,
+        marginHorizontal: 15
+    },
 })
 
 
