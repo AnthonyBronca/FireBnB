@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Modal, Pressable, Text, StyleSheet } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface IFilterModalProps {
     isVisible:boolean,
@@ -17,10 +19,10 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
         >
         <View>
             <Pressable style={styles.closeModal} onPress={() => setIsVisible(false)}>
-                <Text style={{fontWeight: "600"}}>x</Text>
+                <FontAwesomeIcon icon={faXmark} color='#212121'/>
             </Pressable>
+            <Text>Filters</Text>
         </View>
-
         </Modal>
     </View>
   );
@@ -34,13 +36,13 @@ const styles = StyleSheet.create({
         height: 25,
         position: 'absolute',
         elevation: 5,
-        borderColor: '#b9b9b9',
-        borderWidth: 1,
-        borderRadius: 30,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center'
     },
+    closeX: {
+        fontWeight: '500',
+    }
 })
 
 
