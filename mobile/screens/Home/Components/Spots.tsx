@@ -7,7 +7,7 @@ import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
-import { useGetAllSpotsQuery } from '../../../store/spots';
+import { useGetAllPaginatedSpotsQuery } from '../../../store/spots';
 
 
 interface IHome {
@@ -25,7 +25,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
     const size=10
 
-    const { data: spots, isLoading } = useGetAllSpotsQuery({page:currPage,size});
+    const { data: spots, isLoading } = useGetAllPaginatedSpotsQuery({page:currPage,size});
 
     useEffect(() => {
         if (!isLoading && spots && spots.Spots) {
