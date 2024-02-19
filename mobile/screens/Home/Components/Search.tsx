@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { fonts } from '../../../constants/stylings/styles';
 import SearchModal from './SearchModal';
+import FilterModal from './FilterModal';
 
 
 const Search:React.FC = () => {
@@ -27,11 +28,13 @@ const Search:React.FC = () => {
                     <TouchableOpacity
                         style={styles.filterIconContainer}
                         activeOpacity={0.9}
+                        onPress={() => setFilterModalVisible(!filterModalVisible)}
                     >
                         <FontAwesomeIcon icon={faFilter} size={20}/>
                     </TouchableOpacity>
                 </View>
                 <SearchModal isVisible={searchModalVisible} setIsVisible={setSearchModalVisible}/>
+                <FilterModal isVisible={filterModalVisible} setIsVisible={setFilterModalVisible}/>
             </View>
     );
 }
