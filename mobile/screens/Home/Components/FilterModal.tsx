@@ -9,14 +9,14 @@ interface IFilterModalProps {
     setIsVisible:(isVisible: boolean) => void;
 };
 
-interface IFocusedPriceElement {
-    minPrice: number| '';
-    maxPrice: number| '';
+interface IPriceElement {
+    minPrice: number;
+    maxPrice: number;
     focused: 'min'| 'max'| null;
 };
 
 const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) => {
-    const [focusedPriceElement, setFocusedPriceElement] = useState<IFocusedPriceElement>({
+    const [focusedPriceElement, setFocusedPriceElement] = useState<IPriceElement>({
         minPrice: 10,
         maxPrice: 220,
         focused: null
