@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     searchBarComponentContainer: {
         height: 100,
         justifyContent: 'center',
-        gap: 10,
         borderBottomColor: '#e2e2e2',
         borderBottomWidth: 1,
         flexDirection: 'row',
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.4,
         borderRadius: 30,
         justifyContent:'center',
+        marginHorizontal: 5
     },
     placeholderHeading: {
         ...fonts.defaultText,
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
+        marginHorizontal: 5
     },
 })
 
