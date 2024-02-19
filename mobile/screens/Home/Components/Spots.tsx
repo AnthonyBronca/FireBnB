@@ -101,6 +101,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             onEndReachedThreshold={0.1}
             initialNumToRender={10}
             ListFooterComponent={renderLoading}
+            showsVerticalScrollIndicator={false}
         />
     );
 };
