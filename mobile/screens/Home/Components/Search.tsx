@@ -7,7 +7,8 @@ import SearchModal from './SearchModal';
 
 
 const Search:React.FC = () => {
-    const [modalVisible, setModalVisible] = useState<boolean>(false)
+    const [searchModalVisible, setSearchModalVisible] = useState<boolean>(false)
+    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
     return (
             <View style={styles.searchBarComponentContainer}>
@@ -15,7 +16,7 @@ const Search:React.FC = () => {
                     <TouchableOpacity
                         style={styles.searchBar}
                         activeOpacity={0.8}
-                        onPress={() => setModalVisible(!modalVisible)}
+                        onPress={() => setSearchModalVisible(!searchModalVisible)}
                     >
                         <FontAwesomeIcon icon={faSearch} style={styles.searchIcon} size={20}/>
                         <Text style={styles.placeholderHeading}>Where To?</Text>
@@ -30,7 +31,7 @@ const Search:React.FC = () => {
                         <FontAwesomeIcon icon={faFilter} size={20}/>
                     </TouchableOpacity>
                 </View>
-                <SearchModal isVisible={modalVisible} setIsVisible={setModalVisible}/>
+                <SearchModal isVisible={searchModalVisible} setIsVisible={setSearchModalVisible}/>
             </View>
     );
 }
