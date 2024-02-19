@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { View, ScrollView, Modal, TouchableOpacity, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons';
+
 
 interface ISearchModalProps {
     isVisible:boolean,
@@ -41,7 +42,7 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
       >
         <View>
             <Pressable style={styles.closeModal} onPress={() => setIsVisible(false)}>
-                <Text style={{fontWeight: "600"}}>x</Text>
+                <FontAwesomeIcon icon={faXmark} color='#212121' size={15}/>
             </Pressable>
         </View>
         <View style={styles.whereBox}>
