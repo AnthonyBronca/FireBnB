@@ -10,17 +10,16 @@ export const apiSpotSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: `${urlParser(`api`)}`}),
     endpoints: builder => ({
         getAllSpots: builder.query({
-            query: ({page, size}) => {
-                let queryStr = '/spots';
-                if (page !== undefined && size !== undefined) {
-                    queryStr += `?page=${page}&size=${size}`
-                }
-                return queryStr;
+            query: () =>'/spots'
+        }),
+        getAllPaginatedSpots: builder.query({
+            query: ({ page, size }) => {
+                return `/spots?page=${page}&size=${size}`;
             },
-            transformResponse: (res: {Spots: Spot[]}) => {
-                res.Spots.sort((a,b) => a.id - b.id)
-                return res
-             },
+            transformResponse: (res: { Spots: Spot[] }) => {
+                res.Spots.sort((a, b) => a.id - b.id);
+                return res;
+            },
         }),
         getUserSpots: builder.query({
             query: userId => `/spots/current/${userId}`
@@ -31,7 +30,7 @@ export const apiSpotSlice = createApi({
     })
 });
 
-export const { useGetAllSpotsQuery } = apiSpotSlice;
+export const { useGetAllSpotsQuery, useGetAllPaginatedSpotsQuery } = apiSpotSlice;
 
 // DEFINE THUNKS
 // To post a spot
