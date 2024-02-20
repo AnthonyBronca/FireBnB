@@ -1,36 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
 import axios from "axios";
 import urlParser from "../utils/url-parser";
 
-
-// export const apiSpotSlice = createApi({
-//     reducerPath: 'spots',
-//     baseQuery: fetchBaseQuery({ baseUrl: `${urlParser(`api`)}`}),
-//     endpoints: builder => ({
-//         getAllSpots: builder.query({
-//             query: () =>'/spots'
-//         }),
-//         getAllPaginatedSpots: builder.query({
-//             query: ({ page, size }) => {
-//                 return `/spots?page=${page}&size=${size}`;
-//             },
-//             transformResponse: (res: { Spots: Spot[] }) => {
-//                 res.Spots.sort((a, b) => a.id - b.id);
-//                 return res;
-//             },
-//         }),
-//         getUserSpots: builder.query({
-//             query: userId => `/spots/current/${userId}`
-//         }),
-//         getSingleSpot: builder.query({
-//             query: spotId  => `/spots/${spotId}`
-//         })
-//     })
-// });
-
-// export const { useGetAllSpotsQuery, useGetAllPaginatedSpotsQuery } = apiSpotSlice;
 
 // DEFINE THUNKS
 // To get all spots
@@ -124,6 +96,14 @@ export const SpotSlice = createSlice({
         })
         .addCase(getAllPaginatedSpots.fulfilled, (state, action) => {
             state.allSpots = action.payload.Spots.sort((a: {id:number}, b: {id:number}) => a.id - b.id);
+        })
+        .addCase(getCurrUserSpots.fulfilled, (state, action) => {
+            state.allSpots = action.payload.Spots.sort((a: {id:number}, b: {id:number}) => a.id - b.id);
+        })
+        .addCase(getSingleSpotDetails.fulfilled, (state, action:PayloadAction<Spot>) => {
+            if(state.byId !== null){
+                state.byId[`${action.payload.id}`] = action.payload
+            };
         })
         .addCase(createSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
             if(state.byId !== null){
