@@ -9,7 +9,7 @@ import { Spot } from '../../../typings/redux';
 
 interface ISpotTile {
     spot: Spot
-}
+};
 
 const SpotTitle:React.FC<ISpotTile> = ({spot}) => {
   return (
@@ -41,7 +41,7 @@ const SpotTitle:React.FC<ISpotTile> = ({spot}) => {
         </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
     title: fonts.header,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         fontFamily: 'System',
         textDecorationLine: 'underline'
     }
-})
+});
 
 
 export default memo(SpotTitle);
