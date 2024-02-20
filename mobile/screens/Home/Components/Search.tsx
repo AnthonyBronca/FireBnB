@@ -37,7 +37,7 @@ const Search:React.FC = () => {
                 <FilterModal isVisible={filterModalVisible} setIsVisible={setFilterModalVisible}/>
             </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     searchBarComponentContainer: {
