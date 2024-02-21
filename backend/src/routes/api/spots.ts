@@ -79,7 +79,12 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             ...paginationValues,
             include: [
                 {model: SpotImage},
-                {model: User, as: "Owner"},
+                {
+                    model: User, as: "Owner",
+                    include: [{
+                        model: UserImage
+                    }]
+                },
                 {
                     model: Review,
                     include: [{
@@ -94,7 +99,7 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             ]
         });
 
-
+        const spotImages: string[] = [];
         const spotTransform = spots.map((spot:any) => {
             const spotJson = spot.toJSON()
             const {SpotImages, Owner, Reviews, ...res} = spotJson;
@@ -102,17 +107,24 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             const avgRating = Reviews.reduce((sum:number, review:any) => sum += review.stars ,0) / Reviews.length;
             const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
 
+            spotImages.push(previewImageUrl);
+
             res.ownerId = Owner.id;
             res.previewImage = previewImageUrl;
             res.avgRating = fixedRating;
             res.reviews = Reviews;
+            res.Owner = Owner
             res.createdAt = dateConverter(res.createdAt);
             res.updatedAt = dateConverter(res.updatedAt);
             return res;
         })
-
         res.status(200);
-        res.json({Spots: spotTransform, page, size});
+        res.json({
+            Spots: spotTransform,
+            SpotImages: spotImages,
+            page,
+            size
+        });
 
     } catch (e) {
         return next(e);
