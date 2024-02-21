@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import { View, Modal, Pressable, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faXmark, faMinus } from '@fortawesome/free-solid-svg-icons';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { fonts } from '../../../constants/stylings/styles';
 
 
@@ -11,29 +12,40 @@ interface IFilterModalProps {
 };
 
 interface IPriceElement {
-    minPrice: number;
-    maxPrice: number;
+    MIN: number;
+    MAX: number;
     focused: 'min'| 'max'| null;
 };
 
 const initialPriceElementVals = {
-    minPrice: 10,
-    maxPrice: 220,
+    MIN: 10,
+    MAX: 310,
     focused: null
 };
 
 const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) => {
-    const [focusedPriceElement, setFocusedPriceElement] = useState<IPriceElement>(initialPriceElementVals);
+    const [price, setPrice] = useState<IPriceElement>(initialPriceElementVals);
   
-    const handlePriceValChanges = (name: 'minPrice' | 'maxPrice', value:number) => {
-        setFocusedPriceElement(prev => ({
+    // const handlePriceBoxValuesChange = (name: 'minPrice' | 'maxPrice', value:number) => {
+    //     setPrice(prev => ({
+    //         ...prev,
+    //         [name]: isNaN(value) ? 0 : value
+    //     }));
+    // };
+    const handlePriceBoxValuesChange = (name: 'MIN' | 'MAX', value:number) => {
+        setPrice(prev => ({
             ...prev,
-            [name]: isNaN(value) ? 0 : value
-        }));
+            [name]:value
+        }))
+    }
+
+    const handleSliderValuesChange = (values:number[]) => {
+        const [minValue, maxValue] = values;
+        setPrice({ MIN: minValue, MAX: maxValue, focused:null });
     };
 
     const handlePriceElementFocus = (focusedElement: 'min' | 'max' | null) => {
-        setFocusedPriceElement(prev => ({
+        setPrice(prev => ({
             ...prev,
             focused: focusedElement
         }))
@@ -70,36 +82,48 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
             <Text style={styles.filterSectionSubText}> Nightly prices before fees and taxes</Text>
             <View style={styles.priceInputView}>
                 <View>
-                    <Text style={styles.priceElementText}>Minimum</Text>
-                    <Text style={styles.priceElementCurrSign}>$</Text>
-                    <TextInput
-                        style={focusedPriceElement.focused === 'min' ? styles.priceInputBoxFocused : styles.priceInputBox}
-                        inputMode='numeric'
-                        value={focusedPriceElement.minPrice.toString()}
-                        onChangeText={(value: string) => handlePriceValChanges('minPrice', parseInt(value))}
-                        onFocus={() => handlePriceElementFocus('min')}
+                    <MultiSlider
+                        values={[price.MIN, price.MAX]}
+                        min={price.MIN}
+                        max={price.MAX} 
+                        onValuesChange={handleSliderValuesChange}
+                        enableLabel={false}
+                        sliderLength={330}
+                        selectedStyle={{backgroundColor:'#000000'}}
                     />
                 </View>
-                <FontAwesomeIcon icon={faMinus}/>
-                <View>
-                    <Text style={styles.priceElementText}>Maximum</Text>
-                    <Text style={styles.priceElementCurrSign}>$</Text>
-                    <TextInput
-                        style={focusedPriceElement.focused === 'max' ? styles.priceInputBoxFocused : styles.priceInputBox}
-                        inputMode='numeric'
-                        value={focusedPriceElement.maxPrice.toString()}
-                        onChangeText={(value: string) => handlePriceValChanges('maxPrice', parseInt(value))}
-                        onFocus={() => handlePriceElementFocus('max')}
-                    />
+                <View style={styles.priceBoxesView}>
+                    <View>
+                        <Text style={styles.priceElementText}>Minimum</Text>
+                        <Text style={styles.priceElementCurrSign}>$</Text>
+                        <TextInput
+                            style={price.focused === 'min' ? styles.priceInputBoxFocused : styles.priceInputBox}
+                            inputMode='numeric'
+                            value={price.MIN.toString()}
+                            onChangeText={(value: string) => handlePriceBoxValuesChange('MIN', parseInt(value))}
+                            onFocus={() => handlePriceElementFocus('min')}
+                        />
+                    </View>
+                    <FontAwesomeIcon icon={faMinus}/>
+                    <View>
+                        <Text style={styles.priceElementText}>Maximum</Text>
+                        <Text style={styles.priceElementCurrSign}>$</Text>
+                        <TextInput
+                            style={price.focused === 'max' ? styles.priceInputBoxFocused : styles.priceInputBox}
+                            inputMode='numeric'
+                            value={price.MAX.toString()}
+                            onChangeText={(value: string) => handlePriceBoxValuesChange('MAX', parseInt(value))}
+                            onFocus={() => handlePriceElementFocus('max')}
+                        />
+                    </View>
                 </View>
-      
             </View>
         </View>
         <View style={styles.modalFooter}>
             <Pressable>
                 <Text 
                     style={styles.searchFooterClearText} 
-                    onPress={() => setFocusedPriceElement(initialPriceElementVals)}>
+                    onPress={() => setPrice(initialPriceElementVals)}>
                     Clear all
                 </Text>
             </Pressable>
@@ -160,10 +184,13 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     priceInputView: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        flexDirection: 'column',
         alignItems: 'center',
         marginVertical: 10,
+    },
+    priceBoxesView: {
+        flexDirection: 'row',
+        alignItems: 'center',
         gap: 45
     },
     priceInputBox: {
@@ -204,7 +231,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderWidth: 1,
         borderColor: '#DDDDDD',
-        marginTop: 400,
+        marginTop: 340,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
