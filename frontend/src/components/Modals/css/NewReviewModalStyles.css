@@ -57,11 +57,16 @@
 }
 
 #rvw-txt-area {
-    width: 99%;
+    width: 94%;
+    border-radius: 5px;
+    outline: none;
+    resize: none;
+    padding: 10px;
+    margin-top: 1rem;
 }
 
 #nw-rvw-sbmt-btn {
-    background-color: #FF375D;
+    background-image: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     padding: .5rem 1rem .5rem 1rem;
@@ -76,3 +81,32 @@
     padding: .7rem 1.3rem .7rem 1.3rem;
 }
 
+.rvw-modal-stars {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 5px;
+}
+
+#review-stars {
+    margin: 0.5rem;
+
+}
+
+#rvw-modal-pu {
+    background-image: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: .5rem 1rem .5rem 1rem;
+    cursor: pointer;
+    transition: padding 300ms;
+    border: none;
+    border-radius: 3px;
+    margin: 5px;
+    width: fit-content;
+    height: fit-content;
+}
+
+#upload-btn-container {
+    width: 100%;
+    margin: 0px;
+}

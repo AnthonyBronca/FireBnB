@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './css/NewReviewModalStyles.css'
-import star from '../../assets/icons/star.svg';
+import filledStar from '../../assets/icons/star.svg';
 import emptyStar from '../../assets/icons/empty-star.svg';
 import xBtn from '../../assets/icons/x.svg'
 //import { useAppSelector } from '../../store';
@@ -13,7 +13,22 @@ interface INewReviewProps {
 }
 
 const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
+    const [stars, setStars] = useState<number>(0);
+    const [hover, setHover] = useState<undefined | number>(undefined);
+
     const {togglePostReviewOpen } = useContext(NewReviewModalContext);
+
+    const starClick = (value: number) => {
+        setStars(value);
+    }
+
+    const starMouseOver = (value: number) => {
+        setHover(value);
+    }
+
+    const starMouseLeave = () => {
+        setHover(undefined)
+    }
 
     const handleClose = () => {
         togglePostReviewOpen(true)
@@ -43,14 +58,29 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
                     <p>Tell the next guests what you loved, and anything else about this place.</p>
                 </div>
                 <form id="review-form">
+                    <div id="upload-btn-container">
+                        <input id="rvw-modal-pu" type="file" placeholder='Upload Photos'></input>
+                    </div>
                     <TextareaAutosize
                         id="rvw-txt-area"
                         minRows={5}
                         placeholder='How was your stay?'
                     />
                     <div id="review-stars">
-                       <img src={star}></img>
-                       <img src={emptyStar}></img>
+                       {
+                        [...Array(5)].map((_, index) => {
+                            return (
+                                <img
+                                    key={index}
+                                    onClick={() => starClick(index + 1)}
+                                    src={(hover || stars) > index ? filledStar : emptyStar}
+                                    onMouseOver={() => starMouseOver(index + 1)}
+                                    onMouseLeave={starMouseLeave}
+                                    className='rvw-modal-stars'
+                                />
+                            )
+                        })
+                       }
                     </div>
                     <button id="nw-rvw-sbmt-btn" type="submit">Submit Review</button>
                 </form>
