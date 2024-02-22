@@ -49,7 +49,7 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
 
             const currValue = prev[name].toString()
             if (currValue === '0' && value === 0) {
-                return prev
+                return initialPriceElementVals;
             };
             if (isNaN(updatedPrices.MIN) && isNaN(updatedPrices.MAX)) {
                 return initialPriceElementVals;
@@ -62,7 +62,11 @@ const FilterModal:React.FC<IFilterModalProps> = ({ isVisible, setIsVisible }) =>
             };
             if (price.focused === 'max' && (updatedPrices.MIN > updatedPrices.MAX)) {
                 updatedPrices.MIN = (updatedPrices.MAX - 5 < 0) ? 0 : updatedPrices.MAX - 5;
+                updatedPrices.MAX = 5;
             };
+            if (price.focused === 'max' && (updatedPrices.MIN > updatedPrices.MAX)) {
+                updatedPrices.MIN = (updatedPrices.MIN > updatedPrices.MAX - 5 ) ? updatedPrices.MAX - 5 : 0;
+            }; 
             return updatedPrices;
         });
     };
