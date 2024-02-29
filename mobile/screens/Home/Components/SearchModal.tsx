@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { View, ScrollView, Modal, TouchableOpacity, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons';
+
 
 interface ISearchModalProps {
     isVisible:boolean,
@@ -41,7 +42,7 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
       >
         <View>
             <Pressable style={styles.closeModal} onPress={() => setIsVisible(false)}>
-                <Text style={{fontWeight: "600"}}>x</Text>
+                <FontAwesomeIcon icon={faXmark} color='#212121' size={15}/>
             </Pressable>
         </View>
         <View style={styles.whereBox}>
@@ -84,7 +85,11 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
         </View>
         <View style={styles.modalFooter}>
             <Pressable>
-                <Text style={styles.searchFooterClearText} onPress={() => setFocusedImage(null)}>Clear all</Text>
+                <Text 
+                    style={styles.searchFooterClearText} 
+                    onPress={() => setFocusedImage(null)}>
+                    Clear all
+                </Text>
             </Pressable>
             <Pressable style={styles.searchFooterButton} onPress={() => setIsVisible(false)}>
                 <FontAwesomeIcon icon={faSearch} size={15} color='#FFFFFF'/>
@@ -97,12 +102,6 @@ const SearchModal:React.FC<ISearchModalProps> = ({ isVisible, setIsVisible }) =>
 };
 
 const styles = StyleSheet.create({
-    searchModalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
     closeModal: {
         marginTop: 60,
         marginLeft: 15,

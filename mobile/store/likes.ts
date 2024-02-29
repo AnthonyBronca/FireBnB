@@ -7,7 +7,7 @@ import urlParser from "../utils/url-parser";
 // To get all likes
 export const fetchLikes = createAsyncThunk("likes/fetchLikes", async (userId:number) => {
     try {
-        const response = await axios.get(urlParser(`/api/spots/likes/${userId}`));
+        const response = await axios.get(urlParser(`api/spots/likes/${userId}`));
         return response.data;
     } catch (error) {
         throw error
@@ -17,7 +17,7 @@ export const fetchLikes = createAsyncThunk("likes/fetchLikes", async (userId:num
 // To add a like
 export const createLike = createAsyncThunk("likes/addLike", async (spotId:number) => {
     try {
-        const response = await axios.post(urlParser(`/api/spots/${spotId}/likes`));
+        const response = await axios.post(urlParser(`api/spots/${spotId}/likes`));
         return response.data;
     } catch (error) {
         throw error
@@ -27,7 +27,7 @@ export const createLike = createAsyncThunk("likes/addLike", async (spotId:number
 // To remove a like
 export const deleteLike = createAsyncThunk("likes/removeLike", async (spotId:number) => {
     try {
-        const response = await axios.delete(urlParser(`/api/spots/${spotId}/likes`));
+        const response = await axios.delete(urlParser(`api/spots/${spotId}/likes`));
         return response.data;
     } catch (error) {
         throw error
