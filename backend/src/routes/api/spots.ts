@@ -579,7 +579,7 @@ router.get('/:spotId/reviews', async(req:CustomeRequest, res:Response, next: Nex
         //     resultReviews.push(resObj)
         // }
 
-        console.log(res)
+        // console.log(res)
         res.status(200);
         return res.json({Reviews: reviewRes});
 
