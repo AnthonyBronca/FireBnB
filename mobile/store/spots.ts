@@ -76,6 +76,8 @@ export const deleteSpot = createAsyncThunk("spots/deleteSpot", async (spotId:num
 });
 
 
+
+
 // DEFINE THE INITIAL STATE
 const initialState: SpotInitialState = {
     byId: {},

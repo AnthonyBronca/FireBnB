@@ -41,7 +41,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             setCurrPage(prevPage => prevPage + 1);
         }
     };
-   
+
     const goToSpotDetail = (spot: Spot) => {
         navigation.navigate('SpotDetail', {
             spot,
@@ -92,7 +92,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     };
 
 
-    return (     
+    return (
         <FlatList
             data={paginatedData}
             renderItem={renderSpots}

@@ -94,7 +94,8 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
                                 model: UserImage,
                             }
                         ]
-                    }]
+                    },
+                ]
                 },
             ]
         });
@@ -106,9 +107,9 @@ router.get('/', validateQueryParams, async(req:Request, res: Response, next: Nex
             const previewImageUrl = SpotImages.find((image:any) => image.preview === true).url;
             const avgRating = Reviews.reduce((sum:number, review:any) => sum += review.stars ,0) / Reviews.length;
             const fixedRating = isNaN(avgRating) ? "NEW" : avgRating.toFixed(1);
-
+            const descriptionArr = reviewSplitter(res.description);
             spotImages.push(previewImageUrl);
-
+            res.description = descriptionArr
             res.ownerId = Owner.id;
             res.previewImage = previewImageUrl;
             res.avgRating = fixedRating;
@@ -529,46 +530,58 @@ router.get('/:spotId/reviews', async(req:CustomeRequest, res:Response, next: Nex
             where: {
                 spotId: spot.id
             },
-            include: {
-                model: ReviewImage
-            }
+            include: [
+                {model: ReviewImage},
+                {model: User, include: {model: UserImage}}
+            ]
         });
 
-        let resultReviews = [];
+        // let resultReviews = [];
 
-        for(let review of reviews){
-            let revJson = review.toJSON();
-            let user = await User.findByPk(revJson.userId);
-            let reviewImages = await ReviewImage.findAll({where: {reviewId: revJson.id}});
+        const reviewRes = reviews.map((rev:any) => {
+            const reviewJson = rev.toJSON();
+            const {User, ...res } = reviewJson;
+            res.User = User;
+            const previewImageUrl = User.UserImages.find((image:any) => image.isProfile).url
+            res.User.previewImageUrl = previewImageUrl;
+            res.review = reviewSplitter(res.review);
+            return res
+        })
 
-            let reviewImagesArr = [];
+        // for(let review of reviews){
+        //     let revJson = review.toJSON();
+        //     let user = await User.findByPk(revJson.userId);
+        //     let reviewImages = await ReviewImage.findAll({where: {reviewId: revJson.id}});
 
-            for(let reviewImage of reviewImages){
-                let revImageJson = reviewImage.toJSON();
-                delete revImageJson.createdAt;
-                delete revImageJson.updatedAt;
-                reviewImagesArr.push(revImageJson);
-            }
+        //     let reviewImagesArr = [];
 
-            let userJson = user.toJSON();
+        //     for(let reviewImage of reviewImages){
+        //         let revImageJson = reviewImage.toJSON();
+        //         delete revImageJson.createdAt;
+        //         delete revImageJson.updatedAt;
+        //         reviewImagesArr.push(revImageJson);
+        //     }
+
+        //     let userJson = user.toJSON();
 
 
-            let resObj = {
-                 id: revJson.id,
-                 stars: revJson.stars,
-                 review: revJson.review,
-                 userId: revJson.userId,
-                 spotId: revJson.spotId,
-                 createdAt: dateConverter(revJson.createdAt),
-                 updatedAt: dateConverter(revJson.updatedAt),
-                 User: userJson,
-                 ReviewImages: reviewImagesArr
-            }
-            resultReviews.push(resObj)
-        }
+        //     let resObj = {
+        //          id: revJson.id,
+        //          stars: revJson.stars,
+        //          review: revJson.review,
+        //          userId: revJson.userId,
+        //          spotId: revJson.spotId,
+        //          createdAt: dateConverter(revJson.createdAt),
+        //          updatedAt: dateConverter(revJson.updatedAt),
+        //          User: userJson,
+        //          ReviewImages: reviewImagesArr
+        //     }
+        //     resultReviews.push(resObj)
+        // }
 
-        return res.json({Reviews: resultReviews});
-
+        // console.log(res)
+        res.status(200);
+        return res.json({Reviews: reviewRes});
 
     } catch (error) {
         return next(error);

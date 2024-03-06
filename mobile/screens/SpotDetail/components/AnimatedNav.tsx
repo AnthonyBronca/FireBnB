@@ -1,12 +1,17 @@
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { ScrollView, Animated, StyleSheet } from 'react-native';
 import {Image} from 'expo-image'
-import pineapple from '../../../assets/images/pineapple.jpg'
 import TopNav from './TopNav';
+import { colors } from '../../../constants/stylings/styles';
+import Header from './Header';
+
+
+// const blurHash =
+//     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 interface IDynamicHeader {
     val: any;
-    spotHeader: string; //change this to be a string when redux is added
+    spotHeader: string;
 }
 
 const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
@@ -36,16 +41,16 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
         extrapolate: 'clamp'
     })
 
-    const animatedBottomBorderColor = val.interpolate({
-        inputRange: [0, 100],
-        outputRange: ["transparent", "rgb(200,200,200)"],
-        extrapolate: 'clamp'
-    })
-    const animatedBottomBorder = val.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, 1],
-        extrapolate: 'clamp'
-    })
+    // const animatedBottomBorderColor = val.interpolate({
+    //     inputRange: [0, 100],
+    //     outputRange: ["transparent", "rgb(200,200,200)"],
+    //     extrapolate: 'clamp'
+    // })
+    // const animatedBottomBorder = val.interpolate({
+    //     inputRange: [0, 100],
+    //     outputRange: [0, 1],
+    //     extrapolate: 'clamp'
+    // })
 
 
     return (
@@ -55,8 +60,8 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
                 height: animatedHeaderHeight,
                 backgroundColor: animatedHeadercolor,
                 marginBottom: 10,
-                borderBottomColor: animatedBottomBorderColor,
-                borderBottomWidth: animatedBottomBorder,
+                // borderBottomColor: animatedBottomBorderColor,
+                // borderBottomWidth: animatedBottomBorder,
             }
             ]}
         >
@@ -65,14 +70,15 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
                     flexDirection: 'row',
                     width: '100%',
                     height: animatedHeaderHeight,
-                    opacity: animatedOpacity
-                }}
+                    opacity: animatedOpacity,
 
+                }}
             >
             <Image
-                placeholder={{uri: spotHeader}}
-                source={{uri: spotHeader}}
-                style={{height: 200, width: '100%', flexDirection: 'row'}}
+                source={spotHeader}
+                style={{height: 250, width: '100%', objectFit: 'contain'}}
+                contentFit='cover'
+                cachePolicy={'memory-disk'}
             />
             </Animated.View>
         </Animated.View>
@@ -90,19 +96,36 @@ const AnimatedNav: React.FC<INewNav> = ({ navigation, children, spotHeader }) =>
 
     const scrollOffSetY = useRef(new Animated.Value(0)).current;
 
+    const animatedBottomBorderColor = scrollOffSetY.interpolate({
+        inputRange: [0, 100],
+        outputRange: ["transparent", "rgb(200,200,200)"],
+        extrapolate: 'clamp'
+    })
+    const animatedBottomBorder = scrollOffSetY.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, 1],
+        extrapolate: 'clamp'
+    })
+
+
     return (
         <>
             <TopNav navigation={navigation} val={scrollOffSetY} />
             <DynamicHeader val={scrollOffSetY} spotHeader={spotHeader} />
-            <ScrollView
-                style={styles.container}
+            <Animated.ScrollView
+                style={[styles.container,
+                    {
+                        borderTopColor: animatedBottomBorderColor,
+                        borderTopWidth: animatedBottomBorder,
+                    }
+                ]}
                 scrollEventThrottle={5}
                 showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{
                     nativeEvent: { contentOffset: { y: scrollOffSetY } }
                 }], { useNativeDriver: false })}>
                 {children}
-            </ScrollView>
+            </Animated.ScrollView>
         </>
     );
 }
@@ -111,8 +134,8 @@ const styles = StyleSheet.create({
     header: {
     },
     container: {
-
+        backgroundColor: colors.WHITE
     },
 })
 
-export default AnimatedNav;
+export default memo(AnimatedNav);

@@ -14,21 +14,21 @@ module.exports = {
     options.tableName = 'Users';
     return queryInterface.bulkInsert(options, [
   {
-    firstName: "Anthony",
-    lastName: "bronca",
-    email: "anthony@user.io",
-    username: "AnthonyB",
-    bio: "I made this site with Typescript :D",
+    firstName: "SpongeBob",
+    lastName: "Squarepants",
+    email: "spongebob@aa.io",
+    username: "Spongebob",
+    bio: "I'm.... READYY!!!!",
     isHost: true,
     hashedPassword: "$2a$10$RWA3t0FVaTYW1AOKNz5La.3jZDoe0RRqfZ3GFIIrmuNxnjHS0bxu6"
   },
   {
-    firstName: "Jade",
-    lastName: "Grabow",
-    email: "jade@user.io",
-    username: "Jade",
+    firstName: "Patrick",
+    lastName: "Star",
+    email: "Patrick@Star.com",
+    username: "PatrickStar",
     isHost: true,
-    bio: "I am the most beautiful girl ever",
+    bio: "That's not my wallet.",
     hashedPassword: "$2a$10$3LIv4Lvl2vpNWiQceaGh0uabDJomSvSetIJanpEzualAkKd9Nbbmm"
   },
   {
