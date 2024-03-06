@@ -9,16 +9,19 @@ import NavBarTile from './NavBarTile';
 
 interface IBottomTabs {
   navigation: any;
+  screen?: "Home" | "Wishlists" | "Trips" | "Inbox" | "Profile"
 }
 
-const BottomTabs:React.FC<IBottomTabs> = ({navigation}) => {
+const BottomTabs:React.FC<IBottomTabs> = ({navigation, screen}) => {
+
+
 
   const icons = {
-    Home: true,
-    Wishlists: false,
-    Trips: false,
-    Inbox: false,
-    Profile: false
+    Home: false || screen === "Home" || !screen,
+    Wishlists: false || screen === "Wishlists",
+    Trips: false || screen === "Trips",
+    Inbox: false || screen === "Inbox",
+    Profile: false || screen === "Profile"
   }
 
   const [activeIcon, setActiveIcon] = useState<any>(icons);
@@ -36,13 +39,19 @@ const BottomTabs:React.FC<IBottomTabs> = ({navigation}) => {
   }
 
   const handleIcons = (name: string) => {
+    console.log(activeIcon, "-> before clear")
     clearIcons()
-    let newActive = {...activeIcon};
-    newActive[name] = true;
+    console.log(activeIcon, "-> after clear")
+    // setActiveIcon(icons)
+    let newActive = {...icons};
+    console.log(name)
+    // newActive.Home = true;
     setActiveIcon(newActive);
+    console.log(activeIcon, "-> after set")
     navigation.navigate(`${name}`)
   }
 
+  console.log(activeIcon["Home"])
 
 
   return (

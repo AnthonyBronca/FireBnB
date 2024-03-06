@@ -11,6 +11,9 @@ interface IDetailParagraph {
 
 const DetailParagraph:React.FC<IDetailParagraph> = ({details}) => {
 
+    const smallDescription = details[0].length === 0;
+
+    const [showArrow] = useState<boolean>(smallDescription);
     const [seeMore, setSeeMore] = useState<boolean>(false);
 
     const handleSeeMore = () => {
@@ -21,14 +24,19 @@ const DetailParagraph:React.FC<IDetailParagraph> = ({details}) => {
   return (
     <View style={styles.mainContainer}>
         {seeMore ?
-            <Text style={styles.defaultText}>{details[1]}</Text> :
-            <Text style={styles.defaultText}>{details[0]}</Text>
+            <Text style={styles.defaultText}>{details[1]}</Text>
+            :
+            <Text style={styles.defaultText}>{`${details[0]}...`}</Text>
         }
         <TouchableOpacity style={styles.seeMoreContainer} onPress={handleSeeMore}>
-            <Text style={styles.seeMore}>{seeMore? "Show less": "Show more"}</Text>
-            {seeMore?
-                <FontAwesomeIcon size={10} icon={faChevronLeft} /> :
-                <FontAwesomeIcon size={10} icon={faChevronRight}/>
+
+            {details[0].length > 0 ?
+            <Text style={styles.seeMore}>{seeMore? "Show less": "Show more"}</Text>:
+            null}
+            {showArrow? null:
+            seeMore?
+            <FontAwesomeIcon size={10} icon={faChevronLeft} />:
+            <FontAwesomeIcon size={10} icon={faChevronRight}/>
              }
         </TouchableOpacity>
     </View>

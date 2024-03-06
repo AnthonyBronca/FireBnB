@@ -9,7 +9,7 @@ import { Spot } from '../../../typings/redux';
 
 interface ISpotTile {
     spot: Spot
-}
+};
 
 const SpotTitle:React.FC<ISpotTile> = ({spot}) => {
   return (
@@ -19,7 +19,7 @@ const SpotTitle:React.FC<ISpotTile> = ({spot}) => {
         </View>
         <View style={styles.mainContainer}>
             <Text style={styles.subheader}>
-                {`${spot.description} in ${spot.city}, ${spot.state}`}
+                {`${spot.description[1]} located in ${spot.city}, ${spot.state}`}
             </Text>
             <View style={styles.spotSpecView}>
                 <SpotSpecs style={styles.detail} count={8} info='guests'/>
@@ -41,7 +41,7 @@ const SpotTitle:React.FC<ISpotTile> = ({spot}) => {
         </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
     title: fonts.header,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'row',
-        marginHorizontal: 40
+        marginHorizontal: 40,
     },
     subheader: fonts.subHeader,
     mainContainer: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         fontFamily: 'System',
         textDecorationLine: 'underline'
     }
-})
+});
 
 
 export default memo(SpotTitle);

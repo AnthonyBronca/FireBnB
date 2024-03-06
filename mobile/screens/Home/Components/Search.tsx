@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { fonts } from '../../../constants/stylings/styles';
 import SearchModal from './SearchModal';
+import FilterModal from './FilterModal';
 
 
 const Search:React.FC = () => {
-    const [modalVisible, setModalVisible] = useState<boolean>(false)
+    const [searchModalVisible, setSearchModalVisible] = useState<boolean>(false)
+    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false)
 
     return (
             <View style={styles.searchBarComponentContainer}>
@@ -15,7 +17,7 @@ const Search:React.FC = () => {
                     <TouchableOpacity
                         style={styles.searchBar}
                         activeOpacity={0.8}
-                        onPress={() => setModalVisible(!modalVisible)}
+                        onPress={() => setSearchModalVisible(!searchModalVisible)}
                     >
                         <FontAwesomeIcon icon={faSearch} style={styles.searchIcon} size={20}/>
                         <Text style={styles.placeholderHeading}>Where To?</Text>
@@ -26,20 +28,21 @@ const Search:React.FC = () => {
                     <TouchableOpacity
                         style={styles.filterIconContainer}
                         activeOpacity={0.9}
+                        onPress={() => setFilterModalVisible(!filterModalVisible)}
                     >
                         <FontAwesomeIcon icon={faFilter} size={20}/>
                     </TouchableOpacity>
                 </View>
-                <SearchModal isVisible={modalVisible} setIsVisible={setModalVisible}/>
+                <SearchModal isVisible={searchModalVisible} setIsVisible={setSearchModalVisible}/>
+                <FilterModal isVisible={filterModalVisible} setIsVisible={setFilterModalVisible}/>
             </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     searchBarComponentContainer: {
         height: 100,
         justifyContent: 'center',
-        gap: 10,
         borderBottomColor: '#e2e2e2',
         borderBottomWidth: 1,
         flexDirection: 'row',
@@ -53,6 +56,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.4,
         borderRadius: 30,
         justifyContent:'center',
+        marginHorizontal: 5
     },
     placeholderHeading: {
         ...fonts.defaultText,
@@ -75,6 +79,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
+        marginHorizontal: 5
     },
 })
 

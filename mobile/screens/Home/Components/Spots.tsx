@@ -7,7 +7,8 @@ import { colors, fonts } from '../../../constants/stylings/styles';
 import { Spot } from '../../../typings/redux';
 import { Image } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
-import { useGetAllSpotsQuery } from '../../../store/spots';
+import { getAllPaginatedSpots } from '../../../store/spots';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 
 interface IHome {
@@ -23,36 +24,36 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     const [currPage, setCurrPage] = useState(1);
     const [paginatedData, setPaginatedData] = useState<Spot[]>([]);
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
+    const [isLoading, setIsLoading] = useState(false);
     const size=10
-
-    const { data: spots, isLoading } = useGetAllSpotsQuery({page:currPage,size});
+    const dispatch = useAppDispatch()
+    const paginatedSpots = useAppSelector(state => state.spots.allSpots)
 
     useEffect(() => {
-        if (!isLoading && spots && spots.Spots) {
-            setPaginatedData((prev) => [...prev, ...spots.Spots]);
-        }
-    }, [spots, isLoading]);
-
+        setIsLoading(true);
+        dispatch(getAllPaginatedSpots({page:currPage, size}))
+        .then(() => paginatedSpots && setPaginatedData((prev) => [...prev, ...paginatedSpots]))
+        .then(() => setIsLoading(false))
+    }, [dispatch, currPage]);
 
     const handleLoadMore = () => {
-        if (!isLoading && spots && spots.Spots.length === size) {
+        if (!isLoading && paginatedSpots && paginatedSpots.length >= size) {
             setCurrPage(prevPage => prevPage + 1);
         }
     };
-   
+
     const goToSpotDetail = (spot: Spot) => {
         navigation.navigate('SpotDetail', {
             spot,
         })
     };
 
-       const toggleHeartPress = (spotId:number) => {
+    const toggleHeartPress = (spotId:number) => {
         setIsHeartPressed(prev => ({
             ...prev,
             [spotId]: !prev[spotId]
         }));
     };
-
 
     const renderSpots = ({ item }: { item: Spot }) => {
         return (
@@ -81,7 +82,6 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         );
     };
 
-
     const renderLoading = () => {
         if (isLoading && !paginatedData.length) {
             return <View><ActivityIndicator size="large" color={colors.RESERVERED} /></View>;
@@ -92,7 +92,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     };
 
 
-    return (     
+    return (
         <FlatList
             data={paginatedData}
             renderItem={renderSpots}
@@ -101,6 +101,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             onEndReachedThreshold={0.1}
             initialNumToRender={10}
             ListFooterComponent={renderLoading}
+            showsVerticalScrollIndicator={false}
         />
     );
 };

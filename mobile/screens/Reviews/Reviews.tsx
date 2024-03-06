@@ -1,26 +1,32 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import ReviewNav from './components/ReviewNav';
 
 
+interface IReviewsProps {
+  navigation: any;
+}
 
-const Reviews:React.FC= ({ navigation}:any) => {
+const Reviews:React.FC<IReviewsProps>= ({ navigation}) => {
 
-    // const {spotId} = spot;
+console.log(navigation)
 
   return (
-    <View style={styles.container}>
+    <>
+      <View style={styles.container}>
         <ReviewNav navigation={navigation} />
-        {/* <Text>{`Hello from spot: review`}</Text> */}
-    </View>
+
+      </View>
+    </>
   );
 }
 
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    }
+        flex: 1,
+        flexDirection: 'row'
+    },
 })
 
 export default Reviews;

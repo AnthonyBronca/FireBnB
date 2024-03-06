@@ -18,8 +18,8 @@ const TopNav:React.FC<ITopNav> = ({navigation, val}) => {
 
 
     const goBack = () => {
-        navigation.pop()
-    }
+        navigation.pop();
+    };
 
     const animatedButtons = val.interpolate({
         inputRange: [0, 50],

@@ -1,5 +1,6 @@
 
 const random = require('getrandomjs')
+import fakeDescriptions from "./fakeDescriptions"
 
 interface Spot {
     userId: number,
@@ -295,42 +296,6 @@ const fakeStates = [
     "Wyoming",
 ];
 
-const fakeDescriptions = [
-    "Rerum quidem corrupti reiciendis sapiente cum. Neque sequi tempore cum.",
-    "Nesciunt quos architecto est animi beatae sapiente mollitia.",
-    "Voluptatem corporis debitis quasi sunt nesciunt rem eveniet.",
-    "Great place to stay when you want to get away from it all",
-    "The place to be. One night at a time",
-    "Developers paradise",
-    "Nessi's favorite lounge",
-    "Home of the Giants, a few feet away",
-    "See dolphins from your balcony, the ocean breeze at night, and mimosas in the morning",
-    "Teams of developers make big company moves here",
-    "This is the place to be all the time",
-    "Suburban home tucked away from the city",
-    'Suburban home right next to the city',
-    "Suburban home somehow inside the city",
-    "City home but not in the city",
-    "Rural home that is on the edge of surbubia",
-    "Disney getaway home for your family and friends",
-    "Pine watch home with palm tree views",
-    "Coral Drive is just a stone throw away",
-    "This is where dreams are made of",
-    "The nights will have fireflies, and the day will have sunkissed sun rays",
-    "Golden hour never looked so golden! Stay at the most golden place of all!",
-    "Willy Wonka's factory is just right around the corner",
-    "Did you know you can click the about links at the bottom to see the info of our dev team?",
-    "This website was built entirely with Typescript! Really!",
-    "We used docker to deploy this",
-    "Mirage Voyage flies above!",
-    "Wattson's pylon is right next door",
-    "Crypto Dish sometimes scans this place, but it is a great place to be!",
-    "This place has the high ground",
-    "The avengers can be seen fighting aliens from your gorgeous kitchen at this retreat. Beware of aliens.",
-    "This home belongs to someone that was snapped away by Thanos. Enjoy your stay!",
-    "The owner of this home doesn't know I listed their house for Firebnb. Lol!",
-    "If you stay here, you must bring pizza!"
-];
 
 function getRandomInRange(from:number, to:number, fixed:number) {
     return Number((Math.random() * (to - from) + from).toFixed(fixed));
@@ -339,7 +304,7 @@ function getRandomInRange(from:number, to:number, fixed:number) {
 const generateSpotSeeders = () => {
     let spotArr: Spot[] = [];
 
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i <= 22; i++) {
         let spot = {
             userId: random(hosts).userId,
             name: random(propertyNames),
@@ -356,6 +321,7 @@ const generateSpotSeeders = () => {
       }
     return spotArr;
 };
+
 
 generateSpotSeeders()
 

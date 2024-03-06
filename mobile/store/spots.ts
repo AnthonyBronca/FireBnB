@@ -1,43 +1,54 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Spot, SpotInitialState, INewSpotForm, IEditForm } from "../typings/redux";
 import axios from "axios";
 import urlParser from "../utils/url-parser";
 
 
-export const apiSpotSlice = createApi({
-    reducerPath: 'spots',
-    baseQuery: fetchBaseQuery({ baseUrl: `${urlParser(`api`)}`}),
-    endpoints: builder => ({
-        getAllSpots: builder.query({
-            query: ({page, size}) => {
-                let queryStr = '/spots';
-                if (page !== undefined && size !== undefined) {
-                    queryStr += `?page=${page}&size=${size}`
-                }
-                return queryStr;
-            },
-            transformResponse: (res: {Spots: Spot[]}) => {
-                res.Spots.sort((a,b) => a.id - b.id)
-                return res
-             },
-        }),
-        getUserSpots: builder.query({
-            query: userId => `/spots/current/${userId}`
-        }),
-        getSingleSpot: builder.query({
-            query: spotId  => `/spots/${spotId}`
-        })
-    })
+// DEFINE THUNKS
+// To get all spots
+export const getAllSpots = createAsyncThunk("spots/fetchAllSpots", async () => {
+    try {
+        const response = await axios.get(urlParser(`api/spots`));
+        return response.data;
+    } catch (error) {
+        throw error
+    }
 });
 
-export const { useGetAllSpotsQuery } = apiSpotSlice;
+// To get all spots with search parameters
+export const getAllPaginatedSpots = createAsyncThunk("spots/fetchAllPaginatedSpots", async ({ page, size }: { page: number, size: number }) => {
+    try {
+        const response = await axios.get(urlParser(`api/spots?page=${page}&size=${size}`));
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+});
 
-// DEFINE THUNKS
+// To get all of the current users spots
+export const getCurrUserSpots = createAsyncThunk("spots/fetchAllCurrUserSpots", async (userId:number) => {
+    try {
+        const response = await axios.get(urlParser(`api/spots/current/${userId}`));
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+});
+
+// To get a spot's details
+export const getSingleSpotDetails = createAsyncThunk("spots/fetchSingleSpotDetails", async (spotId:number) => {
+    try {
+        const response = await axios.get(urlParser(`api/spots/${spotId}`));
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+});
+
 // To post a spot
 export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpotForm) => {
     try {
-        const response = await axios.post(urlParser(`/api/spots`), form);
+        const response = await axios.post(urlParser(`api/spots`), form);
         return response.data;
     } catch (error) {
         throw error
@@ -47,7 +58,7 @@ export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpo
 // To edit a spot
 export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}: {spotId:number, form:IEditForm}) => {
     try {
-        const response = await axios.put(urlParser(`/api/spots/${spotId}`), form);
+        const response = await axios.put(urlParser(`api/spots/${spotId}`), form);
         return response.data;
     } catch (error) {
         throw error
@@ -57,12 +68,14 @@ export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}
 // To delete a spot
 export const deleteSpot = createAsyncThunk("spots/deleteSpot", async (spotId:number) => {
     try {
-        const response = await axios.delete(urlParser(`/api/spots/${spotId}`));
+        const response = await axios.delete(urlParser(`api/spots/${spotId}`));
         return response.data;
     } catch (error) {
         throw error
     }
 });
+
+
 
 
 // DEFINE THE INITIAL STATE
@@ -80,6 +93,20 @@ export const SpotSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+        .addCase(getAllSpots.fulfilled, (state, action) => {
+            state.allSpots = action.payload.Spots.sort((a: {id:number}, b: {id:number}) => a.id - b.id);
+        })
+        .addCase(getAllPaginatedSpots.fulfilled, (state, action) => {
+            state.allSpots = action.payload.Spots.sort((a: {id:number}, b: {id:number}) => a.id - b.id);
+        })
+        .addCase(getCurrUserSpots.fulfilled, (state, action) => {
+            state.allSpots = action.payload.Spots.sort((a: {id:number}, b: {id:number}) => a.id - b.id);
+        })
+        .addCase(getSingleSpotDetails.fulfilled, (state, action:PayloadAction<Spot>) => {
+            if(state.byId !== null){
+                state.byId[`${action.payload.id}`] = action.payload
+            };
+        })
         .addCase(createSpot.fulfilled, (state, action:PayloadAction<Spot>) => {
             if(state.byId !== null){
                 state.byId[`${action.payload.id}`] = action.payload
