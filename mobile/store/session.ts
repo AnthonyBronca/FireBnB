@@ -1,100 +1,148 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { User, SignUpUser, SessionInitialState } from "../typings/redux";
-import axios from "axios";
-import urlParser from "../utils/url-parser";
-
-// DEFINE THUNKS
-// To create an account
-export const signUp = createAsyncThunk("session/setUser", async (user:SignUpUser) => {
-  try {
-      const response = await axios.post(urlParser("api/users"), user);
-      return response.data;
-  } catch (error) {
-      throw error
-  }
-});
-
-// To restore the user session
-export const restoreUser = createAsyncThunk("session/restoreUser", async () => {
-  try {
-      const response = await axios.get(urlParser("api/session"));
-      return response.data;
-  } catch (error) {
-      throw error
-  }
-});
-
-// To log out the user
-export const logOutUser = createAsyncThunk("session/logOutUser", async () => {
-  try {
-      const response = await axios.delete(urlParser("api/session"));
-      return response.data;
-  } catch (error) {
-      throw error
-  }
-});
-
-// To log in the user
-export const logInUser = createAsyncThunk("session/logInUser", async (user: { credential: string, password: string }) => {
-  try {
-      const response = await axios.post(urlParser("api/session"),user);
-      return response.data;
-  } catch (error) {
-      throw error
-  }
-});
-
-// To edit the user's information
-export const editUser = createAsyncThunk("session/editUser", async ({userId, form}:{userId:number|string, form:any}) => {
-  try {
-      const response = await axios.put(urlParser(`api/users/${userId}`), form);
-      return response.data;
-  } catch (error) {
-      throw error
-  }
-});
-
-// To delete a user
-export const deleteUser = createAsyncThunk("session/removeUser", async (userId:number|string) => {
-  try {
-      const response = await axios.delete(urlParser(`api/users/${userId}`));
-      return response.data;
-  } catch (error) {
-      throw error
-  }
-});
+import axios from 'axios';
+import { SessionInitialState, SignUpUser, User } from '../typings/redux';
+import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import urlParser from '../utils/url-parser';
+import { getToken, saveToken } from '../utils/auth';
 
 
-// DEFINE THE INITIAL STATE
-const initialState: SessionInitialState = {
-    user: null
+const SET_USER = 'session/setUser';
+const REMOVE_USER = 'session/removeUser';
+const EDIT_USER = 'session/editUser';
+
+
+const setUser = (user: User) => {
+    return {
+        type: SET_USER,
+        payload: user,
+    };
 };
 
-// SessionSlice reducer
+const removeUser = () => { //action
+    return {
+        type: REMOVE_USER,
+    };
+};
+
+const editUser = (user: User) => {
+    return {
+        type: EDIT_USER,
+        payload: user
+    }
+}
+
+//thunk
+export const signup = (user: SignUpUser): any => async (dispatch: any): Promise<any> => {
+    const { firstName, lastName, email, username, password, isHost } = user;
+    try {
+        const response = await axios.post("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                firstName,
+                password,
+                lastName,
+                email,
+                username,
+                isHost: isHost || false
+            }),
+        });
+
+        dispatch(setUser(response.data));
+    } catch (res: any) {
+        if (!res.ok) {
+            let errors = await res.json();
+            return errors;
+        }
+    }
+}
+
+export const restoreUser = () => async (dispatch: Dispatch) => {
+    try{
+        const response = await axios.get('/api/session');
+        dispatch(setUser(response.data));
+        return response;
+    } catch(e){
+        return e;
+    }
+};
+
+export const logout = (): any => async (dispatch: Dispatch) => {
+    try{
+        const response = await axios.post('/api/session', {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/json" }
+        });
+        dispatch(removeUser());
+        return response;
+    } catch (e){
+        return e;
+    }
+};
+
+export const login = (user: { credential: string, password: string }): any => async (dispatch: any): Promise<any> => {
+    const response = await axios.post(urlParser('api/mobile/session'), user)
+    .catch((e:any)=> {
+        if(e.response.status !== 200){
+            return e.response
+        }else{
+            dispatch(setUser(e.response.data))
+        }
+    })
+    await saveToken(response.headers.token);
+    dispatch(setUser(response.data));
+    return response;
+};
+
+export const editUserThunk = (user: any, form: any): any => async (dispatch: any): Promise<any> => {
+    try{
+
+        const { id } = user;
+        const { editEmail, editFirstName, editLastName } = form;
+
+        const response = await axios.put(`/api/users/${id}`, {
+            firstName: editFirstName,
+            lastName: editLastName,
+            email: editEmail
+        });
+        dispatch(editUser(response.data));
+        return response;
+    } catch (e:any) {
+        console.log(e.toJSON())
+        return e.toJSON();
+    }
+}
+
+export const deleteUserThunk = (user: any): any => async (dispatch: any): Promise<any> => {
+    try{
+        const { id } = user;
+        await axios.delete(`/api/users/${id}`);
+        dispatch(removeUser())
+    } catch (e) {
+        return e;
+    }
+}
+
+
+
+//initial state for session
+const initialState: SessionInitialState = {
+    user: null
+}
+
 export const SessionSlice = createSlice({
     name: 'session',
     initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-        .addCase(signUp.fulfilled, (state, action:PayloadAction<{user:User}>) => {
+    reducers: {
+        setUser: (state, action: PayloadAction<{ user: User }>) => {
             state.user = action.payload.user;
-        })
-        .addCase(restoreUser.fulfilled, (state, action:PayloadAction<{user:User}>) => {
+        },
+        editUser: (state, action: PayloadAction<{ user: User }>) => {
             state.user = action.payload.user;
-        })
-        .addCase(logOutUser.fulfilled, (state, _action) => {
+        },
+        removeUser: (state) => {
             state.user = null;
-        })
-        .addCase(logInUser.fulfilled, (state, action:PayloadAction<{user:User}>) => {
-            state.user = action.payload.user;
-        })
-        .addCase(editUser.fulfilled, (state, action:PayloadAction<{user: User}>) => {
-            state.user = action.payload.user;
-        })
-        .addCase(deleteUser.fulfilled, (state, _action) => {
-            state.user = null;
-        })
+        }
+        //additional reducers go here
     }
 });
 

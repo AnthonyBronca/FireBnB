@@ -73,7 +73,8 @@ const validateSignup = [
             await setTokenCookie(res, safeUser);
 
             return res.json({
-                user: safeUser
+                user: safeUser,
+
             });
         } catch(e){
             return next(e)

@@ -109,5 +109,5 @@
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts"
-, "src/db/models/index.ts"  ]
+, "src/db/models/index.ts", "src/context/AuthContext.tsx"  ]
 }

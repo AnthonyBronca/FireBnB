@@ -1,9 +1,10 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faMessage, faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { faAirbnb } from '@fortawesome/free-brands-svg-icons';
 import NavBarTile from './NavBarTile';
+import AuthContext from '../../context/AuthContext';
 
 
 
@@ -14,6 +15,8 @@ interface IBottomTabs {
 
 
 const BottomTabs:React.FC<IBottomTabs> = ({navigation, screen}) => {
+
+  const {authorized} = useContext(AuthContext);
 
   const icons = {
     Home: false || screen === "Home",
@@ -128,13 +131,13 @@ const BottomTabs:React.FC<IBottomTabs> = ({navigation, screen}) => {
             {!activeIcon['Profile'] ?
               <NavBarTile
                 icon={faCircleUser}
-                name='Log In'
+                name={authorized ? "Profile" : 'Log In'}
                 color='#8E8E8F'
                 size={25}
                 /> :
               <NavBarTile
                 icon={faCircleUser}
-                name='Log In'
+                name={authorized? "Profile" : 'Log In'}
                 color='#FF375D'
                 size={25}
               />

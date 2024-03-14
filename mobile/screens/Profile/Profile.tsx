@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import SimpleNav from '../../components/SimpleNav/SimpleNav';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomTabs from '../../components/BottomTabs';
 import { useAppSelector } from '../../store';
 import Login from './LogIn/Login';
+import AuthContext from '../../context/AuthContext';
+import LoggedIn from './LoggedIn';
 
 
 interface IProfileProps {
@@ -14,9 +16,9 @@ interface IProfileProps {
 const Profile: React.FC<IProfileProps> = ({ navigation }) => {
 
     const user = useAppSelector((state) => state.session.user);
+    const {authorized} = useContext(AuthContext);
 
-
-    if(!user){
+    if(!authorized){
         //Logged Out
         return (
             <SafeAreaView style={styles.container}>
@@ -28,8 +30,7 @@ const Profile: React.FC<IProfileProps> = ({ navigation }) => {
         //Logged in
             return (
                 <SafeAreaView style={styles.container}>
-                <SimpleNav navigation={navigation} />
-                <Text>Hey</Text>
+                <LoggedIn navigation={navigation} user={user} />
                 <BottomTabs navigation={navigation} screen={'Profile'} />
             </SafeAreaView>
         );
