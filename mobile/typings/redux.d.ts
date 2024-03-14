@@ -5,6 +5,14 @@ export interface CSRFHttpOptions {
 };
 
 
+export interface IUserImage {
+    createdAt: string;
+    url: string;
+    userId: number;
+    updatedAt: string;
+    isProfile: boolean
+    id: number
+};
 export interface User {
     id: number;
     firstName: string;
@@ -12,6 +20,16 @@ export interface User {
     email: string;
     username: string;
     isHost: boolean;
+    UserImage?: {
+        id: number,
+        isProfile: boolean,
+        url: string,
+        userId: number,
+        updatedAt: string,
+        createdAt: string
+
+    }
+
 };
 
 
@@ -23,14 +41,6 @@ export interface SpotImage {
 };
 
 
-export interface IUserImage {
-    createdAt: string;
-    url: string;
-    userId: number;
-    updatedAt: string;
-    isProfile: boolean
-    id: number
-};
 
 
 export interface SpotOwner {

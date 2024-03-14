@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { SessionInitialState, SignUpUser, User } from '../typings/redux';
+import { IUserImage, SessionInitialState, SignUpUser, User } from '../typings/redux';
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import urlParser from '../utils/url-parser';
-import { getToken, saveToken } from '../utils/auth';
+import { getToken, removeToken, saveToken } from '../utils/auth';
 
 
 const SET_USER = 'session/setUser';
@@ -66,17 +66,20 @@ export const restoreUser = () => async (dispatch: Dispatch) => {
     }
 };
 
-export const logout = (): any => async (dispatch: Dispatch) => {
-    try{
-        const response = await axios.post('/api/session', {
-            method: 'DELETE',
-            headers: { "Content-Type": "application/json" }
-        });
+export const logout = () => async (dispatch: Dispatch) => {
+    const response = await axios.delete(urlParser('api/mobile/session'))
+    .catch((e: any) => {
+        if(e.response.status !== 200){
+            return e.response
+        } else{
+            dispatch(setUser(e.response.data))
+        }
+    })
+    let res = await removeToken();
+    if(res === "removed"){
         dispatch(removeUser());
-        return response;
-    } catch (e){
-        return e;
     }
+    return { status: response.status, message: response.data, resMsg: res}
 };
 
 export const login = (user: { credential: string, password: string }): any => async (dispatch: any): Promise<any> => {
@@ -126,14 +129,15 @@ export const deleteUserThunk = (user: any): any => async (dispatch: any): Promis
 
 //initial state for session
 const initialState: SessionInitialState = {
-    user: null
+    user: null,
 }
 
 export const SessionSlice = createSlice({
     name: 'session',
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<{ user: User }>) => {
+        setUser: (state, action: PayloadAction<{ user: User}>) => {
+            console.log(action.payload)
             state.user = action.payload.user;
         },
         editUser: (state, action: PayloadAction<{ user: User }>) => {

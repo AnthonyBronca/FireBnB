@@ -7,7 +7,7 @@ import { setTokenCookie, restoreUser, setMobileToken } from "../../utils/auth";
 import { LoginUser } from "../../typings/data";
 import db from '../../db/models';
 import {body, check} from 'express-validator';
-const { User } = db
+const { User, UserImage } = db
 
 
 const router = Router();
@@ -37,6 +37,9 @@ router.post(
                             username: credential,
                             email: credential,
                         },
+                    },
+                    include: {
+                        model: UserImage
                     }
                 });
 
@@ -46,14 +49,14 @@ router.post(
                     throw err
                 }
 
-                const token = await setMobileToken(res, user);
+                await setMobileToken(res, user);
 
-                let loginUser = user.getSafeUser()
-
+                let loginUser = await user.getSafeUser(user.UserImages)
+                let image = await user.UserImages[0].toJSON();
+                loginUser.UserImage = image;
                 res.status(200);
                 return res.json({
                     user: loginUser,
-                    token
                 });
 
             } catch (e) {
