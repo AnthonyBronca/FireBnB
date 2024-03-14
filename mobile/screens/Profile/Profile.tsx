@@ -13,7 +13,7 @@ const Profile: React.FC<IProfileProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <SimpleNav />
+            <SimpleNav navigation={navigation} />
             <Text>Hey</Text>
             <BottomTabs navigation={navigation} screen={'Profile'} />
         </SafeAreaView>
