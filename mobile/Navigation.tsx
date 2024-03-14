@@ -5,6 +5,9 @@ import Home from "./screens/Home";
 import SpotDetail from "./screens/SpotDetail";
 import Reviews from "./screens/Reviews";
 import Wishlists from "./screens/Wishlists";
+import Trips from "./screens/Trips";
+import Inbox from "./screens/Inbox";
+import Profile from "./screens/Profile";
 
 const RootNavigation: React.FC = (): JSX.Element => {
     const Stack = createStackNavigator();
@@ -19,9 +22,9 @@ const RootNavigation: React.FC = (): JSX.Element => {
                 <Stack.Screen name='SpotDetail' component={SpotDetail} />
                 <Stack.Screen name='Reviews' component={Reviews} />
                 <Stack.Screen options={{ animationEnabled: false }} name='Wishlists' component={Wishlists} />
-                <Stack.Screen options={{ animationEnabled: false }} name='Trips' component={Reviews} />
-                <Stack.Screen options={{ animationEnabled: false }} name='Inbox' component={Reviews} />
-                <Stack.Screen options={{ animationEnabled: false }} name='Profile' component={Reviews} />
+                <Stack.Screen options={{ animationEnabled: false }} name='Trips' component={Trips} />
+                <Stack.Screen options={{ animationEnabled: false }} name='Inbox' component={Inbox} />
+                <Stack.Screen options={{ animationEnabled: false }} name='Profile' component={Profile} />
             </Stack.Navigator>
         </NavigationContainer>
     )
