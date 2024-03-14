@@ -3,7 +3,7 @@ import { SessionSlice } from './session'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { SpotSlice } from './spots';
 import { LikeSlice } from './likes';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 
 
 const reducer = {

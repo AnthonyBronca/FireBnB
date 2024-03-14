@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, StyleSheet } from 'react-native';
-import SimpleNav from '../../components/SimpleNav/SimpleNav';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomTabs from '../../components/BottomTabs';
 import { useAppSelector } from '../../store';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { ILoggedInProps } from '../LoggedIn';
-import { colors, fonts } from '../../../../constants/stylings/styles';
+import { colors} from '../../../../constants/stylings/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { Image } from 'expo-image';

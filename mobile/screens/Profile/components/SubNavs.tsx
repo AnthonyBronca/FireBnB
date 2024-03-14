@@ -1,10 +1,9 @@
 import { FontAwesomeIconStyle } from '@fortawesome/react-native-fontawesome';
-import { Image, ImageSource, ImageStyle } from 'expo-image';
+import { Image, ImageSource} from 'expo-image';
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 interface ISubNavsProps {

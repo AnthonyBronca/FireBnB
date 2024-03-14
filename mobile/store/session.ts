@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { IUserImage, SessionInitialState, SignUpUser, User } from '../typings/redux';
+import { SessionInitialState, SignUpUser, User } from '../typings/redux';
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import urlParser from '../utils/url-parser';
-import { getToken, removeToken, saveToken } from '../utils/auth';
+import { removeToken, saveToken } from '../utils/auth';
 
 
 const SET_USER = 'session/setUser';
