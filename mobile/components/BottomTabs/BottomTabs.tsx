@@ -10,48 +10,41 @@ import NavBarTile from './NavBarTile';
 interface IBottomTabs {
   navigation: any;
   screen?: "Home" | "Wishlists" | "Trips" | "Inbox" | "Profile"
-}
+};
+
 
 const BottomTabs:React.FC<IBottomTabs> = ({navigation, screen}) => {
 
-
-
   const icons = {
-    Home: false || screen === "Home" || !screen,
+    Home: false || screen === "Home",
     Wishlists: false || screen === "Wishlists",
     Trips: false || screen === "Trips",
     Inbox: false || screen === "Inbox",
     Profile: false || screen === "Profile"
-  }
+  };
 
   const [activeIcon, setActiveIcon] = useState<any>(icons);
 
 
   const clearIcons = () => {
-   const keys = Object.keys(activeIcon);
-
-    for(let key of keys){
-      if(activeIcon[key]){
-        activeIcon[key] = false;
-        return ''
-      }
-    }
-  }
+    setActiveIcon(icons);
+  };
 
   const handleIcons = (name: string) => {
-    console.log(activeIcon, "-> before clear")
-    clearIcons()
-    console.log(activeIcon, "-> after clear")
-    // setActiveIcon(icons)
-    let newActive = {...icons};
-    console.log(name)
-    // newActive.Home = true;
-    setActiveIcon(newActive);
-    console.log(activeIcon, "-> after set")
+    clearIcons();
+    let newIcons = {...activeIcon};
+    for (let key in newIcons) {
+        let val = newIcons[key];
+        if(val && key !== name){
+          newIcons[key] = false;
+        }
+        if(key === name){
+          newIcons[key] = true;
+        }
+      }
     navigation.navigate(`${name}`)
   }
 
-  console.log(activeIcon["Home"])
 
 
   return (

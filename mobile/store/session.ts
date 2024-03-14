@@ -83,7 +83,7 @@ export const SessionSlice = createSlice({
         .addCase(restoreUser.fulfilled, (state, action:PayloadAction<{user:User}>) => {
             state.user = action.payload.user;
         })
-        .addCase(logOutUser.fulfilled, (state, action) => {
+        .addCase(logOutUser.fulfilled, (state, _action) => {
             state.user = null;
         })
         .addCase(logInUser.fulfilled, (state, action:PayloadAction<{user:User}>) => {
@@ -92,7 +92,7 @@ export const SessionSlice = createSlice({
         .addCase(editUser.fulfilled, (state, action:PayloadAction<{user: User}>) => {
             state.user = action.payload.user;
         })
-        .addCase(deleteUser.fulfilled, (state, action) => {
+        .addCase(deleteUser.fulfilled, (state, _action) => {
             state.user = null;
         })
     }

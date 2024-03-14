@@ -4,10 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from "./screens/Home";
 import SpotDetail from "./screens/SpotDetail";
 import Reviews from "./screens/Reviews";
+import Wishlists from "./screens/Wishlists";
 
 const RootNavigation: React.FC = (): JSX.Element => {
     const Stack = createStackNavigator();
-
     const screenOptions = {
         headerShown: false,
     };
@@ -18,7 +18,7 @@ const RootNavigation: React.FC = (): JSX.Element => {
                 <Stack.Screen options={{ animationEnabled: false }} name='Home' component={Home} />
                 <Stack.Screen name='SpotDetail' component={SpotDetail} />
                 <Stack.Screen name='Reviews' component={Reviews} />
-                <Stack.Screen options={{ animationEnabled: false }} name='Wishlists' component={Reviews} />
+                <Stack.Screen options={{ animationEnabled: false }} name='Wishlists' component={Wishlists} />
                 <Stack.Screen options={{ animationEnabled: false }} name='Trips' component={Reviews} />
                 <Stack.Screen options={{ animationEnabled: false }} name='Inbox' component={Reviews} />
                 <Stack.Screen options={{ animationEnabled: false }} name='Profile' component={Reviews} />

@@ -2,10 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Carousel from '../../components/Carousel';
 import { Image } from 'expo-image';
+import SimpleNav from '../../components/SimpleNav/SimpleNav';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import BottomTabs from '../../components/BottomTabs';
 
 
+interface IWishlistsProps {
+    navigation: any;
+}
 
-const Wishlists = () => {
+const Wishlists:React.FC<IWishlistsProps> = ({navigation}) => {
 
 
     const imageData = [
@@ -15,29 +21,30 @@ const Wishlists = () => {
         "https://foyr.com/learn/wp-content/uploads/2021/08/design-your-dream-home.jpg"
     ]
 
-
-
+    // <Carousel>
+    //     {imageData.map((img, idx) => (
+    //         <Image
+    //             key={`${idx}-${img}`}
+    //             source={{uri: img}}
+    //             placeholder={{uri: img}}
+    //             style={styles.image}
+    //         />
+    //     ))}
+    // </Carousel>
 
 
   return (
-    <Carousel>
-        {imageData.map((img, idx) => (
-            <Image
-                key={`${idx}-${img}`}
-                source={{uri: img}}
-                placeholder={{uri: img}}
-                style={styles.image}
-            />
-        ))}
-    </Carousel>
+    <SafeAreaView style={styles.container}>
+        <SimpleNav />
+        <Text>Hey</Text>
+        <BottomTabs navigation={navigation} screen={'Wishlists'} />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-    image:{
-        flexDirection: 'row',
-        flex: 1,
-        height: 250
+    container: {
+        flex: 1
     }
 })
 

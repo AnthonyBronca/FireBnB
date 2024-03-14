@@ -4,7 +4,6 @@ import SpotTitle from './components/SpotTitle';
 import {Divider} from 'react-native-elements'
 import SubDetail from './components/SubDetail';
 import BottomReserve from './components/BottomReserve';
-// import randomPerson from '../../assets/images/random-person.jpg';
 import door from '../../assets/images/door.png';
 import superhost from '../../assets/images/superhost.png';
 import calendar from '../../assets/images/calendar.png';
