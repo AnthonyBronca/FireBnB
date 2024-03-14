@@ -2,12 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { colors, fonts } from '../../../../constants/stylings/styles';
 import FirebnbCard from '../../components/FirebnbCard';
+import SubNavs from '../../components/SubNavs';
+import cog from '../../../../assets/icons/cog.png'
+import { Divider } from 'react-native-elements';
+import userIcon from '../../../../assets/icons/user-icon.png';
+import notificationIcon from '../../../../assets/icons/notifications-icon.png';
 
 interface IBodyProps {
     navigation: any;
 }
 
 const Body:React.FC<IBodyProps> = ({navigation}) => {
+
 
     const handleLogin = () => {
         console.log('login pressed')
@@ -33,6 +39,28 @@ const Body:React.FC<IBodyProps> = ({navigation}) => {
             </View>
         </View>
         <FirebnbCard navigation={navigation} />
+        <View style={{marginTop: 20}}>
+            <SubNavs
+                navigation={navigation}
+                iconImage={cog}
+                text='Settings'
+                to={'Settings'}
+                />
+            <Divider style={{ marginVertical: 10}} width={1} />
+            <SubNavs
+                navigation={navigation}
+                iconImage={notificationIcon}
+                text='Accessibility'
+                to={'accessibility'}
+                />
+            <Divider style={{ marginVertical: 10 }} width={1} />
+            <SubNavs
+                navigation={navigation}
+                iconImage={userIcon}
+                text='See Authors'
+                to={'Authors'}
+                />
+        </View>
     </View>
   );
 }
