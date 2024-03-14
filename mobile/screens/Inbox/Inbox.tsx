@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
-import SimpleNav from '../../components/SimpleNav/SimpleNav';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomTabs from '../../components/BottomTabs';
 import { Image } from 'expo-image';
@@ -14,7 +13,6 @@ const Inbox: React.FC<IInboxProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* <SimpleNav navigation={navigation} /> */}
             <View style={styles.underConstruction}>
                 <Text style={styles.text}>Under Construction!</Text>
             </View>
