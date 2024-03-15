@@ -9,7 +9,6 @@ interface IReviewsProps {
 
 const Reviews:React.FC<IReviewsProps>= ({ navigation}) => {
 
-console.log(navigation)
 
   return (
     <>

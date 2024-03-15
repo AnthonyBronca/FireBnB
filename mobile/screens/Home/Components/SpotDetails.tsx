@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default memo(SpotDetails);
+export default SpotDetails;
 
 /*
 [

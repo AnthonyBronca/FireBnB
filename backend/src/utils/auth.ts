@@ -8,6 +8,37 @@ import db from '../db/models'
 const {User} = db;
 const { secret, expiresIn } = jwtConfig;
 
+
+interface ISafeUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+}
+
+export const setMobileToken = (res:Response, user:any) => {
+  const safeUser:ISafeUser = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    username: user.username
+  };
+
+
+  const token = jwt.sign(
+    {data: safeUser},
+    secret,
+    {expiresIn: parseInt(expiresIn)}
+  );
+
+  res.header({
+    token
+  })
+  return token;
+}
+
 // Sends a JWT Cookie
 export const setTokenCookie = (res:Response, user:any) => {
   // Create the token.

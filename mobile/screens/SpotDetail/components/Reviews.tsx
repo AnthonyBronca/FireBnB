@@ -7,9 +7,7 @@ import * as filledFaStar from '@fortawesome/free-regular-svg-icons/faStar';
 import { colors, fonts } from '../../../constants/stylings/styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import SubDetail from './SubDetail';
-import randomPerson from '../../../assets/images/random-person.jpg'
 import { IReviews, Review } from '../../../typings/redux';
-import { useAppDispatch } from '../../../store';
 import axios from 'axios';
 import urlParser from '../../../utils/url-parser';
 
@@ -25,6 +23,8 @@ const Reviews: React.FC<IReviewsProps> = ({navigation, spot, reviews}) => {
     const [spotReviews, setSpotReviews] = useState<IReviews>({Reviews: []});
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
+
+
     useEffect(() => {
         const fetchReviews = async(spotId:number) => {
             const res = await axios.get(urlParser(`/api/spots/${spotId}/reviews`));
@@ -36,50 +36,6 @@ const Reviews: React.FC<IReviewsProps> = ({navigation, spot, reviews}) => {
         fetchReviews(spot.id)
 
     }, []);
-
-
-    const dummyReviews = [
-        {
-            id: 1,
-            username: 'AnthonyBronca',
-            location: 'Orlando, Florida',
-            review: 5,
-            body: [
-                "It was a very beautiful pineapple! I loved it! I",
-                "It was a very beautiful pineapple! I loved it! I would love to stay here again. Bikini Bottom rules!"
-            ]
-        },
-        {
-            id: 2,
-            username: 'KrystalKimmel',
-            location: 'Chicago, Indiana',
-            review: 4,
-            body: [
-                "This pineapple was very cute! My only gripe was that there was a squid next door",
-                "This pineapple was very cute! My only gripe was that there was a squid next door playing his clarinet loudly. He was not that good. But this home was nice!"
-            ]
-        },
-        {
-            id: 3,
-            username: 'Alexi_bettinger',
-            location: 'Denver, Colorado',
-            review: 3,
-            body: [
-                "I got stung by so many jellyfish here! Also, I don't live near an ocean so maybe i'm wrong",
-                "I got stung by so many jellyfish here! Also, I don't live near an ocean so maybe i'm wrong, but why are the jellyfish flying?! Besides the talking wild animals, and stinging flying Jelly Fish, the house itself was beautiful! Especially in the sunset with the flowers lining the sky!"
-            ]
-        },
-        {
-            id: 4,
-            username: 'SquidwardTortellini',
-            location: 'Rome, Italy',
-            review: 1,
-            body: [
-                "Boy do I have some reviews about this place.I didn't actually stay here, but",
-                "Boy do I have some reviews about this place. I didn't actually stay here, but the person who owns this place is soooo annoying! What a total barnacle head! 'I'm ready.. I'm ready..' non-stop! Plus, I can smell the sweaty grease from my home next door. It's like the owner lives and breaths krabby patties. Don't even get me started on the star fish! The neighborhood itself can be pretty dangerous too! This one time, a giant anchor came falling from the sky and crashed through this pineapple! Also, the bubbles popping sound like massive explosions! Not to mention the US navy likes to test their nuclear capabilities on the atol slight above Bikini Hill not too far from here."]
-        },
-    ];
-
 
 
     const handleSeeMore = (review: any) => {
@@ -139,7 +95,7 @@ if(!spotReviews || spotReviews.Reviews.length === 0){
             <FontAwesomeIcon size={15} icon={faStar} />
             <Text style={styles.reviewNum}>{`${spot.avgRating}`}</Text>
             <FontAwesomeIcon size={3} icon={faCircle} />
-            <Text style={styles.reviewCount}>{`${dummyReviews.length} Reviews`}</Text>
+            <Text style={styles.reviewCount}>{`${reviews?.length} Reviews`}</Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
             {spotReviews.Reviews.map((rev, idx) => (
@@ -187,7 +143,6 @@ if(!spotReviews || spotReviews.Reviews.length === 0){
 
 const styles = StyleSheet.create({
     container: {
-        // marginHorizontal: 40,
         marginVertical: 20,
     },
     reviewContainer: {

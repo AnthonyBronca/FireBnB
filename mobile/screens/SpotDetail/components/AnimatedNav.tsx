@@ -1,13 +1,9 @@
 import React, { memo, useRef } from 'react';
-import { ScrollView, Animated, StyleSheet } from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 import {Image} from 'expo-image'
 import TopNav from './TopNav';
 import { colors } from '../../../constants/stylings/styles';
-import Header from './Header';
 
-
-// const blurHash =
-//     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 interface IDynamicHeader {
     val: any;
@@ -15,7 +11,6 @@ interface IDynamicHeader {
 }
 
 const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
-
 
     const header_max = 200;
     const header_min = 100;
@@ -41,16 +36,6 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
         extrapolate: 'clamp'
     })
 
-    // const animatedBottomBorderColor = val.interpolate({
-    //     inputRange: [0, 100],
-    //     outputRange: ["transparent", "rgb(200,200,200)"],
-    //     extrapolate: 'clamp'
-    // })
-    // const animatedBottomBorder = val.interpolate({
-    //     inputRange: [0, 100],
-    //     outputRange: [0, 1],
-    //     extrapolate: 'clamp'
-    // })
 
 
     return (
@@ -60,8 +45,6 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
                 height: animatedHeaderHeight,
                 backgroundColor: animatedHeadercolor,
                 marginBottom: 10,
-                // borderBottomColor: animatedBottomBorderColor,
-                // borderBottomWidth: animatedBottomBorder,
             }
             ]}
         >
@@ -75,9 +58,10 @@ const DynamicHeader: React.FC<IDynamicHeader> = ({ val, spotHeader }) => {
                 }}
             >
             <Image
-                source={spotHeader}
+                source={{uri: spotHeader}}
                 style={{height: 250, width: '100%', objectFit: 'contain'}}
                 contentFit='cover'
+                transition={400}
                 cachePolicy={'memory-disk'}
             />
             </Animated.View>

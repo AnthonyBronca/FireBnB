@@ -59,6 +59,8 @@ export const restoreUser = () => async (dispatch: Dispatch) => {
     if(response.ok){
         const data = await response.json();
         dispatch(setUser(data));
+        // dispatch(removeUser())
+        console.log(data)
         return response;
     } else {
         throw new Error("Unable to restore user");
