@@ -1,20 +1,20 @@
-import { FontAwesomeIconStyle } from '@fortawesome/react-native-fontawesome';
 import { Image, ImageSource} from 'expo-image';
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 
 interface ISubNavsProps {
     navigation: any;
-    icon?:FontAwesomeIconStyle;
+    icon?:IconDefinition;
     iconImage?: ImageSource
     text: string;
     to: string;
 }
 
-const SubNavs: React.FC<ISubNavsProps> = ({navigation, iconImage, text, to}) => {
+const SubNavs: React.FC<ISubNavsProps> = ({navigation, icon, iconImage, text, to}) => {
 
   const handlePress = () => {
     console.log('pressed')
@@ -42,6 +42,13 @@ const SubNavs: React.FC<ISubNavsProps> = ({navigation, iconImage, text, to}) => 
                     style={styles.iconImageStyle}
                     source={iconImage}
                     />
+                    )}
+                {icon && (
+                    <FontAwesomeIcon
+                        style={styles.iconImageStyle}
+                        icon={icon}
+                        size={20}
+                        />
                     )}
                     <Text style={styles.text}>{text}</Text>
             </View>

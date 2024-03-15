@@ -31,7 +31,6 @@ router.use(
         }
     })
 );
-
 router.use('/session', sessionRouter);
 router.use('/users', userRouter);
 router.use('/spots', spotsRouter);

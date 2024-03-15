@@ -11,6 +11,7 @@ import Profile from "./screens/Profile";
 import Login from "./screens/Login";
 import { getToken } from "./utils/auth";
 import AuthContext from "./context/AuthContext";
+import { getUser } from "./storage/storage";
 
 const RootNavigation: React.FC = (): JSX.Element => {
     const Stack = createStackNavigator();
@@ -29,6 +30,7 @@ const RootNavigation: React.FC = (): JSX.Element => {
         }
         authenticate();
     }, [ authorized])
+
 
     return (
         <AuthContext.Provider value={{authorized, toggleAuthorized: setAuthorized}}>

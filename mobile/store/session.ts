@@ -3,6 +3,7 @@ import { SessionInitialState, SignUpUser, User } from '../typings/redux';
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import urlParser from '../utils/url-parser';
 import { removeToken, saveToken } from '../utils/auth';
+import { removeUserStorage, saveUser } from '../storage/storage';
 
 
 const SET_USER = 'session/setUser';
@@ -46,7 +47,6 @@ export const signup = (user: SignUpUser): any => async (dispatch: any): Promise<
                 isHost: isHost || false
             }),
         });
-
         dispatch(setUser(response.data));
     } catch (res: any) {
         if (!res.ok) {
@@ -76,7 +76,8 @@ export const logout = () => async (dispatch: Dispatch) => {
         }
     })
     let res = await removeToken();
-    if(res === "removed"){
+    let removedUser = await removeUserStorage();
+    if(res === "removed" && removedUser === "user deleted"){
         dispatch(removeUser());
     }
     return { status: response.status, message: response.data, resMsg: res}
@@ -92,6 +93,7 @@ export const login = (user: { credential: string, password: string }): any => as
         }
     })
     await saveToken(response.headers.token);
+    await saveUser(response.data);
     dispatch(setUser(response.data));
     return response;
 };

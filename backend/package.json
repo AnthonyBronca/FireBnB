@@ -24,7 +24,7 @@
     "sqlite-reset": "rm -rf ./dist/db/dev.db",
     "start": "per-env",
     "start:development": "tsc && bun run db:reset && ts-node-dev --poll src/bin/www",
-    "start:production": "bun dist/psql-setup-script && npm run fill-schema && bun dist/bin/www",
+    "start:production": "node dist/psql-setup-script && npm run fill-schema && node dist/bin/www",
     "build": "tsc",
     "fill-schema": "npx sequelize db:migrate && npx sequelize db:seed:all",
     "build-db": "npx sequelize db:drop && npx sequelize db:create",

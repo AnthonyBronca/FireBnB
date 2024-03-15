@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomTabs from '../../components/BottomTabs';
-import { useAppSelector } from '../../store';
+// import { useAppSelector } from '../../store';
 import Login from './LogIn/Login';
 import AuthContext from '../../context/AuthContext';
 import LoggedIn from './LoggedIn';
+import { getUser } from '../../storage/storage';
 
 
 interface IProfileProps {
@@ -14,10 +15,25 @@ interface IProfileProps {
 
 const Profile: React.FC<IProfileProps> = ({ navigation }) => {
 
-    const user = useAppSelector((state) => state.session.user);
     const {authorized} = useContext(AuthContext);
+    const [user, setUser] = useState(null);
+    useEffect(()=> {
+        const retrieveUser = async() => {
+            const {user} = await getUser();
+            if(user !== "No user stored"){
+                setUser(user);
+            }
+        }
+        if(!user){
+            retrieveUser();
+        }
+    }, )
 
-    if(!authorized){
+
+
+    // const user = useAppSelector((state) => state.session.user);
+
+    if(!authorized && !user){
         //Logged Out
         return (
             <SafeAreaView style={styles.container}>

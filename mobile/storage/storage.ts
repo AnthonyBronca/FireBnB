@@ -1,15 +1,22 @@
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
+import { User } from '../typings/redux';
 
+export const saveUser = async(user:User) => {
+    const userString = JSON.stringify(user);
+    await SecureStore.setItemAsync("user", userString);
+};
 
-const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: null,
-    enableCache: true,
-    sync: {
-
+export const getUser = async() => {
+    const userString = await SecureStore.getItemAsync('user');
+    if(userString){
+        const user = JSON.parse(userString);
+        return user;
+    } else{
+        return "No user stored";
     }
-})
+};
 
-export default storage;
+export const removeUserStorage = async() => {
+    await SecureStore.deleteItemAsync("user");
+    return "user deleted"
+}

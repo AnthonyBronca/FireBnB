@@ -16,7 +16,6 @@ const Header:React.FC<ILoggedInProps> = ({navigation, user}) => {
         navigation.navigate('Home')
     }
 
-    console.log(user)
   return (
     <>
         <View style={styles.container}>
@@ -50,7 +49,7 @@ const Header:React.FC<ILoggedInProps> = ({navigation, user}) => {
                 </View>
             </Pressable>
         </View>
-        <Divider width={.5} style={{marginVertical: 10}} />
+        <Divider width={.5} style={{marginTop: 10, marginBottom: -20}} />
     </>
   );
 }
