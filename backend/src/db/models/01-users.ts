@@ -31,14 +31,15 @@ module.exports = (sequelize: any, DataTypes:any) => {
         declare isHost: boolean;
         declare hashedPassword: string;
 
-        getSafeUser(){
+
+        async getSafeUser(){
             const safeUser = {
                 id: this.id,
                 email: this.email,
                 username: this.username,
                 firstName: this.firstName,
                 lastName: this.lastName,
-                isHost: this.isHost
+                isHost: this.isHost,
             };
             return safeUser
         }

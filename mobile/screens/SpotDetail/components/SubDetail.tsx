@@ -17,7 +17,6 @@ interface ISubDetail {
 
 const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot, img, rev}) => {
 
-    console.log(rev)
 
   return (
     <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>

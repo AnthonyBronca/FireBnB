@@ -15,7 +15,7 @@ const Home: React.FC<IHome> = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <Search/>
       <Spots navigation={navigation}/>
-      <BottomTabs navigation={navigation}/>
+      <BottomTabs navigation={navigation} screen={'Home'}/>
     </SafeAreaView>
   );
 }

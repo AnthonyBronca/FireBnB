@@ -33,15 +33,15 @@ app.use(
 );
 
 // Set the _csrf token and create req.csrfToken method
-app.use(
-    csurf({
-        cookie: {
-            secure: isProduction,
-            sameSite: isProduction && "lax",
-            httpOnly: true
-        }
-    })
-);
+// app.use(
+//     csurf({
+//         cookie: {
+//             secure: isProduction,
+//             sameSite: isProduction && "lax",
+//             httpOnly: true
+//         }
+//     })
+// );
 
 
 //apply middleware to allow for usage of static react app from build
