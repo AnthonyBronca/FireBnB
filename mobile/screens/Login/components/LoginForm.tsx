@@ -1,5 +1,5 @@
-import React, { FormEvent, useContext, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
+import React, {  useContext, useState } from 'react';
+import { View, Text, Pressable, StyleSheet, ActivityIndicator, Keyboard } from 'react-native';
 import {Formik} from 'formik';
 import { colors, fonts } from '../../../constants/stylings/styles';
 import { Divider } from 'react-native-elements';
@@ -7,14 +7,15 @@ import {TextInput} from 'react-native-paper';
 import { useAppDispatch } from '../../../store/hooks';
 import * as Yup from 'yup';
 import { login } from '../../../store/session';
-import storage from '../../../storage/storage';
 import AuthContext from '../../../context/AuthContext';
-import { useAppSelector } from '../../../store';
-const bcrypt = require('bcryptjs');
+// import { useAppSelector } from '../../../store';
+
 
 
 interface ILoginFormProps {
     navigation: any;
+    err: string[];
+    setErr: Function
 };
 
 interface IForm {
@@ -28,17 +29,18 @@ const LoginSchema = Yup.object().shape({
 })
 
 
-const LoginForm:React.FC<ILoginFormProps>= ({navigation}) => {
+const LoginForm:React.FC<ILoginFormProps>= ({navigation, err, setErr}) => {
     const dispatch = useAppDispatch();
-    const user = useAppSelector((state)=> state.session.user)
-    const { authorized, toggleAuthorized } = useContext(AuthContext)
+    // const user = useAppSelector((state)=> state.session.user)
+    const { toggleAuthorized } = useContext(AuthContext)
 
     const [isLoading, setIsLoading] = useState(false);
-    const [err, setErr] = useState<string[]>([]);
+    // const [err, setErr] = useState<string[]>([]);
     const submit = async(values: IForm) => {
         const {email, password} = values;
         const form = {credential: email, password}
         setIsLoading(true);
+        Keyboard.dismiss();
        const res = await dispatch(login(form))
        if(res){
         setIsLoading(false);

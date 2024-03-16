@@ -27,7 +27,7 @@ const LoggedIn:React.FC<ILoggedInProps> = ({navigation, user}) => {
         const res = await dispatch(logout());
         if(res.resMsg === 'removed'){
             toggleAuthorized(false);
-        } else{
+            navigation.navigate('Home')
         }
     }
 
