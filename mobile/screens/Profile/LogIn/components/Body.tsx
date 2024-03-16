@@ -20,7 +20,7 @@ const Body:React.FC<IBodyProps> = ({navigation}) => {
     }
 
     const handleSignUp = () => {
-        console.log('sign up pressed')
+        navigation.navigate('Login')
     }
 
   return (

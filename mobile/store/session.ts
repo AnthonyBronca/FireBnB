@@ -88,14 +88,16 @@ export const login = (user: { credential: string, password: string }): any => as
     .catch((e:any)=> {
         if(e.response.status !== 200){
             return e.response
-        }else{
-            dispatch(setUser(e.response.data))
         }
     })
-    await saveToken(response.headers.token);
-    await saveUser(response.data);
-    dispatch(setUser(response.data));
-    return response;
+    if(response.status !== 200){
+        return response
+    } else{
+        await saveToken(response.headers.token);
+        await saveUser(response.data);
+        dispatch(setUser(response.data));
+        return response;
+    }
 };
 
 export const editUserThunk = (user: any, form: any): any => async (dispatch: any): Promise<any> => {
