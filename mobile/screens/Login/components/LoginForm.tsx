@@ -14,6 +14,8 @@ import AuthContext from '../../../context/AuthContext';
 
 interface ILoginFormProps {
     navigation: any;
+    err: string[];
+    setErr: Function
 };
 
 interface IForm {
@@ -27,13 +29,13 @@ const LoginSchema = Yup.object().shape({
 })
 
 
-const LoginForm:React.FC<ILoginFormProps>= ({navigation}) => {
+const LoginForm:React.FC<ILoginFormProps>= ({navigation, err, setErr}) => {
     const dispatch = useAppDispatch();
     // const user = useAppSelector((state)=> state.session.user)
     const { toggleAuthorized } = useContext(AuthContext)
 
     const [isLoading, setIsLoading] = useState(false);
-    const [err, setErr] = useState<string[]>([]);
+    // const [err, setErr] = useState<string[]>([]);
     const submit = async(values: IForm) => {
         const {email, password} = values;
         const form = {credential: email, password}
