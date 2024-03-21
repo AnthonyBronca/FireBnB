@@ -3,7 +3,9 @@ import './css/NewReviewModalStyles.css'
 import filledStar from '../../assets/icons/star.svg';
 import emptyStar from '../../assets/icons/empty-star.svg';
 import xBtn from '../../assets/icons/x.svg'
-//import { useAppSelector } from '../../store';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { createReviewThunk } from '../../store/spots';
 
 import NewReviewModalContext from '../../context/NewReviewModalContext';
 import { TextareaAutosize } from '@mui/material';
@@ -13,8 +15,13 @@ interface INewReviewProps {
 }
 
 const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [stars, setStars] = useState<number>(0);
     const [hover, setHover] = useState<undefined | number>(undefined);
+    const [review, setReview] = useState<string>('');
+    const [errors, setErrors] = useState<string[]>([]);
 
     const {togglePostReviewOpen } = useContext(NewReviewModalContext);
 
@@ -32,6 +39,31 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
 
     const handleClose = () => {
         togglePostReviewOpen(true)
+    }
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setErrors([]);
+        let err = [];
+
+        if(!review.length){
+            err.push("You must enter a review.");
+        }
+        if(!stars) {
+            err.push("You must leave a rating.")
+        }
+        if (err.length) {
+            errors.push(...err);
+            return;
+        } else {
+            if (!errors.length) {
+                let newReview = {stars, review, spotId};
+                let res = await dispatch(createReviewThunk(newReview));
+                if (res) {
+                    navigate(`/spots/${spotId}`);
+                }
+            }
+        }
     }
 
     useEffect(()=> {
@@ -57,7 +89,7 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
                     <h1>Write a public review</h1>
                     <p>Tell the next guests what you loved, and anything else about this place.</p>
                 </div>
-                <form id="review-form">
+                <form id="review-form" onSubmit={(e:any) => handleSubmit(e)}>
                     <div id="upload-btn-container">
                         <input id="rvw-modal-pu" type="file" placeholder='Upload Photos'></input>
                     </div>
@@ -65,6 +97,8 @@ const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
                         id="rvw-txt-area"
                         minRows={5}
                         placeholder='How was your stay?'
+                        value={review}
+                        onChange={(e: any) => setReview(e.target.value)}
                     />
                     <div id="review-stars">
                        {

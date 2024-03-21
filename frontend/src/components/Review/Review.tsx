@@ -58,7 +58,7 @@ const ReviewComponent: React.FC<IReviewProps> = ({reviews, spot}): JSX.Element |
                     <span>2 weeks ago</span>
                 </div>
                 <div className='review-details-container'>
-                     {review.review[0].length > 0 ?
+                     {(review.review.length > 0 && review.review[0].length > 0) ?
                         <div>
                             {!seeMoreObj[review.id]? <span className='review-text'>{`${review.review[0]}...`}</span>:
                             <span className='review-text'>{`${review.review[1]}`}</span> }

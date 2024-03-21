@@ -1,4 +1,4 @@
-import {SpotInitialState, Spot, Spots, INewSpotForm, IEditForm} from "../typings/redux";
+import {SpotInitialState, Spot, Spots, INewSpotForm, IEditForm, Review, INewReviewForm} from "../typings/redux";
 import { csrfFetch } from "./csrf";
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
@@ -9,6 +9,7 @@ const SET_SPOT = 'spots/setSpot';
 const GET_USER_SPOTS = 'spots/getUserSpots';
 const EDIT_SPOT = 'spots/editSpot';
 const DELETE_USER_SPOT = 'spots/deleteSpot';
+const ADD_REVIEW = 'spots/addReview';
 
 
 
@@ -51,6 +52,13 @@ const deleteSpot = (spot: Spot) => {
     return {
         type: DELETE_USER_SPOT,
         payload: spot
+    }
+}
+
+const addReview = (review: Review) => {
+    return {
+        type: ADD_REVIEW,
+        payload: review
     }
 }
 
@@ -206,6 +214,29 @@ export const getOneSpotThunk = (spotId: string):any => async (dispatch: Dispatch
     }
 }
 
+//Create a review
+export const createReviewThunk = (form:INewReviewForm):any => async (dispatch:Dispatch): Promise<any> => {
+    try {
+        const { spotId } = form;
+        
+        const options = {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(form)
+        }
+        const res = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
+        if (res.ok) {
+            const newReview = await res.json();
+            dispatch(addReview(newReview));
+            return res;
+        } else {
+            throw new Error("Unable to create review.")
+        }
+    } catch (e) {
+        return e;
+    }
+}
+
 //Spots initial State
 const initialState:SpotInitialState = {
     byId: {},
@@ -304,6 +335,24 @@ export const SpotSlice = createSlice({
 
             if(state.userSpotId && state.userSpotId[`${action.payload.id}`]){
                 delete state.userSpotId[`${action.payload.id}`];
+            }
+        },
+        addReview: (state, action: PayloadAction<Review>) => {
+            const review = action.payload;
+        
+            if (state.byId && state.byId[`${review.spotId}`]) {
+                state.byId[`${review.spotId}`].reviews?.push(review)
+            }
+       
+            if (state.allSpots && state.allSpots.length > 0) {
+            
+                for (let i = 0; i < state.allSpots.length; i++) {
+                    let spot = state.allSpots[i];
+                    if (spot.id === review.spotId) {
+                        spot["reviews"]?.push(review);
+                    }
+                }
+           
             }
         }
     }
