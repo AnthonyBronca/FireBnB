@@ -10,27 +10,43 @@ interface IReviewNav {
 
 const ReviewNav:React.FC<IReviewNav> = ({navigation}) => {
 
-    const goBack = () => {
-        navigation.pop();
-    }
+  const goBack = () => {
+    navigation.pop()
+  }
+
 
 
   return (
+    <>
     <View style={styles.container}>
         <TouchableOpacity onPress={goBack}>
-            <FontAwesomeIcon icon={faChevronLeft} size={15} />
+            <View style={styles.backBtnContainer}>
+                <FontAwesomeIcon size={15} icon={faChevronLeft} />
+            </View>
         </TouchableOpacity>
     </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
     container: {
+        zIndex: 100,
+        position: 'absolute',
+        top: 55,
         flex: 1,
-        marginTop: 50,
-        marginLeft: 40
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        // paddingBottom: 40,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        height: 50
+    },
+    backBtnContainer: {
+        flexDirection: 'row'
     }
 })
-
 
 export default ReviewNav;

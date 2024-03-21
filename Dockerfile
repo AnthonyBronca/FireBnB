@@ -12,7 +12,8 @@ COPY /backend .
 RUN npm run build
 
 # # Build for React. Converts TSX and React into a static html bundle
-FROM --platform=amd64 node:18-alpine as frontendbuild
+FROM --platform=arm64 node:18-alpine as frontendbuild
+# FROM --platform=amd64 node:18-alpine as frontendbuild
 
 WORKDIR /frontend
 
@@ -26,13 +27,14 @@ RUN npm run build
 
 
 # Production level Image: Inherits from built api and frontend images
-FROM --platform=amd64 node:18-alpine as production
+FROM --platform=arm64 node:18-alpine as production
+# FROM --platform=amd64 node:18-alpine as production
 
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-ARG SCHEMA=firebnb
+ARG SCHEMA=firebnb_schema
 ENV SCHEMA=${SCHEMA}
 
 ARG DATABASE_URL

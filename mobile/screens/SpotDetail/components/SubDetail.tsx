@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native';
+import { View, Text, StyleSheet, ImageSourcePropType } from 'react-native';
 import { fonts } from '../../../constants/stylings/styles';
-import { Spot } from '../../../typings/redux';
+import { IReview, Spot } from '../../../typings/redux';
+import { Image } from 'expo-image';
 
 interface ISubDetail {
     title: string,
@@ -10,10 +11,12 @@ interface ISubDetail {
     style?: any
     spot: Spot,
     img?: ImageSourcePropType;
+    rev?: IReview
 }
 
 
-const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot, img}) => {
+const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, spot, img, rev}) => {
+
 
   return (
     <View style={style && Object.keys(style).length > 0 ? style :styles.mainContainer}>
@@ -21,12 +24,22 @@ const SubDetail: React.FC<ISubDetail> = ({title, text, additionalDets, style, sp
               {
                 additionalDets?
                 <Image
-              style={styles.detImg}
-              source={img} />
-              :
-              <Image
-              style={styles.profileImg}
-              source={{ uri: spot?.Owner.UserImages[0].url }} />}
+                    placeholder={img}
+                    style={styles.detImg}
+                    source={img}
+                    />
+                : rev?
+                <Image
+                    cachePolicy={'memory-disk'}
+                    placeholder={{uri: rev.User.previewImageUrl}}
+                    style={styles.profileImg}
+                    source={{ uri: rev.User.previewImageUrl}} />
+                :
+                <Image
+                    cachePolicy={'memory-disk'}
+                    placeholder={{uri: spot.Owner.UserImages[0].url}}
+                    style={styles.profileImg}
+                    source={{ uri: spot?.Owner.UserImages[0].url }} />}
         </View>
       <View style={styles.txtContainer}>
         <Text style={[styles.subHeader, styles.txtSpacing]}>{title}</Text>

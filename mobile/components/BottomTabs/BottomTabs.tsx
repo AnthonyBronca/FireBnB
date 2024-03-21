@@ -1,45 +1,50 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faMessage, faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { faAirbnb } from '@fortawesome/free-brands-svg-icons';
 import NavBarTile from './NavBarTile';
+import AuthContext from '../../context/AuthContext';
 
 
 
 interface IBottomTabs {
   navigation: any;
-}
+  screen?: "Home" | "Wishlists" | "Trips" | "Inbox" | "Profile"
+};
 
-const BottomTabs:React.FC<IBottomTabs> = ({navigation}) => {
+
+const BottomTabs:React.FC<IBottomTabs> = ({navigation, screen}) => {
+
+  const {authorized} = useContext(AuthContext);
 
   const icons = {
-    Home: true,
-    Wishlists: false,
-    Trips: false,
-    Inbox: false,
-    Profile: false
-  }
+    Home: false || screen === "Home",
+    Wishlists: false || screen === "Wishlists",
+    Trips: false || screen === "Trips",
+    Inbox: false || screen === "Inbox",
+    Profile: false || screen === "Profile"
+  };
 
   const [activeIcon, setActiveIcon] = useState<any>(icons);
 
 
   const clearIcons = () => {
-   const keys = Object.keys(activeIcon);
-
-    for(let key of keys){
-      if(activeIcon[key]){
-        activeIcon[key] = false;
-        return ''
-      }
-    }
-  }
+    setActiveIcon(icons);
+  };
 
   const handleIcons = (name: string) => {
-    clearIcons()
-    let newActive = {...activeIcon};
-    newActive[name] = true;
-    setActiveIcon(newActive);
+    clearIcons();
+    let newIcons = {...activeIcon};
+    for (let key in newIcons) {
+        let val = newIcons[key];
+        if(val && key !== name){
+          newIcons[key] = false;
+        }
+        if(key === name){
+          newIcons[key] = true;
+        }
+      }
     navigation.navigate(`${name}`)
   }
 
@@ -126,13 +131,13 @@ const BottomTabs:React.FC<IBottomTabs> = ({navigation}) => {
             {!activeIcon['Profile'] ?
               <NavBarTile
                 icon={faCircleUser}
-                name='Log In'
+                name={authorized ? "Profile" : 'Log In'}
                 color='#8E8E8F'
                 size={25}
                 /> :
               <NavBarTile
                 icon={faCircleUser}
-                name='Log In'
+                name={authorized? "Profile" : 'Log In'}
                 color='#FF375D'
                 size={25}
               />

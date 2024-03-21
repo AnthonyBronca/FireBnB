@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text} from 'react-native';
 import { colors } from '../../../constants/stylings/styles';
-
+import {Image} from 'expo-image'
 import pineapple from '../../../assets/images/pineapple.jpg'
 
 

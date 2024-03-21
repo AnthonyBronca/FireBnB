@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import { View, Pressable, StyleSheet, ActivityIndicator, Text} from 'react-native';
 import SpotDetails from '../../Home/Components/SpotDetails'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -41,7 +41,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             setCurrPage(prevPage => prevPage + 1);
         }
     };
-   
+
     const goToSpotDetail = (spot: Spot) => {
         navigation.navigate('SpotDetail', {
             spot,
@@ -55,7 +55,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
         }));
     };
 
-    const renderSpots = ({ item }: { item: Spot }) => {
+    const renderSpots = useCallback(({ item }: { item: Spot }) => {
         return (
           <View style={styles.spotImageView}>
             <Pressable style={styles.spotImageContainer} onPress={() => goToSpotDetail(item)}>
@@ -80,7 +80,7 @@ const Spots:React.FC<IHome> = ({navigation}) => {
             </Pressable>
           </View>
         );
-    };
+    }, []);
 
     const renderLoading = () => {
         if (isLoading && !paginatedData.length) {
@@ -92,15 +92,15 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     };
 
 
-    return (     
+    return (
         <FlatList
             data={paginatedData}
-            renderItem={renderSpots}
             keyExtractor={(item, index) => `${item.id}-${index}`}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.1}
             initialNumToRender={10}
             ListFooterComponent={renderLoading}
+            renderItem={renderSpots}
             showsVerticalScrollIndicator={false}
         />
     );

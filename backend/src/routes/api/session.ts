@@ -35,7 +35,6 @@ router.post(
     validateLogin,
     async (req:Request, res:Response, next:NextFunction) => {
         const { credential, password } = req.body;
-
             if(credential && password){
                 try{
                 let user = await User.unscoped().findOne({
@@ -56,7 +55,7 @@ router.post(
                 await setTokenCookie(res, user);
 
                 let loginUser = user.getSafeUser()
-
+                console.log(loginUser)
 
                 return res.json({
                     user: loginUser
@@ -98,7 +97,7 @@ router.post(
 //get the current user
 router.get('/', restoreUser, async(req:any, res:Response) => {
     if(req.user){
-        const user = req.user.getSafeUser();
+        const user = await req.user.getSafeUser();
         res.json({user})
     } else {
         res.json({"user": null})

@@ -1,5 +1,5 @@
-import React, { memo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { memo, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {faCircle} from '@fortawesome/free-solid-svg-icons/faCircle'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar';
@@ -7,76 +7,53 @@ import * as filledFaStar from '@fortawesome/free-regular-svg-icons/faStar';
 import { colors, fonts } from '../../../constants/stylings/styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import SubDetail from './SubDetail';
-import randomPerson from '../../../assets/images/random-person.jpg'
+import { IReviews, Review } from '../../../typings/redux';
+import axios from 'axios';
+import urlParser from '../../../utils/url-parser';
 
 interface IReviewsProps {
     navigation: any;
     spot: any;
+    reviews?: Review[];
 }
 
-const Reviews: React.FC<IReviewsProps> = ({navigation, spot}) => {
+const Reviews: React.FC<IReviewsProps> = ({navigation, spot, reviews}) => {
 
     const [seeMoreObj, setSeeMoreObj] = useState<any>({});
+    const [spotReviews, setSpotReviews] = useState<IReviews>({Reviews: []});
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-    const dummyReviews = [
-        {
-            id: 1,
-            username: 'AnthonyBronca',
-            location: 'Orlando, Florida',
-            review: 5,
-            body: [
-                "It was a very beautiful pineapple! I loved it! I",
-                "It was a very beautiful pineapple! I loved it! I would love to stay here again. Bikini Bottom rules!"
-            ]
-        },
-        {
-            id: 2,
-            username: 'KrystalKimmel',
-            location: 'Chicago, Indiana',
-            review: 4,
-            body: [
-                "This pineapple was very cute! My only gripe was that there was a squid next door",
-                "This pineapple was very cute! My only gripe was that there was a squid next door playing his clarinet loudly. He was not that good. But this home was nice!"
-            ]
-        },
-        {
-            id: 3,
-            username: 'Alexi_bettinger',
-            location: 'Denver, Colorado',
-            review: 3,
-            body: [
-                "I got stung by so many jellyfish here! Also, I don't live near an ocean so maybe i'm wrong",
-                "I got stung by so many jellyfish here! Also, I don't live near an ocean so maybe i'm wrong, but why are the jellyfish flying?! Besides the talking wild animals, and stinging flying Jelly Fish, the house itself was beautiful! Especially in the sunset with the flowers lining the sky!"
-            ]
-        },
-        {
-            id: 4,
-            username: 'SquidwardTortellini',
-            location: 'Rome, Italy',
-            review: 1,
-            body: [
-                "Boy do I have some reviews about this place.I didn't actually stay here, but",
-                "Boy do I have some reviews about this place. I didn't actually stay here, but the person who owns this place is soooo annoying! What a total barnacle head! 'I'm ready.. I'm ready..' non-stop! Plus, I can smell the sweaty grease from my home next door. It's like the owner lives and breaths krabby patties. Don't even get me started on the star fish! The neighborhood itself can be pretty dangerous too! This one time, a giant anchor came falling from the sky and crashed through this pineapple! Also, the bubbles popping sound like massive explosions! Not to mention the US navy likes to test their nuclear capabilities on the atol slight above Bikini Hill not too far from here."]
-        },
-    ]
+
+
+    useEffect(() => {
+        const fetchReviews = async(spotId:number) => {
+            const res = await axios.get(urlParser(`/api/spots/${spotId}/reviews`));
+            const data: IReviews = await res.data;
+            setSpotReviews(data);
+            setIsLoaded(true);
+        }
+
+        fetchReviews(spot.id)
+
+    }, []);
 
 
     const handleSeeMore = (review: any) => {
-        const newSeeMore: any = { ...seeMoreObj }
+        const newSeeMore: any = { ...seeMoreObj };
         if (!seeMoreObj[review.id]) {
-            newSeeMore[review.id] = review
+            newSeeMore[review.id] = review;
             setSeeMoreObj(newSeeMore);
         }
-    }
+    };
 
 
     const handleSeeLess = (review: any) => {
-        const newSeeMore: any = { ...seeMoreObj }
+        const newSeeMore: any = { ...seeMoreObj };
         if (seeMoreObj[review.id]) {
-            delete newSeeMore[review.id]
-            setSeeMoreObj(newSeeMore)
+            delete newSeeMore[review.id];
+            setSeeMoreObj(newSeeMore);
         }
-    }
+    };
 
     const makeStars = (stars:number): JSX.Element => {
 
@@ -97,35 +74,41 @@ const Reviews: React.FC<IReviewsProps> = ({navigation, spot}) => {
             <Text style={styles.timePassed}>1 week ago</Text>
             </View>
         )
-    }
+    };
 
 
-    const goToReviews = (spot:any) => {
+    const goToReviews = (reviews: IReviews) => {
         navigation.navigate('Reviews', {
-            spot
-        })
-    }
+            reviews
+        });
+    };
 
+
+if(!spotReviews || spotReviews.Reviews.length === 0){
+    return null;
+} else if(!isLoaded){
+    return <ActivityIndicator style={{marginBottom: 20}} color={colors.LIGHT} />
+}else if(isLoaded && spotReviews){
   return (
     <View style={styles.container}>
         <View style={styles.reviewContainer}>
             <FontAwesomeIcon size={15} icon={faStar} />
-            <Text style={styles.reviewNum}>4.87</Text>
+            <Text style={styles.reviewNum}>{`${spot.avgRating}`}</Text>
             <FontAwesomeIcon size={3} icon={faCircle} />
-            <Text style={styles.reviewCount}>{dummyReviews.length}</Text>
+            <Text style={styles.reviewCount}>{`${reviews?.length} Reviews`}</Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-            {dummyReviews.map((rev, idx) => (
-                <View style={styles.reviewCard} key={`${rev.username}-${idx}`}>
-                  {makeStars(rev.review)}
+            {spotReviews.Reviews.map((rev, idx) => (
+                <View style={styles.reviewCard} key={`${rev.User.username}-${idx}`}>
+                  {makeStars(rev.stars)}
                   <View style={styles.revSection}>
                     {!seeMoreObj[rev.id] ?
                         <View style={styles.textContainer}>
-                            <Text style={styles.revText}>{`${rev.body[0]}...`}</Text>
+                            <Text style={styles.revText}>{`${rev.review[0]}...`}</Text>
                         </View>
                          :
                          <View style={styles.textContainer}>
-                            <Text style={styles.revText}>{`${rev.body[1]}`}</Text>
+                            <Text style={styles.revText}>{`${rev.review[1]}`}</Text>
                         </View>
                     }
                     {!seeMoreObj[rev.id] ?
@@ -138,28 +121,28 @@ const Reviews: React.FC<IReviewsProps> = ({navigation, spot}) => {
                         </View>
                     }
                     </View>
-                    {/* <SubDetail
+                    <SubDetail
                         style={styles.reviewUser}
-                        title={rev.username}
-                        // img={randomPerson}
-                        text={rev.location}
+                        title={rev.User.username}
+                        spot={spot}
+                        text={`${spot.city}, ${spot.state}`}
                         additionalDets={false}
-                        /> */}
+                        rev={rev}
+                        />
                 </View>
             ))}
         </ScrollView>
-        <TouchableOpacity activeOpacity={.5} onPress={()=> goToReviews(spot)}>
+        <TouchableOpacity activeOpacity={.5} onPress={()=> goToReviews(spotReviews)}>
             <View style={styles.showAllButton}>
-                <Text>{`Show all ${dummyReviews.length} reviews`}</Text>
+                <Text>{`Show all ${spotReviews.Reviews.length} reviews`}</Text>
             </View>
         </TouchableOpacity>
     </View>
   );
-}
+}}
 
 const styles = StyleSheet.create({
     container: {
-        // marginHorizontal: 40,
         marginVertical: 20,
     },
     reviewContainer: {

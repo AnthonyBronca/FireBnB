@@ -5,6 +5,14 @@ export interface CSRFHttpOptions {
 };
 
 
+export interface IUserImage {
+    createdAt: string;
+    url: string;
+    userId: number;
+    updatedAt: string;
+    isProfile: boolean
+    id: number
+};
 export interface User {
     id: number;
     firstName: string;
@@ -12,6 +20,16 @@ export interface User {
     email: string;
     username: string;
     isHost: boolean;
+    UserImage?: {
+        id: number,
+        isProfile: boolean,
+        url: string,
+        userId: number,
+        updatedAt: string,
+        createdAt: string
+
+    }
+
 };
 
 
@@ -23,14 +41,6 @@ export interface SpotImage {
 };
 
 
-export interface IUserImage {
-    createdAt: string;
-    url: string;
-    userId: number;
-    updatedAt: string;
-    isProfile: boolean
-    id: number
-};
 
 
 export interface SpotOwner {
@@ -50,8 +60,26 @@ export interface Review {
     stars: number,
     createdAt: string | Date,
     updatedAt: string | Date,
-    userId: number
+    userId: number;
+
 };
+
+
+export interface IReview {
+    ReviewImages: ReviewImage[];
+    User: User & {previewImageUrl: string};
+    createdAt: string;
+    updatedAt: string;
+    id: number;
+    review: string[];
+    spotId: number;
+    stars: number;
+    userId: number;
+};
+
+export interface IReviews {
+    Reviews: IReview[]
+}
 
 
 export interface Spot {
@@ -61,7 +89,7 @@ export interface Spot {
     city: string;
     state: string;
     country: string;
-    description: string;
+    description: string[];
     avgRating: number;
     name: string;
     price: number;
