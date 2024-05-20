@@ -11,7 +11,7 @@ export const getAllSpots = createAsyncThunk("spots/fetchAllSpots", async () => {
         const response = await axios.get(urlParser(`api/spots`));
         return response.data;
     } catch (error) {
-        throw error
+        return error
     }
 });
 
@@ -21,7 +21,7 @@ export const getAllPaginatedSpots = createAsyncThunk("spots/fetchAllPaginatedSpo
         const response = await axios.get(urlParser(`api/spots?page=${page}&size=${size}`));
         return response.data;
     } catch (error) {
-        throw error
+        return error
     }
 });
 
@@ -31,7 +31,7 @@ export const getCurrUserSpots = createAsyncThunk("spots/fetchAllCurrUserSpots", 
         const response = await axios.get(urlParser(`api/spots/current/${userId}`));
         return response.data;
     } catch (error) {
-        throw error
+        return error
     }
 });
 
@@ -39,9 +39,13 @@ export const getCurrUserSpots = createAsyncThunk("spots/fetchAllCurrUserSpots", 
 export const getSingleSpotDetails = createAsyncThunk("spots/fetchSingleSpotDetails", async (spotId:number) => {
     try {
         const response = await axios.get(urlParser(`api/spots/${spotId}`));
-        return response.data;
+        if(response.status !== 200){
+            throw response;
+        } else{
+            return response.data;
+        }
     } catch (error) {
-        throw error
+        return error
     }
 });
 
@@ -51,7 +55,7 @@ export const createSpot = createAsyncThunk("spots/addSpot", async (form: INewSpo
         const response = await axios.post(urlParser(`api/spots`), form);
         return response.data;
     } catch (error) {
-        throw error
+        return error
     }
 });
 
@@ -61,7 +65,7 @@ export const editSpot = createAsyncThunk("spots/editSpot", async ({spotId, form}
         const response = await axios.put(urlParser(`api/spots/${spotId}`), form);
         return response.data;
     } catch (error) {
-        throw error
+        return error
     }
 });
 
@@ -71,7 +75,7 @@ export const deleteSpot = createAsyncThunk("spots/deleteSpot", async (spotId:num
         const response = await axios.delete(urlParser(`api/spots/${spotId}`));
         return response.data;
     } catch (error) {
-        throw error
+        return error
     }
 });
 

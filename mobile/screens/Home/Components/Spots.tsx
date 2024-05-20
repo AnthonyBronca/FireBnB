@@ -9,6 +9,8 @@ import { Image } from 'expo-image';
 import { FlatList } from 'react-native-gesture-handler';
 import { getAllPaginatedSpots } from '../../../store/spots';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { getUser } from '../../../storage/storage';
+import { createLike, fetchLikes } from '../../../store/likes';
 
 
 interface IHome {
@@ -21,19 +23,40 @@ interface IHeartPressed {
 
 
 const Spots:React.FC<IHome> = ({navigation}) => {
+    const dispatch = useAppDispatch();
+
+    const [user, setUser] = useState<any>(null);
+    useEffect(() => {
+
+        const retrieveUser = async () => {
+            const { user } = await getUser();
+            if (user !== "No user stored") {
+                setUser(user);
+            }
+        }
+        if (!user) {
+            retrieveUser();
+        }
+    },)
+
+    const userLikes = useAppSelector((state) => state.likes.byId);
+
     const [currPage, setCurrPage] = useState(1);
     const [paginatedData, setPaginatedData] = useState<Spot[]>([]);
     const [isHeartPressed, setIsHeartPressed] = useState<IHeartPressed>({});
     const [isLoading, setIsLoading] = useState(false);
     const size=10
-    const dispatch = useAppDispatch()
     const paginatedSpots = useAppSelector(state => state.spots.allSpots)
 
     useEffect(() => {
         setIsLoading(true);
         dispatch(getAllPaginatedSpots({page:currPage, size}))
         .then(() => paginatedSpots && setPaginatedData((prev) => [...prev, ...paginatedSpots]))
-        .then(() => setIsLoading(false))
+
+        dispatch(fetchLikes(user?.id))
+        .then((res:any)=> console.log(res))
+        .then(()=> setIsLoading(false));
+
     }, [dispatch, currPage]);
 
     const handleLoadMore = () => {
@@ -49,11 +72,36 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     };
 
     const toggleHeartPress = (spotId:number) => {
-        setIsHeartPressed(prev => ({
-            ...prev,
-            [spotId]: !prev[spotId]
-        }));
+        if(user && user.id){
+            if(userLikes && userLikes[spotId]){
+                // remove like
+            } else{
+                let userId = user.id;
+                const data = {spotId, userId}
+                dispatch(createLike(data));
+                //set like
+            }
+            let userId = user.id;
+            const data = {spotId, userId}
+        }
+            // setIsHeartPressed((prev) => {
+            // })
+            // console.log(spotId)
+        // setIsHeartPressed(prev => ({
+        //     ...prev,
+        //     [spotId]: !prev[spotId]
+        // }));
+        // console.log(isHeartPressed)
     };
+
+
+    // const handleUnlike = (e: any, spot: any) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     // if (user) {
+    //     //     dispatch(removeLikeThunk(user.id, spot.id))
+    //     // }
+    // }
 
     const renderSpots = useCallback(({ item }: { item: Spot }) => {
         return (
@@ -70,8 +118,31 @@ const Spots:React.FC<IHome> = ({navigation}) => {
                 <Pressable style={styles.heartIcon} onPress={() => toggleHeartPress(item.id)}>
                 <FontAwesomeIcon
                     icon={faHeart}
+                    size={27}
+                    color={'white'}
+                    style={{padding: 0, margin: 0, zIndex: 4}}
+                    />
+                {/* {
+                    userLikes && userLikes[item.id] ?
+                    <FontAwesomeIcon
+                        icon={faHeart}
+                        size={25}
+                        style={{ bottom: 26, zIndex: 5, left: 1 }}
+                        color={'#FF385B'}
+                    />
+                    :
+                    <FontAwesomeIcon
+                        icon={faHeart}
+                        size={25}
+                        style={{ bottom: 26, zIndex: 5, left: 1 }}
+                        color={'#535350'}
+                    /> */}
+                {/* } */}
+                <FontAwesomeIcon
+                    icon={faHeart}
                     size={25}
-                    color={isHeartPressed[item.id] ? '#FF385B' :'#535350'}
+                    style={{bottom: 26, zIndex: 5, left: 1}}
+                    color={userLikes && userLikes[item.id] ? '#FF385B' :'#535350'}
                     />
                 </Pressable>
             </View>
@@ -95,9 +166,9 @@ const Spots:React.FC<IHome> = ({navigation}) => {
     return (
         <FlatList
             data={paginatedData}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
+            keyExtractor={(item, index) => `${item.id}-${index}-${new Date()}`}
             onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.1}
+            onEndReachedThreshold={0.8}
             initialNumToRender={10}
             ListFooterComponent={renderLoading}
             renderItem={renderSpots}

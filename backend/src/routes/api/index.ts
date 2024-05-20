@@ -10,7 +10,8 @@ import sessionRouter from './session';
 import spotsRouter from './spots';
 import reviewRouter from './reviews';
 import bookingsRouter from './bookings';
-import mobileRouter from './mobile';
+import mobileRouter from './mobileSession';
+import mobileLikes from './mobileLikes';
 import { ForbiddenError, NoResourceError, UnauthorizedError } from "../../errors/customErrors";
 import csurf from "csurf";
 
@@ -22,6 +23,7 @@ const isProduction = environment === 'production';
 //route usage
 router.use(restoreUser);
 router.use('/mobile/session', mobileRouter);
+router.use('/mobile/likes', mobileLikes);
 router.use(
     csurf({
         cookie: {

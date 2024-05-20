@@ -7,7 +7,7 @@ import { setTokenCookie, restoreUser, setMobileToken } from "../../utils/auth";
 import { LoginUser } from "../../typings/data";
 import db from '../../db/models';
 import {body, check} from 'express-validator';
-const { User, UserImage } = db
+const { User, UserImage, Like, Spot } = db
 
 
 const router = Router();
@@ -108,6 +108,5 @@ router.delete('/', (_req: Request, res: Response) => {
     res.clearCookie('token');
     return res.json({ message: 'success' });
 });
-
 
 export = router;

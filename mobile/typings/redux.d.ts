@@ -193,3 +193,8 @@ export interface IEditForm{
     name?: string;
     price?: string | number;
 };
+
+export interface ILikeData{
+    spotId: number;
+    userId: number;
+}
