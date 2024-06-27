@@ -18,7 +18,7 @@ interface Spot {
 const hosts = [
   {
     firstName: "Anthony",
-    lastName: "bronca",
+    lastName: "Bronca",
     email: "anthony@user.io",
     username: "AnthonyB",
     bio: "I made this site with Typescript :D",
@@ -26,12 +26,12 @@ const hosts = [
     hashedPassword: "$2a$10$EAMF.0C1mhgsOuULz02Q3.vRu.4m6PiyrFKjCduUF4GMOqkgDQ7dq",
     userId: 1
   }, {
-    firstName: "Jade",
-    lastName: "Grabow",
-    email: "jade@user.io",
-    username: "Jade",
+    firstName: "Athena",
+    lastName: "Kudasai",
+    email: "Athena@user.io",
+    username: "Athena",
     isHost: true,
-    bio: "I am the most beautiful girl ever",
+    bio: "The Twin Broadsides is the best",
     hashedPassword: "$2a$10$7rk2xcHBeV7TKkVNfuMTduelvsW.qdeotxxy1ZYLf8r/oI3IvXu6y",
     userId: 2
   }, {
