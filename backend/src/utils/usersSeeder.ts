@@ -21,12 +21,12 @@ const hostUsers: any = [
         userId: 1
       },
         {
-        firstName: "Jade",
-        lastName: "Grabow",
-        email: 'jade@user.io',
-        username: 'Jade',
+        firstName: "Athena",
+        lastName: "Kudasai",
+        email: 'Athena@user.io',
+        username: 'Athena',
         isHost: true,
-        bio: "I am the most beautiful girl ever",
+        bio: "Twin Broadsides is awesome",
         hashedPassword: bcrypt.hashSync('password2'),
         userId: 2
       },
@@ -55,12 +55,12 @@ const makeUsers = (): User[] => {
         hashedPassword: bcrypt.hashSync('password'),
       },
         {
-        firstName: "Jade",
-        lastName: "Grabow",
-        email: 'jade@user.io',
-        username: 'Jade',
+        firstName: "Athena",
+        lastName: "Kudasai",
+        email: 'Athena@user.io',
+        username: 'Athena',
         isHost: true,
-        bio: "I am the most beautiful girl ever",
+        bio: "",
         hashedPassword: bcrypt.hashSync('password2'),
       },
       {
@@ -114,12 +114,12 @@ const hosts = [
     hashedPassword: "$2a$10$EAMF.0C1mhgsOuULz02Q3.vRu.4m6PiyrFKjCduUF4GMOqkgDQ7dq",
     userId: 1
   }, {
-    firstName: "Jade",
-    lastName: "Grabow",
-    email: "jade@user.io",
-    username: "Jade",
+    firstName: "Athena",
+    lastName: "Kudsai",
+    email: "Athena@user.io",
+    username: "Athena",
     isHost: true,
-    bio: "I am the most beautiful girl ever",
+    bio: "Twin Broadsides Rule",
     hashedPassword: "$2a$10$7rk2xcHBeV7TKkVNfuMTduelvsW.qdeotxxy1ZYLf8r/oI3IvXu6y",
     userId: 2
   }, {
@@ -217,13 +217,13 @@ const users = [
     hashedPassword: "$2a$10$wht6vvXoQmKpBj/s6C345.xE.ouNZ/VgRQhVVBFEhwG.2A0xAx78K"
   },
   {
-    firstName: "Jade",
-    lastName: "Grabow",
-    email: "jade@user.io",
-    username: "Jade",
+    firstName: "Athena",
+    lastName: "Kudasai",
+    email: "Athena@user.io",
+    username: "Athena",
     isHost: true,
-    bio: "I am the most beautiful girl ever",
-    hashedPassword: "$2a$10$mGkfon03VuOJ3.3lFnE26uMyyRJ.Z31zf4Vvcfcb9WIW3mEqeJEN6"
+    bio: "The Twin Broadsides is the best",
+    hashedPassword: "$2a$10$7rk2xcHBeV7TKkVNfuMTduelvsW.qdeotxxy1ZYLf8r/oI3IvXu6y",
   },
   {
     firstName: "Joe",
