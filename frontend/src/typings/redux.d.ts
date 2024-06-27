@@ -153,5 +153,10 @@ export interface IEditForm{
     spotId: number;
     name?: string;
     price?: string | number;
+}
 
+export interface INewReviewForm {
+    spotId: number;
+    review: string;
+    stars: number;
 }

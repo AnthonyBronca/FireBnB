@@ -496,13 +496,15 @@ router.post('/:spotId/reviews', validateReview, async(req:CustomeRequest, res: R
             throw new Error('You can not leave a review for your own Spot');
         };
 
-        let testReview = await Review.findOne({where: {userId: currUser.id}});
+        let testReview = await Review.findOne({where: {userId: currUser.id, spotId: spotId}});
 
         if(testReview){
            throw new SpotError('User already has a review for this spot', 500);
         }
+
         let newReview = await Review.create({userId:currUser.id, spotId, review, stars});
         res.status(201);
+        newReview.review = reviewSplitter(newReview.review)
         return res.json(newReview);
 
     } catch (error) {
