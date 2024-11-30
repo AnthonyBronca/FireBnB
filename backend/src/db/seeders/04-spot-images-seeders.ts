@@ -19,7 +19,7 @@ module.exports = {
          },
         {
             spotId: 2,
-            url: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+          url: "https://firebnbbucket.s3.us-east-2.amazonaws.com/1710025358515.jpg",
             preview: true,
          },
          ...generateSpotImageSeeders()

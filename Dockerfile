@@ -27,7 +27,7 @@ RUN npm run build
 
 
 # Production level Image: Inherits from built api and frontend images
-FROM --platform=arm64 node:18-alpine as production
+FROM --platform=amd64 node:18-alpine as production
 # FROM --platform=amd64 node:18-alpine as production
 
 

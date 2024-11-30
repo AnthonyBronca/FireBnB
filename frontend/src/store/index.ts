@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {SessionSlice} from './session'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 import { SpotSlice } from './spots';
 import { LikeSlice } from './likes';
 
@@ -14,7 +14,7 @@ const reducer = {
 }
 const store = configureStore({
     reducer,
-    middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat(logger),
+    // middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat(logger),
     devTools: import.meta.env.VITE_NODE_ENV !== 'production'
 })
 

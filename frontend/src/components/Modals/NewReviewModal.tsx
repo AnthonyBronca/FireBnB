@@ -12,7 +12,7 @@ interface INewReviewProps {
     spotId: number
 }
 
-const NewReviewModal: React.FC<INewReviewProps> = ({ spotId }):JSX.Element => {
+const NewReviewModal: React.FC<INewReviewProps> = ({}):JSX.Element => {
     const {togglePostReviewOpen } = useContext(NewReviewModalContext);
 
     const handleClose = () => {
