@@ -1,6 +1,6 @@
 # Stylesheet
 
-## Github
+## Github :) 
 
 This team uses Github for version control and collaboration. On the Github page for this project (https://github.com/AnthonyBronca/Firebnb), you can find relevant documentation for tasks, updates, and issues.
 
